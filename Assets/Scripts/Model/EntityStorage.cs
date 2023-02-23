@@ -10,7 +10,7 @@ public class EntityStorage : MonoBehaviour
     //the hash table storing all entities, mapped to their instance ids
     private Dictionary<int, GameObject> _entityStorage;
 
-    void Start()
+    void Awake()
     {
         _entityStorage = new Dictionary<int, GameObject>();
     }
