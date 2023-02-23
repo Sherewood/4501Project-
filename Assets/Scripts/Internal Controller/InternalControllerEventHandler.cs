@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /* Event definitions go here */
 
-//example definition for an event that passes an int
-/*
 [System.Serializable]
-public class ExampleEvent : UnityEvent<int> { }
-*/
+public class DirectionKeyEvent : UnityEvent<string> { }
 
 
 /* Internal Controller Class */
@@ -28,7 +26,12 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     // Event callback functions
 
-
+    //handle indication of direction from key presses
+    public void HandleDirectionKeyString(string direction)
+    {
+        //temporary, for debug purposes (will be replaced by proper handling when ready
+        Debug.Log("Current direction is: " + direction);
+    }
 
     // Helper functions
 }
