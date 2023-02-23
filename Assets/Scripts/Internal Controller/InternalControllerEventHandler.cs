@@ -21,12 +21,13 @@ public class DirectionKeyEvent : UnityEvent<string> { }
 public class InternalControllerEventHandler : MonoBehaviour
 {
     // Controller classes
+    private CameraController _cameraController; 
 
 
     // Link other controller classes here
     void Start()
     {
-
+        _cameraController = GetComponent<CameraController>();
     }
 
     // Event callback functions
@@ -48,8 +49,8 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle indication of direction from key presses
     public void HandleDirectionKeyString(string direction)
     {
-        //temporary, for debug purposes (will be replaced by proper handling when ready)
-        Debug.Log("Current direction is: " + direction);
+        //set the camera's movement direction
+        _cameraController.SetDirection(direction);
     }
 
     // Helper functions
