@@ -14,6 +14,9 @@ public class KeyboardController : MonoBehaviour
     //event for when key presses indicate a direction
     public DirectionKeyEvent DirectionKeyEvent;
 
+    //tracking previous direction to save unnecessary event calls
+    private string _prevDirection;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,7 @@ public class KeyboardController : MonoBehaviour
         _directionKeys.Add("down");
 
         _pressedKeys = new List<string>();
+        _prevDirection = "";
     }
 
     // Update is called once per frame
@@ -39,17 +43,16 @@ public class KeyboardController : MonoBehaviour
             }
         }
 
-        //if any keys pressed, determine if a direction is being indicated
-        if(_pressedKeys.Count > 0)
-        {
-            string direction = DetermineDirection();
+        //determine if a direction is being indicated
+        string direction = DetermineDirection();
 
-            //if direction indicated, invoke event
-            if(direction != "")
-            {
-                DirectionKeyEvent.Invoke(direction);
-            }
+        //if direction indicated and does not match previous direction, invoke event
+        if(direction != "" && direction != _prevDirection)
+        {
+            DirectionKeyEvent.Invoke(direction);
         }
+
+        _prevDirection = direction;
 
         _pressedKeys.Clear();
     }
@@ -57,7 +60,13 @@ public class KeyboardController : MonoBehaviour
     // determines if keys pressed indicate a direction, and returns them
     private string DetermineDirection()
     {
-        string direction = "";
+        string direction = "none";
+
+        //direction is "none" if no keys are pressed
+        if(_pressedKeys.Count == 0)
+        {
+            return direction;
+        }
 
         //incredibly cursed series of if statements, can probably be refactored later....
         if (_pressedKeys.Contains("up"))
