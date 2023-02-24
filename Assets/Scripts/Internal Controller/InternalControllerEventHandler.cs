@@ -17,6 +17,9 @@ public class DirectionKeyEvent : UnityEvent<string> { }
 [System.Serializable]
 public class EntitySpawnEvent : UnityEvent<GameObject> { }
 
+[System.Serializable]
+public class EntityDeadEvent : UnityEvent<GameObject> { }
+
 /* Internal Controller Class */
 // Handles incoming events to the Internal Controller
 
@@ -28,12 +31,16 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private SelectionController _selectionController;
 
+    private UnitCreationController _unitCreationController;
+
     // Link other controller classes here
     void Start()
     {
         _cameraController = GetComponent<CameraController>();
 
         _selectionController = GetComponent<SelectionController>();
+
+        _unitCreationController = GetComponent<UnitCreationController>();
     }
 
     // Event callback functions
@@ -64,6 +71,16 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleUnitSpawnEvent(GameObject newUnit)
     {
         Debug.Log("Unit Spawn Event received - unit instance id " + newUnit.GetInstanceID());
+
+        _unitCreationController.StoreCreatedEntity(newUnit);
+    }
+
+    //handle reporting of entity death
+    public void HandleUnitDeadEvent(GameObject newUnit)
+    {
+        Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
+
+        _unitCreationController.DeleteDeadEntity(newUnit);
     }
 
     // Helper functions
