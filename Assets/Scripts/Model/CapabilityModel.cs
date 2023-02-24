@@ -51,7 +51,7 @@ public class CapabilityModel : MonoBehaviour
     }
 
     //returns the capabilities available to a specific unit
-    public List<Capability> GetCapabilitiesOfObject(GameObject entity)
+    public List<Capability> GetCapabilitiesOfUnit(GameObject entity)
     {
         List<Capability> unitCapabilities = new List<Capability>();
         //get the unit info component

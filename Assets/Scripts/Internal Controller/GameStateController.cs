@@ -26,7 +26,10 @@ public class GameStateController : MonoBehaviour
         Debug.Log("Initialized entity storage with " + allUnits.Length + " units.");
     }
 
+    //update loop functionality goes here
     void Update()
     {
     }
+
+    //other helpers go here
 }
