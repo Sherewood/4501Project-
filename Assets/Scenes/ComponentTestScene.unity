@@ -753,6 +753,7 @@ GameObject:
   - component: {fileID: 906402709}
   - component: {fileID: 906402711}
   - component: {fileID: 906402712}
+  - component: {fileID: 906402713}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -820,6 +821,18 @@ MonoBehaviour:
   UnitAssetIcons:
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
+--- !u!114 &906402713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906402708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b1a0dfbf473284fa6c8ad15b48edf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &933592786
 PrefabInstance:
   m_ObjectHideFlags: 0
