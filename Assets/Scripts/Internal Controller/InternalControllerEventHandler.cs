@@ -21,13 +21,16 @@ public class DirectionKeyEvent : UnityEvent<string> { }
 public class InternalControllerEventHandler : MonoBehaviour
 {
     // Controller classes
-    private CameraController _cameraController; 
+    private CameraController _cameraController;
 
+    private SelectionController _selectionController;
 
     // Link other controller classes here
     void Start()
     {
         _cameraController = GetComponent<CameraController>();
+
+        _selectionController = GetComponent<SelectionController>();
     }
 
     // Event callback functions
@@ -35,8 +38,9 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle unit selection given via mouse click
     public void HandleSelectionEvent(RaycastHit selectionTarget)
     {
-        //temporary, for debug purposes (will be replaced by proper handling when ready)
         Debug.Log("Selection event received");
+
+        _selectionController.HandleSingleSelection(selectionTarget);
     }
 
     //handle command given by mouse click
