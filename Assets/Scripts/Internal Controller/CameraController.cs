@@ -32,8 +32,8 @@ public class CameraController : MonoBehaviour
         directionMappings.Add("south-east", new Vector3(Mathf.Sqrt(2) / 2, 0, -Mathf.Sqrt(2) / 2));
     }
 
-    // Use LateUpdate instead so the movement is always processed after a DirectionKeyEvent
-    void LateUpdate()
+    // Update is called once per frame
+    void Update()
     {
         if(_curDirection != directionMappings["none"])
         {

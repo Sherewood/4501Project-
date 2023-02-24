@@ -71,11 +71,11 @@ public class KeyboardController : MonoBehaviour
         //incredibly cursed series of if statements, can probably be refactored later....
         if (_pressedKeys.Contains("up"))
         {
-            if (_pressedKeys.Contains("left") && !_pressedKeys.Contains("right"))
+            if (_pressedKeys.Contains("left"))
             {
                 direction = "north-west";
             }
-            else if (_pressedKeys.Contains("right") && !_pressedKeys.Contains("left"))
+            else if (_pressedKeys.Contains("right"))
             {
                 direction = "north-east";
             }
@@ -86,11 +86,11 @@ public class KeyboardController : MonoBehaviour
         }
         else if (_pressedKeys.Contains("down"))
         {
-            if (_pressedKeys.Contains("left") && !_pressedKeys.Contains("right"))
+            if (_pressedKeys.Contains("left"))
             {
                 direction = "south-west";
             }
-            else if (_pressedKeys.Contains("right") && !_pressedKeys.Contains("left"))
+            else if (_pressedKeys.Contains("right"))
             {
                 direction = "south-east";
             }
@@ -99,11 +99,11 @@ public class KeyboardController : MonoBehaviour
                 direction = "south";
             }
         }
-        else if (_pressedKeys.Contains("right") && !_pressedKeys.Contains("left"))
+        else if (_pressedKeys.Contains("right"))
         {
             direction = "east";
         }
-        else if (_pressedKeys.Contains("left") && !_pressedKeys.Contains("right"))
+        else if (_pressedKeys.Contains("left"))
         {
             direction = "west";
         }
