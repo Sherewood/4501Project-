@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 /* Model class */
 //Purpose: Stores relevant unit types and their associated information (costs, supported components, prefabs, icons)
@@ -19,8 +20,7 @@ public class UnitDatabase : MonoBehaviour
     //if unit doesn't have an icon for whatever reason, use a default image of sorts
     public List<Sprite> UnitAssetIcons;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _unitData = new Dictionary<string, Dictionary<string, string>>();
 
@@ -32,14 +32,14 @@ public class UnitDatabase : MonoBehaviour
         _unitData.Add("neutral-test", testUnitRecord);
     }
 
-    public void GetUnitCost(string unitType, string resourceType)
+    public int GetUnitCost(string unitType, string resourceType)
     {
         int cost = -1;
         if (_unitData.ContainsKey(unitType) && _unitData[unitType].ContainsKey(resourceType))
         {
-            cost = _unitData[unitType][resourceType];
-            return cost;
+            cost = Int32.Parse(_unitData[unitType][resourceType]);
         }
+        return cost;
     }
 
     public bool DoesUnitHaveComponent(string unitType, string component)
