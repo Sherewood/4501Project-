@@ -51,4 +51,16 @@ public class SelectionController : MonoBehaviour
     }
 
     //TODO: Handle area selection (use .point parameter of raycast hit)
+
+    //helpers
+
+    public List<GameObject> GetSelectedUnits()
+    {
+        return _selectedUnits;
+    }
+
+    public List<Capability> GetSelectedUnitCapabilities()
+    {
+        return _selectedUnitCapabilities;
+    }
 }
