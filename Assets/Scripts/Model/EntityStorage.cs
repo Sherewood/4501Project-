@@ -25,7 +25,7 @@ public class EntityStorage : MonoBehaviour
     }
 
     //removes and returns entity's GameObject if it exists, or returns null otherwise
-    public GameObject removeEntity(int instanceID)
+    public GameObject RemoveEntity(int instanceID)
     {
         GameObject entityToRemove = null;
 
@@ -38,7 +38,7 @@ public class EntityStorage : MonoBehaviour
     }
 
     //returns entity's GameObject if it exists, or null otherwise
-    public GameObject findEntity(int instanceID)
+    public GameObject FindEntity(int instanceID)
     {
         GameObject entityToReturn = null;
         
@@ -51,7 +51,7 @@ public class EntityStorage : MonoBehaviour
     }
 
     //return all entities whose coordinates are within the box formed by bottomLeftPos and topRightPos
-    public List<GameObject> findEntitiesInRange(Vector3 bottomLeftPos, Vector3 topRightPos)
+    public List<GameObject> FindEntitiesInRange(Vector3 bottomLeftPos, Vector3 topRightPos)
     {
         List<GameObject> entitiesInRange = new List<GameObject>();
 
