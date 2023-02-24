@@ -193,7 +193,7 @@ public class OrderModel : MonoBehaviour
     }
 
     //get the highest priority order amongst the given orders
-    Order GetHighestPriorityOrder(List<Order> orders)
+    public Order GetHighestPriorityOrder(List<Order> orders)
     {
         Order bestOrder = Order.ORDER_INVALID;
         int bestPriority = -100;
@@ -209,7 +209,7 @@ public class OrderModel : MonoBehaviour
         return bestOrder;
     }
 
-    string GetBestActionForOrder(Order chosenOrder, List<string> possibleActions)
+    public string GetBestActionForOrder(Order chosenOrder, List<string> possibleActions)
     {
         List<string> orderActions = _orderActions[chosenOrder];
 
