@@ -29,7 +29,16 @@ public class UnitDatabase : MonoBehaviour
         testUnitRecord.Add("minerals", "0");
         //format will be <component1> <component2> ... <component_n>, separated by spaces
         testUnitRecord.Add("components", "unitInfo");
+
+        Dictionary<string, string> testSpawnerRecord = new Dictionary<string, string>();
+        testSpawnerRecord.Add("minerals", "0");
+        //format will be <component1> <component2> ... <component_n>, separated by spaces
+        testSpawnerRecord.Add("components", "unitInfo unitSpawner");
+
         _unitData.Add("neutral-test", testUnitRecord);
+
+        _unitData.Add("neutral-test-spawner", testSpawnerRecord);
+
     }
 
     public int GetUnitCost(string unitType, string resourceType)

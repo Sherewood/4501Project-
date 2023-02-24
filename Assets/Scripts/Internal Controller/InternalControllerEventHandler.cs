@@ -14,6 +14,9 @@ public class MouseOrderEvent : UnityEvent<RaycastHit> { }
 [System.Serializable]
 public class DirectionKeyEvent : UnityEvent<string> { }
 
+[System.Serializable]
+public class EntitySpawnEvent : UnityEvent<GameObject> { }
+
 /* Internal Controller Class */
 // Handles incoming events to the Internal Controller
 
@@ -55,6 +58,12 @@ public class InternalControllerEventHandler : MonoBehaviour
     {
         //set the camera's movement direction
         _cameraController.SetDirection(direction);
+    }
+
+    //handle reporting of new entity
+    public void HandleUnitSpawnEvent(GameObject newUnit)
+    {
+        Debug.Log("Unit Spawn Event received - unit instance id " + newUnit.GetInstanceID());
     }
 
     // Helper functions
