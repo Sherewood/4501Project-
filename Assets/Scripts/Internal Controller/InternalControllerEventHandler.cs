@@ -12,6 +12,9 @@ public class SelectionEvent : UnityEvent<RaycastHit> { }
 public class MouseOrderEvent : UnityEvent<RaycastHit> { }
 
 [System.Serializable]
+public class UIOrderEvent : UnityEvent<string> { }
+
+[System.Serializable]
 public class DirectionKeyEvent : UnityEvent<string> { }
 
 [System.Serializable]
@@ -33,6 +36,10 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private UnitCreationController _unitCreationController;
 
+    private OrderController _orderController;
+
+    private UnitController _unitController;
+
     // Link other controller classes here
     void Start()
     {
@@ -41,6 +48,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         _selectionController = GetComponent<SelectionController>();
 
         _unitCreationController = GetComponent<UnitCreationController>();
+
+        _orderController = GetComponent<OrderController>();
+
+        _unitController = GetComponent<UnitController>();
     }
 
     // Event callback functions
@@ -56,8 +67,27 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle command given by mouse click
     public void HandleMouseOrderEvent(RaycastHit orderTarget)
     {
-        //temporary, for debug purposes (will be replaced by proper handling when ready)
         Debug.Log("Mouse order event received");
+
+        Order order = _orderController.DetermineTargetedOrder(orderTarget);
+
+        if (order != Order.ORDER_INVALID)
+        {
+            _unitController.HandleTargetedOrder(order, orderTarget);
+        }
+    }
+
+    //handle command given by UI action
+    public void HandleUIOrderEvent(string command)
+    {
+        Debug.Log("UI order event received");
+
+        Order order = _orderController.DetermineUntargetedOrder(command);
+
+        if (order != Order.ORDER_INVALID)
+        {
+            _unitController.HandleUntargetedOrder(order, command);
+        }
     }
 
     //handle indication of direction from key presses
