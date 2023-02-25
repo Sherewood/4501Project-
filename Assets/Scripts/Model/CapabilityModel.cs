@@ -44,10 +44,13 @@ public class CapabilityModel : MonoBehaviour
         //create capabilities to be mapped
         Capability testCapability = new Capability("test", new List<string>(), "this is a test", true, new List<string>());
 
+        Capability moveCapability = new Capability("move", new List<string>(), "Unit can move!", true, new List<string>());
+
         //define mappings
-        
+
         //temporary mapping for testing the capability controller
         _capabilityMappings.Add("unitInfo", testCapability);
+        _capabilityMappings.Add("movement", moveCapability);
     }
 
     //returns the capabilities available to a specific unit

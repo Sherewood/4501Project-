@@ -28,12 +28,12 @@ public class UnitDatabase : MonoBehaviour
         Dictionary<string, string> testUnitRecord = new Dictionary<string, string>();
         testUnitRecord.Add("minerals", "0");
         //format will be <component1> <component2> ... <component_n>, separated by spaces
-        testUnitRecord.Add("components", "unitInfo");
+        testUnitRecord.Add("components", "unitInfo unitState movement");
 
         Dictionary<string, string> testSpawnerRecord = new Dictionary<string, string>();
         testSpawnerRecord.Add("minerals", "0");
         //format will be <component1> <component2> ... <component_n>, separated by spaces
-        testSpawnerRecord.Add("components", "unitInfo unitSpawner");
+        testSpawnerRecord.Add("components", "unitInfo unitState unitSpawner");
 
         _unitData.Add("neutral-test", testUnitRecord);
 

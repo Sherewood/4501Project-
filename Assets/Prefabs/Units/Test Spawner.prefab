@@ -102,6 +102,7 @@ MonoBehaviour:
   SupportedComponents:
   - unitInfo
   - unitSpawner
+  - unitState
 --- !u!114 &-7432569340290530451
 MonoBehaviour:
   m_ObjectHideFlags: 0

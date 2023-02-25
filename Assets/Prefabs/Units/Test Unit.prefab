@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6684196009847440324}
   - component: {fileID: 1908906224660062116}
   - component: {fileID: 8002568013237805364}
+  - component: {fileID: 4501107182978088550}
   m_Layer: 0
   m_Name: Test Unit
   m_TagString: Untagged
@@ -123,6 +124,8 @@ MonoBehaviour:
   UnitType: neutral-test
   SupportedComponents:
   - unitInfo
+  - unitState
+  - movement
 --- !u!54 &1908906224660062116
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,3 +165,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402bfce384695d747972b054209b412d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4501107182978088550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7560fbecf40fad04da88e5c72bab1db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 2
+  TurnRate: 15
