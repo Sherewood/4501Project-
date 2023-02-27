@@ -2757,7 +2757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2062d79350057d3479d430b6ab418eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackerGameObject: {fileID: 0}
+  trackerGameObject: {fileID: 133800842}
 --- !u!135 &2095500377
 SphereCollider:
   m_ObjectHideFlags: 0
