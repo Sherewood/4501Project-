@@ -7,6 +7,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Timetracker : MonoBehaviour
 {
+    
 
     public float updateInterval = 0.5F;
     private double lastInterval;

@@ -89,6 +89,9 @@ public class UnitSpawner : MonoBehaviour
 
         //instantiate new unit
         GameObject newUnit = Instantiate(prefab, finalSpawnPos, new Quaternion());
+        
+        
+        
 
         //trigger callback to controller
         _entitySpawnEvent.Invoke(newUnit);

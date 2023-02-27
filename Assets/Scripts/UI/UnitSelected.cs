@@ -24,3 +24,4 @@ public class UnitSelected : MonoBehaviour
        // GameObject.Find("UnitName").GetComponent<TMPro.TextMeshProUGUI>().text = _selectedUnits[0].UnitType;
     }
 }
+ 
