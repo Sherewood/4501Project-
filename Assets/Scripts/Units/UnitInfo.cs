@@ -18,15 +18,25 @@ public class UnitInfo : MonoBehaviour
     //supported components of the unit
     public List<string> SupportedComponents;
 
+    //allegiance of the unit - derived from unit type
+    private string _unitAllegiance;
+
     void Start()
     {
         _unitCosts = new Dictionary<string, int>();
         _unitCosts.Add("minerals", 0);
+
+        _unitAllegiance = UnitType.Split("-")[0];
     }
 
     public string GetUnitType()
     {
         return UnitType;
+    }
+
+    public string GetAllegiance()
+    {
+        return _unitAllegiance;
     }
 
     public int GetCostForResource(string resourceType)
