@@ -158,7 +158,6 @@ public class UnitSpawner : MonoBehaviour
                 if ((testPos.x >= SpawnBoundary.x && testPos.x <= SpawnBoundary.z) &&
                     (testPos.z >= SpawnBoundary.y && testPos.z <= SpawnBoundary.w))
                 {
-                    Debug.Log("Hi");
                     break;
                 }
 

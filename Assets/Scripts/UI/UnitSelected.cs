@@ -9,7 +9,8 @@ public class UnitSelected : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _selectedUnits.Equals(GameObject.Find("InternalController").GetComponent<SelectionController>().GetSelectedUnits());
+        _selectedUnits = new List<GameObject>();
+        //_selectedUnits.Equals(GameObject.Find("InternalController").GetComponent<SelectionController>().GetSelectedUnits());
     }
 
     // Update is called once per frame

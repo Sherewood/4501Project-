@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2081,7 +2081,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1090985286}
   - component: {fileID: 1090985285}
-  - component: {fileID: 1090985284}
   m_Layer: 0
   m_Name: Minimap camera
   m_TagString: Untagged
@@ -2089,14 +2088,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1090985284
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090985283}
-  m_Enabled: 1
 --- !u!20 &1090985285
 Camera:
   m_ObjectHideFlags: 0
