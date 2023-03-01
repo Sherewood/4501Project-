@@ -10,25 +10,20 @@ public class GameStateController : MonoBehaviour
 
     private EntityStorage _entityStorage;
 
-    //need access to bind callbacks
-    private InternalControllerEventHandler _eventHandler;
+    private UnitCreationController _unitCreationController;
 
     void Start()
     {
         Debug.Log("Game State Controller - Begin game initialization");
-        _entityStorage = FindObjectOfType<EntityStorage>();
-        _eventHandler = GetComponent<InternalControllerEventHandler>();
+        _unitCreationController = GetComponent<UnitCreationController>();
         //get all units (each unit must have a Unit Info component)
         UnitInfo[] allUnits = FindObjectsOfType<UnitInfo>();
         
         foreach (UnitInfo unit in allUnits)
         {
-            //bind callbacks
-            BindUnitCallbacks(unit);
-
-            //add to entity storage
+            //add to entity storage using unit creation controller
             Debug.Log("Adding unit of type '" + unit.GetUnitType() + "' to entity storage");
-            _entityStorage.AddEntity(unit.gameObject);
+            _unitCreationController.StoreCreatedEntity(unit.gameObject);
         }
 
         Debug.Log("Initialized entity storage with " + allUnits.Length + " units.");
@@ -41,23 +36,5 @@ public class GameStateController : MonoBehaviour
 
     //other helpers go here
 
-    //bind callbacks for new unit (cannot do directly in the prefab)
-    //all unit components that send callbacks to the internal controller will need some configuration here
-    private void BindUnitCallbacks(UnitInfo unit)
-    {
-        //if unit spawner -> bind EntitySpawnEvent callback
-        if (unit.DoesUnitHaveComponent("unitSpawner"))
-        {
-            Debug.Log("Binding callback for unit spawner - instance ID " + unit.gameObject.GetInstanceID());
-            UnitSpawner spawner = unit.gameObject.GetComponent<UnitSpawner>();
-            spawner.ConfigureUnitSpawnCallback((UnityAction<GameObject>)_eventHandler.HandleUnitSpawnEvent);
-        }
 
-        //if health component -> bind EntityDeathEvent callback
-        if (unit.DoesUnitHaveComponent("health"))
-        {
-            Health health = unit.gameObject.GetComponent<Health>();
-            health.ConfigureEntityDeathCallback((UnityAction<GameObject>)_eventHandler.HandleUnitDeadEvent);
-        }
-    }
 }
