@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /* Unit Component class */
 //Purpose: To monitor unit's health/defense stats, deal with taking damage and report death.
 
 public class Health : MonoBehaviour
 {
+
+    //used to report unit death
+    private EntityDeadEvent _entityDeathEvent;
 
     private UnitState _unitState;
 
@@ -24,12 +28,12 @@ public class Health : MonoBehaviour
 
     private const float MAX_DEFENSE = 100;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _actualHealth = MaxHealth;
         _actualDefense = BaseDefense;
         _unitState = GetComponent<UnitState>();
+        _entityDeathEvent = new EntityDeadEvent();
     }
 
     // Update is called once per frame
@@ -46,13 +50,20 @@ public class Health : MonoBehaviour
         {
             _actualDefense = BaseDefense;
         }
-        
-        //check if dead (todo)
+
+        //check if dead
+        HandleDeathIfNeeded();
     }
 
 
     void OnCollisionEnter(Collision collision)
     {
+        //avoid crash from colliding with element that has no rigidbody
+        if(collision.rigidbody == null)
+        {
+            return;
+        }
+
         GameObject impactObject = collision.rigidbody.gameObject;
 
         //if projectile did not impact the unit, skip for now.
@@ -64,7 +75,8 @@ public class Health : MonoBehaviour
         //replace 0 with damage value of projectile
         TakeDamage(0);
 
-        //check if dead (todo)
+        //check if dead
+        HandleDeathIfNeeded();
     }
 
     //check if impact came from projectile
@@ -78,6 +90,22 @@ public class Health : MonoBehaviour
     private void TakeDamage(float damage)
     {
         _actualHealth -= damage * (100 - _actualDefense);
+    }
+
+    //check if unit is dead, and if so report death to listeners
+    private void HandleDeathIfNeeded()
+    {
+        if (_actualHealth <= 0)
+        {
+            Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
+            _entityDeathEvent.Invoke(gameObject);
+        }
+    }
+
+    //set up callback for entity death handling
+    public void ConfigureEntityDeathCallback(UnityAction<GameObject> entityDeathCallback)
+    {
+        _entityDeathEvent.AddListener(entityDeathCallback);
     }
 
 }

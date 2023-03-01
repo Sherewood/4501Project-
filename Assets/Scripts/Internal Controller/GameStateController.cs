@@ -52,5 +52,12 @@ public class GameStateController : MonoBehaviour
             UnitSpawner spawner = unit.gameObject.GetComponent<UnitSpawner>();
             spawner.ConfigureUnitSpawnCallback((UnityAction<GameObject>)_eventHandler.HandleUnitSpawnEvent);
         }
+
+        //if health component -> bind EntityDeathEvent callback
+        if (unit.DoesUnitHaveComponent("health"))
+        {
+            Health health = unit.gameObject.GetComponent<Health>();
+            health.ConfigureEntityDeathCallback((UnityAction<GameObject>)_eventHandler.HandleUnitDeadEvent);
+        }
     }
 }

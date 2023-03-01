@@ -128,6 +128,7 @@ MonoBehaviour:
   - unitInfo
   - unitState
   - movement
+  - health
 --- !u!54 &1908906224660062116
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -212,3 +213,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   BaseDefense: 25
+  FortifyDefenseBonus: 0
