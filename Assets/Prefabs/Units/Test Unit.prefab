@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8002568013237805364}
   - component: {fileID: 4501107182978088550}
   - component: {fileID: -9093275058762527352}
+  - component: {fileID: -3591988926872422665}
   m_Layer: 0
   m_Name: Test Unit
   m_TagString: Untagged
@@ -197,3 +198,17 @@ MonoBehaviour:
   TargetAllegiances:
   - neutral
   - player
+--- !u!114 &-3591988926872422665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  BaseDefense: 25
