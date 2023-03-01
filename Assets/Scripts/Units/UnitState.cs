@@ -7,7 +7,10 @@ using UnityEngine;
 public enum UState
 {
     STATE_IDLE,
-    STATE_MOVING
+    STATE_MOVING,
+    STATE_ATTACKING,
+    STATE_GUARDING,
+    STATE_FORTIFIED
 }
 
 /* Unit class */

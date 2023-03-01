@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8002568013237805364}
   - component: {fileID: 4501107182978088550}
   - component: {fileID: -1050418102595511152}
+  - component: {fileID: 7418582633090612437}
   m_Layer: 0
   m_Name: Player Test Unit
   m_TagString: Untagged
@@ -197,3 +198,15 @@ MonoBehaviour:
   TargetAllegiances:
   - neutral
   - enemy
+--- !u!114 &7418582633090612437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567fe1a89da2e6545855035b4c34e91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
