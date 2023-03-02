@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -1050418102595511152}
   - component: {fileID: 7418582633090612437}
   - component: {fileID: 2694723874917545885}
+  - component: {fileID: 6190852828544598394}
   m_Layer: 0
   m_Name: Player Test Unit
   m_TagString: Untagged
@@ -223,3 +224,21 @@ MonoBehaviour:
   MaxHealth: 100
   BaseDefense: 25
   FortifyDefenseBonus: 0
+--- !u!114 &6190852828544598394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74dfd36aaa7f897469762e57d8354a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: melee
+  Damage: 0
+  FireRate: 2
+  MinRange: 0
+  MaxRange: 2
+  FiringOffset: {x: 0, y: 0, z: 0}

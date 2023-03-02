@@ -28,7 +28,7 @@ public class UnitDatabase : MonoBehaviour
 
         //create unit records
         CreateUnitDataRecord("neutral-test", 0, 0, "unitInfo unitState movement health targeting");
-        CreateUnitDataRecord("player-dynamic-test", 0, 0, "unitInfo unitState movement attack health targeting");
+        CreateUnitDataRecord("player-dynamic-test", 0, 0, "unitInfo unitState movement attack weapon health targeting");
         CreateUnitDataRecord("neutral-test-spawner", 0, 0, "unitInfo unitState unitSpawner");
 
     }
