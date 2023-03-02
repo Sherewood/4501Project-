@@ -124,11 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: neutral-test
-  SupportedComponents:
-  - unitInfo
-  - unitState
-  - movement
-  - health
+  SupportedComponents: []
 --- !u!54 &1908906224660062116
 Rigidbody:
   m_ObjectHideFlags: 0

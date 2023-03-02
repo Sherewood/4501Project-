@@ -1158,10 +1158,13 @@ MonoBehaviour:
   UnitTypes:
   - neutral-test
   - neutral-test-spawner
+  - player-dynamic-test
   UnitAssetPrefabs:
   - {fileID: 7910979562441037367, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
   - {fileID: 7910979562441037367, guid: aeb4d006f39bcf74388abc65a0c61ac3, type: 3}
+  - {fileID: 7910979562441037367, guid: 001e43935c3b00040bccd1566e17b60b, type: 3}
   UnitAssetIcons:
+  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
 --- !u!114 &906402713

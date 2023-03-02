@@ -68,4 +68,10 @@ public class UnitInfo : MonoBehaviour
     {
         return SupportedComponents.Contains(component);
     }
+
+    //set the supported components of the unit
+    public void SetSupportedComponents(List<string> supportedComponents)
+    {
+        SupportedComponents = new List<string>(supportedComponents);
+    }
 }

@@ -99,10 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: neutral-test-spawner
-  SupportedComponents:
-  - unitInfo
-  - unitSpawner
-  - unitState
+  SupportedComponents: []
 --- !u!114 &-7432569340290530451
 MonoBehaviour:
   m_ObjectHideFlags: 0

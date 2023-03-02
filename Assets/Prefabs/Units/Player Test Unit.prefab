@@ -125,11 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-dynamic-test
-  SupportedComponents:
-  - unitInfo
-  - unitState
-  - movement
-  - health
+  SupportedComponents: []
 --- !u!54 &1908906224660062116
 Rigidbody:
   m_ObjectHideFlags: 0

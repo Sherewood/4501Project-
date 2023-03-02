@@ -22,20 +22,27 @@ public class UnitDatabase : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("Initializing unit database");
+
         _unitData = new Dictionary<string, Dictionary<string, string>>();
 
         //creating unit data record
         Dictionary<string, string> testUnitRecord = new Dictionary<string, string>();
         testUnitRecord.Add("minerals", "0");
         //format will be <component1> <component2> ... <component_n>, separated by spaces
-        testUnitRecord.Add("components", "unitInfo unitState movement");
+        testUnitRecord.Add("components", "unitInfo unitState movement health targeting");
+
+        Dictionary<string, string> playerUnitRecord = new Dictionary<string, string>();
+        playerUnitRecord.Add("minerals", "0");
+        playerUnitRecord.Add("components", "unitInfo unitState movement attack health targeting");
 
         Dictionary<string, string> testSpawnerRecord = new Dictionary<string, string>();
         testSpawnerRecord.Add("minerals", "0");
-        //format will be <component1> <component2> ... <component_n>, separated by spaces
         testSpawnerRecord.Add("components", "unitInfo unitState unitSpawner");
 
         _unitData.Add("neutral-test", testUnitRecord);
+
+        _unitData.Add("player-dynamic-test", playerUnitRecord);
 
         _unitData.Add("neutral-test-spawner", testSpawnerRecord);
 
@@ -54,6 +61,20 @@ public class UnitDatabase : MonoBehaviour
     public bool DoesUnitHaveComponent(string unitType, string component)
     {
         return _unitData.ContainsKey(unitType) && _unitData[unitType]["components"].Contains(component);
+    }
+
+    //returns list of components for a specified unit type
+    public List<string> GetComponentsForUnitType(string unitType)
+    {
+        if (!_unitData.ContainsKey(unitType))
+        {
+            Debug.LogError("Unit Database queried for unit type " + unitType + " that does not exist!");
+            return new List<string>();
+        }
+
+        string componentsString = _unitData[unitType]["components"];
+
+        return new List<string>(componentsString.Split(" "));
     }
 
     public GameObject GetUnitPrefab(string type)

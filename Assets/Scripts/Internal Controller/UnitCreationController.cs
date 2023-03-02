@@ -10,12 +10,15 @@ public class UnitCreationController : MonoBehaviour
 
     private EntityStorage _entityStorage;
 
+    private UnitDatabase _unitDatabase;
+
     //need access to bind callbacks
     private InternalControllerEventHandler _eventHandler;
 
     void Awake()
     {
         _entityStorage = FindObjectOfType<EntityStorage>();
+        _unitDatabase = FindObjectOfType<UnitDatabase>();
         _eventHandler = GetComponent<InternalControllerEventHandler>();
     }
 
@@ -30,6 +33,11 @@ public class UnitCreationController : MonoBehaviour
             Debug.LogError("Error: Unit Creation Controller given unit with no Unit Info component");
             return;
         }
+
+        //configure the displayed supported components based on the unit db
+        List<string> unitSupportedComponents = _unitDatabase.GetComponentsForUnitType(unitInfo.GetUnitType());
+
+        unitInfo.SetSupportedComponents(unitSupportedComponents);
 
         //setup callbacks
         BindUnitCallbacks(unitInfo);
