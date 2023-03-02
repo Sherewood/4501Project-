@@ -26,26 +26,23 @@ public class UnitDatabase : MonoBehaviour
 
         _unitData = new Dictionary<string, Dictionary<string, string>>();
 
-        //creating unit data record
-        Dictionary<string, string> testUnitRecord = new Dictionary<string, string>();
-        testUnitRecord.Add("minerals", "0");
+        //create unit records
+        CreateUnitDataRecord("neutral-test", 0, 0, "unitInfo unitState movement health targeting");
+        CreateUnitDataRecord("player-dynamic-test", 0, 0, "unitInfo unitState movement attack health targeting");
+        CreateUnitDataRecord("neutral-test-spawner", 0, 0, "unitInfo unitState unitSpawner");
+
+    }
+
+    //fills a record in _unitData with the specified information
+    private void CreateUnitDataRecord(string unitType, int mineralCost, int fuelCost, string supportedComponents)
+    {
+        Dictionary<string, string> unitRecord = new Dictionary<string, string>();
+        unitRecord.Add("minerals", mineralCost.ToString());
+        unitRecord.Add("fuel", fuelCost.ToString());
         //format will be <component1> <component2> ... <component_n>, separated by spaces
-        testUnitRecord.Add("components", "unitInfo unitState movement health targeting");
+        unitRecord.Add("components", supportedComponents);
 
-        Dictionary<string, string> playerUnitRecord = new Dictionary<string, string>();
-        playerUnitRecord.Add("minerals", "0");
-        playerUnitRecord.Add("components", "unitInfo unitState movement attack health targeting");
-
-        Dictionary<string, string> testSpawnerRecord = new Dictionary<string, string>();
-        testSpawnerRecord.Add("minerals", "0");
-        testSpawnerRecord.Add("components", "unitInfo unitState unitSpawner");
-
-        _unitData.Add("neutral-test", testUnitRecord);
-
-        _unitData.Add("player-dynamic-test", playerUnitRecord);
-
-        _unitData.Add("neutral-test-spawner", testSpawnerRecord);
-
+        _unitData.Add(unitType, unitRecord);
     }
 
     public int GetUnitCost(string unitType, string resourceType)
