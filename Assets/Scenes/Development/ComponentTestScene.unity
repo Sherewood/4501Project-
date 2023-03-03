@@ -2030,6 +2030,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440320, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
       propertyPath: m_Name
       value: Fuel Deposit
@@ -2098,6 +2102,10 @@ PrefabInstance:
     - target: {fileID: 6684196009847440320, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440320, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
       propertyPath: m_Name
