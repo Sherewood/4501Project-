@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4501107182978088550, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: TurnRate
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1182,6 +1186,7 @@ GameObject:
   - component: {fileID: 906402711}
   - component: {fileID: 906402712}
   - component: {fileID: 906402713}
+  - component: {fileID: 906402714}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -1270,6 +1275,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b1a0dfbf473284fa6c8ad15b48edf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &906402714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906402708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31adee46e2124e347ab6365a3ad0facc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingMinerals: 500
+  StartingFuel: 500
 --- !u!1001 &933592786
 PrefabInstance:
   m_ObjectHideFlags: 0
