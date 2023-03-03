@@ -11,7 +11,8 @@ public class UnitInfo : MonoBehaviour
     //general format: <allegiance>-<static/dynamic>-<unit name>
     //ex: player-dynamic-infantry -> player infantry unit
     public string UnitType;
-
+    //unit image
+    public Texture2D UnitPic;
     //resource costs of the unit
     private Dictionary<string, int> _unitCosts;
 

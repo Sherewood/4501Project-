@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
     [Tooltip("The maximum health of the unit.")]
     public float MaxHealth;
 
-    private float _actualHealth;
+    public float _actualHealth;
 
     [Tooltip("The base defense of the unit. Maximum defense is 100, formula for now for dmg is 'dmg*(100-def)")]
     public float BaseDefense;

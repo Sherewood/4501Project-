@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserInterfaceController : MonoBehaviour
 {
@@ -38,10 +39,11 @@ public class UserInterfaceController : MonoBehaviour
       //  {
            
             //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
-            UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].name;
+            UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
            
-            UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = " 100/100";//need a way to get health 
-          //Unitblock.transform.position = new Vector3(0 + i, 0,0);*/
-        //     }
+            UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<Health>()._actualHealth.ToString()+ "/"+ _selectedUnits[0].GetComponent<Health>().MaxHealth.ToString(); //need a way to get health 
+                                                                                                                                                                                                                                               //Unitblock.transform.position = new Vector3(0 + i, 0,0);*/
+                                                                                                                                                                                                                                               //     }
+        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = _selectedUnits[0].GetComponent<UnitInfo>().UnitPic;
     }
 }
