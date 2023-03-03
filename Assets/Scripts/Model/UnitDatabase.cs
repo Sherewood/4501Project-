@@ -31,6 +31,10 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("player-dynamic-test", 0, 0, "unitInfo unitState movement attack weapon health targeting");
         CreateUnitDataRecord("neutral-test-spawner", 0, 0, "unitInfo unitState unitSpawner");
 
+        //resource deposits
+        CreateUnitDataRecord("neutral-static-mineraldep", 0, 0, "unitInfo unitState resource");
+        CreateUnitDataRecord("neutral-static-fueldep", 0, 0, "unitInfo unitState resource");
+
     }
 
     //fills a record in _unitData with the specified information
