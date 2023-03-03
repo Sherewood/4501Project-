@@ -44,6 +44,12 @@ public class UnitController : MonoBehaviour
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
                     unitMovement.SetOrderedDestination(target.point);
                     break;
+                case "harvest":
+                    unitMovement = selectedUnit.GetComponent<Movement>();
+                    Harvesting unitHarvester = selectedUnit.GetComponent<Harvesting>();
+                    unitMovement.SetOrderedHarvestDestination(target.collider.gameObject.transform.position);
+                    unitHarvester.SetTargetResourceDeposit(target.collider.gameObject);
+                    break;
                 case "":
                     break;
                 default:

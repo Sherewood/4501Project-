@@ -1,14 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+/* destination reached event definition */
+[System.Serializable]
+public class DestinationReachedEvent : UnityEvent { }
+
 /* Unit Component */
 //Purpose: Control movement (and rotation) of the unit
 
 /* Note: Movement method will have to be updated for advanced prototype (And final deliverable!) */
 
 
+
 public class Movement : MonoBehaviour
 {
+    /* callbacks */
+    public DestinationReachedEvent DestinationReachedEvent;
 
     private Vector3 _destination;
     private Vector3 _orderedDestination;
@@ -67,6 +76,8 @@ public class Movement : MonoBehaviour
             {
                 //terminate movement if destination reached.
                 StopMovement();
+                //report to interested parties that destination has been reached
+                DestinationReachedEvent.Invoke();
             }
         } 
     }
@@ -81,6 +92,16 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
+    }
+
+    //set moving to harvest
+    public void SetOrderedHarvestDestination(Vector3 orderedDestination)
+    {
+        SetOrderedDestination(orderedDestination);
+        
+        //just straight up forcing the state to 'moving to harvest' could be problematic
+        //but only workers will support this component so it won't interfere with any attacking states.
+        _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
     }
 
     //set destination - not specifically ordered so can be overridden by ordered destination

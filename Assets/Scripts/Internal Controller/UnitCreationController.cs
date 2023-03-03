@@ -75,5 +75,13 @@ public class UnitCreationController : MonoBehaviour
             Health health = unit.gameObject.GetComponent<Health>();
             health.ConfigureEntityDeathCallback((UnityAction<GameObject>)_eventHandler.HandleUnitDeadEvent);
         }
+
+        //if harvesting component -> bind ResourceHarvestEvent callback
+        if (unit.DoesUnitHaveComponent("harvester"))
+        {
+            Harvesting harvester = unit.gameObject.GetComponent<Harvesting>();
+            harvester.ConfigureResourceHarvestCallback((UnityAction<string, int>)_eventHandler.HandleResourceHarvestEvent);
+        }
+
     }
 }

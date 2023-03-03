@@ -8,6 +8,7 @@ using UnityEngine;
 public enum Order
 {
     ORDER_MOVE,
+    ORDER_HARVEST,
     ORDER_INVALID
 }
 
@@ -48,6 +49,12 @@ public class OrderModel : MonoBehaviour
         SetOrderPriority(Order.ORDER_MOVE, 1);
         SetOrderActions(Order.ORDER_MOVE, new string[] { "move" });
 
+        //harvesting order
+        SetOrderUnitTypes(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" });
+        SetOrderTargets(Order.ORDER_HARVEST, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" });
+        SetOrderEventChain(Order.ORDER_HARVEST, "");
+        SetOrderPriority(Order.ORDER_HARVEST, 1);
+        SetOrderActions(Order.ORDER_HARVEST, new string[] { "harvest" });
 
 
     }

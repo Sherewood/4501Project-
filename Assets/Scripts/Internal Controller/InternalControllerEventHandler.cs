@@ -23,6 +23,9 @@ public class EntitySpawnEvent : UnityEvent<GameObject> { }
 [System.Serializable]
 public class EntityDeadEvent : UnityEvent<GameObject> { }
 
+[System.Serializable]
+public class ResourceHarvestEvent : UnityEvent<string, int> { }
+
 /* Internal Controller Class */
 // Handles incoming events to the Internal Controller
 
@@ -111,6 +114,14 @@ public class InternalControllerEventHandler : MonoBehaviour
         Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
 
         _unitCreationController.DeleteDeadEntity(newUnit);
+    }
+
+    //handle harvesting of resource deposit
+    public void HandleResourceHarvestEvent(string resourceType, int resourceAmount)
+    {
+        Debug.Log("Resource Harvest Event received - resource type: " + resourceType + ", resource amount: " + resourceAmount);
+
+        //TODO: Game State Controller method which updates Game State Model
     }
 
     // Helper functions

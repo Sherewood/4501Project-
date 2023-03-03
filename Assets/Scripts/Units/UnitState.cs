@@ -8,9 +8,11 @@ public enum UState
 {
     STATE_IDLE,
     STATE_MOVING,
+    STATE_MOVING_TO_HARVEST,
     STATE_ATTACKING,
     STATE_GUARDING,
-    STATE_FORTIFIED
+    STATE_FORTIFIED,
+    STATE_HARVESTING,
 }
 
 /* Unit class */

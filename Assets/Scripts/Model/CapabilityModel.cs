@@ -46,11 +46,16 @@ public class CapabilityModel : MonoBehaviour
 
         Capability moveCapability = new Capability("move", new List<string>(), "Unit can move!", true, new List<string>());
 
+        Capability harvestCapability = new Capability("harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
+
         //define mappings
 
         //temporary mapping for testing the capability controller
         _capabilityMappings.Add("unitInfo", testCapability);
+        //movement component -> move capability
         _capabilityMappings.Add("movement", moveCapability);
+        //harvester component -> harvest capability
+        _capabilityMappings.Add("harvester", harvestCapability);
     }
 
     //returns the capabilities available to a specific unit
