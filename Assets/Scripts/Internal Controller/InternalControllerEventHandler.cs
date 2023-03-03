@@ -43,6 +43,8 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private UnitController _unitController;
 
+    private GameStateController _gameStateController;
+
     // Link other controller classes here
     void Start()
     {
@@ -55,6 +57,8 @@ public class InternalControllerEventHandler : MonoBehaviour
         _orderController = GetComponent<OrderController>();
 
         _unitController = GetComponent<UnitController>();
+
+        _gameStateController = GetComponent<GameStateController>();
     }
 
     // Event callback functions
@@ -121,7 +125,8 @@ public class InternalControllerEventHandler : MonoBehaviour
     {
         Debug.Log("Resource Harvest Event received - resource type: " + resourceType + ", resource amount: " + resourceAmount);
 
-        //TODO: Game State Controller method which updates Game State Model
+        //store newly gained resources in game state model
+        _gameStateController.StoreHarvestedResource(resourceType, resourceAmount);
     }
 
     // Helper functions
