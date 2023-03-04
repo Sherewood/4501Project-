@@ -9,24 +9,28 @@ public class UserInterfaceController : MonoBehaviour
 {
     public GameObject InternalController;
     public GameObject UnitInfo;
+    
     //copied from the selection controller 
 
     private List<GameObject> _selectedUnits;
     private List<Capability> _selectedUnitCapabilities;
     private CapabilityController _capabilityController;
     public Material tracker;
+    private DisplayInfoController  component;
 
     // Start is called before the first frame update
     void Start()
     {
         InternalController = GameObject.Find("InternalController");
+        component= InternalController.GetComponent<DisplayInfoController>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         // clearing function above
-        _selectedUnits = InternalController.GetComponent<SelectionController>().GetSelectedUnits();
+        _selectedUnits = component.GetSelectedUnits();
 
         if (_selectedUnits.Count >0) displayUnit();
 
@@ -44,6 +48,6 @@ public class UserInterfaceController : MonoBehaviour
             UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<Health>()._actualHealth.ToString()+ "/"+ _selectedUnits[0].GetComponent<Health>().MaxHealth.ToString(); //need a way to get health 
                                                                                                                                                                                                                                                //Unitblock.transform.position = new Vector3(0 + i, 0,0);*/
                                                                                                                                                                                                                                                //     }
-        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = _selectedUnits[0].GetComponent<UnitInfo>().UnitPic;
+        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = component.GetUnitIcon(_selectedUnits[0].GetComponent<UnitInfo>().UnitType);
     }
 }

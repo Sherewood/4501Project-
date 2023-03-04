@@ -62,7 +62,7 @@ public class DisplayInfoController : MonoBehaviour
     }
 
     //given a unit type, returns the sprite associated with that unit type
-    public Sprite GetUnitIcon(string unitType)
+    public Texture2D GetUnitIcon(string unitType)
     {
         return _unitDatabase.GetUnitIcon(unitType);
     }
