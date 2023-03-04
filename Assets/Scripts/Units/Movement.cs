@@ -88,7 +88,7 @@ public class Movement : MonoBehaviour
         _orderedDestination = orderedDestination;
         _moving = true;
 
-        if (_unitState.GetState() == UState.STATE_IDLE)
+        if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
@@ -110,7 +110,7 @@ public class Movement : MonoBehaviour
         _destination = destination;
         _moving = true;
 
-        if (_unitState.GetState() == UState.STATE_IDLE)
+        if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
@@ -127,7 +127,8 @@ public class Movement : MonoBehaviour
     {
         _orderedDestination = _returnPoint;
         _moving = true;
-        if (_unitState.GetState() == UState.STATE_IDLE)
+
+        if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
@@ -145,6 +146,14 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_IDLE);
         }
+    }
+
+    //return true if based on the current state, the state should transition to "MOVING"
+    private bool ShouldChangeToMoveState()
+    {
+        UState curState = _unitState.GetState();
+
+        return (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
     }
 
 
