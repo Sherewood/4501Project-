@@ -44,27 +44,22 @@ public class OrderModel : MonoBehaviour
         _orderActions = new Dictionary<Order, List<string>>();
 
         //movement order
-        SetOrderUnitTypes(Order.ORDER_MOVE, new string[] { "all-player-dynamic" });
-        SetOrderTargets(Order.ORDER_MOVE, new string[] { "Terrain" });
-        SetOrderEventChain(Order.ORDER_MOVE, "");
-        SetOrderPriority(Order.ORDER_MOVE, 1);
-        SetOrderActions(Order.ORDER_MOVE, new string[] { "move" });
+        CreateOrder(Order.ORDER_MOVE, new string[] { "all-player-dynamic" }, new string[] { "Terrain" }, "", 1, new string[] { "move" });
 
         //harvesting order
-        SetOrderUnitTypes(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" });
-        SetOrderTargets(Order.ORDER_HARVEST, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" });
-        SetOrderEventChain(Order.ORDER_HARVEST, "");
-        SetOrderPriority(Order.ORDER_HARVEST, 1);
-        SetOrderActions(Order.ORDER_HARVEST, new string[] { "harvest" });
+        CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", 1, new string[] { "harvest" });
 
         //evacuation order
-        SetOrderUnitTypes(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" });
-        SetOrderTargets(Order.ORDER_EVAC_CIVIES, new string[] {});
-        SetOrderEventChain(Order.ORDER_EVAC_CIVIES, "");
-        SetOrderPriority(Order.ORDER_EVAC_CIVIES, 1);
-        SetOrderActions(Order.ORDER_EVAC_CIVIES, new string[] { "evacuateCivies" });
+        CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "", 1, new string[] { "evacuateCivies" });
+    }
 
-
+    private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string eventChain, int priority, string[] orderActions)
+    {
+        SetOrderUnitTypes(order, orderUnitTypes);
+        SetOrderTargets(order, orderTargets);
+        SetOrderEventChain(order, eventChain);
+        SetOrderPriority(order, priority);
+        SetOrderActions(order, orderActions);
     }
 
     //helpers for initializing

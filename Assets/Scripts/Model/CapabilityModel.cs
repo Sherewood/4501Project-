@@ -40,26 +40,21 @@ public class CapabilityModel : MonoBehaviour
     void Awake()
     {
         _capabilityMappings = new Dictionary<string, Capability>();
-
-        //create capabilities to be mapped
-        Capability testCapability = new Capability("test", new List<string>(), "this is a test", true, new List<string>());
-
-        Capability moveCapability = new Capability("move", new List<string>(), "Unit can move!", true, new List<string>());
-
-        Capability harvestCapability = new Capability("harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
-
-        Capability evacCapability = new Capability("evacuateCivies", new List<string>(), "Unit can evacuate civilians!", false, new List<string>());
-
         //define mappings
 
-        //temporary mapping for testing the capability controller
-        _capabilityMappings.Add("unitInfo", testCapability);
         //movement component -> move capability
-        _capabilityMappings.Add("movement", moveCapability);
+        CreateCapabilityMapping("movement", "move", new List<string>(), "Unit can move!", true, new List<string>());
         //harvester component -> harvest capability
-        _capabilityMappings.Add("harvester", harvestCapability);
+        CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
         //civilian component -> evacuation capability
-        _capabilityMappings.Add("civilian", evacCapability);
+        CreateCapabilityMapping("civilian", "evacuateCivies", new List<string>(), "Unit can evacuate civilians!", true, new List<string>());
+    }
+
+    void CreateCapabilityMapping(string componentName, string actionName, List<string> incompatibleActions, string description, bool multiUnit, List<string> techRequirements)
+    {
+        Capability capability = new Capability(actionName, incompatibleActions, description, multiUnit, techRequirements);
+
+        _capabilityMappings.Add(componentName, capability);
     }
 
     //returns the capabilities available to a specific unit
