@@ -12,7 +12,7 @@ public class UiAbilties : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       //give default ordereventvalue
+        Event.Equals(("", UIEvTrigger.TRIGGER_NONE));
         
     }
 
