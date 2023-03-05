@@ -63,7 +63,7 @@ public class UnitSpawner : MonoBehaviour
     //helpers
 
     //spawns a unit of a specified type
-    public void SpawnUnit(string unitType)
+    public GameObject SpawnUnit(string unitType)
     {
         Debug.Log("Spawning unit of type - " + unitType);
         //fetch prefab from unit db
@@ -72,7 +72,7 @@ public class UnitSpawner : MonoBehaviour
         if(prefab == null)
         {
             Debug.LogWarning("Error: attempted to spawn unit of type " + unitType + " which has no associated prefab asset.");
-            return;
+            return null;
         }
 
         //calculate spawn coordinates
@@ -84,17 +84,16 @@ public class UnitSpawner : MonoBehaviour
         if(!AdjustSpawnCoordinates(prefab, spawnPos,out finalSpawnPos))
         {
             Debug.LogWarning("Unable to spawn unit due to obstruction");
-            return;
+            return null;
         }
 
         //instantiate new unit
         GameObject newUnit = Instantiate(prefab, finalSpawnPos, new Quaternion());
         
-        
-        
-
         //trigger callback to controller
         _entitySpawnEvent.Invoke(newUnit);
+
+        return newUnit;
     }
 
     //chooses spawn coordinates for a given unit
