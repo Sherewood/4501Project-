@@ -109,7 +109,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6684196009847440324
 MonoBehaviour:
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-dynamic-worker
+  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!54 &1908906224660062116
 Rigidbody:
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 50
+  _actualHealth: 0
   BaseDefense: 0
   FortifyDefenseBonus: 0
 --- !u!114 &4403041369925447943
