@@ -28,6 +28,8 @@ public class Weapon : MonoBehaviour
     public Vector3 FiringOffset;
 
     //TODO: Add property for projectile used by the weapon when projectiles are ready
+    public GameObject projectile;
+
 
     //parameters
     private const float BASE_COOLDOWN = 1;
