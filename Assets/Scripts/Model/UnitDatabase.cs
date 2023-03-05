@@ -38,6 +38,9 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("neutral-static-mineraldep", 0, 0, "unitInfo unitState resource");
         CreateUnitDataRecord("neutral-static-fueldep", 0, 0, "unitInfo unitState resource");
 
+        //buildings
+        CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
+
     }
 
     //fills a record in _unitData with the specified information

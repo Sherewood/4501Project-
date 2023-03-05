@@ -9,6 +9,7 @@ public enum Order
 {
     ORDER_MOVE,
     ORDER_HARVEST,
+    ORDER_EVAC_CIVIES,
     ORDER_INVALID
 }
 
@@ -55,6 +56,13 @@ public class OrderModel : MonoBehaviour
         SetOrderEventChain(Order.ORDER_HARVEST, "");
         SetOrderPriority(Order.ORDER_HARVEST, 1);
         SetOrderActions(Order.ORDER_HARVEST, new string[] { "harvest" });
+
+        //evacuation order
+        SetOrderUnitTypes(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" });
+        SetOrderTargets(Order.ORDER_EVAC_CIVIES, new string[] {});
+        SetOrderEventChain(Order.ORDER_EVAC_CIVIES, "");
+        SetOrderPriority(Order.ORDER_EVAC_CIVIES, 1);
+        SetOrderActions(Order.ORDER_EVAC_CIVIES, new string[] { "evacuateCivies" });
 
 
     }

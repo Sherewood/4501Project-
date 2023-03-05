@@ -83,5 +83,12 @@ public class UnitCreationController : MonoBehaviour
             harvester.ConfigureResourceHarvestCallback((UnityAction<string, int>)_eventHandler.HandleResourceHarvestEvent);
         }
 
+        //if civilian component -> bind CivilianEvacEvent callback
+        if (unit.DoesUnitHaveComponent("civilian"))
+        {
+            Civilian civilianComp = unit.gameObject.GetComponent<Civilian>();
+            civilianComp.ConfigureCivilianEvacCallback((UnityAction<int>)_eventHandler.HandleCivilianEvacEvent);
+        }
+
     }
 }

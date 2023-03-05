@@ -26,6 +26,9 @@ public class EntityDeadEvent : UnityEvent<GameObject> { }
 [System.Serializable]
 public class ResourceHarvestEvent : UnityEvent<string, int> { }
 
+[System.Serializable]
+public class CivilianEvacEvent : UnityEvent<int> { }
+
 /* Internal Controller Class */
 // Handles incoming events to the Internal Controller
 
@@ -127,6 +130,12 @@ public class InternalControllerEventHandler : MonoBehaviour
 
         //store newly gained resources in game state model
         _gameStateController.StoreHarvestedResource(resourceType, resourceAmount);
+    }
+
+    //handle evacuation of civilian(s) from a civilian building
+    public void HandleCivilianEvacEvent(int numCivilians)
+    {
+        Debug.Log("Evacuate Civilian Event received - " + numCivilians + " evacuated.");
     }
 
     // Helper functions
