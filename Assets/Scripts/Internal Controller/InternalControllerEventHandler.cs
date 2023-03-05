@@ -51,6 +51,8 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private GameStateController _gameStateController;
 
+    private EventChainController _eventChainController;
+
     // Link other controller classes here
     void Start()
     {
@@ -65,6 +67,8 @@ public class InternalControllerEventHandler : MonoBehaviour
         _unitController = GetComponent<UnitController>();
 
         _gameStateController = GetComponent<GameStateController>();
+
+        _eventChainController = GetComponent<EventChainController>();
     }
 
     // Event callback functions
@@ -74,6 +78,10 @@ public class InternalControllerEventHandler : MonoBehaviour
     {
         Debug.Log("Selection event received");
 
+        //for now, won't consider the target here when updating event chain
+        //if that has to change, special method should be defined in event chain controller for it
+        _eventChainController.HandleEventChainUpdateGeneral("unitSelection");
+
         _selectionController.HandleSingleSelection(selectionTarget);
     }
 
@@ -81,6 +89,9 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleMouseOrderEvent(RaycastHit orderTarget)
     {
         Debug.Log("Mouse order event received");
+
+        //event chain can influence determined order, therefore must be update first.
+        _eventChainController.HandleEventChainMouseOrderUpdate("mouseOrder", orderTarget);
 
         Order order = _orderController.DetermineTargetedOrder(orderTarget);
 
@@ -94,6 +105,10 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleUIOrderEvent(string command)
     {
         Debug.Log("UI order event received");
+
+        //event chain can influence determined order, therefore must be determined first.
+        //will also need to call this method for menu selection event
+        _eventChainController.HandleEventChainUIEventUpdate("UIOrder", command);
 
         Order order = _orderController.DetermineUntargetedOrder(command);
 
