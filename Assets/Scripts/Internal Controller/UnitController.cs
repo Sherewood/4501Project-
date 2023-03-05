@@ -76,6 +76,11 @@ public class UnitController : MonoBehaviour
 
             switch (bestAction)
             {
+                case "evacuateCivies":
+                    //trigger civilian evacuation
+                    Civilian civilianComp = selectedUnit.GetComponent<Civilian>();
+                    civilianComp.TriggerEvacuation();
+                    break;
                 case "planetaryEvac":
                     //try to trigger planetary evacuation
                     PlanetaryEvacuation planetaryEvac = selectedUnit.GetComponent<PlanetaryEvacuation>();

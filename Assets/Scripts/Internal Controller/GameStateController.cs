@@ -14,11 +14,14 @@ public class GameStateController : MonoBehaviour
 
     private GameStateModel _gameStateModel;
 
+    private PlanetaryEvacuation _playerMainBase;
+
     void Start()
     {
         Debug.Log("Game State Controller - Begin game initialization");
         _unitCreationController = GetComponent<UnitCreationController>();
         _gameStateModel = FindObjectOfType<GameStateModel>();
+        _entityStorage = FindObjectOfType<EntityStorage>();
         //get all units (each unit must have a Unit Info component)
         UnitInfo[] allUnits = FindObjectsOfType<UnitInfo>();
         
@@ -27,6 +30,15 @@ public class GameStateController : MonoBehaviour
             //add to entity storage using unit creation controller
             Debug.Log("Adding unit of type '" + unit.GetUnitType() + "' to entity storage");
             _unitCreationController.StoreCreatedEntity(unit.gameObject);
+        }
+
+        //get the player main base
+        //could 100% do in the previous for loop but the efficiency doesn't really matter since its during initialization...
+        if (_playerMainBase == null)
+        {
+            GameObject mainBaseRef = _entityStorage.GetPlayerUnitsOfType("player-static-mainbase")[0];
+            Debug.Log("Found and tracking player main base, instance id " + mainBaseRef.GetInstanceID());
+            _playerMainBase = mainBaseRef.GetComponent<PlanetaryEvacuation>();
         }
 
         Debug.Log("Initialized entity storage with " + allUnits.Length + " units.");
@@ -38,6 +50,12 @@ public class GameStateController : MonoBehaviour
     }
 
     //other helpers go here
+
+    //move evacuated civilians to main base
+    public void EvacuateCivilians(int numCivilians)
+    {
+        _playerMainBase.AddCivies(numCivilians);
+    }
 
     //store newly harvested resources
     public void StoreHarvestedResource(string type, int amount)

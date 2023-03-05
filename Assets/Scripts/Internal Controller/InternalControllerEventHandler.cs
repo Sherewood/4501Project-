@@ -139,6 +139,8 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleCivilianEvacEvent(int numCivilians)
     {
         Debug.Log("Evacuate Civilian Event received - " + numCivilians + " evacuated.");
+
+        _gameStateController.EvacuateCivilians(numCivilians);
     }
 
     //handle end of game
