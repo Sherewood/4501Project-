@@ -10,6 +10,7 @@ public enum Order
     ORDER_MOVE,
     ORDER_HARVEST,
     ORDER_EVAC_CIVIES,
+    ORDER_PLANETARY_EVAC,
     ORDER_INVALID
 }
 
@@ -51,6 +52,9 @@ public class OrderModel : MonoBehaviour
 
         //evacuation order
         CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "", 1, new string[] { "evacuateCivies" });
+
+        //planetary evac order
+        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "", 1, new string[] { "evacuateMainBase" });
     }
 
     private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string eventChain, int priority, string[] orderActions)

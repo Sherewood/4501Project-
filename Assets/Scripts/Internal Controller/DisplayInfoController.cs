@@ -45,6 +45,7 @@ public class DisplayInfoController : MonoBehaviour
 
         _actionEventTypeMappings.Add("guard", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("evacuateCivies", UIEvTrigger.TRIGGER_UIORDER);
+        _actionEventTypeMappings.Add("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER);
     }
 
     /* Helpers (to be called directly by the UI) */

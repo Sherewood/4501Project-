@@ -13,6 +13,8 @@ public class UnitController : MonoBehaviour
 
     private CapabilityController _capabilityController;
 
+    private GameStateController _gameStateController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +76,10 @@ public class UnitController : MonoBehaviour
 
             switch (bestAction)
             {
-                case "":
+                case "planetaryEvac":
+                    //try to trigger planetary evacuation
+                    PlanetaryEvacuation planetaryEvac = selectedUnit.GetComponent<PlanetaryEvacuation>();
+                    planetaryEvac.InitPlanetaryEvac(_gameStateController.GetPlayerResource("fuel"));
                     break;
                 default:
                     Debug.Log("Unsupported action");

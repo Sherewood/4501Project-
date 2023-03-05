@@ -47,7 +47,9 @@ public class CapabilityModel : MonoBehaviour
         //harvester component -> harvest capability
         CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
         //civilian component -> evacuation capability
-        CreateCapabilityMapping("civilian", "evacuateCivies", new List<string>(), "Unit can evacuate civilians!", true, new List<string>());
+        CreateCapabilityMapping("civilian", "evacuateCivies", new List<string>(), "Unit can evacuate civilians!", false, new List<string>());
+        //planetary evacuation component -> evacuate main base capability
+        CreateCapabilityMapping("planetaryEvac", "evacuateMainBase", new List<string>(), "Unit can evacuate planet!", false, new List<string>());
     }
 
     void CreateCapabilityMapping(string componentName, string actionName, List<string> incompatibleActions, string description, bool multiUnit, List<string> techRequirements)

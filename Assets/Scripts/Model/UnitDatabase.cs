@@ -39,6 +39,7 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("neutral-static-fueldep", 0, 0, "unitInfo unitState resource");
 
         //buildings
+        CreateUnitDataRecord("player-static-mainbase", 0, 0, "unitInfo unitState health planetaryEvac");
         CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
 
     }

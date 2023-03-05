@@ -90,5 +90,12 @@ public class UnitCreationController : MonoBehaviour
             civilianComp.ConfigureCivilianEvacCallback((UnityAction<int>)_eventHandler.HandleCivilianEvacEvent);
         }
 
+        //if planetary evacuation component -> bind EndOfGameEvent callback
+        if (unit.DoesUnitHaveComponent("planetaryEvac"))
+        {
+            PlanetaryEvacuation planetaryEvac = unit.gameObject.GetComponent<PlanetaryEvacuation>();
+            planetaryEvac.ConfigureEndOfGameCallback((UnityAction<bool>)_eventHandler.HandleEndOfGameEvent);
+        }
+
     }
 }

@@ -29,6 +29,9 @@ public class ResourceHarvestEvent : UnityEvent<string, int> { }
 [System.Serializable]
 public class CivilianEvacEvent : UnityEvent<int> { }
 
+[System.Serializable]
+public class EndOfGameEvent : UnityEvent<bool> { }
+
 /* Internal Controller Class */
 // Handles incoming events to the Internal Controller
 
@@ -136,6 +139,12 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleCivilianEvacEvent(int numCivilians)
     {
         Debug.Log("Evacuate Civilian Event received - " + numCivilians + " evacuated.");
+    }
+
+    //handle end of game
+    public void HandleEndOfGameEvent(bool won)
+    {
+        Debug.Log("End Of Game Event received - " + (won ? "player won!" : "player lost."));
     }
 
     // Helper functions
