@@ -89,7 +89,7 @@ public class Health : MonoBehaviour
     //self explanatory
     public void TakeDamage(float damage)
     {
-        _actualHealth -= damage * (100 - _actualDefense);
+        _actualHealth -= damage * ((100 - _actualDefense)/100);
     }
 
     //check if unit is dead, and if so report death to listeners
