@@ -30,6 +30,7 @@ public class DisplayInfoController : MonoBehaviour
 
     //additional information for the UI to display, gathered based on request
     private Dictionary<string, UIEvTrigger> _additionalDisplayInfo;
+    
 
     // Start is called before the first frame update
     void Start()
