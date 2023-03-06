@@ -65,8 +65,18 @@ public class Projectile : MonoBehaviour
             }
             if (currentDistance < 0.01f)
             {
-                //TODO: add explosion to deal area of effect damage
-                _target.GetComponent<Health>().TakeDamage(_damage);
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3);
+                foreach (var hitCollider in hitColliders)
+                {
+                    GameObject currentObject = hitCollider.gameObject;
+                    if (currentObject.GetComponent<Health>() != null)
+                    {
+                        if (string.Compare(currentObject.GetComponent<UnitInfo>().UnitType.Split("-")[0], _unitAllegiance) != 0)
+                        {
+                            currentObject.GetComponent<Health>().TakeDamage(_damage);
+                        }
+                    }
+                }
                 Destroy(gameObject);
             }
         }
