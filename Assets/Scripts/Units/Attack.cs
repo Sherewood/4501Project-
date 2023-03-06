@@ -9,8 +9,10 @@ public class Attack : MonoBehaviour
     private Targeting _targeting;
     private UnitState _unitState;
     private Movement _movement;
+    private Weapon _weapon;
 
     private GameObject _currentTarget;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class Attack : MonoBehaviour
         _targeting = GetComponent<Targeting>();
         _unitState = GetComponent<UnitState>();
         _movement = GetComponent<Movement>();
+        _weapon = GetComponent<Weapon>();
 
         _currentTarget = null;
     }
@@ -26,7 +29,6 @@ public class Attack : MonoBehaviour
     void Update()
     {
         GameObject latestTarget = UpdateTarget();
-
         //target changed
         if(_currentTarget != latestTarget)
         {
@@ -46,7 +48,6 @@ public class Attack : MonoBehaviour
         {
             return;
         }
-
         //weapon handling
 
         //check if target is in range
@@ -55,7 +56,15 @@ public class Attack : MonoBehaviour
         //if not in range, perform 'approach' handling if in range
 
         //if weapon in range, check if weapon can be fired
-            //if weapon can be fired, fired it
+        //if weapon can be fired, fire it by creating a projectile object
+        float distanceToTarget = Vector3.Distance(transform.position, _currentTarget.transform.position);
+        if (_weapon.IsWeaponInRange(distanceToTarget))
+        {
+            if (_weapon.IsWeaponReadyToFire(distanceToTarget))
+            {
+                _weapon.FireWeapon(_currentTarget);
+            }
+        }
     }
 
     //get the latest target from the targeting component

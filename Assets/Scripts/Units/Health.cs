@@ -87,7 +87,7 @@ public class Health : MonoBehaviour
     }
 
     //self explanatory
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         _actualHealth -= damage * (100 - _actualDefense);
     }

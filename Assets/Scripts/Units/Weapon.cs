@@ -28,6 +28,8 @@ public class Weapon : MonoBehaviour
     public Vector3 FiringOffset;
 
     //TODO: Add property for projectile used by the weapon when projectiles are ready
+    public GameObject projectilePrefab;
+
 
     //parameters
     private const float BASE_COOLDOWN = 1;
@@ -51,15 +53,15 @@ public class Weapon : MonoBehaviour
     }
 
     //return true if weapon is in range, false otherwise
-    public bool IsWeaponInRange(int distance)
+    public bool IsWeaponInRange(float distance)
     {
         return (distance <= MaxRange);
     }
 
     //return true if weapon is able to fire, false otherwise
-    public bool IsWeaponReadyToFire(int distance)
+    public bool IsWeaponReadyToFire(float distance)
     {
-        return (_cooldown < 0) || (distance >= MinRange);
+        return (_cooldown < 0) && (distance >= MinRange);
     }
 
     //handles firing the weapon
@@ -68,7 +70,11 @@ public class Weapon : MonoBehaviour
 
         //TODO: spawn projectile and direct it towards target
 
-
+        GameObject newProjectile = Instantiate(projectilePrefab, gameObject.transform.position, Quaternion.identity);
+        newProjectile.GetComponent<Projectile>()._target = target;
+        newProjectile.GetComponent<Projectile>()._weaponType = WeaponType;
+        newProjectile.GetComponent<Projectile>()._unitAllegiance = GetComponent<UnitInfo>().UnitType.Split("-")[0];
+        newProjectile.GetComponent<Projectile>()._damage = Damage;
         //reset cooldown of weapon
         ResetCooldown();
     }
