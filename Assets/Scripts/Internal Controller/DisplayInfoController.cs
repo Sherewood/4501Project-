@@ -28,6 +28,9 @@ public class DisplayInfoController : MonoBehaviour
     //should be in the capability model in some form but whatever...
     private Dictionary<string, UIEvTrigger> _actionEventTypeMappings;
 
+    //additional information for the UI to display, gathered based on request
+    private Dictionary<string, UIEvTrigger> _additionalDisplayInfo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +38,8 @@ public class DisplayInfoController : MonoBehaviour
         _gameStateController = GetComponent<GameStateController>();
 
         _unitDatabase = FindObjectOfType<UnitDatabase>();
+
+        _additionalDisplayInfo = new Dictionary<string, UIEvTrigger>();
 
         InitActionEventTypeMappings();
     }
@@ -71,6 +76,11 @@ public class DisplayInfoController : MonoBehaviour
         return actions;
     }
 
+    public Dictionary<string, UIEvTrigger> GetAdditionalMenuInfo()
+    {
+        return _additionalDisplayInfo;
+    }
+
     //given a list of resource types (minerals, fuel), returns a dictionary mapping resource types to the number of resources the player has
     public Dictionary<string, int> GetPlayerResources(List<string> resourceTypes)
     {
@@ -90,6 +100,36 @@ public class DisplayInfoController : MonoBehaviour
     {
         return _unitDatabase.GetUnitIcon(unitType);
     }
+
+
+    /* event handling */
+
+    public void DisplayAdditionalInfo(string command)
+    {
+
+        /*
+        get additional display information /alter display information based on command
+        example: if 'construct' command sent, should
+          1. Get selected worker unit (if more than 1 unit selected log error)
+          2. Get list of supported buildings from worker unit's Construction component
+          3. Update additionalDisplayInfo with 'construct-<building's unit type>' entries,
+             and their corresponding UIEvTrigger (should all be TRIGGER_MENUSELECT) (might revisit this when I get to construction...)
+
+        example2: If 'buildUnit' command sent, should...
+          1. Get selected barracks/factory unit (if more than 1 selected log error)
+          2. Get list of supported units from Unit Builder component
+          3. Update additionalDisplayInfo with 'build-<unit's type>' entries, 
+             and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
+        */
+    }
+
+    //clear all additional display information
+    public void ClearAdditionalInfo()
+    {
+        _additionalDisplayInfo.Clear();
+    }
+
+
 
     //future todo: for MenuSelectionEvent, will need helper method that only returns a list of values when a certain state is set
     //for example: if build unit button clicked, this list of values would become the list of unit types that can be built at the selected barracks/factory

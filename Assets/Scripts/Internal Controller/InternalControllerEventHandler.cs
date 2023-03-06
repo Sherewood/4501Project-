@@ -15,6 +15,9 @@ public class MouseOrderEvent : UnityEvent<RaycastHit> { }
 public class UIOrderEvent : UnityEvent<string> { }
 
 [System.Serializable]
+public class MenuSelectionEvent : UnityEvent<string> { }
+
+[System.Serializable]
 public class DirectionKeyEvent : UnityEvent<string> { }
 
 [System.Serializable]
@@ -53,6 +56,8 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private EventChainController _eventChainController;
 
+    private DisplayInfoController _displayInfoController;
+
     // Link other controller classes here
     void Start()
     {
@@ -69,6 +74,8 @@ public class InternalControllerEventHandler : MonoBehaviour
         _gameStateController = GetComponent<GameStateController>();
 
         _eventChainController = GetComponent<EventChainController>();
+
+        _displayInfoController = GetComponent<DisplayInfoController>();
     }
 
     // Event callback functions
@@ -83,6 +90,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController.HandleEventChainUpdateGeneral("unitSelection");
 
         _selectionController.HandleSingleSelection(selectionTarget);
+
+        //clear additional menu options open if a new unit is selected
+        //usage might need to be revisited when we test MenuSelectionEvents/get Display Info Controllers
+        _displayInfoController.ClearAdditionalInfo();
     }
 
     //handle command given by mouse click
@@ -107,7 +118,6 @@ public class InternalControllerEventHandler : MonoBehaviour
         Debug.Log("UI order event received");
 
         //event chain can influence determined order, therefore must be determined first.
-        //will also need to call this method for menu selection event
         _eventChainController.HandleEventChainUIEventUpdate("UIOrder", command);
 
         Order order = _orderController.DetermineUntargetedOrder(command);
@@ -116,6 +126,18 @@ public class InternalControllerEventHandler : MonoBehaviour
         {
             _unitController.HandleUntargetedOrder(order, command);
         }
+    }
+
+    //handle command to fetch additional menu information from UI
+    public void HandleMenuSelectionEvent(string command)
+    {
+        Debug.Log("Menu Selection event received, command: " + command);
+
+        //event chain might be advanced by menu selection
+        _eventChainController.HandleEventChainUIEventUpdate("menuSelection", command);
+
+        //display info controller will find additional information to display based on the command.
+        _displayInfoController.DisplayAdditionalInfo(command);
     }
 
     //handle indication of direction from key presses
