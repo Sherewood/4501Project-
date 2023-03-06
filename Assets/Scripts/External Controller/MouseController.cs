@@ -77,6 +77,7 @@ public class MouseController : MonoBehaviour
                 //selection callback
                 if(_heldMouseButton == LEFT_MOUSE_BUTTON)
                 {
+                    
                     SelectionEvent.Invoke(_initialMouseSelection);
                 }
                 //order callback

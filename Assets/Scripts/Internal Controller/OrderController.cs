@@ -8,12 +8,15 @@ public class OrderController : MonoBehaviour
 {
     private SelectionController _selectionController;
 
+    private EventChainController _eventChainController;
+
     private OrderModel _orderModel;
 
     // Start is called before the first frame update
     void Start()
     {
         _selectionController = GetComponent<SelectionController>();
+        _eventChainController = GetComponent<EventChainController>();
         _orderModel = FindObjectOfType<OrderModel>();
     }
 
@@ -44,8 +47,7 @@ public class OrderController : MonoBehaviour
 
         possibleOrders = _orderModel.GetValidOrdersForTarget(possibleOrders, target);
 
-        //update once event chain controller is up
-        possibleOrders = _orderModel.GetValidOrdersForEventChain(possibleOrders, "");
+        possibleOrders = _orderModel.GetValidOrdersForEventChain(possibleOrders, _eventChainController.GetCurrentEventChain());
 
         if(possibleOrders.Count == 1)
         {
@@ -73,7 +75,7 @@ public class OrderController : MonoBehaviour
         possibleOrders = _orderModel.GetValidOrdersForUnitTypes(possibleOrders, unitTypes);
 
         //update once event chain controller is up
-        possibleOrders = _orderModel.GetValidOrdersForEventChain(possibleOrders, "");
+        possibleOrders = _orderModel.GetValidOrdersForEventChain(possibleOrders, _eventChainController.GetCurrentEventChain());
 
         if (possibleOrders.Count == 1)
         {
