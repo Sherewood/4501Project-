@@ -711,6 +711,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5799474905048768431, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
   m_PrefabInstance: {fileID: 317521113}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &479287535 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8073394494526041668, guid: caa7eb1620835dc4da43a1cdca06c629, type: 3}
+  m_PrefabInstance: {fileID: 1349004577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &479634218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,7 +2180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InternalController: {fileID: 989166759}
   UnitInfo: {fileID: 96313015}
-  AbilPrefab: {fileID: 0}
+  AbilPrefab: {fileID: 479287535}
   tracker: {fileID: 2100000, guid: 8d1e3158d9338be459cfb809f3c6dd30, type: 2}
 --- !u!4 &1252410928
 Transform:
