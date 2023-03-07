@@ -9,6 +9,9 @@ public enum Order
 {
     ORDER_MOVE,
     ORDER_HARVEST,
+    //ORDER_SELECT_BUILDING and ORDER_CONSTRUCT are both for construction
+    ORDER_SELECT_BUILDING,
+    ORDER_CONSTRUCT,
     ORDER_EVAC_CIVIES,
     ORDER_PLANETARY_EVAC,
     ORDER_INVALID
@@ -49,6 +52,15 @@ public class OrderModel : MonoBehaviour
 
         //harvesting order
         CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", 1, new string[] { "harvest" });
+
+        //construction order
+        /*
+        kind of ugly, but due to the unit controller's design splitting handling of targetted and untargetted order, can have two orders with
+        the same action as long as one is targetted and the other is untargeted, the action will mean different things depending on the situation
+        Better way of doing this would be to just update the capability model to have one component map to multiple actions if needed, but this works for now...
+        */
+        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { "" }, "", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "", 1, new string[] { "construct" });
 
         //evacuation order
         CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "", 1, new string[] { "evacuateCivies" });

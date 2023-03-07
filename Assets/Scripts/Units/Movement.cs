@@ -104,6 +104,16 @@ public class Movement : MonoBehaviour
         _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
     }
 
+    //set moving to construct
+    public void SetOrderedConstructionDestination(Vector3 orderedDestination)
+    {
+        SetOrderedDestination(orderedDestination);
+
+        //just straight up forcing the state to 'moving to construct' could be problematic
+        //but only workers will support this component so it won't interfere with any attacking states.
+        _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
+    }
+
     //set destination - not specifically ordered so can be overridden by ordered destination
     public void SetDestination(Vector3 destination)
     {

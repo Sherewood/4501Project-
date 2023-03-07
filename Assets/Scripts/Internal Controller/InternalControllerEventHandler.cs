@@ -110,6 +110,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         {
             _unitController.HandleTargetedOrder(order, orderTarget);
         }
+
+        //clear additional menu options open if a new unit is selected
+        //usage might need to be revisited when we test MenuSelectionEvents/get Display Info Controllers
+        _displayInfoController.ClearAdditionalInfo();
     }
 
     //handle command given by UI action

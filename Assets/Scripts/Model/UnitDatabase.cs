@@ -32,7 +32,7 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("neutral-test-spawner", 0, 0, "unitInfo unitState unitSpawner");
 
         //worker
-        CreateUnitDataRecord("player-dynamic-worker", 0, 0, "unitInfo unitState movement health harvester");
+        CreateUnitDataRecord("player-dynamic-worker", 0, 0, "unitInfo unitState movement health harvester construction unitSpawner");
 
         //resource deposits
         CreateUnitDataRecord("neutral-static-mineraldep", 0, 0, "unitInfo unitState resource");

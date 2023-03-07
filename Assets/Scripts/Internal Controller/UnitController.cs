@@ -52,6 +52,12 @@ public class UnitController : MonoBehaviour
                     unitMovement.SetOrderedHarvestDestination(target.collider.gameObject.transform.position);
                     unitHarvester.SetTargetResourceDeposit(target.collider.gameObject);
                     break;
+                case "construct":
+                    //order the unit to move to a location to construct a building
+                    unitMovement = selectedUnit.GetComponent<Movement>();
+                    Construction construction = selectedUnit.GetComponent<Construction>();
+                    unitMovement.SetOrderedConstructionDestination(target.point);
+                    break;
                 case "":
                     break;
                 default:
@@ -76,6 +82,13 @@ public class UnitController : MonoBehaviour
 
             switch (bestAction)
             {
+                case "construct":
+                    //get the building type that the player wants to select for the unit, then save it in the unit's construction component.
+                    Construction construction = selectedUnit.GetComponent<Construction>();
+                    string buildingType = command.Split("_")[1];
+                    construction.SetCurrentBuilding(buildingType);
+                    break;
+
                 case "evacuateCivies":
                     //trigger civilian evacuation
                     Civilian civilianComp = selectedUnit.GetComponent<Civilian>();

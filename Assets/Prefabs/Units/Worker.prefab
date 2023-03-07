@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 4501107182978088550}
   - component: {fileID: 2694723874917545885}
   - component: {fileID: 4403041369925447943}
+  - component: {fileID: -741432421294744617}
+  - component: {fileID: 5129121722128711123}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -224,3 +226,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HarvestingAmount: 5
   HarvestingRate: 1
+--- !u!114 &-741432421294744617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67eaa81050984b49943cca8242b2720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedBuildingTypes:
+  - player-static-civilianbuilding
+--- !u!114 &5129121722128711123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674286c98b34cee4d9762c5c8f76d213, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PeriodicUnitSpawnTypes: []
+  PeriodicUnitSpawnIntervals: []
+  RandomSpawnMode: 0
+  SpawnPositionFixedOffset: {x: 0, y: 0, z: 0.5}
+  SpawnBoundary: {x: 0, y: 0, z: 0, w: 0}
+  spawnRetryAttemptLimit: 0

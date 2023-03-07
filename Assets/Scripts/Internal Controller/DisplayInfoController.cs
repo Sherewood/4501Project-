@@ -108,17 +108,52 @@ public class DisplayInfoController : MonoBehaviour
     {
 
         /*
-        get additional display information /alter display information based on command
-        example: if 'construct' command sent, should
+            get additional display information /alter display information based on command
+        */
+
+        /*
+        example: If 'construct' command sent, should
           1. Get selected worker unit (if more than 1 unit selected log error)
           2. Get list of supported buildings from worker unit's Construction component
-          3. Update additionalDisplayInfo with 'construct-<building's unit type>' entries,
-             and their corresponding UIEvTrigger (should all be TRIGGER_MENUSELECT) (might revisit this when I get to construction...)
+          3. Update additionalDisplayInfo with 'construct_<building's unit type>' entries,
+             and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
+        */
 
+        if(command == "construct")
+        {
+            List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
+
+            if(selectedUnits.Count != 1)
+            {
+                Debug.LogError("Got construction command, but selected unit count != 1. Should not happen.");
+                return;
+            }
+
+            GameObject selectedUnit = selectedUnits[0];
+
+            UnitInfo selectedUnitInfo = selectedUnit.GetComponent<UnitInfo>();
+
+            if (!selectedUnitInfo.DoesUnitHaveComponent("construction"))
+            {
+                Debug.LogError("Got construction command, but selected unit does not have construction component. Should not happen.");
+                return;
+            }
+
+            Construction unitConstructionComp = selectedUnit.GetComponent<Construction>();
+
+            ClearAdditionalInfo();
+
+            foreach (string supportedBuildingType in unitConstructionComp.SupportedBuildingTypes) {
+                string supportedBuildingMenuOption = "construct_" + supportedBuildingType;
+                _additionalDisplayInfo.Add(supportedBuildingMenuOption, UIEvTrigger.TRIGGER_UIORDER);
+            }
+        }
+
+        /*
         example2: If 'buildUnit' command sent, should...
           1. Get selected barracks/factory unit (if more than 1 selected log error)
           2. Get list of supported units from Unit Builder component
-          3. Update additionalDisplayInfo with 'build-<unit's type>' entries, 
+          3. Update additionalDisplayInfo with 'build_<unit's type>' entries, 
              and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
         */
     }
