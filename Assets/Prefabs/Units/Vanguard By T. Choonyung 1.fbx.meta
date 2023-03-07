@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cdd11c6ab33969149b1867abdf0508c9
+guid: 32089f1b7de34d0459bc4b790f0ef453
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: VanguardBodyMat
     second: {fileID: 2100000, guid: 4d70eaa28c5642e498588afd302f8d1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vanguard_VisorMat
+    second: {fileID: 2100000, guid: 1051261711ee04045abe299f17674544, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

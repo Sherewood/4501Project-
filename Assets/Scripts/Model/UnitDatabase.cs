@@ -42,6 +42,11 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("player-static-mainbase", 0, 0, "unitInfo unitState health planetaryEvac");
         CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
 
+        //military units
+
+        //human units
+        CreateUnitDataRecord("player-dynamic-military-infantry", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+
     }
 
     //fills a record in _unitData with the specified information

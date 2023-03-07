@@ -82,6 +82,7 @@ MonoBehaviour:
   - player-static-mainbase
   - player-static-civilianbuilding
   - player-dynamic-worker
+  - player-dynamic-military-infantry
   UnitAssetPrefabs:
   - {fileID: 7910979562441037367, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
   - {fileID: 7910979562441037367, guid: aeb4d006f39bcf74388abc65a0c61ac3, type: 3}
@@ -91,7 +92,9 @@ MonoBehaviour:
   - {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
   - {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
   - {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+  - {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
   UnitAssetIcons:
+  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
   - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
