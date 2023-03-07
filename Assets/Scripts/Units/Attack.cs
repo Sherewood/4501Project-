@@ -13,6 +13,8 @@ public class Attack : MonoBehaviour
 
     private GameObject _currentTarget;
 
+    private bool _targetInRange;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,8 @@ public class Attack : MonoBehaviour
         _weapon = GetComponent<Weapon>();
 
         _currentTarget = null;
+
+        _targetInRange = false;
     }
 
     // Update is called once per frame
@@ -48,6 +52,20 @@ public class Attack : MonoBehaviour
         {
             return;
         }
+
+        //determine if enemy is close enough to justify distance calculation
+        if (CheckIfEnemyFarOutOfRange())
+        {
+            if (_targetInRange)
+            {
+                HandleLeftAttackRange();
+            }
+            return;
+        }
+
+        //get distance between target and player
+        float distanceToTarget = Vector3.Distance(transform.position , _currentTarget.transform.position);
+
         //weapon handling
 
         //check if target is in range
@@ -55,15 +73,25 @@ public class Attack : MonoBehaviour
         //if in range, perform 'got in range' handling if not in range
         //if not in range, perform 'approach' handling if in range
 
+        if (!CheckIfInRange(distanceToTarget))
+        {
+            if (_targetInRange)
+            {
+                HandleLeftAttackRange();
+            }
+            return;
+        }
+
+        if (!_targetInRange)
+        {
+            HandleEnteredAttackRange();
+        }
+
         //if weapon in range, check if weapon can be fired
         //if weapon can be fired, fire it by creating a projectile object
-        float distanceToTarget = Vector3.Distance(transform.position, _currentTarget.transform.position);
-        if (_weapon.IsWeaponInRange(distanceToTarget))
+        if (_weapon.IsWeaponReadyToFire(distanceToTarget))
         {
-            if (_weapon.IsWeaponReadyToFire(distanceToTarget))
-            {
-                _weapon.FireWeapon(_currentTarget);
-            }
+            _weapon.FireWeapon(_currentTarget);
         }
     }
 
@@ -87,6 +115,7 @@ public class Attack : MonoBehaviour
     //handle loss of target
     private void HandleTargetLoss()
     {
+        _targetInRange = false;
         UState curState = _unitState.GetState();
 
         switch (curState)
@@ -113,6 +142,7 @@ public class Attack : MonoBehaviour
     //handle change of target (or finding new target)
     private void HandleTargetChange(GameObject newTarget)
     {
+        _targetInRange = false;
         UState curState = _unitState.GetState();
 
         switch (curState)
@@ -131,17 +161,32 @@ public class Attack : MonoBehaviour
         _currentTarget = newTarget;
     }
 
-    private bool CheckIfInRange()
+    //return true if enemy is clearly out of range, and distance calculation is not needed
+    private bool CheckIfEnemyFarOutOfRange()
     {
-        //use weapon component
-        //only check max range here (can check min range in ready to fire handling)
-        return false;
+        /*
+        Calculate manhattan x and z distances, if either of these is larger than the radius of
+        the weapon, then there is zero chance the enemy is within range of the weapon, and we do not
+        need to calculate euclidean distance
+        */
+        float distX = Mathf.Abs(transform.position.x - _currentTarget.transform.position.x);
+        float distZ = Mathf.Abs(transform.position.x - _currentTarget.transform.position.z);
+
+        return (distX >= _weapon.MaxRange + 0.01) || (distZ >= _weapon.MaxRange + 0.01);
     }
 
-    private bool CheckIfReadyToFire()
+    //check if weapon is in range of enemy
+    private bool CheckIfInRange(float distance)
     {
         //use weapon component
-        return false;
+        return _weapon.IsWeaponInRange(distance);
+    }
+
+    //check if weapon is ready to fire
+    private bool CheckIfReadyToFire(float distance)
+    {
+        //use weapon component
+        return _weapon.IsWeaponReadyToFire(distance);
     }
 
     private void HandleEnteredAttackRange()
@@ -151,6 +196,7 @@ public class Attack : MonoBehaviour
 
     private void HandleLeftAttackRange()
     {
+        _targetInRange = false;
         //could refactor this part into another helper to minimize code re-use, for now leave as is in case there are differences in handling
         UState curState = _unitState.GetState();
 
