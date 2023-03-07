@@ -11,6 +11,7 @@ public class UserInterfaceController : MonoBehaviour
     public GameObject InternalController;
     public GameObject UnitInfo;
     public GameObject AbilPrefab;
+    public List<Sprite> AbilityIcons;
     //copied from the selection controller 
 
     private List<GameObject> _selectedUnits;
@@ -18,12 +19,14 @@ public class UserInterfaceController : MonoBehaviour
     private CapabilityController _capabilityController;
     public Material tracker;
     private DisplayInfoController  component;
+    public List<GameObject> buttonlist;
 
     // Start is called before the first frame update
     void Start()
     {
         InternalController = GameObject.Find("InternalController");
         component= InternalController.GetComponent<DisplayInfoController>();
+       
 
     }
 
@@ -47,13 +50,23 @@ public class UserInterfaceController : MonoBehaviour
              UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = component.GetUnitIcon(_selectedUnits[0].GetComponent<UnitInfo>().UnitType);
         //some really primitive attempt to place buttons from left to right
         //ability display. 
-        int i = -20;
-        foreach (var ability in _selectedUnitCapabilities) 
+        int i = 0;
+        
+        foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
         {
-            GameObject abl = Instantiate(AbilPrefab);
-            abl.GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            abl.transform.position = new Vector3(i, 0, 0);
-            i += 10;
+            
+            AbilPrefab.GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+            foreach(Sprite sp in AbilityIcons)
+            {
+                if (sp.name== ability.Key)
+                {
+                    AbilPrefab.GetComponent<UiAbilties>().Icon.Equals(sp);
+                    break;
+                }
+            }
+            
+            buttonlist[i] = AbilPrefab;
+            //Debug.Log(ability.Key);
         }
     }
 }
