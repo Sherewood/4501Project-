@@ -109,6 +109,12 @@ public class Targeting : MonoBehaviour
                 continue;
             }
 
+            //if target cannot be closest target, skip it 
+            if (CheckIfTargetCannotBeClosestTarget(targetObject, newClosestDistance))
+            {
+                continue;
+            }
+
             //now, find distance to target
             //obviously very inefficient, will likely need to find alternative strategy for this component as a whole
             float targetDistance = Vector3.Distance(transform.position, targetObject.transform.position);
@@ -127,6 +133,20 @@ public class Targeting : MonoBehaviour
         }
 
         _currentTarget = newClosestTarget;
+    }
+
+    //return true if enemy is clearly not the closest target, and distance calculation not needed
+    private bool CheckIfTargetCannotBeClosestTarget(GameObject target, float closestDist)
+    {
+        /*
+        Calculate manhattan x and z distances, if either of these is larger than the distance to the current closest target,
+        then there is zero chance the target is the closest target, and we can ignore it without calculating
+        euclidean distance
+        */
+        float distX = Mathf.Abs(transform.position.x - target.transform.position.x);
+        float distZ = Mathf.Abs(transform.position.x - target.transform.position.z);
+
+        return (distX >= closestDist + 0.01) || (distZ >= closestDist + 0.01);
     }
 
     //check if the given target object is the ordered target
