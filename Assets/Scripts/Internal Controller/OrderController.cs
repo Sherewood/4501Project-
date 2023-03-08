@@ -70,7 +70,7 @@ public class OrderController : MonoBehaviour
         Order chosenOrder = Order.ORDER_INVALID;
         List<string> unitTypes = DetermineSelectedUnitTypes();
 
-        List<Order> possibleOrders = _orderModel.GetValidOrders(true);
+        List<Order> possibleOrders = _orderModel.GetValidOrders(false);
 
         possibleOrders = _orderModel.GetValidOrdersForUnitTypes(possibleOrders, unitTypes);
 

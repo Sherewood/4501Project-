@@ -59,8 +59,8 @@ public class OrderModel : MonoBehaviour
         the same action as long as one is targetted and the other is untargeted, the action will mean different things depending on the situation
         Better way of doing this would be to just update the capability model to have one component map to multiple actions if needed, but this works for now...
         */
-        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { "" }, "", 1, new string[] { "construct" });
-        CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "constructionChain-2", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "constructionChain-end", 1, new string[] { "construct" });
 
         //evacuation order
         CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "", 1, new string[] { "evacuateCivies" });
@@ -188,7 +188,6 @@ public class OrderModel : MonoBehaviour
                     testedTarget = supportedTarget.Substring(4);
                     checkPerfectMatch = false;
                 }
-
                 //if the selected unit type matches a supported unit type, add the order to the list of supported orders.
                 if ((checkPerfectMatch && (String.Compare(testedTarget, targetUnitType) == 0))
                     || (String.Compare(testedTarget, 0, targetUnitType, 0, testedTarget.Length) == 0))
@@ -237,6 +236,12 @@ public class OrderModel : MonoBehaviour
 
     public string GetBestActionForOrder(Order chosenOrder, List<string> possibleActions)
     {
+        //if invalid, no action is best action
+        if(chosenOrder == Order.ORDER_INVALID)
+        {
+            return "";
+        }
+
         List<string> orderActions = _orderActions[chosenOrder];
 
         string bestAction = "";
