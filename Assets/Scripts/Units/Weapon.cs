@@ -70,7 +70,7 @@ public class Weapon : MonoBehaviour
 
         //TODO: spawn projectile and direct it towards target
 
-        GameObject newProjectile = Instantiate(projectilePrefab, gameObject.transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectilePrefab, gameObject.transform.position + FiringOffset, Quaternion.identity);
         newProjectile.GetComponent<Projectile>()._target = target;
         newProjectile.GetComponent<Projectile>()._weaponType = WeaponType;
         newProjectile.GetComponent<Projectile>()._unitAllegiance = GetComponent<UnitInfo>().UnitType.Split("-")[0];

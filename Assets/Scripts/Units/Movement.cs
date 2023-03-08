@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour
     //true when unit is moving towards destination
     private bool _moving;
 
+    private Quaternion _targetRotation;
+
     
     //point to return to when ordered to head back
     private Vector3 _returnPoint;
@@ -65,6 +67,8 @@ public class Movement : MonoBehaviour
         StartCoroutine(RotationHandler());
 
         StartCoroutine(UpdateDynamicDestination());
+
+        _targetRotation = Quaternion.identity;
     
     }
 
@@ -105,7 +109,12 @@ public class Movement : MonoBehaviour
                 //report to interested parties that destination has been reached
                 DestinationReachedEvent.Invoke();
             }
-        } 
+        }
+
+        if (_targetRotation != Quaternion.identity)
+        {
+            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+        }
     }
 
 
@@ -265,6 +274,7 @@ public class Movement : MonoBehaviour
             //if nothing to rotate towards, skip
             if (target == Vector3.zero)
             {
+                _targetRotation = Quaternion.identity;
                 yield return null;
                 continue;
             }
@@ -272,11 +282,11 @@ public class Movement : MonoBehaviour
             Vector3 direction = Vector3.Normalize(target - transform.position);
 
             //determine the target rotation
-            Quaternion rotation = new Quaternion();
-            rotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
+            _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
 
             //rotate the rigidbody
-            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, TurnRate * Time.deltaTime));
+            //disabled because of bugginess, doing it in FixedUpdate instead aswell
+            //_rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, TurnRate * Time.deltaTime));
 
             yield return null;
         }
