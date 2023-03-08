@@ -91,6 +91,10 @@ public class Attack : MonoBehaviour
         //if weapon can be fired, fire it by creating a projectile object
         if (_weapon.IsWeaponReadyToFire(distanceToTarget))
         {
+            if(_currentTarget == null)
+            {
+                Debug.Log("???");
+            }
             _weapon.FireWeapon(_currentTarget);
         }
     }

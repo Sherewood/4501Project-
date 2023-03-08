@@ -46,6 +46,15 @@ public class UnitController : MonoBehaviour
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
                     unitMovement.SetOrderedDestination(target.point);
                     break;
+                case "attack":
+                    //order unit to move towards enemy, and set enemy as ordered target
+                    unitMovement = selectedUnit.GetComponent<Movement>();
+                    Targeting unitTargeting = selectedUnit.GetComponent<Targeting>();
+                    //move to enemy, not rotation only
+                    unitMovement.SetDynamicOrderedDestination(target.collider.gameObject.transform, false);
+                    //set ordered target
+                    unitTargeting.SetOrderedTarget(target.collider.gameObject);
+                    break;
                 case "harvest":
                     unitMovement = selectedUnit.GetComponent<Movement>();
                     Harvesting unitHarvester = selectedUnit.GetComponent<Harvesting>();

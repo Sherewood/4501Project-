@@ -8,6 +8,7 @@ using UnityEngine;
 public enum Order
 {
     ORDER_MOVE,
+    ORDER_ATTACK,
     ORDER_HARVEST,
     //ORDER_SELECT_BUILDING and ORDER_CONSTRUCT are both for construction
     ORDER_SELECT_BUILDING,
@@ -49,6 +50,9 @@ public class OrderModel : MonoBehaviour
 
         //movement order
         CreateOrder(Order.ORDER_MOVE, new string[] { "all-player-dynamic" }, new string[] { "Terrain" }, "", 1, new string[] { "move" });
+
+        //attack order
+        CreateOrder(Order.ORDER_ATTACK, new string[] { "all-player-dynamic-military" }, new string[] { "all-enemy" }, "", 1, new string[] { "attack" });
 
         //harvesting order
         CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", 1, new string[] { "harvest" });

@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 1908906224660062116}
   - component: {fileID: 8002568013237805364}
   - component: {fileID: 4501107182978088550}
-  - component: {fileID: -9093275058762527352}
   - component: {fileID: -3591988926872422665}
   m_Layer: 0
   m_Name: Test Unit
@@ -124,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: neutral-test
+  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!54 &1908906224660062116
 Rigidbody:
@@ -176,25 +176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7560fbecf40fad04da88e5c72bab1db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DestinationReachedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   Speed: 2
   TurnRate: 15
---- !u!114 &-9093275058762527352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7910979562441037367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AutoDetectRange: 3
-  FullDetectRange: 15
-  TargetAllegiances:
-  - neutral
-  - player
 --- !u!114 &-3591988926872422665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,5 +194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  _actualHealth: 0
   BaseDefense: 25
   FortifyDefenseBonus: 0

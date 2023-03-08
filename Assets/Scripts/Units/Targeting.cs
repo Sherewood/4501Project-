@@ -129,6 +129,7 @@ public class Targeting : MonoBehaviour
         //finally, if the ordered target is currently being targetted, do not switch
         if (IsOrderedTarget(_currentTarget))
         {
+
             return;
         }
 

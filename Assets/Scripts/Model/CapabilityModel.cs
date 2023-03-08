@@ -44,6 +44,8 @@ public class CapabilityModel : MonoBehaviour
 
         //movement component -> move capability
         CreateCapabilityMapping("movement", "move", new List<string>(), "Unit can move!", true, new List<string>());
+        //attack component -> attack capability
+        CreateCapabilityMapping("attack", "attack", new List<string>(), "Unit can attack!", true, new List<string>());
         //harvester component -> harvest capability
         CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
         //construction component -> construct capability
