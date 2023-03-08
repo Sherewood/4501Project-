@@ -68,6 +68,8 @@ public class Targeting : MonoBehaviour
     {
         Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);
 
+        Debug.Log("Num enemies: " + enemiesInRange.Length);
+
         //if no enemies in range, clear the current target unless it is the ordered target
         //or it is still in detection range (if using shorter than max range for this DetermineTarget call this is possible)
         if (enemiesInRange.Length == 0)
@@ -112,6 +114,7 @@ public class Targeting : MonoBehaviour
             //if target cannot be closest target, skip it 
             if (CheckIfTargetCannotBeClosestTarget(targetObject, newClosestDistance))
             {
+                Debug.Log("triggered this");
                 continue;
             }
 
@@ -126,10 +129,12 @@ public class Targeting : MonoBehaviour
             }
         }
 
+        if (newClosestTarget != null) {
+            Debug.Log("closest position: " + newClosestTarget.transform.position.x + "," + newClosestTarget.transform.position.y + "," + newClosestTarget.transform.position.z);
+        }
         //finally, if the ordered target is currently being targetted, do not switch
         if (IsOrderedTarget(_currentTarget))
         {
-
             return;
         }
 

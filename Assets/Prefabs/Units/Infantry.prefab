@@ -2300,7 +2300,7 @@ GameObject:
   - component: {fileID: -4550738999899031446}
   - component: {fileID: -2791979558073093744}
   - component: {fileID: 4600160231310051482}
-  - component: {fileID: 3863732215764057261}
+  - component: {fileID: -2730881971866878755}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Untagged
@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 3
+  AutoDetectRange: 10
   FullDetectRange: 15
   TargetAllegiances:
   - enemy
@@ -2460,8 +2460,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &3863732215764057261
-MeshCollider:
+--- !u!65 &-2730881971866878755
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2478,10 +2478,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1263159464433539157, guid: 32089f1b7de34d0459bc4b790f0ef453, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 2, z: 0.8}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8817898888258712963
 GameObject:
   m_ObjectHideFlags: 0
