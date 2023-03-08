@@ -12,16 +12,29 @@ public class DestinationReachedEvent : UnityEvent { }
 
 /* Note: Movement method will have to be updated for advanced prototype (And final deliverable!) */
 
-
+//this whole component should be nuked from orbit tbh, what in gods name have I done, TIL having a proper state machine is important
 
 public class Movement : MonoBehaviour
 {
     /* callbacks */
     public DestinationReachedEvent DestinationReachedEvent;
 
+    //destination (lower priority)
     private Vector3 _destination;
+    //destination (high priority)
     private Vector3 _orderedDestination;
+
+    //destination which changes over time (due to the unit associated with the Transform object moving)
+    private Transform _dynamicDestination;
+
+    //true if dynamic destination is ordered
+    private bool _isDynamicDestOrdered;
+
+    //true when unit is moving towards destination
     private bool _moving;
+
+    
+    //point to return to when ordered to head back
     private Vector3 _returnPoint;
 
     private Rigidbody _rigidBody;
@@ -41,38 +54,51 @@ public class Movement : MonoBehaviour
         _moving = false;
         _returnPoint = new Vector3();
 
+        _dynamicDestination = null;
+        _isDynamicDestOrdered = false;
+
         _rigidBody = GetComponent<Rigidbody>();
 
         _unitState = GetComponent<UnitState>();
+
+        //start up coroutines
+        StartCoroutine(RotationHandler());
+
+        StartCoroutine(UpdateDynamicDestination());
+    
     }
 
-    void Update()
+    void OnDestroy()
+    {
+        StopCoroutine(RotationHandler());
+        StopCoroutine(UpdateDynamicDestination());
+    }
+
+    //moved to fixedupdate for better physics
+    void FixedUpdate()
     {
         if (_moving)
         {
-            //get direction and target position, and move towards the position
-            Vector3 direction = new Vector3();
-            Vector3 target = new Vector3();
-            //ordered destination overrides automatically determined destination
-            if (_orderedDestination != null)
+            //get target
+            Vector3 target = GetDestination();
+
+            //if nothing to move towards, stop.
+            if (target == Vector3.zero)
             {
-                direction = Vector3.Normalize(_orderedDestination - transform.position);
-                target = _orderedDestination;
-            }
-            else
-            {
-                direction = Vector3.Normalize(_destination - transform.position);
-                target = _destination;
+                return;
             }
 
+            Vector3 direction = Vector3.Normalize(target - transform.position);
+
+            //determine the target rotation
             Quaternion rotation = new Quaternion();
             rotation.SetFromToRotation(new Vector3(0,0,1),direction);
 
+            //lack of ease out leads to jittery physics from sudden stop? ease-in/out should help later....
             _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
-            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation,rotation,TurnRate*Time.deltaTime));
 
             //check if at destination
-            if (Vector3.Distance(transform.position, target) < 0.01f)
+            if (Vector3.Distance(transform.position, target) < 0.1f)
             {
                 //terminate movement if destination reached.
                 StopMovement();
@@ -80,6 +106,24 @@ public class Movement : MonoBehaviour
                 DestinationReachedEvent.Invoke();
             }
         } 
+    }
+
+
+
+    //helper for determining destination
+    private Vector3 GetDestination()
+    {
+        Vector3 target = new Vector3();
+        if (_orderedDestination != Vector3.zero)
+        {
+            target = _orderedDestination;
+        }
+        else if(_destination != Vector3.zero)
+        {
+            target = _destination;
+        }
+
+        return target;
     }
 
     //set ordered destination - should usually be from player command
@@ -91,6 +135,56 @@ public class Movement : MonoBehaviour
         if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
+        }
+    }
+
+    //set destination - not specifically ordered so can be overridden by ordered destination
+    public void SetDestination(Vector3 destination)
+    {
+        _destination = destination;
+        _moving = true;
+
+        if (ShouldChangeToMoveState())
+        {
+            _unitState.SetState(UState.STATE_MOVING);
+        }
+    }
+
+    /* set destination methods for dynamic destinations */
+
+    //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
+    public void SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly)
+    {
+        _dynamicDestination = dynamicDestination;
+
+        _isDynamicDestOrdered = true;
+
+        //only enter movement mode if rotateOnly is false.
+        if (!rotateOnly)
+        {
+            _moving = true;
+
+            if (ShouldChangeToMoveState())
+            {
+                _unitState.SetState(UState.STATE_MOVING);
+            }
+        }
+    }
+
+    public void SetDynamicDestination(Transform dynamicDestination, bool rotateOnly)
+    {
+        _dynamicDestination = dynamicDestination;
+
+        _isDynamicDestOrdered = false;
+
+        if (!rotateOnly)
+        {
+            _moving = true;
+
+            if (ShouldChangeToMoveState())
+            {
+                _unitState.SetState(UState.STATE_MOVING);
+            }
         }
     }
 
@@ -114,17 +208,7 @@ public class Movement : MonoBehaviour
         _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
     }
 
-    //set destination - not specifically ordered so can be overridden by ordered destination
-    public void SetDestination(Vector3 destination)
-    {
-        _destination = destination;
-        _moving = true;
-
-        if (ShouldChangeToMoveState())
-        {
-            _unitState.SetState(UState.STATE_MOVING);
-        }
-    }
+    
 
     //set point to return to
     public void SetReturnPoint(Vector3 returnPoint)
@@ -150,7 +234,9 @@ public class Movement : MonoBehaviour
         //todo: more handling needed for reaching destination
         _orderedDestination = new Vector3();
         _destination = new Vector3();
+        _dynamicDestination = null;
         _moving = false;
+        _isDynamicDestOrdered = false;
 
         if (_unitState.GetState() == UState.STATE_MOVING)
         {
@@ -166,7 +252,60 @@ public class Movement : MonoBehaviour
         return (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
     }
 
+    /* Coroutines */
+
+    //handle rotation separately from movement, so it can be done without being in a moving state if needed
+    //to likely be replaced long term
+    IEnumerator RotationHandler()
+    {
+        while (true)
+        {
+            Vector3 target = GetDestination();
+
+            //if nothing to rotate towards, skip
+            if (target == Vector3.zero)
+            {
+                yield return null;
+                continue;
+            }
+
+            Vector3 direction = Vector3.Normalize(target - transform.position);
+
+            //determine the target rotation
+            Quaternion rotation = new Quaternion();
+            rotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
+
+            //rotate the rigidbody
+            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, TurnRate * Time.deltaTime));
+
+            yield return null;
+        }
+    }
+
+    //handle updating destination using dynamic destination
+    IEnumerator UpdateDynamicDestination()
+    {
+        while (true)
+        {
+            if(_dynamicDestination == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            //update the respective destination vector to match the dynamic destination
+            if (_isDynamicDestOrdered)
+            {
+                _orderedDestination = _dynamicDestination.position;
+            }
+            else
+            {
+                _destination = _dynamicDestination.position;
+            }
 
 
+            yield return null;
+        }
+    }
 
 }
