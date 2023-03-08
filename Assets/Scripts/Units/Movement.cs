@@ -105,7 +105,7 @@ public class Movement : MonoBehaviour
             if (Vector3.Distance(transform.position, target) < 0.1f)
             {
                 //terminate movement if destination reached.
-                StopMovement();
+                StopMovement(true);
                 //report to interested parties that destination has been reached
                 DestinationReachedEvent.Invoke();
             }
@@ -237,15 +237,26 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //cease all movement
-    public void StopMovement()
+    //cease all movement, or just unordered movement if stopOrderedMovement = false
+    public void StopMovement(bool stopOrderedMovement)
     {
-        //todo: more handling needed for reaching destination
-        _orderedDestination = new Vector3();
+        Debug.Log("StopOrderedMovement: " + stopOrderedMovement);
+        if (stopOrderedMovement)
+        {
+            _orderedDestination = new Vector3();
+            _isDynamicDestOrdered = false;
+        }
         _destination = new Vector3();
-        _dynamicDestination = null;
-        _moving = false;
-        _isDynamicDestOrdered = false;
+        //only stop moving to dynamic destination if supposed to stop ordered movement, and/or the dynamic destination was not ordered.
+        if (stopOrderedMovement || !_isDynamicDestOrdered)
+        {
+            _dynamicDestination = null;
+        }
+        //only stop the movement in general if supposed to stop ordered movement, and/or there is no ordered movement
+        if (stopOrderedMovement || _orderedDestination == Vector3.zero)
+        {
+            _moving = false;
+        }
 
         if (_unitState.GetState() == UState.STATE_MOVING)
         {

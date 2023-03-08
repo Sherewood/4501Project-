@@ -385,6 +385,18 @@ PrefabInstance:
       propertyPath: TurnRate
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: FiringOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: FiringOffset.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: AutoDetectRange
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: TargetAllegiances.Array.size
       value: 2

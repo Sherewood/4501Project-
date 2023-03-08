@@ -133,7 +133,7 @@ public class Attack : MonoBehaviour
             case UState.STATE_ATTACKING:
                 //if attacking - stop moving and return to idle state
                 _unitState.SetState(UState.STATE_IDLE);
-                _movement.StopMovement();
+                _movement.StopMovement(false);
                 break;
             case UState.STATE_GUARDING:
                 //if guarding - return to guard position
@@ -208,7 +208,7 @@ public class Attack : MonoBehaviour
     {
         _targetInRange = true;
         //stop prior movement, resume targetting, but only rotate towards it now.
-        _movement.StopMovement();
+        _movement.StopMovement(false);
         _movement.SetDynamicDestination(_currentTarget.transform, true);
     }
 
