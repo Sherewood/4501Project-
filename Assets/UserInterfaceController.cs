@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,19 @@ public class UserInterfaceController : MonoBehaviour
     public GameObject UnitInfo;
     public GameObject AbilPrefab;
     public List<Sprite> AbilityIcons;
+    public List<Sprite> BuildIcons;
     //copied from the selection controller 
-
+    //selections variables 
     private List<GameObject> _selectedUnits;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
+    private Dictionary<string, UIEvTrigger> _constructDisplay;
+    //Unity GameObject 
     private CapabilityController _capabilityController;
     public Material tracker;
     private DisplayInfoController  component;
     public List<GameObject> buttonlist;
-
+    public GameObject resourceText;
+    public List<GameObject> BuildOptions;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,12 +38,26 @@ public class UserInterfaceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // clearing function above
+        // Gets a selected unit+ it's actions
         _selectedUnits = component.GetSelectedUnits();
         _selectedUnitCapabilities = component.GetSelectedUnitActions();
-
-        if (_selectedUnits.Count >0) displayUnit();
-
+        component.DisplayAdditionalInfo("construct");
+        _constructDisplay = component.GetAdditionalMenuInfo();
+        //Updating the resources panel
+        List<string> check = new List<string>() { "minerals", "fuel" };
+        Dictionary<string, int> curResources= component.GetPlayerResources(check);
+        string resourcePrint = "";
+        foreach (KeyValuePair<string,int> res in curResources)
+        {
+            resourcePrint+= res.Value.ToString()+"x"+res.Key+"  ";
+        }
+        resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = resourcePrint;
+        //Displaying selected units 
+        if (_selectedUnits.Count > 0)
+        {
+            displayUnit(); //loads the unit info+abilities 
+            displayBuildOptions(); //Loads all possible building capabilities 
+        }
 
     }
     void displayUnit()
@@ -54,19 +73,48 @@ public class UserInterfaceController : MonoBehaviour
         
         foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
         {
-            
-            AbilPrefab.GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            foreach(Sprite sp in AbilityIcons)
-            {
-                if (sp.name== ability.Key)
+
+            buttonlist[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+                foreach(Sprite sp in AbilityIcons)
                 {
-                    AbilPrefab.GetComponent<UiAbilties>().Icon.Equals(sp);
+
+                    if (sp.name.Equals(ability.Key))
+                    {
+
+                        buttonlist[i].GetComponent<UiAbilties>().Icon= sp;
+
+                        break;
+                    }
+                }
+            
+
+            i++;
+            
+        }
+    }
+    private void displayBuildOptions()
+    {
+        int i = 0;
+        
+        foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
+        {
+
+            BuildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+            Debug.Log("AHHHHHH"+ability.Key);
+            foreach (Sprite sp in BuildIcons)
+            {
+
+                if (sp.name.Equals(ability.Key))
+                {
+                    Debug.Log("whiump");
+                    BuildOptions[i].GetComponent<UiAbilties>().Icon = sp;
                     break;
                 }
             }
-            
-            buttonlist[i] = AbilPrefab;
-            //Debug.Log(ability.Key);
+
+
+            i++;
+
         }
     }
 }
