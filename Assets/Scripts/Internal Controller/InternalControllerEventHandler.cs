@@ -114,6 +114,10 @@ public class InternalControllerEventHandler : MonoBehaviour
             //usage might need to be revisited when we test MenuSelectionEvents/get Display Info Controllers
             _displayInfoController.ClearAdditionalInfo();
         }
+        else
+        {
+            Debug.LogWarning("Invalid Order received from prior mouse order event.");
+        }
     }
 
     //handle command given by UI action
@@ -129,6 +133,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         if (order != Order.ORDER_INVALID)
         {
             _unitController.HandleUntargetedOrder(order, command);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid Order received from prior UI order event.");
         }
     }
 
