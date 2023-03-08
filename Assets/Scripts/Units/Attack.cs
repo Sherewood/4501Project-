@@ -151,6 +151,11 @@ public class Attack : MonoBehaviour
             case UState.STATE_GUARDING:
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
+                _movement.SetDynamicDestination(newTarget.transform, false);
+                break;
+            case UState.STATE_FORTIFIED:
+                //fortify state: turn towards unit, but do not move towards it
+                _movement.SetDynamicDestination(newTarget.transform, true);
                 break;
             default:
                 //else, no action needed here
@@ -191,7 +196,9 @@ public class Attack : MonoBehaviour
 
     private void HandleEnteredAttackRange()
     {
+        //stop prior movement, resume targetting, but only rotate towards it now.
         _movement.StopMovement();
+        _movement.SetDynamicDestination(_currentTarget.transform, true);
     }
 
     private void HandleLeftAttackRange()
@@ -206,6 +213,7 @@ public class Attack : MonoBehaviour
             case UState.STATE_GUARDING:
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
+                _movement.SetDynamicDestination(_currentTarget.transform, false);
                 break;
             default:
                 //else, no action needed here
@@ -213,6 +221,7 @@ public class Attack : MonoBehaviour
         }
     }
 
+    //unused method...
     private void HandleFiring()
     {
         //use weapon component to get projectile spawned and fired towards target
