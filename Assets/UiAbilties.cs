@@ -19,6 +19,7 @@ public class UiAbilties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.GetComponent<Image>().sprite = Icon;
         
     }
     public void setTrigger((string, UIEvTrigger) odio)
