@@ -106,7 +106,7 @@ public class UserInterfaceController : MonoBehaviour
 
                 if (sp.name.Equals(ability.Key))
                 {
-
+                    Debug.Log("whiump");
                     BuildOptions[i].GetComponent<UiAbilties>().Icon = sp;
                     break;
                 }
