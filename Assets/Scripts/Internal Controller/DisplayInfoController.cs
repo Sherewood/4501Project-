@@ -105,7 +105,7 @@ public class DisplayInfoController : MonoBehaviour
 
     /* event handling */
 
-    public void DisplayAdditionalInfo(string command)
+    public void UpdateAdditionalDisplayInfo(string command)
     {
 
         /*
@@ -134,10 +134,10 @@ public class DisplayInfoController : MonoBehaviour
 
             UnitInfo selectedUnitInfo = selectedUnit.GetComponent<UnitInfo>();
 
-            if (selectedUnitInfo.DoesUnitHaveComponent("Construction")==false)
+            if (!selectedUnitInfo.DoesUnitHaveComponent("construction"))
             {
                 Debug.LogError("Got construction command, but selected unit does not have construction component. Should not happen.");
-                //return;
+                return;
             }
 
             Construction unitConstructionComp = selectedUnit.GetComponent<Construction>();

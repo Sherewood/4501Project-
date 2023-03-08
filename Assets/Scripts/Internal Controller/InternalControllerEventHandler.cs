@@ -119,7 +119,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle command given by UI action
     public void HandleUIOrderEvent(string command)
     {
-        Debug.Log("UI order event received");
+        Debug.Log("UI order event received, command " + command);
 
         //event chain can influence determined order, therefore must be determined first.
         _eventChainController.HandleEventChainUIEventUpdate("UIOrder", command);
@@ -141,7 +141,7 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController.HandleEventChainUIEventUpdate("menuSelection", command);
 
         //display info controller will find additional information to display based on the command.
-        _displayInfoController.DisplayAdditionalInfo(command);
+        _displayInfoController.UpdateAdditionalDisplayInfo(command);
     }
 
     //handle indication of direction from key presses
