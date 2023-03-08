@@ -9,19 +9,23 @@ public class Projectile : MonoBehaviour
     public string _unitAllegiance;
     public float _damage;
 
-    private int speed;
+    private float speed;
     private float initialDistance;
     private float creationTime;
+    private float enemyAngle;
+    private Vector3 originalPos;
     // Start is called before the first frame update
     void Start()
     {
-        speed = 25;
+        speed = 25.0f;
         initialDistance = Vector3.Distance(transform.position, _target.transform.position);
         creationTime = Time.time;
         //offset so that melee swing begins left of the attacker and ~1 unit out
         if(string.Compare(_weaponType, "melee") == 0)
         {
-            transform.position += Vector3.Cross(_target.transform.position - transform.position, Vector3.up).normalized;
+            speed = speed * 4.0f / 5.0f;
+            enemyAngle = Mathf.Atan2(transform.position.x - _target.transform.position.x, transform.position.z - _target.transform.position.z);
+            transform.position += Vector3.Scale(Vector3.Cross(_target.transform.position - transform.position, Vector3.up).normalized, new Vector3(1.3f, 1.3f, 1.3f));
         }
     }
 
@@ -35,9 +39,9 @@ public class Projectile : MonoBehaviour
         if (string.Compare(_weaponType, "melee") == 0)
         {
             //melee swings from left of the attacker as a semi-circle passing through the front to the right side
-            transform.position += new Vector3(Mathf.Sin((Time.time - creationTime - Mathf.PI/2) * speed) * speed * Time.deltaTime, 0, Mathf.Cos((Time.time - creationTime - Mathf.PI / 2) * speed) * speed * Time.deltaTime);
-            //could be changed to be based on position, will mess up if speed changes
-            if (Time.time - creationTime > 0.13)
+            transform.position += new Vector3(Mathf.Cos(-((Time.time - creationTime) * speed + Mathf.PI / 2 + enemyAngle)) * Time.deltaTime * speed * 1.3f, 0, Mathf.Sin(-((Time.time - creationTime) * speed + Mathf.PI / 2 + enemyAngle)) * Time.deltaTime * speed * 1.3f);
+            //could be changed to be based on position
+            if (Time.time - creationTime > 3.0f / speed)
             {
                 _target.GetComponent<Health>().TakeDamage(_damage);
                 Destroy(gameObject);
