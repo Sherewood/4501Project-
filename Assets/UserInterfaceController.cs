@@ -26,12 +26,19 @@ public class UserInterfaceController : MonoBehaviour
     public List<GameObject> buttonlist;
     public GameObject resourceText;
     public List<GameObject> BuildOptions;
+    public Sprite def;//default sprite for tabs
+    public GameObject Evac_button;
+    
     // Start is called before the first frame update
     void Start()
     {
         InternalController = GameObject.Find("InternalController");
         component= InternalController.GetComponent<DisplayInfoController>();
-       
+        component.UpdateAdditionalDisplayInfo("construct");
+        Evac_button.GetComponent<UiAbilties>().setTrigger(("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER));
+        
+
+
 
     }
 
@@ -42,6 +49,7 @@ public class UserInterfaceController : MonoBehaviour
         _selectedUnits = component.GetSelectedUnits();
         _selectedUnitCapabilities = component.GetSelectedUnitActions();
         _constructDisplay = component.GetAdditionalMenuInfo();
+        
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel" };
         Dictionary<string, int> curResources= component.GetPlayerResources(check);
@@ -56,6 +64,11 @@ public class UserInterfaceController : MonoBehaviour
         {
             displayUnit(); //loads the unit info+abilities 
             displayBuildOptions(); //Loads all possible building capabilities 
+        }
+        else
+        {
+            
+            Clear();
         }
 
     }
@@ -93,19 +106,22 @@ public class UserInterfaceController : MonoBehaviour
     private void displayBuildOptions()
     {
         int i = 0;
-        
+        component.UpdateAdditionalDisplayInfo("construct");
+        //Debug.Log("Certified Crumper");
         foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
         {
 
             BuildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            Debug.Log("AHHHHHH"+ability.Key);
+            BuildOptions[i].GetComponent<UiAbilties>().TurnOnMenuEvent();
+            
             foreach (Sprite sp in BuildIcons)
             {
 
                 if (sp.name.Equals(ability.Key))
                 {
-                    Debug.Log("whiump");
+                    
                     BuildOptions[i].GetComponent<UiAbilties>().Icon = sp;
+                    
                     break;
                 }
             }
@@ -113,6 +129,17 @@ public class UserInterfaceController : MonoBehaviour
 
             i++;
 
+        }
+    }
+    private void Clear()
+    {
+        for (int i = 0; i < buttonlist.Count; i++)
+        {
+            buttonlist[i].GetComponent<UiAbilties>().Icon= def;
+        }
+        for (int i = 0; i < BuildOptions.Count; i++)
+        {
+            BuildOptions[i].GetComponent<UiAbilties>().Icon=def;
         }
     }
 }
