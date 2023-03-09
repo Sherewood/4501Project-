@@ -126,6 +126,7 @@ public class DisplayInfoController : MonoBehaviour
 
             if(selectedUnits.Count != 1)
             {
+                
                 Debug.LogError("Got construction command, but selected unit count != 1. Should not happen.");
                 return;
             }
@@ -136,7 +137,8 @@ public class DisplayInfoController : MonoBehaviour
 
             if (!selectedUnitInfo.DoesUnitHaveComponent("construction"))
             {
-                Debug.LogError("Got construction command, but selected unit does not have construction component. Should not happen.");
+                
+               // Debug.LogError("Got construction command, but selected unit does not have construction component. Should not happen.");
                 return;
             }
 
