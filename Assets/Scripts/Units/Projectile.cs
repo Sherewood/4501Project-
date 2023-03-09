@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
             //could be changed to be based on position
             if (Time.time - creationTime > 3.0f / speed)
             {
-                _target.GetComponent<Health>().TakeDamage(_damage);
+                DealDamage(_target);
                 Destroy(gameObject);
             }
         }
@@ -54,7 +54,7 @@ public class Projectile : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, step);
             if (currentDistance < 0.01f)
             {
-                _target.GetComponent<Health>().TakeDamage(_damage);
+                DealDamage(_target);
                 Destroy(gameObject);
             }
         }
@@ -75,14 +75,27 @@ public class Projectile : MonoBehaviour
                     GameObject currentObject = hitCollider.gameObject;
                     if (currentObject.GetComponent<Health>() != null)
                     {
-                        if (string.Compare(currentObject.GetComponent<UnitInfo>().UnitType.Split("-")[0], _unitAllegiance) != 0)
+                        if (string.Compare(currentObject.GetComponent<UnitInfo>().GetAllegiance(), _unitAllegiance) != 0)
                         {
-                            currentObject.GetComponent<Health>().TakeDamage(_damage);
+                            DealDamage(currentObject);
                         }
                     }
                 }
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void DealDamage(GameObject target)
+    {
+        Health healthComponent = target.GetComponent<Health>();
+
+        if (healthComponent == null)
+        {
+            Debug.LogWarning("Projectile hit target with no health component. Should not happen in normal gameplay!");
+            return;
+        }
+
+        healthComponent.TakeDamage(_damage);
     }
 }
