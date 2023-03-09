@@ -11,9 +11,14 @@ public class Attack : MonoBehaviour
     private Movement _movement;
     private Weapon _weapon;
 
+    //the target, as determined by the targeting component
     private GameObject _currentTarget;
 
+    //true if target was in range as of the last frame
     private bool _targetInRange;
+
+    //true if ordered movement is overriding the commands of the attack component
+    private bool _orderedMovementOngoing;
 
 
     // Start is called before the first frame update
@@ -33,6 +38,16 @@ public class Attack : MonoBehaviour
     void Update()
     {
         GameObject latestTarget = UpdateTarget();
+
+        //check if ordered movement that overrode command has ceased.
+        //if so, reset locally stored information to re-trigger any relevant handling
+        if (_orderedMovementOngoing && !_movement.IsOrderedMovementInProgress())
+        {
+            _orderedMovementOngoing = false;
+            _currentTarget = null;
+            _targetInRange = false;
+        }
+
         //target changed
         if(_currentTarget != latestTarget)
         {
@@ -122,6 +137,8 @@ public class Attack : MonoBehaviour
         return latestTarget;
     }
 
+    /* State transitions/behaviour triggered by component */
+
     //handle loss of target
     private void HandleTargetLoss()
     {
@@ -146,6 +163,9 @@ public class Attack : MonoBehaviour
                 //other states - do nothing :) (don't want the attacking component randomly interrupting movement state, for example)
                 break;
         }
+
+        CheckIfOrderedMovementOverridesCommand();
+
         _currentTarget = null;
     }
 
@@ -172,36 +192,10 @@ public class Attack : MonoBehaviour
                 break;
         }
 
+        CheckIfOrderedMovementOverridesCommand();
+
         //might want to move this into switch statement (ignore new target if not in relevant state)
         _currentTarget = newTarget;
-    }
-
-    //return true if enemy is clearly out of range, and distance calculation is not needed
-    private bool CheckIfEnemyFarOutOfRange()
-    {
-        /*
-        Calculate manhattan x and z distances, if either of these is larger than the radius of
-        the weapon, then there is zero chance the enemy is within range of the weapon, and we do not
-        need to calculate euclidean distance
-        */
-        float distX = Mathf.Abs(transform.position.x - _currentTarget.transform.position.x);
-        float distZ = Mathf.Abs(transform.position.x - _currentTarget.transform.position.z);
-
-        return (distX >= _weapon.MaxRange + 0.01) || (distZ >= _weapon.MaxRange + 0.01);
-    }
-
-    //check if weapon is in range of enemy
-    private bool CheckIfInRange(float distance)
-    {
-        //use weapon component
-        return _weapon.IsWeaponInRange(distance);
-    }
-
-    //check if weapon is ready to fire
-    private bool CheckIfReadyToFire(float distance)
-    {
-        //use weapon component
-        return _weapon.IsWeaponReadyToFire(distance);
     }
 
     private void HandleEnteredAttackRange()
@@ -210,6 +204,8 @@ public class Attack : MonoBehaviour
         //stop prior movement, resume targetting, but only rotate towards it now.
         _movement.StopMovement(false);
         _movement.SetDynamicDestination(_currentTarget.transform, true);
+
+        CheckIfOrderedMovementOverridesCommand();
     }
 
     private void HandleLeftAttackRange()
@@ -230,7 +226,50 @@ public class Attack : MonoBehaviour
                 //else, no action needed here
                 break;
         }
+
+        CheckIfOrderedMovementOverridesCommand();
     }
+
+    /* condition checking helpers */
+
+    //return true if enemy is clearly out of range, and distance calculation is not needed
+    private bool CheckIfEnemyFarOutOfRange()
+    {
+        /*
+        Calculate manhattan x and z distances, if either of these is larger than the radius of
+        the weapon, then there is zero chance the enemy is within range of the weapon, and we do not
+        need to calculate euclidean distance
+        */
+        float distX = Mathf.Abs(transform.position.x - _currentTarget.transform.position.x);
+        float distZ = Mathf.Abs(transform.position.x - _currentTarget.transform.position.z);
+
+        return (distX >= _weapon.MaxRange + 0.01) || (distZ >= _weapon.MaxRange + 0.01);
+    }
+
+    //to be called after attack component issues a command
+    private void CheckIfOrderedMovementOverridesCommand()
+    {
+        if (_movement.IsOrderedMovementInProgress())
+        {
+            _orderedMovementOngoing = true;
+        }
+    }
+
+    //check if weapon is in range of enemy
+    private bool CheckIfInRange(float distance)
+    {
+        //use weapon component
+        return _weapon.IsWeaponInRange(distance);
+    }
+
+    //check if weapon is ready to fire
+    private bool CheckIfReadyToFire(float distance)
+    {
+        //use weapon component
+        return _weapon.IsWeaponReadyToFire(distance);
+    }
+
+    /* dead code that I will forget to remove from the submission */
 
     //unused method...
     private void HandleFiring()

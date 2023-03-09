@@ -19,9 +19,9 @@ public class Movement : MonoBehaviour
     /* callbacks */
     public DestinationReachedEvent DestinationReachedEvent;
 
-    //destination (lower priority)
+    //destination (lower priority - via the object itself)
     private Vector3 _destination;
-    //destination (high priority)
+    //destination (high priority - via player command)
     private Vector3 _orderedDestination;
 
     //destination which changes over time (due to the unit associated with the Transform object moving)
@@ -262,6 +262,12 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_IDLE);
         }
+    }
+
+    //returns true if the movement component is currently carrying out ordered movement
+    public bool IsOrderedMovementInProgress()
+    {
+        return (_orderedDestination != Vector3.zero);
     }
 
     //return true if based on the current state, the state should transition to "MOVING"
