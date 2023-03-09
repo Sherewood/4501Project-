@@ -114,7 +114,6 @@ public class Targeting : MonoBehaviour
             //if target cannot be closest target, skip it 
             if (CheckIfTargetCannotBeClosestTarget(targetObject, newClosestDistance))
             {
-                Debug.Log("triggered this");
                 continue;
             }
 
