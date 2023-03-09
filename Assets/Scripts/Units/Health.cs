@@ -86,6 +86,11 @@ public class Health : MonoBehaviour
         return false;
     }
 
+    public float GetUnitHealth()
+    {
+        return _actualHealth;
+    }
+
     //self explanatory
     public void TakeDamage(float damage)
     {

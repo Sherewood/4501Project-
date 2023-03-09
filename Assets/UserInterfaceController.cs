@@ -73,11 +73,23 @@ public class UserInterfaceController : MonoBehaviour
     }
     void displayUnit()
     {
-           
-            //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
-            UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
-            UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<Health>()._actualHealth.ToString()+ "/"+ _selectedUnits[0].GetComponent<Health>().MaxHealth.ToString(); //need a way to get health 
-             UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = component.GetUnitIcon(_selectedUnits[0].GetComponent<UnitInfo>().UnitType);
+
+        //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
+
+        UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
+        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = component.GetUnitIcon(_selectedUnits[0].GetComponent<UnitInfo>().UnitType);
+
+        //need a way to get health 
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
+        if (unitHealthComp != null)
+        {
+            healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
+        }
+        else
+        {
+            healthTextComp.text = "";
+        }
         //some really primitive attempt to place buttons from left to right
         //ability display. 
         int i = 0;
