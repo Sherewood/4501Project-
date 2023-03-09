@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: VanguardBodyMat
-    second: {fileID: 2100000, guid: 4d70eaa28c5642e498588afd302f8d1c, type: 2}
+    second: {fileID: 2100000, guid: cbf658ed14edc5a4987f28f0eb9160ae, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

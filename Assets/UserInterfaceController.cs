@@ -86,8 +86,13 @@ public class UserInterfaceController : MonoBehaviour
         foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
         {
             buttonlist[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-                foreach(Sprite sp in AbilityIcons)
+            
+            foreach (Sprite sp in AbilityIcons)
+            {
+                if (ability.Key == "construct")
                 {
+                    buttonlist[i].GetComponent<UiAbilties>().TurnOnMenuEvent();
+                }
 
                     if (sp.name.Equals(ability.Key))
                     {
@@ -106,7 +111,7 @@ public class UserInterfaceController : MonoBehaviour
     private void displayBuildOptions()
     {
         int i = 0;
-        component.UpdateAdditionalDisplayInfo("construct");
+       // component.UpdateAdditionalDisplayInfo("construct");
         //Debug.Log("Certified Crumper");
         foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
         {
