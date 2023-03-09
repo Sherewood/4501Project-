@@ -1008,6 +1008,14 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: Damage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: FiringArc
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: FiringOffset.x
       value: 0
       objectReference: {fileID: 0}

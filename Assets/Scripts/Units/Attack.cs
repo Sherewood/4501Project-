@@ -80,8 +80,10 @@ public class Attack : MonoBehaviour
             return;
         }
 
-        //get distance between target and player
-        float distanceToTarget = Vector3.Distance(transform.position , _currentTarget.transform.position);
+        //get distance between target and player, and direction from player to target
+        Vector3 playerToTarget = _currentTarget.transform.position - transform.position;
+        float distanceToTarget = playerToTarget.magnitude;
+        Vector3 targetDirection = playerToTarget / distanceToTarget;
 
         //weapon handling
 
@@ -106,12 +108,8 @@ public class Attack : MonoBehaviour
 
         //if weapon in range, check if weapon can be fired
         //if weapon can be fired, fire it by creating a projectile object
-        if (_weapon.IsWeaponReadyToFire(distanceToTarget))
+        if (CheckIfReadyToFire(distanceToTarget, targetDirection))
         {
-            if(_currentTarget == null)
-            {
-                Debug.Log("???");
-            }
             _weapon.FireWeapon(_currentTarget);
         }
     }
@@ -263,10 +261,10 @@ public class Attack : MonoBehaviour
     }
 
     //check if weapon is ready to fire
-    private bool CheckIfReadyToFire(float distance)
+    private bool CheckIfReadyToFire(float distance, Vector3 direction)
     {
         //use weapon component
-        return _weapon.IsWeaponReadyToFire(distance);
+        return _weapon.IsWeaponReadyToFire(distance, direction);
     }
 
     /* dead code that I will forget to remove from the submission */

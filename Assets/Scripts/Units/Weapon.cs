@@ -27,6 +27,9 @@ public class Weapon : MonoBehaviour
     [Tooltip("The offset from the character's position where the weapon is fired")]
     public Vector3 FiringOffset;
 
+    [Tooltip("The arc in which the weapon can be fired in degrees")]
+    public float FiringArc;
+
     //TODO: Add property for projectile used by the weapon when projectiles are ready
     public GameObject projectilePrefab;
 
@@ -59,9 +62,9 @@ public class Weapon : MonoBehaviour
     }
 
     //return true if weapon is able to fire, false otherwise
-    public bool IsWeaponReadyToFire(float distance)
+    public bool IsWeaponReadyToFire(float distance, Vector3 direction)
     {
-        return (_cooldown < 0) && (distance >= MinRange);
+        return (_cooldown < 0) && (distance >= MinRange) && IsWithinArc(direction);
     }
 
     //handles firing the weapon
@@ -89,5 +92,24 @@ public class Weapon : MonoBehaviour
         {
             _cooldown = BASE_COOLDOWN / FireRate;
         }
+    }
+
+    //check if target is within firing arc;
+    private bool IsWithinArc(Vector3 direction)
+    {
+        //get the quaternion between the direction the unit is facing and the direction to the target
+        Quaternion angle = Quaternion.FromToRotation(transform.forward, direction);
+
+        //might run into issues relying on this when unit is on a slope
+        float angleBetween = angle.eulerAngles.y;
+
+        //wrap around so angle is in range [-180,180]
+        if(angleBetween > 180)
+        {
+            angleBetween -= 360;
+        }
+
+        //if angle in range [-FiringArc/2,FiringArc/2], then target is within firing arc.
+        return Mathf.Abs(angleBetween) <= FiringArc/2;
     }
 }
