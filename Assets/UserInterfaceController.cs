@@ -34,7 +34,6 @@ public class UserInterfaceController : MonoBehaviour
     {
         InternalController = GameObject.Find("InternalController");
         component= InternalController.GetComponent<DisplayInfoController>();
-        component.UpdateAdditionalDisplayInfo("construct");
         Evac_button.GetComponent<UiAbilties>().setTrigger(("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER));
         
 
@@ -89,19 +88,15 @@ public class UserInterfaceController : MonoBehaviour
             
             foreach (Sprite sp in AbilityIcons)
             {
-                if (ability.Key == "construct")
+
+                if (sp.name.Equals(ability.Key))
                 {
-                    buttonlist[i].GetComponent<UiAbilties>().TurnOnMenuEvent();
+
+                    buttonlist[i].GetComponent<UiAbilties>().Icon= sp;
+
+                    break;
                 }
-
-                    if (sp.name.Equals(ability.Key))
-                    {
-
-                        buttonlist[i].GetComponent<UiAbilties>().Icon= sp;
-
-                        break;
-                    }
-                }
+            }
             
 
             i++;
@@ -111,13 +106,11 @@ public class UserInterfaceController : MonoBehaviour
     private void displayBuildOptions()
     {
         int i = 0;
-       // component.UpdateAdditionalDisplayInfo("construct");
-        //Debug.Log("Certified Crumper");
+
         foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
         {
 
             BuildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            BuildOptions[i].GetComponent<UiAbilties>().TurnOnMenuEvent();
             
             foreach (Sprite sp in BuildIcons)
             {

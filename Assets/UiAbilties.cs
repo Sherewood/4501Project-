@@ -32,12 +32,12 @@ public class UiAbilties : MonoBehaviour
         this.testEvent = Event.Item1;
         
     }
+    //send corresponding event depending on the UI trigger type
     public void SendTrigger()
     {
-        if (Event.Item1 == "") { return; }
-        if (menuEvent) { GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleMenuSelectionEvent(Event.Item1); Debug.Log("Crump"); }//if the event is a menuselection, triggers the method 
+        if (Event.Item2 == UIEvTrigger.TRIGGER_NONE) { return; }
+        if (Event.Item2 == UIEvTrigger.TRIGGER_MENUSELECT) { GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleMenuSelectionEvent(Event.Item1); Debug.Log("Crump"); }//if the event is a menuselection, triggers the method 
         else { GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleUIOrderEvent(Event.Item1); }
         // otherwise passes it to the ui handler 
     }
-    public void TurnOnMenuEvent() { this.menuEvent = true; } //determines wheter the prefab is a UiOrderEvent or MenuEvent
 }
