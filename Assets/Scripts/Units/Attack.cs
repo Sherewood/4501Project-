@@ -112,6 +112,14 @@ public class Attack : MonoBehaviour
         {
             _weapon.FireWeapon(_currentTarget);
         }
+        //might be case where unit is turned away from enemy due to ordered movement
+        //but is still in attack range and has not picked up a new target, so it never
+        //starts checking if ordered movement has ceased and thus does not resume action.
+        //Therefore, need to check if ordered movement is preventing the unit from firing aswell.
+        else
+        {
+            CheckIfOrderedMovementOverridesCommand();
+        }
     }
 
     //get the latest target from the targeting component
