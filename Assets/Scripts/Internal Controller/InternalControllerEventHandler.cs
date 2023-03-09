@@ -83,7 +83,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle unit selection given via mouse click
     public void HandleSelectionEvent(RaycastHit selectionTarget)
     {
-        Debug.Log("Selection event received");
+        Debug.Log("Unit Selection event received, selection instanceID: " + selectionTarget.collider.gameObject.GetInstanceID());
 
         //for now, won't consider the target here when updating event chain
         //if that has to change, special method should be defined in event chain controller for it

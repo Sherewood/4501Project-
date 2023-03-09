@@ -23,7 +23,7 @@ public class EventChainModel : MonoBehaviour
         //1st stage - construct option selected
         //2nd stage - building selected
         //3rd stage - mouse order given, targeting terrain
-        CreateEventChain("constructionChain", new string[]{ "menuSelect-construct", "all-uiOrder-construct", "mouseOrder-terrain" },
+        CreateEventChain("constructionChain", new string[]{ "menuSelection-construct", "all-UIOrder-construct", "mouseOrder-terrain" },
             new string[] {"all-unitSelection","all-areaSelection","all-mouseOrder"});
     }
 
@@ -59,7 +59,7 @@ public class EventChainModel : MonoBehaviour
             //  ii) Else, return the current event chain value as the event chain state has not changed.
             string currentEventChainName = currentEventChain.Split("-")[0];
             
-            int eventChainIndex = GetEventChainIndex(currentEventChainName);
+            int eventChainIndex = GetEventChainIndex(currentEventChain);
 
             string nextEventInChain = _eventChainCompletionRequirements[currentEventChainName][eventChainIndex+1];
 

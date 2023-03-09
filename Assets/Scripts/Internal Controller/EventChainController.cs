@@ -64,7 +64,11 @@ public class EventChainController : MonoBehaviour
             _curEventChain = "";
         }
 
+        Debug.Log("Event Chain Controller - Handling Event Chain Update for event: " + eventName);
+
         //update current event chain using event chain model
         _curEventChain = _eventChainModel.UpdateCurrentEventChainStatus(_curEventChain, eventName);
+
+        Debug.Log("Event Chain Controller - new event chain status is: " + _curEventChain);
     }
 }
