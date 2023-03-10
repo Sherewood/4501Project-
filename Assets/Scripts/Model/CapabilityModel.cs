@@ -35,17 +35,20 @@ public class CapabilityModel : MonoBehaviour
 {
 
     //(componentName, Capability) mappings
-    private Dictionary<string, Capability> _capabilityMappings;
+    private Dictionary<string, List<Capability>> _capabilityMappings;
 
     void Awake()
     {
-        _capabilityMappings = new Dictionary<string, Capability>();
+        _capabilityMappings = new Dictionary<string, List<Capability>>();
         //define mappings
 
         //movement component -> move capability
         CreateCapabilityMapping("movement", "move", new List<string>(), "Unit can move!", true, new List<string>());
-        //attack component -> attack capability
+        //attack component -> attack, guard capabilities
         CreateCapabilityMapping("attack", "attack", new List<string>(), "Unit can attack!", true, new List<string>());
+        CreateCapabilityMapping("attack", "guard", new List<string>(), "Unit can guard its position!", true, new List<string>());
+        //movement + health component -> fortify capability
+        CreateCapabilityMapping("movement-health", "fortify", new List<string>(), "Unit can move!", true, new List<string>());
         //harvester component -> harvest capability
         CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
         //construction component -> construct capability
@@ -60,7 +63,16 @@ public class CapabilityModel : MonoBehaviour
     {
         Capability capability = new Capability(actionName, incompatibleActions, description, multiUnit, techRequirements);
 
-        _capabilityMappings.Add(componentName, capability);
+        if (_capabilityMappings.ContainsKey(componentName))
+        {
+            _capabilityMappings[componentName].Add(capability);
+        }
+        else
+        {
+            List<Capability> newCapList = new List<Capability>();
+            newCapList.Add(capability);
+            _capabilityMappings.Add(componentName, newCapList);
+        }
     }
 
     //returns the capabilities available to a specific unit
@@ -70,11 +82,28 @@ public class CapabilityModel : MonoBehaviour
         //get the unit info component
         UnitInfo unitInfo = entity.GetComponent<UnitInfo>();
 
-        foreach(string componentName in _capabilityMappings.Keys)
+        foreach(string componentKey in _capabilityMappings.Keys)
         {
-            if (unitInfo.DoesUnitHaveComponent(componentName))
+            //split by '-' to account for capabilities that require multiple components
+            bool meetsRequirements = true;
+            string[] compNameSplit = componentKey.Split('-');
+            foreach (string componentName in compNameSplit)
             {
-                unitCapabilities.Add(_capabilityMappings[componentName]);
+                if (!unitInfo.DoesUnitHaveComponent(componentName))
+                {
+                    meetsRequirements = false;
+                    break;
+                }
+            }
+
+            //if all component prereqs are met, include the associated capabilities
+            if (meetsRequirements)
+            {
+                foreach (Capability capability in _capabilityMappings[componentKey])
+                {
+                    Debug.Log(capability.ActionName);
+                    unitCapabilities.Add(capability);
+                }
             }
         }
 
