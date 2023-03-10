@@ -92,8 +92,6 @@ public class Construction : MonoBehaviour
         //extra padding added to lazily avoid failure to spawn, in scenarios where the worker oriented diagonally, while the building spawned is not
         Vector3 spawnOffset = (transform.rotation * Vector3.forward) * (_forwardOffsetFromConstructionSite) + (transform.rotation * Vector3.up) * (targetUnitScale.y / 2.5f);
 
-        Debug.Log(spawnOffset);
-
         _unitSpawner.SetSpawnOffset(spawnOffset);
 
         //try and construct the building
