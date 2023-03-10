@@ -95,7 +95,7 @@ public class UnitController : MonoBehaviour
                     //set unit state to guarding, and set return point to the unit's current position
                     UnitState unitState = selectedUnit.GetComponent<UnitState>();
                     Movement movement = selectedUnit.GetComponent<Movement>();
-                    movement.SetReturnPoint(gameObject.transform.position);
+                    movement.SetReturnPoint(selectedUnit.transform.position);
                     unitState.SetState(UState.STATE_GUARDING);
                     break;
                 case "fortify":

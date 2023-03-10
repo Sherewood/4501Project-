@@ -49,7 +49,9 @@ public class Attack : MonoBehaviour
         }
 
         //target changed
-        if(_currentTarget != latestTarget)
+        //either the current target doesn't match the latest target, or the latest target is null when a target was in range on the last frame
+        //probably could use refactor here
+        if(_currentTarget != latestTarget || (latestTarget == null && _targetInRange))
         {
             //loss of target handling
             if(latestTarget == null)
@@ -135,10 +137,6 @@ public class Attack : MonoBehaviour
         else
         {
             latestTarget = _targeting.GetTarget();
-            if(latestTarget == null)
-            {
-                latestTarget = _currentTarget;
-            }
         }
         return latestTarget;
     }
@@ -251,7 +249,7 @@ public class Attack : MonoBehaviour
         need to calculate euclidean distance
         */
         float distX = Mathf.Abs(transform.position.x - _currentTarget.transform.position.x);
-        float distZ = Mathf.Abs(transform.position.x - _currentTarget.transform.position.z);
+        float distZ = Mathf.Abs(transform.position.z - _currentTarget.transform.position.z);
 
         return (distX >= _weapon.MaxRange + 0.01) || (distZ >= _weapon.MaxRange + 0.01);
     }

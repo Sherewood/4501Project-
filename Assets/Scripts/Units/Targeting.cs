@@ -149,7 +149,7 @@ public class Targeting : MonoBehaviour
         euclidean distance
         */
         float distX = Mathf.Abs(transform.position.x - target.transform.position.x);
-        float distZ = Mathf.Abs(transform.position.x - target.transform.position.z);
+        float distZ = Mathf.Abs(transform.position.z - target.transform.position.z);
 
         return (distX >= closestDist + 0.01) || (distZ >= closestDist + 0.01);
     }
