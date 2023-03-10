@@ -105,8 +105,6 @@ public class Movement : MonoBehaviour
 
             direction = Vector3.Normalize(direction);
 
-            Debug.Log(direction);
-
             //lack of ease out leads to jittery physics from sudden stop? ease-in/out should help later....
             _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
 
