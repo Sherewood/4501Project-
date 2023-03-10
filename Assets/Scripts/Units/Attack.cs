@@ -184,7 +184,9 @@ public class Attack : MonoBehaviour
         switch (curState)
         {
             case UState.STATE_ATTACKING:
+                goto case UState.STATE_IDLE;
             case UState.STATE_GUARDING:
+                goto case UState.STATE_IDLE;
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
                 _movement.SetDynamicDestination(newTarget.transform, false);
@@ -223,7 +225,9 @@ public class Attack : MonoBehaviour
         switch (curState)
         {
             case UState.STATE_ATTACKING:
+                goto case UState.STATE_IDLE;
             case UState.STATE_GUARDING:
+                goto case UState.STATE_IDLE;
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
                 _movement.SetDynamicDestination(_currentTarget.transform, false);

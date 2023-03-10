@@ -275,7 +275,12 @@ public class Movement : MonoBehaviour
     {
         UState curState = _unitState.GetState();
 
-        return (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
+        bool idleOrHarvesting = (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
+
+        //attack, guarding, and fortified states should be overidden only if the player orders a change to move state
+        bool overridableStatesIfOrdered = IsOrderedMovementInProgress() && (curState == UState.STATE_ATTACKING || curState == UState.STATE_GUARDING || curState == UState.STATE_FORTIFIED);
+
+        return idleOrHarvesting || overridableStatesIfOrdered;
     }
 
     /* Coroutines */
