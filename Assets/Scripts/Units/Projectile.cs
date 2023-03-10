@@ -14,11 +14,13 @@ public class Projectile : MonoBehaviour
     private float creationTime;
     private float enemyAngle;
     private Vector3 originalPos;
+    private Vector3 _lastRecordedPos;
     // Start is called before the first frame update
     void Start()
     {
         speed = 25.0f;
-        initialDistance = Vector3.Distance(transform.position, _target.transform.position);
+        _lastRecordedPos = _target.transform.position;
+        initialDistance = Vector3.Distance(transform.position, _lastRecordedPos);
         creationTime = Time.time;
         //offset so that melee swing begins left of the attacker and ~1 unit out
         if(string.Compare(_weaponType, "melee") == 0)
@@ -32,7 +34,21 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float currentDistance = Vector3.Distance(transform.position, _target.transform.position);
+
+        //if target is still alive, projectile should move towards it.
+        //Otherwise, projectile should move to the target's last known position;
+        Vector3 targetPos;
+        if(_target == null)
+        {
+            targetPos = _lastRecordedPos;
+        }
+        else
+        {
+            targetPos = _target.transform.position;
+            _lastRecordedPos = _target.transform.position;
+        }
+
+        float currentDistance = Vector3.Distance(transform.position, targetPos);
         var step = speed * Time.deltaTime;
 
         
@@ -51,7 +67,7 @@ public class Projectile : MonoBehaviour
         else if (string.Compare(_weaponType, "ranged") == 0)
         {
             //move bullet towards target and once "close enough" deal damage and destroy self
-            transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, step);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
             if (currentDistance < 0.01f)
             {
                 DealDamage(_target);
@@ -62,7 +78,7 @@ public class Projectile : MonoBehaviour
         else if (string.Compare(_weaponType, "artillery") == 0)
         {
             //same as bullet but increases height to "arc" like a shell would, probably will redo later if have time to make look pretty
-            transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, step);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
             if (currentDistance > initialDistance / 1.7)
             {
                 transform.position += new Vector3(0, step, 0);
@@ -88,6 +104,12 @@ public class Projectile : MonoBehaviour
 
     private void DealDamage(GameObject target)
     {
+        //if target already dead, can't damage it
+        if(target == null)
+        {
+            return;
+        }
+
         Health healthComponent = target.GetComponent<Health>();
 
         if (healthComponent == null)
