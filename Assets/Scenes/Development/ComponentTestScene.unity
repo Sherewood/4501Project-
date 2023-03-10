@@ -937,6 +937,7 @@ MonoBehaviour:
   - {fileID: 1549958952}
   - {fileID: 624495127}
   - {fileID: 513831191}
+  UnitOptions: []
   def: {fileID: 21300000, guid: 09b309980813d2642adc1d568108233f, type: 3}
   Evac_button: {fileID: 323863102}
 --- !u!4 &430006172
@@ -1057,7 +1058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.4687634
+      value: 12.52
       objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_LocalRotation.w

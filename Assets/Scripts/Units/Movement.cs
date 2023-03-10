@@ -302,7 +302,7 @@ public class Movement : MonoBehaviour
             }
 
             Vector3 direction = Vector3.Normalize(target - transform.position);
-
+            direction.y = 0;
             //determine the target rotation
             _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
 
