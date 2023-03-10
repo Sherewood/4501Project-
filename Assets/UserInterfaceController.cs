@@ -76,7 +76,7 @@ public class UserInterfaceController : MonoBehaviour
     }
     void displayUnit()
     {
-
+        ClearAbilities();
         //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
 
         UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
@@ -120,6 +120,8 @@ public class UserInterfaceController : MonoBehaviour
     }
     private void displayBuildOptions()
     {
+        ClearBuildOptions();
+
         int i = 0;
 
         foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
@@ -146,13 +148,23 @@ public class UserInterfaceController : MonoBehaviour
     }
     private void Clear()
     {
+        ClearAbilities();
+        ClearBuildOptions();
+    }
+
+    private void ClearAbilities()
+    {
         for (int i = 0; i < buttonlist.Count; i++)
         {
-            buttonlist[i].GetComponent<UiAbilties>().Icon= def;
+            buttonlist[i].GetComponent<UiAbilties>().Icon = def;
         }
+    }
+
+    private void ClearBuildOptions()
+    {
         for (int i = 0; i < BuildOptions.Count; i++)
         {
-            BuildOptions[i].GetComponent<UiAbilties>().Icon=def;
+            BuildOptions[i].GetComponent<UiAbilties>().Icon = def;
         }
     }
 }
