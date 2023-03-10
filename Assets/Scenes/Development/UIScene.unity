@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4078,6 +4078,16 @@ MonoBehaviour:
   AbilPrefab: {fileID: 479287535}
   AbilityIcons:
   - {fileID: 21300000, guid: d2f307623939ca84f852e8e23fcd1326, type: 3}
+  - {fileID: 21300000, guid: 950557e73aa7c2048afc513ed33754c5, type: 3}
+  - {fileID: 21300000, guid: b02d04a3fd18be94b9f7b7e5b89921d0, type: 3}
+  - {fileID: 21300000, guid: a1f044cc476df3f458a2c2e7c5b6312c, type: 3}
+  - {fileID: 21300000, guid: 052cc84a7010e1040a908fa099c30852, type: 3}
+  - {fileID: 21300000, guid: d7b9cfde68df26f4795acbf5c5f2860d, type: 3}
+  - {fileID: 21300000, guid: c436d926d1041ed46b5f35b6688a8675, type: 3}
+  - {fileID: 21300000, guid: 8bb21cd29fb00674886e45a83570f0ac, type: 3}
+  - {fileID: 21300000, guid: d51acbbcecc73e84c886d1ff09d63988, type: 3}
+  - {fileID: 21300000, guid: cd6b15c5b058da743b528e28c89fca4a, type: 3}
+  - {fileID: 21300000, guid: 950557e73aa7c2048afc513ed33754c5, type: 3}
   BuildIcons:
   - {fileID: 21300000, guid: 8713ed8980722174d85619b80bb816cb, type: 3}
   tracker: {fileID: 2100000, guid: 8d1e3158d9338be459cfb809f3c6dd30, type: 2}
