@@ -23,9 +23,11 @@ public class UserInterfaceController : MonoBehaviour
     private CapabilityController _capabilityController;
     public Material tracker;
     private DisplayInfoController  component;
+    //Icons list
     public List<GameObject> buttonlist;
     public GameObject resourceText;
     public List<GameObject> BuildOptions;
+    public List<GameObject> UnitOptions;
     public Sprite def;//default sprite for tabs
     public GameObject Evac_button;
     
