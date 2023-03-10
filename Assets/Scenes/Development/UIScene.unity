@@ -771,7 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdb04a6b014bab4380be9211113c16e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCamera: {fileID: 0}
+  gameCamera: {fileID: 963194227}
   SelectionEvent:
     m_PersistentCalls:
       m_Calls:
