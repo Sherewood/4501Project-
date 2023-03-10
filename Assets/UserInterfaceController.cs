@@ -76,6 +76,7 @@ public class UserInterfaceController : MonoBehaviour
     }
     void displayUnit()
     {
+        //refresh before repopulating
         ClearAbilities();
         //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
 
@@ -120,6 +121,7 @@ public class UserInterfaceController : MonoBehaviour
     }
     private void displayBuildOptions()
     {
+        //refresh before repopulating
         ClearBuildOptions();
 
         int i = 0;
