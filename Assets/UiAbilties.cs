@@ -36,8 +36,14 @@ public class UiAbilties : MonoBehaviour
     public void SendTrigger()
     {
         if (Event.Item2 == UIEvTrigger.TRIGGER_NONE) { return; }
-        if (Event.Item2 == UIEvTrigger.TRIGGER_MENUSELECT) { GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleMenuSelectionEvent(Event.Item1); Debug.Log("Crump"); }//if the event is a menuselection, triggers the method 
-        else { GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleUIOrderEvent(Event.Item1); }
-        // otherwise passes it to the ui handler 
+        else if (Event.Item2 == UIEvTrigger.TRIGGER_MENUSELECT) {
+            //trigger Menu Selection Event
+            GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleMenuSelectionEvent(Event.Item1);
+        }
+        else {
+            // otherwise triggers UIOrder Event
+            GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleUIOrderEvent(Event.Item1); 
+        }
+        
     }
 }

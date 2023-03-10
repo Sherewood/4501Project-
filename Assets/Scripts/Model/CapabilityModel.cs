@@ -101,7 +101,6 @@ public class CapabilityModel : MonoBehaviour
             {
                 foreach (Capability capability in _capabilityMappings[componentKey])
                 {
-                    Debug.Log(capability.ActionName);
                     unitCapabilities.Add(capability);
                 }
             }

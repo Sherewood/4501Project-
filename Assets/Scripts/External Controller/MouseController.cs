@@ -105,14 +105,9 @@ public class MouseController : MonoBehaviour
     //no doubt in my mind there's a better way of handling this, and this will probably fail in the future, but should work for now.
     private bool IsMouseInUIRegion(Vector3 mousePosition)
     {
-
-        Debug.Log(mousePosition);
-
         //convert mouse position so it is in range [0-1,0-1] with 0 being start of screen, 1 being end of screen
         //also invert mouse y coords because unity....
         Vector2 mousePosConverted = new Vector2(mousePosition.x / Screen.width, (Screen.height - mousePosition.y) / Screen.height);
-
-        Debug.Log(mousePosConverted);
 
         //check if in boundary
         foreach (Vector4 UIRegion in UIRegions)
