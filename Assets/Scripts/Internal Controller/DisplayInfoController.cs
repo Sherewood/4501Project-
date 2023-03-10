@@ -50,6 +50,7 @@ public class DisplayInfoController : MonoBehaviour
         _actionEventTypeMappings = new Dictionary<string, UIEvTrigger>();
 
         _actionEventTypeMappings.Add("guard", UIEvTrigger.TRIGGER_UIORDER);
+        _actionEventTypeMappings.Add("fortify", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("evacuateCivies", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER);
 

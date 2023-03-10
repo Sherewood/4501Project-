@@ -32,6 +32,9 @@ public class OrderModel : MonoBehaviour
     //the list of target unit types that each Order supports, or "" if the Order does not have a target
     private Dictionary<Order, List<string>> _orderTargets;
 
+    //the command associated with a given order
+    private Dictionary<Order, string> _orderCommand;
+
     //the event chains that each Order requires, or "" if the Order requires no event chain
     private Dictionary<Order, string> _orderEventChains;
 
@@ -46,24 +49,25 @@ public class OrderModel : MonoBehaviour
     {
         _orderUnitTypes = new Dictionary<Order, List<string>>();
         _orderTargets = new Dictionary<Order, List<string>>();
+        _orderCommand = new Dictionary<Order, string>();
         _orderEventChains = new Dictionary<Order, string>();
         _orderPriorities = new Dictionary<Order, int>();
         _orderActions = new Dictionary<Order, List<string>>();
 
         //movement order
-        CreateOrder(Order.ORDER_MOVE, new string[] { "all-player-dynamic" }, new string[] { "Terrain" }, "", 1, new string[] { "move" });
+        CreateOrder(Order.ORDER_MOVE, new string[] { "all-player-dynamic" }, new string[] { "Terrain" }, "", "", 1, new string[] { "move" });
 
         //attack order
-        CreateOrder(Order.ORDER_ATTACK, new string[] { "all-player-dynamic-military" }, new string[] { "all-enemy" }, "", 1, new string[] { "attack" });
+        CreateOrder(Order.ORDER_ATTACK, new string[] { "all-player-dynamic-military" }, new string[] { "all-enemy" }, "", "", 1, new string[] { "attack" });
         
         //guard order
-        CreateOrder(Order.ORDER_GUARD, new string[] { "all-player-dynamic-military" }, new string[] { }, "", 1, new string[] { "guard" });
+        CreateOrder(Order.ORDER_GUARD, new string[] { "all-player-dynamic-military" }, new string[] { }, "guard", "", 1, new string[] { "guard" });
 
         //fortify order
-        CreateOrder(Order.ORDER_FORTIFY, new string[] { "all-player-dynamic-military" }, new string[] { }, "", 1, new string[] { "fortify" });
+        CreateOrder(Order.ORDER_FORTIFY, new string[] { "all-player-dynamic-military" }, new string[] { }, "fortify", "", 1, new string[] { "fortify" });
 
         //harvesting order
-        CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", 1, new string[] { "harvest" });
+        CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", "", 1, new string[] { "harvest" });
 
         //construction order
         /*
@@ -71,20 +75,21 @@ public class OrderModel : MonoBehaviour
         the same action as long as one is targetted and the other is untargeted, the action will mean different things depending on the situation
         Better way of doing this would be to just update the capability model to have one component map to multiple actions if needed, but this works for now...
         */
-        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "constructionChain-2", 1, new string[] { "construct" });
-        CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "constructionChain-end", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "", "constructionChain-2", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "", "constructionChain-end", 1, new string[] { "construct" });
 
         //evacuation order
-        CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "", 1, new string[] { "evacuateCivies" });
+        CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "evacCivies", "", 1, new string[] { "evacuateCivies" });
 
         //planetary evac order
-        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "", 1, new string[] { "evacuateMainBase" });
+        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "planetaryEvac", "", 1, new string[] { "planetaryEvac" });
     }
 
-    private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string eventChain, int priority, string[] orderActions)
+    private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string orderCommand, string eventChain, int priority, string[] orderActions)
     {
         SetOrderUnitTypes(order, orderUnitTypes);
         SetOrderTargets(order, orderTargets);
+        SetOrderCommand(order, orderCommand);
         SetOrderEventChain(order, eventChain);
         SetOrderPriority(order, priority);
         SetOrderActions(order, orderActions);
@@ -99,6 +104,11 @@ public class OrderModel : MonoBehaviour
     private void SetOrderTargets(Order order, string[] orderTargets)
     {
         _orderTargets.Add(order, new List<string>(orderTargets));
+    }
+
+    private void SetOrderCommand(Order order, string orderCommand)
+    {
+        _orderCommand.Add(order, orderCommand);
     }
 
     private void SetOrderEventChain(Order order, string orderEventChain)
@@ -207,6 +217,22 @@ public class OrderModel : MonoBehaviour
                     supportedOrders.Add(order);
                     break;
                 }
+            }
+        }
+
+        return supportedOrders;
+    }
+
+    //get list of orders that require the given command
+    public List<Order> GetValidOrdersForCommand(List<Order> orders, string command)
+    {
+        List<Order> supportedOrders = new List<Order>();
+
+        foreach (Order order in orders)
+        {
+            if (String.Compare(command, _orderCommand[order]) == 0)
+            {
+                supportedOrders.Add(order);
             }
         }
 

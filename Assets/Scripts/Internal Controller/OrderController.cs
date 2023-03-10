@@ -74,7 +74,8 @@ public class OrderController : MonoBehaviour
 
         possibleOrders = _orderModel.GetValidOrdersForUnitTypes(possibleOrders, unitTypes);
 
-        //update once event chain controller is up
+        possibleOrders = _orderModel.GetValidOrdersForCommand(possibleOrders, command);
+
         possibleOrders = _orderModel.GetValidOrdersForEventChain(possibleOrders, _eventChainController.GetCurrentEventChain());
 
         if (possibleOrders.Count == 1)
