@@ -1018,11 +1018,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: FiringOffset.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: FiringOffset.y
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: -4550738999899031446, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: FiringOffset.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: AutoDetectRange
@@ -1058,7 +1062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.52
+      value: 7.03
       objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3277,7 +3281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.0496235
+      value: 11.15
       objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
       propertyPath: m_LocalPosition.y

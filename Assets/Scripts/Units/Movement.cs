@@ -92,18 +92,21 @@ public class Movement : MonoBehaviour
                 return;
             }
 
-            Vector3 direction = Vector3.Normalize(target - transform.position);
+            //for getting direction, eliminate the y component before normalizing
+            Vector3 direction = target - transform.position;
 
-            //determine the target rotation
-            Quaternion rotation = new Quaternion();
-            rotation.SetFromToRotation(new Vector3(0,0,1),direction);
+            direction.y = 0.0f;
+
+            direction = Vector3.Normalize(direction);
+
+            Debug.Log(direction);
 
             //lack of ease out leads to jittery physics from sudden stop? ease-in/out should help later....
             _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
 
-            //check if at destination
-            if (Vector3.Distance(transform.position, target) < 0.1f)
+            if (Vector3.Distance(transform.position, target) < 0.26f)
             {
+                Debug.Log("Destination reached...");
                 //terminate movement if destination reached.
                 StopMovement(true);
                 //report to interested parties that destination has been reached
@@ -243,10 +246,10 @@ public class Movement : MonoBehaviour
         Debug.Log("StopOrderedMovement: " + stopOrderedMovement);
         if (stopOrderedMovement)
         {
-            _orderedDestination = new Vector3();
+            _orderedDestination = Vector3.zero;
             _isDynamicDestOrdered = false;
         }
-        _destination = new Vector3();
+        _destination = Vector3.zero;
         //only stop moving to dynamic destination if supposed to stop ordered movement, and/or the dynamic destination was not ordered.
         if (stopOrderedMovement || !_isDynamicDestOrdered)
         {
@@ -302,6 +305,8 @@ public class Movement : MonoBehaviour
             }
 
             Vector3 direction = Vector3.Normalize(target - transform.position);
+            //only rotate based on x,z direction
+            //works a lot better on flat surfaces, tbd on slanted regions
             direction.y = 0;
             //determine the target rotation
             _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
