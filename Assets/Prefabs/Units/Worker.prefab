@@ -194,8 +194,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: -741432421294744617}
+        m_TargetAssemblyTypeName: Construction, Assembly-CSharp
+        m_MethodName: HandleDestinationReached
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   Speed: 2
-  TurnRate: 15
+  TurnRate: 180
 --- !u!114 &2694723874917545885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +267,7 @@ MonoBehaviour:
   PeriodicUnitSpawnTypes: []
   PeriodicUnitSpawnIntervals: []
   RandomSpawnMode: 0
-  SpawnPositionFixedOffset: {x: 0, y: 0, z: 0.5}
+  SpawnPositionFixedOffset: {x: 0, y: 0, z: 0}
   SpawnBoundary: {x: 0, y: 0, z: 0, w: 0}
-  spawnRetryAttemptLimit: 0
+  SpawnRetryAttemptLimit: 0
+  SpawnRetryMode: 0

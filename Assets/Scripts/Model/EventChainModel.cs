@@ -91,7 +91,7 @@ public class EventChainModel : MonoBehaviour
 
     private string DetermineEventChainString(string eventChain, int index)
     {
-        if(index >= _eventChainCompletionRequirements[eventChain].Count)
+        if(index+1 >= _eventChainCompletionRequirements[eventChain].Count)
         {
             return eventChain + "-end";
         }

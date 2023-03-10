@@ -41,7 +41,7 @@ public class Civilian : MonoBehaviour
     List<GameObject> _workerList;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _workerCap = NumCivilians / CIVIES_PER_WORKER;
         _evacActive = false;

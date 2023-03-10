@@ -115,4 +115,20 @@ public class UnitDatabase : MonoBehaviour
 
         return unitIcon;
     }
+
+    /* Other queries */
+
+    //get the size of a unit
+    public Vector3 GetUnitDimensions(string type)
+    {
+        GameObject unitPrefab = null;
+        int typeIndex = UnitTypes.IndexOf(type);
+
+        if (typeIndex != -1)
+        {
+            unitPrefab = UnitAssetPrefabs[typeIndex];
+        }
+
+        return unitPrefab.transform.localScale;
+    }
 }

@@ -17,7 +17,12 @@ public class Construction : MonoBehaviour
     //the currently selected building type
     private string _currentBuildingType;
 
+    //the "forward" offset between the unit and the location where the building is created
+    private float _forwardOffsetFromConstructionSite;
+
     private UnitState _unitState;
+
+    private UnitDatabase _unitDb;
 
     //note - unit spawner should have 0 repositioning attempts, if the building cannot be built at specified location
     //then it shouldn't be built at all
@@ -30,12 +35,26 @@ public class Construction : MonoBehaviour
         _unitState = GetComponent<UnitState>();
 
         _unitSpawner = GetComponent<UnitSpawner>();
+
+        _unitDb = FindObjectOfType<UnitDatabase>();
+
+        _forwardOffsetFromConstructionSite = 0.0f;
     }
 
     //set the type of building that the construction component is slated to build.
     public void SetCurrentBuilding(string buildingType)
     {
         _currentBuildingType = buildingType;
+
+        //get the dimensions of the building, and use it to configure the forward offset
+        Vector3 targetUnitScale = _unitDb.GetUnitDimensions(_currentBuildingType);
+
+        _forwardOffsetFromConstructionSite = transform.localScale.z + targetUnitScale.z / 2 + 0.25f;
+    }
+
+    public float GetConstructionSiteOffset()
+    {
+        return _forwardOffsetFromConstructionSite;
     }
 
     //erase the selected building type
@@ -65,6 +84,18 @@ public class Construction : MonoBehaviour
 
     private void ConstructBuilding()
     {
+        //get the dimensions of the building, and use it to configure the spawner's spawn offset
+        Vector3 targetUnitScale = _unitDb.GetUnitDimensions(_currentBuildingType);
+
+        //offset the building's spawn position using the z-scale (including the worker's z-scale) as the forward offset
+        //and the y-scale as the upward offset (to prevent spawning the building in the ground)
+        //extra padding added to lazily avoid failure to spawn, in scenarios where the worker oriented diagonally, while the building spawned is not
+        Vector3 spawnOffset = (transform.rotation * Vector3.forward) * (_forwardOffsetFromConstructionSite) + (transform.rotation * Vector3.up) * (targetUnitScale.y / 2.5f);
+
+        Debug.Log(spawnOffset);
+
+        _unitSpawner.SetSpawnOffset(spawnOffset);
+
         //try and construct the building
         GameObject newBuilding = _unitSpawner.SpawnUnit(_currentBuildingType);
 

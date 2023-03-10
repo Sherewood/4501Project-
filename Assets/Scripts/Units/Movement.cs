@@ -35,6 +35,12 @@ public class Movement : MonoBehaviour
 
     private Quaternion _targetRotation;
 
+    //added offset from the final destination
+    //ex: if offset from destination is 1, unit will finish movement order when 1 further unit away from the destination than otherwise
+    //totally butchered the sentence ik lmao
+    //currently only supported for ordered movement to a static location.
+    private float _offsetFromDestination;
+
     
     //point to return to when ordered to head back
     private Vector3 _returnPoint;
@@ -104,7 +110,7 @@ public class Movement : MonoBehaviour
             //lack of ease out leads to jittery physics from sudden stop? ease-in/out should help later....
             _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
 
-            if (Vector3.Distance(transform.position, target) < 0.26f)
+            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
             {
                 Debug.Log("Destination reached...");
                 //terminate movement if destination reached.
@@ -139,9 +145,10 @@ public class Movement : MonoBehaviour
     }
 
     //set ordered destination - should usually be from player command
-    public void SetOrderedDestination(Vector3 orderedDestination)
+    public void SetOrderedDestination(Vector3 orderedDestination, float offsetFromDestination = 0.0f)
     {
         _orderedDestination = orderedDestination;
+        _offsetFromDestination = offsetFromDestination;
         _moving = true;
 
         if (ShouldChangeToMoveState())
@@ -213,7 +220,11 @@ public class Movement : MonoBehaviour
     //set moving to construct
     public void SetOrderedConstructionDestination(Vector3 orderedDestination)
     {
-        SetOrderedDestination(orderedDestination);
+        //get the forward offset from the construction component
+        Construction constructComp = GetComponent<Construction>();
+
+        //move to the construction site, but stop short according to the offset
+        SetOrderedDestination(orderedDestination, constructComp.GetConstructionSiteOffset());
 
         //just straight up forcing the state to 'moving to construct' could be problematic
         //but only workers will support this component so it won't interfere with any attacking states.
@@ -229,9 +240,10 @@ public class Movement : MonoBehaviour
     }
 
     //order return to return point
-    public void OrderReturn()
+    public void OrderReturn(float offsetFromDestination = 0.0f)
     {
         _orderedDestination = _returnPoint;
+        _offsetFromDestination = offsetFromDestination;
         _moving = true;
 
         if (ShouldChangeToMoveState())

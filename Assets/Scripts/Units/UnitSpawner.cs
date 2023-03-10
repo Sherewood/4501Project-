@@ -33,7 +33,10 @@ public class UnitSpawner : MonoBehaviour
     public Vector4 SpawnBoundary;
 
     [Tooltip("number of times the spawning of a unit should be re-attempted due to obstruction at a prior location")]
-    public int spawnRetryAttemptLimit;
+    public int SpawnRetryAttemptLimit;
+
+    [Tooltip("If enabled, spawner will attempt to relocate unit if spawning region is occupied.")]
+    public bool SpawnRetryMode;
 
     private System.Random _random;
 
@@ -96,6 +99,12 @@ public class UnitSpawner : MonoBehaviour
         return newUnit;
     }
 
+    //sets the fixed spawn offset
+    public void SetSpawnOffset(Vector3 newOffset)
+    {
+        SpawnPositionFixedOffset = newOffset;
+    }
+
     //chooses spawn coordinates for a given unit
     private Vector3 PickSpawnCoordinates()
     {
@@ -116,38 +125,32 @@ public class UnitSpawner : MonoBehaviour
         bool possiblyBlocked = true;
         int attempts = 0;
 
+        //start with initially determined spawn position
         newSpawnPos = spawnPos;
 
         //get unit dimensions / 2
         Vector3 boxDimensions = new Vector3(prefab.transform.localScale.x/2, prefab.transform.localScale.y/2, prefab.transform.localScale.z/2);
 
-
-        while (possiblyBlocked && attempts < spawnRetryAttemptLimit)
+        //first, test if spawn obstructed
+        if(!IsUnitSpawnObstructed(newSpawnPos, boxDimensions))
         {
-            //area checked should be slightly larger than the unit
-            Collider[] overlappedUnits = Physics.OverlapBox(newSpawnPos, boxDimensions);
+            return true;
+        }
 
-            //check if any units in collision range
-            bool unitsInCollider = false;
-            for (int i = 0; i < overlappedUnits.Length; i++)
-            {
-                GameObject entity = overlappedUnits[i].gameObject;
+        //do not attempt repositioning if spawn retry mode is off
+        if (!SpawnRetryMode)
+        {
+            Debug.LogWarning("Spawn location is obstructed. Consider turning on spawn retry mode?");
+            return false;
+        }
 
-                if (entity.GetComponent<UnitInfo>() != null)
-                {
-                    unitsInCollider = true;
-                    break;
-                }
-            }
-            if (!unitsInCollider)
-            {
-                break;
-            }
-
+        //attempt to reposition 
+        while (possiblyBlocked && attempts < SpawnRetryAttemptLimit)
+        {
             //adjust position based on random factor and previously calculated dimensions
             //todo: come up with better repositioning algorithm
             int repositionTries = 0;
-            while (repositionTries < spawnRetryAttemptLimit) {
+            while (repositionTries < SpawnRetryAttemptLimit) {
                 Vector3 factor = new Vector3(_random.Next(3) - 1, 0, _random.Next(3) - 1);
                 Vector3 oldSpawnPos = newSpawnPos;
                 newSpawnPos += 2 * new Vector3(boxDimensions.x * factor.x, 0, boxDimensions.z * factor.z);
@@ -165,17 +168,43 @@ public class UnitSpawner : MonoBehaviour
 
                 repositionTries++;
             }
+            
+            //if the new spawn position is not obstructed, stop and accept this position as the valid one.
+            if(!IsUnitSpawnObstructed(newSpawnPos, boxDimensions))
+            {
+                break;
+            }
 
             attempts++;
         }
 
-        if (attempts >= spawnRetryAttemptLimit)
+        if (attempts >= SpawnRetryAttemptLimit)
         {
             Debug.LogWarning("Failed to find spawn location for unit - too obstructed.");
             return false;
         }
 
         return true;
+    }
+
+    private bool IsUnitSpawnObstructed(Vector3 spawnPos, Vector3 dimensions)
+    {
+        //area checked should be slightly larger than the unit
+        Collider[] overlappedUnits = Physics.OverlapBox(spawnPos, dimensions * 1.05f);
+
+        //check if any units in collision range
+        bool unitsInCollider = false;
+        for (int i = 0; i < overlappedUnits.Length; i++)
+        {
+            GameObject entity = overlappedUnits[i].gameObject;
+
+            if (entity.GetComponent<UnitInfo>() != null)
+            {
+                unitsInCollider = true;
+                break;
+            }
+        }
+        return unitsInCollider;
     }
 
     //bind the unit spawn callback

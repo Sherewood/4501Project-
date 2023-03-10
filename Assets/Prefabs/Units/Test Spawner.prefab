@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: neutral-test-spawner
+  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &-7432569340290530451
 MonoBehaviour:
@@ -119,7 +120,8 @@ MonoBehaviour:
   RandomSpawnMode: 0
   SpawnPositionFixedOffset: {x: 1, y: 0.15, z: 1}
   SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
-  spawnRetryAttemptLimit: 10
+  SpawnRetryAttemptLimit: 10
+  SpawnRetryMode: 1
 --- !u!114 &394634875833869805
 MonoBehaviour:
   m_ObjectHideFlags: 0
