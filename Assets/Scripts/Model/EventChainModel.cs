@@ -24,7 +24,7 @@ public class EventChainModel : MonoBehaviour
         //2nd stage - building selected
         //3rd stage - mouse order given, targeting terrain
         CreateEventChain("constructionChain", new string[]{ "menuSelection-construct", "all-UIOrder-construct", "mouseOrder-terrain" },
-            new string[] {"all-unitSelection","all-areaSelection","all-mouseOrder"});
+            new string[] {"all-unitSelection","all-areaSelection","all-mouseOrder","UIOrder-fortify"});
     }
 
     private void CreateEventChain(string eventChainName, string[] eventChainSequence, string[] breakingEvents)

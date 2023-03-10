@@ -64,7 +64,7 @@ public class OrderModel : MonoBehaviour
         CreateOrder(Order.ORDER_GUARD, new string[] { "all-player-dynamic-military" }, new string[] { }, "guard", "", 1, new string[] { "guard" });
 
         //fortify order
-        CreateOrder(Order.ORDER_FORTIFY, new string[] { "all-player-dynamic-military" }, new string[] { }, "fortify", "", 1, new string[] { "fortify" });
+        CreateOrder(Order.ORDER_FORTIFY, new string[] { "all-player-dynamic" }, new string[] { }, "fortify", "", 1, new string[] { "fortify" });
 
         //harvesting order
         CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", "", 1, new string[] { "harvest" });
@@ -75,7 +75,7 @@ public class OrderModel : MonoBehaviour
         the same action as long as one is targetted and the other is untargeted, the action will mean different things depending on the situation
         Better way of doing this would be to just update the capability model to have one component map to multiple actions if needed, but this works for now...
         */
-        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "", "constructionChain-2", 1, new string[] { "construct" });
+        CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "all-construct", "constructionChain-2", 1, new string[] { "construct" });
         CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "", "constructionChain-end", 1, new string[] { "construct" });
 
         //evacuation order
@@ -158,21 +158,11 @@ public class OrderModel : MonoBehaviour
             //check if any of the unit types supported by the order match the types of the selected units.
             foreach(string supportedUnitType in orderSupportedUnitTypes)
             {
-                string testedUnitType = supportedUnitType;
-                bool checkPerfectMatch = true;
-                //deal with all flag
-                if (supportedUnitType.StartsWith("all-"))
-                {
-                    testedUnitType = supportedUnitType.Substring(4);
-                    checkPerfectMatch = false;
-                }
-
                 //compare supported unit type to all selected unit types
                 foreach(string unitType in unitTypes)
                 {
                     //if the selected unit type matches a supported unit type, add the order to the list of supported orders.
-                    if ((checkPerfectMatch && (String.Compare(testedUnitType, unitType) == 0))
-                        || (String.Compare(testedUnitType, 0, unitType, 0, testedUnitType.Length) == 0))
+                    if (DoFieldsMatch(unitType, supportedUnitType))
                     {
                         foundMatch = true;
                         supportedOrders.Add(order);
@@ -202,17 +192,8 @@ public class OrderModel : MonoBehaviour
             //check if any of the targets supported by the order match the given target
             foreach(string supportedTarget in orderSupportedTargets)
             {
-                string testedTarget = supportedTarget;
-                bool checkPerfectMatch = true;
-                //deal with all flag
-                if (supportedTarget.StartsWith("all-"))
-                {
-                    testedTarget = supportedTarget.Substring(4);
-                    checkPerfectMatch = false;
-                }
                 //if the selected unit type matches a supported unit type, add the order to the list of supported orders.
-                if ((checkPerfectMatch && (String.Compare(testedTarget, targetUnitType) == 0))
-                    || (String.Compare(testedTarget, 0, targetUnitType, 0, testedTarget.Length) == 0))
+                if (DoFieldsMatch(targetUnitType, supportedTarget))
                 {
                     supportedOrders.Add(order);
                     break;
@@ -230,7 +211,7 @@ public class OrderModel : MonoBehaviour
 
         foreach (Order order in orders)
         {
-            if (String.Compare(command, _orderCommand[order]) == 0)
+            if (DoFieldsMatch(command, _orderCommand[order]))
             {
                 supportedOrders.Add(order);
             }
@@ -246,7 +227,7 @@ public class OrderModel : MonoBehaviour
 
         foreach(Order order in orders)
         {
-            if(String.Compare(eventChain, _orderEventChains[order]) == 0)
+            if(DoFieldsMatch(eventChain, _orderEventChains[order]))
             {
                 supportedOrders.Add(order);
             }
@@ -309,5 +290,19 @@ public class OrderModel : MonoBehaviour
         }
 
         return bestAction;
+    }
+
+    private bool DoFieldsMatch(string currentField, string targetField)
+    {
+        //handle all flag
+        if (targetField.StartsWith("all-"))
+        {
+            string actualTargetField = targetField.Substring(4);
+            return (String.Compare(currentField, 0, actualTargetField, 0, actualTargetField.Length) == 0);
+        }
+        else
+        {
+            return (String.Compare(currentField, targetField) == 0);
+        }
     }
 }
