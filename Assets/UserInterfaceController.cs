@@ -14,6 +14,7 @@ public class UserInterfaceController : MonoBehaviour
     public GameObject AbilPrefab;
     public List<Sprite> AbilityIcons;
     public List<Sprite> BuildIcons;
+    public List<Sprite> UnitIcons;
     //copied from the selection controller 
     //selections variables 
     private List<GameObject> _selectedUnits;
@@ -27,7 +28,7 @@ public class UserInterfaceController : MonoBehaviour
     public List<GameObject> buttonlist;
     public GameObject resourceText;
     public List<GameObject> BuildOptions;
-    public List<GameObject> UnitOptions;
+    
     public Sprite def;//default sprite for tabs
     public GameObject Evac_button;
     
