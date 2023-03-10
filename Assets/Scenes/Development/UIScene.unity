@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4090,6 +4090,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 950557e73aa7c2048afc513ed33754c5, type: 3}
   BuildIcons:
   - {fileID: 21300000, guid: 8713ed8980722174d85619b80bb816cb, type: 3}
+  - {fileID: 21300000, guid: bac76cb6594e4d544a8f579d68d70864, type: 3}
+  - {fileID: 21300000, guid: 4e14a8c504b3d1a41aba6ff0b867aff2, type: 3}
+  - {fileID: 21300000, guid: 272830081f35060489d7113bed8cceee, type: 3}
+  - {fileID: 21300000, guid: 7f90d5f4d61af1a409adf3f457c7a98a, type: 3}
+  UnitIcons:
+  - {fileID: 21300000, guid: 62731555b7ba2e64abb75f22cb044757, type: 3}
+  - {fileID: 21300000, guid: cbd617c56e60a8f43b001c5ee1b94c1f, type: 3}
+  - {fileID: 21300000, guid: 274474678139be24aaf1eeddb942603a, type: 3}
+  - {fileID: 21300000, guid: f93707643968eac4c9f20240351b9eab, type: 3}
+  - {fileID: 21300000, guid: 1b4e562ba98f09d41ae1a8f5741eeb85, type: 3}
+  - {fileID: 21300000, guid: 644e35e6e1561234cb88399072607e38, type: 3}
   tracker: {fileID: 2100000, guid: 8d1e3158d9338be459cfb809f3c6dd30, type: 2}
   buttonlist:
   - {fileID: 479287535}
@@ -4107,7 +4118,6 @@ MonoBehaviour:
   - {fileID: 1616931280}
   - {fileID: 989072765}
   - {fileID: 132130789}
-  UnitOptions: []
   def: {fileID: 21300000, guid: 09b309980813d2642adc1d568108233f, type: 3}
   Evac_button: {fileID: 186092149}
 --- !u!4 &1252410928
@@ -4152,6 +4162,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -741432421294744617, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: SupportedBuildingTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -741432421294744617, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: SupportedBuildingTypes.Array.data[1]
+      value: player-static-barracks
+      objectReference: {fileID: 0}
+    - target: {fileID: -741432421294744617, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: SupportedBuildingTypes.Array.data[2]
+      value: player-static-mainbase
+      objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
       propertyPath: m_RootOrder
       value: 1

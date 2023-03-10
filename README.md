@@ -16,3 +16,8 @@ move Icon generated With Aiart:
 https://creator.nightcafe.studio/creation/irJP7F5VQLfA5Y00vGZp
 civbuilding also generated with Aiart:
 https://creator.nightcafe.studio/creation/ImVQEdUZDVG3LgEZIxVH
+BuildOptions: Research Lab:
+https://www.pinterest.ca/pin/sci-fi-lab-techno-thriller-sci-fi--474144667012067693/
+All Build Icons/UnitIcons/Ability Icons Except Research Lab:
+Ai generated art made with nightcafe studios.
+
