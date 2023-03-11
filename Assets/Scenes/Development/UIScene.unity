@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3255,7 +3255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80f007b4b1801049ada7fe2d5aea0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionIndicatorPrefab: {fileID: 0}
+  SelectionIndicatorPrefab: {fileID: 8670840931534521216, guid: 4440dbf9b21a1174dbb388a9e0176aa2, type: 3}
 --- !u!114 &989166767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4814,7 +4814,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2062d79350057d3479d430b6ab418eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackerGameObject: {fileID: 0}
 --- !u!135 &2095500377
 SphereCollider:
   m_ObjectHideFlags: 0
