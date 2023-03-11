@@ -10,6 +10,8 @@ public class GameStateController : MonoBehaviour
 
     private EntityStorage _entityStorage;
 
+    private UnitDatabase _unitDb;
+
     private UnitCreationController _unitCreationController;
 
     private GameStateModel _gameStateModel;
@@ -22,6 +24,7 @@ public class GameStateController : MonoBehaviour
         _unitCreationController = GetComponent<UnitCreationController>();
         _gameStateModel = FindObjectOfType<GameStateModel>();
         _entityStorage = FindObjectOfType<EntityStorage>();
+        _unitDb = FindObjectOfType<UnitDatabase>();
         //get all units (each unit must have a Unit Info component)
         UnitInfo[] allUnits = FindObjectsOfType<UnitInfo>();
         
@@ -72,6 +75,27 @@ public class GameStateController : MonoBehaviour
                 Debug.LogError("Unknown resource type: " + type + " cannot add.");
                 break;
         }
+    }
+
+    //determine if the player can afford to build a unit of the specified type
+    public bool CanAffordUnit(string unitType)
+    {
+        //should move getting available resources to model class...
+        List<string> availableResources = new List<string>(){ "minerals", "fuel" };
+
+        //check each supported resource to see if the player has enough of it to purchase the unit.
+        foreach (string resource in availableResources)
+        {
+            int playerStockpile = GetPlayerResource(resource);
+            int unitCost = _unitDb.GetUnitCost(unitType, resource);
+
+            if(playerStockpile < unitCost)
+            {
+                Debug.Log("Player has insufficient: " + resource + ", they have " + playerStockpile + " and the unit requires " + unitCost);
+                return false;
+            }
+        }
+        return true;
     }
 
     //get player resources
