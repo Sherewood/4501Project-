@@ -3204,7 +3204,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameCamera: {fileID: 963194227}
-  Speed: 3
+  BaseSpeed: 10
+  MaxSpeed: 10
+  Acceleration: 10
 --- !u!114 &989166763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3253,6 +3255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80f007b4b1801049ada7fe2d5aea0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectionIndicatorPrefab: {fileID: 0}
 --- !u!114 &989166767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3581,11 +3584,6 @@ MonoBehaviour:
   updateInterval: 0.5
   m_Text: {fileID: 599328780}
   CurTime: 0
---- !u!4 &1264003063 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5799474905048768431, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
-  m_PrefabInstance: {fileID: 1810713059}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1282113699
 PrefabInstance:
   m_ObjectHideFlags: 0

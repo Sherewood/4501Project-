@@ -55,6 +55,7 @@ public class DisplayInfoController : MonoBehaviour
         _actionEventTypeMappings.Add("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER);
 
         _actionEventTypeMappings.Add("construct", UIEvTrigger.TRIGGER_MENUSELECT);
+        _actionEventTypeMappings.Add("buildUnit", UIEvTrigger.TRIGGER_MENUSELECT);
     }
 
     /* Helpers (to be called directly by the UI) */
@@ -146,6 +147,28 @@ public class DisplayInfoController : MonoBehaviour
             foreach (string supportedBuildingType in unitConstructionComp.SupportedBuildingTypes) {
                 string supportedBuildingMenuOption = "construct_" + supportedBuildingType;
                 _additionalDisplayInfo.Add(supportedBuildingMenuOption, UIEvTrigger.TRIGGER_UIORDER);
+            }
+        }
+
+        if (command == "buildUnit")
+        {
+            Debug.Log("build a unit");
+            List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
+
+            GameObject selectedUnit = selectedUnits[0];
+            UnitInfo selectedUnitInfo = selectedUnit.GetComponent<UnitInfo>();
+            UnitBuilderComponent unitbuilderComp = selectedUnit.GetComponent<UnitBuilderComponent>();
+
+            unitbuilderComp._buildQueue.Add("player-dynamic-military-infantry");
+            unitbuilderComp._queueTimers.Add(1);
+
+            ClearAdditionalInfo();
+
+            foreach (string supportedUnitType in unitbuilderComp._supportedUnitTypes)
+            {
+                Debug.Log(supportedUnitType);
+                string supportedUnitMenuOption = "construct_" + supportedUnitType;
+                _additionalDisplayInfo.Add(supportedUnitMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }
 

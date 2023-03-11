@@ -120,9 +120,16 @@ public class UnitController : MonoBehaviour
                     PlanetaryEvacuation planetaryEvac = selectedUnit.GetComponent<PlanetaryEvacuation>();
                     planetaryEvac.InitPlanetaryEvac(_gameStateController.GetPlayerResource("fuel"));
                     break;
+                case "buildUnit":
+                    UnitBuilderComponent unitBuilder = selectedUnit.GetComponent<UnitBuilderComponent>();
+                    //idk if this should be done here, but it doesn't work here and does work in display info controller so ?????
+                    //unitBuilder._buildQueue.Add("player-dynamic-military-infantry");
+                    //unitBuilder._queueTimers.Add(1);
+                    break;
                 default:
                     Debug.Log("Unsupported action");
                     break;
+
             }
         }
     }

@@ -57,6 +57,8 @@ public class CapabilityModel : MonoBehaviour
         CreateCapabilityMapping("civilian", "evacuateCivies", new List<string>(), "Unit can evacuate civilians!", false, new List<string>());
         //planetary evacuation component -> evacuate main base capability
         CreateCapabilityMapping("planetaryEvac", "evacuateMainBase", new List<string>(), "Unit can evacuate planet!", false, new List<string>());
+        //unit builder component -> build unit capability
+        CreateCapabilityMapping("unitBuilderComponent", "buildUnit", new List<string>(), "Create a new Unit!", true, new List<string>());
     }
 
     void CreateCapabilityMapping(string componentName, string actionName, List<string> incompatibleActions, string description, bool multiUnit, List<string> techRequirements)

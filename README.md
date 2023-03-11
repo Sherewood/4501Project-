@@ -82,7 +82,6 @@ https://www.pinterest.ca/pin/sci-fi-lab-techno-thriller-sci-fi--4741446670120676
 
 All Build Icons/UnitIcons/Ability Icons Except Research Lab:
 Ai generated art made with nightcafe studios.
-<<<<<<< Updated upstream
 https://nightcafe.studio/
 =======
 Futuristic Soldier:
@@ -100,5 +99,4 @@ https://free-game-assets.itch.io/free-space-colony-3d-low-poly-models
 Textures taken from sources not included:
 Burnt metal:
 https://media.istockphoto.com/id/89364201/photo/dark-background-abstract.jpg?s=612x612&w=0&k=20&c=86aHEgeG9bxRS5YQfEMX0zoGvX7gZ0m8ELgcmotWtdw=
->>>>>>> Stashed changes
 
