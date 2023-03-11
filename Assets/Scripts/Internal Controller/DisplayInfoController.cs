@@ -181,6 +181,11 @@ public class DisplayInfoController : MonoBehaviour
         */
     }
 
+    public string GetUnitName(string unitType)
+    {
+        return _unitDatabase.GetUnitName(unitType);
+    }
+
     //clear all additional display information
     public void ClearAdditionalInfo()
     {

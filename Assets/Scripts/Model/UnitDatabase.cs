@@ -121,4 +121,23 @@ public class UnitDatabase : MonoBehaviour
 
         return unitPrefab.transform.localScale;
     }
+
+    //get the unit's name
+    public string GetUnitName(string type)
+    {
+        GameObject unitPrefab = null;
+        int typeIndex = UnitTypes.IndexOf(type);
+
+        if (typeIndex != -1)
+        {
+            unitPrefab = UnitAssetPrefabs[typeIndex];
+        }
+
+        if(unitPrefab != null)
+        {
+            return unitPrefab.name;
+        }
+
+        return "";
+    }
 }

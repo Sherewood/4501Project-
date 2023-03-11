@@ -130,22 +130,44 @@ public class UserInterfaceController : MonoBehaviour
 
         foreach (KeyValuePair<string, UIEvTrigger> ability in _constructDisplay)
         {
+            //get command type (construct or buildUnit), unit type, and the name of that unit
+            string commandType = ability.Key.Split("_")[0];
+            string unitType = ability.Key.Split("_")[1];
+            string unitName = component.GetUnitName(unitType);
+
+            UiAbilties buildButton = BuildOptions[i].GetComponent<UiAbilties>();
+            TextMeshProUGUI buildName = BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+
 
             BuildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+
+            List<Sprite> spritesToCheck = new List<Sprite>();
             
-            foreach (Sprite sp in BuildIcons)
+            //based on the command type, determine the set of sprites to check for a match
+            if (commandType.Equals("construct"))
+            {
+                spritesToCheck = BuildIcons;
+            }
+            else if (commandType.Equals("buildUnit"))
+            {
+                spritesToCheck = UnitIcons;
+            }
+
+            foreach (Sprite sp in spritesToCheck)
             {
 
-                if (sp.name.Equals(ability.Key))
+                //match using unit name
+                if (sp.name.Equals(unitName))
                 {
-                    
+
                     BuildOptions[i].GetComponent<UiAbilties>().Icon = sp;
-                    
+
                     break;
                 }
             }
-            BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key.Split("construct_player-")[1];
-            //BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text= ability.Key;
+
+            //tada
+            buildName.text = unitName;
 
             i++;
 
