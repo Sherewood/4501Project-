@@ -20,6 +20,9 @@ public class Attack : MonoBehaviour
     //true if ordered movement is overriding the commands of the attack component
     private bool _orderedMovementOngoing;
 
+    //true if unit is currently colliding with its target
+    //note: if unit is colliding with more than 1 possible target and it switches target, this boolean will not be adjusted properly.
+    private bool _collidedWithTarget;
 
     // Start is called before the first frame update
     void Start()
@@ -147,6 +150,7 @@ public class Attack : MonoBehaviour
     private void HandleTargetLoss()
     {
         _targetInRange = false;
+        _collidedWithTarget = false;
         UState curState = _unitState.GetState();
 
         switch (curState)
@@ -177,6 +181,7 @@ public class Attack : MonoBehaviour
     private void HandleTargetChange(GameObject newTarget)
     {
         _targetInRange = false;
+        _collidedWithTarget = false;
         UState curState = _unitState.GetState();
 
         switch (curState)
@@ -267,7 +272,8 @@ public class Attack : MonoBehaviour
     private bool CheckIfInRange(float distance)
     {
         //use weapon component
-        return _weapon.IsWeaponInRange(distance);
+        //alternatively, if collided with the target, then unit is clearly in range...
+        return _weapon.IsWeaponInRange(distance) || _collidedWithTarget;
     }
 
     //check if weapon is ready to fire
@@ -277,12 +283,25 @@ public class Attack : MonoBehaviour
         return _weapon.IsWeaponReadyToFire(distance, direction);
     }
 
-    /* dead code that I will forget to remove from the submission */
-
-    //unused method...
-    private void HandleFiring()
+    /* collision based code for helping melee attackers tell if they're in range */
+    //using overlapsphere instead is probably better, but this works for now
+    void OnCollisionEnter(Collision collision)
     {
-        //use weapon component to get projectile spawned and fired towards target
+        GameObject possibleTarget = collision.gameObject;
+        if (possibleTarget == _currentTarget)
+        {
+            Debug.Log("Started colliding!");
+            _collidedWithTarget = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        GameObject possibleTarget = collision.gameObject;
+        if (possibleTarget == _currentTarget)
+        {
+            _collidedWithTarget = false;
+        }
     }
 
 
