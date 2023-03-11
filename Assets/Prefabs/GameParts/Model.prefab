@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6555852087881390600}
   - component: {fileID: 6555852087881390603}
   - component: {fileID: 6297447060827238874}
+  - component: {fileID: 6555852088183275923}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -74,38 +75,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitTypes:
-  - neutral-test
-  - neutral-test-spawner
-  - player-dynamic-test
-  - neutral-static-mineraldep
-  - neutral-static-fueldep
-  - player-static-mainbase
-  - player-static-civilianbuilding
   - player-dynamic-worker
   - player-dynamic-military-infantry
+  - player-dynamic-military-rpg
+  - player-dynamic-military-minigun
   - player-dynamic-military-tank
+  - player-dynamic-military-artillery
+  - player-static-mainbase
+  - player-static-civilianbuilding
+  - player-static-barracks
+  - player-static-factory
+  - player-static-researchlab
+  - neutral-static-mineraldep
+  - neutral-static-fueldep
+  - enemy-dynamic-edenite_muncher
+  - enemy-dynamic-eden_warrior
+  - enemy-dynamic-eden_devil
   UnitAssetPrefabs:
-  - {fileID: 7910979562441037367, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
-  - {fileID: 7910979562441037367, guid: aeb4d006f39bcf74388abc65a0c61ac3, type: 3}
-  - {fileID: 7910979562441037367, guid: 001e43935c3b00040bccd1566e17b60b, type: 3}
-  - {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
-  - {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
-  - {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
-  - {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
   - {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
   - {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
-  - {fileID: 2488689787140213451, guid: cc26e6d6e27ffa346b41d07d4bcbe6c0, type: 3}
-  UnitAssetIcons:
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
-  - {fileID: 21300000, guid: 1763f70a61d4f5f4eb147b1af170069a, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+  - {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+  - {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+  - {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &6555852087881390600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +135,18 @@ MonoBehaviour:
   StartingMinerals: 500
   StartingFuel: 500
 --- !u!114 &6297447060827238874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2970617129514139879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f3d5c8c7ab2f34ebb46589ca47b267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6555852088183275923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

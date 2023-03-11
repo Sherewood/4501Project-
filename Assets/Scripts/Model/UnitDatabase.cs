@@ -16,9 +16,6 @@ public class UnitDatabase : MonoBehaviour
     public List<string> UnitTypes;
     //prefabs (set in inspector)
     public List<GameObject> UnitAssetPrefabs;
-    //icons (set in inspector)
-    //if unit doesn't have an icon for whatever reason, use a default image of sorts
-    public List<Texture2D> UnitAssetIcons;
 
     void Awake()
     {
@@ -109,19 +106,6 @@ public class UnitDatabase : MonoBehaviour
         }
 
         return unitPrefab;
-    }
-
-    public Texture2D GetUnitIcon(string type)
-    {
-        Texture2D unitIcon = null;
-        int typeIndex = UnitTypes.IndexOf(type);
-
-        if (typeIndex != -1)
-        {
-            unitIcon = UnitAssetIcons[typeIndex];
-        }
-
-        return unitIcon;
     }
 
     /* Other queries */
