@@ -150,10 +150,25 @@ public class UserInterfaceController : MonoBehaviour
 
         }
     }
+
     private void Clear()
     {
+        ClearUnitInformation();
         ClearAbilities();
         ClearBuildOptions();
+    }
+
+    private void ClearUnitInformation()
+    {
+        //clear unit name
+        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        unitNameComp.text = "";
+        //clear unit health
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        healthTextComp.text = "";
+        //clear unit icon
+        RawImage unitIcon = UnitInfo.transform.GetChild(0).GetComponent<RawImage>();
+        unitIcon.texture = null;
     }
 
     private void ClearAbilities()
