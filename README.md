@@ -82,5 +82,23 @@ https://www.pinterest.ca/pin/sci-fi-lab-techno-thriller-sci-fi--4741446670120676
 
 All Build Icons/UnitIcons/Ability Icons Except Research Lab:
 Ai generated art made with nightcafe studios.
+<<<<<<< Updated upstream
 https://nightcafe.studio/
+=======
+Futuristic Soldier:
+https://www.turbosquid.com/3d-models/3d-futuristic-soldier-sci-fi-character-male-1864193
+Bazooka:
+https://www.turbosquid.com/3d-models/3d-model-bazooka-rocket-launcher/361997
+Machine Gun (Robot chain arms):
+https://www.turbosquid.com/3d-models/free-chaingun-robotic-arm-3d-model/480360
+Drill:
+https://www.turbosquid.com/3d-models/3d-berserker-drill-machine-model-2019334
+Minerals:
+https://assetstore.unity.com/packages/3d/environments/fantasy/translucent-crystals-106274
+Main Base, Factory,Civilian building, fuel:
+https://free-game-assets.itch.io/free-space-colony-3d-low-poly-models
+Textures taken from sources not included:
+Burnt metal:
+https://media.istockphoto.com/id/89364201/photo/dark-background-abstract.jpg?s=612x612&w=0&k=20&c=86aHEgeG9bxRS5YQfEMX0zoGvX7gZ0m8ELgcmotWtdw=
+>>>>>>> Stashed changes
 
