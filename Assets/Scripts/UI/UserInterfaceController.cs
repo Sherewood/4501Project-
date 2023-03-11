@@ -82,7 +82,7 @@ public class UserInterfaceController : MonoBehaviour
 
         UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
         //replace with use of Unit Icons stored in UI Controller
-        //UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = component.GetUnitIcon(_selectedUnits[0].GetComponent<UnitInfo>().UnitType);
+        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = _selectedUnits[0].GetComponent<UnitInfo>().UnitPic;
 
         //need a way to get health 
         TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -110,6 +110,7 @@ public class UserInterfaceController : MonoBehaviour
                 {
 
                     buttonlist[i].GetComponent<UiAbilties>().Icon= sp;
+                 
 
                     break;
                 }

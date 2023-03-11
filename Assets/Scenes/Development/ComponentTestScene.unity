@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3410022733692713959, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: UnitPic
+      value: 
+      objectReference: {fileID: 2800000, guid: 644e35e6e1561234cb88399072607e38, type: 3}
     - target: {fileID: 3932287176631834212, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
       propertyPath: DestinationReachedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 1
@@ -1111,6 +1115,10 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 3152451505010523614, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: UnitPic
+      value: 
+      objectReference: {fileID: 2800000, guid: 274474678139be24aaf1eeddb942603a, type: 3}
     - target: {fileID: 4600160231310051482, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_Mass
       value: 100
@@ -2729,6 +2737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80f007b4b1801049ada7fe2d5aea0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectionIndicatorPrefab: {fileID: 0}
 --- !u!114 &989166767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4834,6 +4843,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 265593879655160066, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: UnitPic
+      value: 
+      objectReference: {fileID: 2800000, guid: 62731555b7ba2e64abb75f22cb044757, type: 3}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
       value: Tank (2)
@@ -5113,6 +5126,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 265593879655160066, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: UnitPic
+      value: 
+      objectReference: {fileID: 2800000, guid: 1b4e562ba98f09d41ae1a8f5741eeb85, type: 3}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
       value: Tank (1)

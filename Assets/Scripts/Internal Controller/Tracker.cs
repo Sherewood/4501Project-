@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Tracker : MonoBehaviour
 {
-    public GameObject trackerGameObject;
+  //  public GameObject trackerGameObject;
     // Start is called before the first frame update
     void Start()
     {
-        if (trackerGameObject != null) this.transform.position = trackerGameObject.transform.position;
+      //  if (trackerGameObject != null) this.transform.position = trackerGameObject.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = trackerGameObject.transform.position;
+        //this.transform.position = trackerGameObject.transform.position;
     }
     void setGameObject(GameObject newObj)
     {
-        trackerGameObject=newObj;
+       // trackerGameObject=newObj;
     }
 }
