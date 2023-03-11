@@ -3113,9 +3113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameCamera: {fileID: 963194227}
-  BaseSpeed: 3
-  MaxSpeed: 20
-  Acceleration: 0.98
+  BaseSpeed: 14
+  MaxSpeed: 35
+  Acceleration: 3
 --- !u!114 &989166763
 MonoBehaviour:
   m_ObjectHideFlags: 0

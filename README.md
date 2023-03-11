@@ -1,9 +1,15 @@
 # 4501Project-
  4501 project
 
-Testing:
+Testing
+-------------------
 
 1. Use PrototypeDemoScene
+
+Controls
+-------------------
+
+Camera: Use arrow keys to move
 
 
 Model Sources:
