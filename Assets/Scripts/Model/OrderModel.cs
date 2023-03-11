@@ -17,6 +17,7 @@ public enum Order
     ORDER_CONSTRUCT,
     ORDER_EVAC_CIVIES,
     ORDER_PLANETARY_EVAC,
+    ORDER_BUILD_UNIT,
     ORDER_INVALID
 }
 
@@ -83,6 +84,9 @@ public class OrderModel : MonoBehaviour
 
         //planetary evac order
         CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "planetaryEvac", "", 1, new string[] { "planetaryEvac" });
+
+        //unit creation order 
+        CreateOrder(Order.ORDER_BUILD_UNIT, new string[] { "player-static-barracks" }, new string[] { }, "all-buildUnit", "", 1, new string[] { "buildUnit" });
     }
 
     private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string orderCommand, string eventChain, int priority, string[] orderActions)
