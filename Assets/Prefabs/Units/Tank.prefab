@@ -84,7 +84,7 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
-  Speed: 4
+  Speed: 1.5
   TurnRate: 45
 --- !u!114 &5302439003636257768
 MonoBehaviour:
@@ -129,7 +129,6 @@ MonoBehaviour:
   AutoDetectRange: 10
   FullDetectRange: 10
   TargetAllegiances:
-  - neutral
   - enemy
 --- !u!65 &8465769443800188590
 BoxCollider:
@@ -195,7 +194,7 @@ MonoBehaviour:
   Damage: 50
   FireRate: 0.5
   MinRange: 0
-  MaxRange: 10
+  MaxRange: 9
   FiringOffset: {x: 0, y: 1.45, z: 0.15}
   FiringArc: 30
   projectilePrefab: {fileID: 3724394957186235770, guid: 0d8558e78819c104eb6df97db5cb8695, type: 3}

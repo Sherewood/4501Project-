@@ -700,8 +700,8 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
-  Speed: 5
-  TurnRate: 210
+  Speed: 2
+  TurnRate: 175
 --- !u!114 &7323354228365517356
 MonoBehaviour:
   m_ObjectHideFlags: 0
