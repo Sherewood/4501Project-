@@ -75,6 +75,7 @@ public class OrderModel : MonoBehaviour
         kind of ugly, but due to the unit controller's design splitting handling of targetted and untargetted order, can have two orders with
         the same action as long as one is targetted and the other is untargeted, the action will mean different things depending on the situation
         Better way of doing this would be to just update the capability model to have one component map to multiple actions if needed, but this works for now...
+        Update: ended up doing that capability model change, but this works so I'm too lazy to update it
         */
         CreateOrder(Order.ORDER_SELECT_BUILDING, new string[] { "player-dynamic-worker" }, new string[] { }, "all-construct", "constructionChain-2", 1, new string[] { "construct" });
         CreateOrder(Order.ORDER_CONSTRUCT, new string[] { "player-dynamic-worker" }, new string[] { "Terrain" }, "", "constructionChain-end", 1, new string[] { "construct" });
