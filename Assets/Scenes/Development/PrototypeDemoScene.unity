@@ -1225,6 +1225,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440327, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3cc2bd262a531a43ac4ec6700664ab0, type: 2}
     - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
       propertyPath: m_Name
       value: Fuel Deposit (1)
@@ -2154,7 +2158,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize: 100
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -2189,7 +2193,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -2208,7 +2212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 500, y: 100, z: 400}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2722,6 +2726,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440327, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c81a0cbe7adf19442928a73c4f125be1, type: 2}
     - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
       propertyPath: m_Name
       value: Mineral Deposit
@@ -5199,6 +5207,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440327, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 21c2862e75d0df3419d0b0ce884f7436, type: 2}
     - target: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
       propertyPath: m_Name
       value: Civilian Building (1)
@@ -5373,7 +5385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.39
+      value: 14.71
       objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5407,6 +5419,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6684196009847440327, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2c76b1ec21f7b7f4584b9fa54c4460fd, type: 2}
     - target: {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: m_Name
       value: Main Base
