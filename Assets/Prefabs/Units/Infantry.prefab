@@ -2385,8 +2385,8 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
-  Speed: 5
-  TurnRate: 120
+  Speed: 2
+  TurnRate: 90
 --- !u!114 &2712129321907911998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2431,8 +2431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 10
-  FullDetectRange: 15
+  AutoDetectRange: 8
+  FullDetectRange: 8
   TargetAllegiances:
   - enemy
 --- !u!54 &4600160231310051482
@@ -2443,7 +2443,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8101192436672986434}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

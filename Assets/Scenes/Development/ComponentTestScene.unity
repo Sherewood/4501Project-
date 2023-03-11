@@ -1089,11 +1089,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: AutoDetectRange
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: TargetAllegiances.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: TargetAllegiances.Array.data[0]
+      value: enemy
       objectReference: {fileID: 0}
     - target: {fileID: -2791979558073093744, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: TargetAllegiances.Array.data[1]
@@ -1106,6 +1110,10 @@ PrefabInstance:
     - target: {fileID: -2730881971866878755, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_Size.z
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600160231310051482, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_RootOrder
