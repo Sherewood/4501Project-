@@ -39,6 +39,8 @@ public class UnitDatabase : MonoBehaviour
 
         //human units
         CreateUnitDataRecord("player-dynamic-military-infantry", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-rpg", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-minigun", 0, 0, "unitInfo unitState movement health attack weapon targeting");
 
         //vehicles
         CreateUnitDataRecord("player-dynamic-military-tank", 0, 0, "unitInfo unitState movement health attack weapon targeting");
