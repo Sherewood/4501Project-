@@ -7,6 +7,9 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
 
+    [Tooltip("The prefab used to represent a selection ring.")]
+    public SelectionIndicator SelectionIndicatorPrefab;
+
     //list of selected units
     private List<GameObject> _selectedUnits;
 
@@ -17,10 +20,14 @@ public class SelectionController : MonoBehaviour
 
     private EntityStorage _entityStorage;
 
+    //all currently instantiated selection indicators
+    private List<SelectionIndicator> _selectionIndicators;
+
     void Start()
     {
         _selectedUnits = new List<GameObject>();
         _selectedUnitCapabilities = new List<Capability>();
+        _selectionIndicators = new List<SelectionIndicator>();
 
         _capabilityController = GetComponent<CapabilityController>();
         _entityStorage = FindObjectOfType<EntityStorage>();
@@ -42,9 +49,12 @@ public class SelectionController : MonoBehaviour
         //clear old selected unit data
         _selectedUnits.Clear();
         _selectedUnitCapabilities.Clear();
+        ClearSelectionIndicators();
+
 
         _selectedUnits.Add(selectedEntity);
         _selectedUnitCapabilities = _capabilityController.GetCapabilitiesOfUnit(selectedEntity);
+        AddNewSelectionIndicator(selectedEntity);
 
         Debug.Log("New selection made - unit with instance id " + selectedEntity.GetInstanceID());
         Debug.Log("Selected unit has " + _selectedUnitCapabilities.Count + " capabilities. Too lazy to list them out right now lmao.");
@@ -62,5 +72,26 @@ public class SelectionController : MonoBehaviour
     public List<Capability> GetSelectedUnitCapabilities()
     {
         return _selectedUnitCapabilities;
+    }
+
+    //create a new selection indicator mapped to a given target object
+    private void AddNewSelectionIndicator(GameObject target)
+    {
+        SelectionIndicator newIndicator = Instantiate(SelectionIndicatorPrefab);
+
+        newIndicator.SetTarget(target);
+
+        _selectionIndicators.Add(newIndicator);
+    }
+
+    //clear out old selection indicators
+    private void ClearSelectionIndicators()
+    {
+        foreach(SelectionIndicator indicator in _selectionIndicators)
+        {
+            Destroy(indicator.gameObject);
+        }
+
+        _selectionIndicators.Clear();
     }
 }
