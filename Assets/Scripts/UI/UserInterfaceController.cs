@@ -78,14 +78,15 @@ public class UserInterfaceController : MonoBehaviour
     {
         //refresh before repopulating
         ClearAbilities();
-        //Debug.Log(Unitblock.transform.GetChild(0).transform.GetChild(0).name);
 
-        UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _selectedUnits[0].GetComponent<UnitInfo>().UnitType;
-        //replace with use of Unit Icons stored in UI Controller
-        UnitInfo.transform.GetChild(0).GetComponent<RawImage>().texture = _selectedUnits[0].GetComponent<UnitInfo>().UnitPic;
 
-        //need a way to get health 
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        //get unit name
+        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        unitNameComp.text = unitName;
+
+        //get unit health
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
         if (unitHealthComp != null)
         {
@@ -95,6 +96,20 @@ public class UserInterfaceController : MonoBehaviour
         {
             healthTextComp.text = "";
         }
+
+        //future: other unit-specific statistics?
+
+        //get unit icon
+        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
+        unitIcon.enabled = true;
+        foreach (Sprite sp in UnitIcons)
+        {
+            if (sp.name.Equals(unitName))
+            {
+                unitIcon.sprite = sp;
+            }
+        }
+
         //some really primitive attempt to place buttons from left to right
         //ability display. 
         int i = 0;
@@ -184,14 +199,15 @@ public class UserInterfaceController : MonoBehaviour
     private void ClearUnitInformation()
     {
         //clear unit name
-        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         unitNameComp.text = "";
         //clear unit health
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         healthTextComp.text = "";
         //clear unit icon
-        RawImage unitIcon = UnitInfo.transform.GetChild(0).GetComponent<RawImage>();
-        unitIcon.texture = null;
+        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
+        unitIcon.sprite = null;
+        unitIcon.enabled = false;
     }
 
     private void ClearAbilities()
@@ -199,6 +215,7 @@ public class UserInterfaceController : MonoBehaviour
         for (int i = 0; i < buttonlist.Count; i++)
         {
             buttonlist[i].GetComponent<UiAbilties>().Icon = def;
+            buttonlist[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 
@@ -207,6 +224,7 @@ public class UserInterfaceController : MonoBehaviour
         for (int i = 0; i < BuildOptions.Count; i++)
         {
             BuildOptions[i].GetComponent<UiAbilties>().Icon = def;
+            BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 }
