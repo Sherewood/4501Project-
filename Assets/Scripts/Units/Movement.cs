@@ -78,6 +78,7 @@ public class Movement : MonoBehaviour
     
     }
 
+    //destroy coroutines at end
     void OnDestroy()
     {
         StopCoroutine(RotationHandler());
@@ -142,6 +143,8 @@ public class Movement : MonoBehaviour
         return target;
     }
 
+    /* destination setters */
+
     //set ordered destination - should usually be from player command
     public void SetOrderedDestination(Vector3 orderedDestination, float offsetFromDestination = 0.0f)
     {
@@ -205,6 +208,8 @@ public class Movement : MonoBehaviour
         }
     }
 
+    /* worker-specific stuff */
+
     //set moving to harvest
     public void SetOrderedHarvestDestination(Vector3 orderedDestination)
     {
@@ -230,6 +235,7 @@ public class Movement : MonoBehaviour
     }
 
     
+    /* Return point */
 
     //set point to return to
     public void SetReturnPoint(Vector3 returnPoint)
@@ -249,6 +255,7 @@ public class Movement : MonoBehaviour
             _unitState.SetState(UState.STATE_MOVING);
         }
     }
+
 
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement(bool stopOrderedMovement)
@@ -319,10 +326,6 @@ public class Movement : MonoBehaviour
             direction.y = 0;
             //determine the target rotation
             _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
-
-            //rotate the rigidbody
-            //disabled because of bugginess, doing it in FixedUpdate instead aswell
-            //_rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, TurnRate * Time.deltaTime));
 
             yield return null;
         }
