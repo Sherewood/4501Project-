@@ -726,8 +726,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 7
-  FullDetectRange: 7
+  AutoDetectRange: 9
+  FullDetectRange: 9
   TargetAllegiances:
   - player
 --- !u!114 &6259586960116235812
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponType: melee
   Damage: 14
-  FireRate: 0.8
+  FireRate: 1.5
   MinRange: 0
   MaxRange: 1
   FiringOffset: {x: 0, y: 0, z: 0}

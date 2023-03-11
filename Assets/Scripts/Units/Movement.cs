@@ -253,7 +253,6 @@ public class Movement : MonoBehaviour
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement(bool stopOrderedMovement)
     {
-        Debug.Log("StopOrderedMovement: " + stopOrderedMovement);
         if (stopOrderedMovement)
         {
             _orderedDestination = Vector3.zero;
