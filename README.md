@@ -1,12 +1,14 @@
 # 4501Project-
  4501 project
 
-Testing
+ Group members: Andrew Krutelevich, Danny Michaud, Julien Rougerie
+
+# Testing
 -------------------
 
 1. Use PrototypeDemoScene
 
-Controls
+# Controls
 -------------------
 
 Camera: Use arrow keys to move
