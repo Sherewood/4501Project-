@@ -49,8 +49,11 @@ public class DisplayInfoController : MonoBehaviour
     {
         _actionEventTypeMappings = new Dictionary<string, UIEvTrigger>();
 
+        //mappings for actions that trigger UI order or menu select events
+
         _actionEventTypeMappings.Add("guard", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("fortify", UIEvTrigger.TRIGGER_UIORDER);
+        _actionEventTypeMappings.Add("returnToBase", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("evacuateCivies", UIEvTrigger.TRIGGER_UIORDER);
         _actionEventTypeMappings.Add("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER);
 

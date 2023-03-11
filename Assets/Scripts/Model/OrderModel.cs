@@ -8,6 +8,7 @@ using UnityEngine;
 public enum Order
 {
     ORDER_MOVE,
+    ORDER_RETURN_TO_BASE,
     ORDER_ATTACK,
     ORDER_GUARD,
     ORDER_FORTIFY,
@@ -57,6 +58,9 @@ public class OrderModel : MonoBehaviour
 
         //movement order
         CreateOrder(Order.ORDER_MOVE, new string[] { "all-player-dynamic" }, new string[] { "Terrain" }, "", "", 1, new string[] { "move" });
+
+        //return to base order
+        CreateOrder(Order.ORDER_RETURN_TO_BASE, new string[] { "all-player-dynamic" }, new string[] { }, "returnToBase", "", 1, new string[] { "returnToBase" });
 
         //attack order
         CreateOrder(Order.ORDER_ATTACK, new string[] { "all-player-dynamic-military" }, new string[] { "all-enemy" }, "", "", 1, new string[] { "attack" });

@@ -44,6 +44,8 @@ public class CapabilityModel : MonoBehaviour
 
         //movement component -> move capability
         CreateCapabilityMapping("movement", "move", new List<string>(), "Unit can move!", true, new List<string>());
+        //movement component -> return to base capability
+        CreateCapabilityMapping("movement", "returnToBase", new List<string>(), "Unit can return to base!", true, new List<string>());
         //attack component -> attack, guard capabilities
         CreateCapabilityMapping("attack", "attack", new List<string>(), "Unit can attack!", true, new List<string>());
         CreateCapabilityMapping("attack", "guard", new List<string>(), "Unit can guard its position!", true, new List<string>());

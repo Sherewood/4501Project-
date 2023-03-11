@@ -115,4 +115,10 @@ public class GameStateController : MonoBehaviour
         return -1;
     }
 
+    //returns the player's main base
+    public GameObject GetMainBase()
+    {
+        return _playerMainBase.gameObject;
+    }
+
 }

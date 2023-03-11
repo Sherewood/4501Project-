@@ -23,6 +23,8 @@ public class UnitController : MonoBehaviour
         _orderController = GetComponent<OrderController>();
 
         _capabilityController = GetComponent<CapabilityController>();
+
+        _gameStateController = GetComponent<GameStateController>();
     }
 
     /* Unit command handling (will need to refactor later once we have more capabilities) */
@@ -102,6 +104,18 @@ public class UnitController : MonoBehaviour
                     //set unit state to fortified
                     unitState = selectedUnit.GetComponent<UnitState>();
                     unitState.SetState(UState.STATE_FORTIFIED);
+                    break;
+                case "returnToBase":
+                    //get main base, and order unit to travel relatively close to it
+                    GameObject mainBase = _gameStateController.GetMainBase();
+
+                    //assuming main base is square-shaped
+                    //add unit scale for extra padding, even though it isn't necessarily correct
+                    float mainBaseOffset = mainBase.transform.localScale.x + selectedUnit.transform.localScale.z;
+
+                    movement = selectedUnit.GetComponent<Movement>();
+                    movement.SetReturnPoint(mainBase.transform.position);
+                    movement.OrderReturn(mainBaseOffset);
                     break;
                 case "construct":
                     //get the building type that the player wants to select for the unit, then save it in the unit's construction component.
