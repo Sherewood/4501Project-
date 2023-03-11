@@ -1,5 +1,11 @@
 # 4501Project-
  4501 project
+
+Testing:
+
+1. Use PrototypeDemoScene
+
+
 Model Sources:
 Sandsotne:https://polyhaven.com/a/mud_cracked_dry_riverbed_002
 asphalt
