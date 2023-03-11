@@ -114,7 +114,7 @@ public class UserInterfaceController : MonoBehaviour
                     break;
                 }
             }
-            
+            buttonlist[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
 
             i++;
             
@@ -143,7 +143,8 @@ public class UserInterfaceController : MonoBehaviour
                     break;
                 }
             }
-
+            BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key.Split("construct_player-")[1];
+            //BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text= ability.Key;
 
             i++;
 
