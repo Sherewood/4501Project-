@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1168,11 +1168,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
---- !u!1 &473716418 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
-  m_PrefabInstance: {fileID: 1639858068}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &481642187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2512,8 +2507,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 0
+  field of view: 45
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -2537,14 +2532,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
-  m_LocalPosition: {x: 5, y: 5, z: 5}
+  m_LocalRotation: {x: 0.27781588, y: 0.36497167, z: -0.1150751, w: 0.8811196}
+  m_LocalPosition: {x: 5, y: 10, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 55, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 45, z: 0}
 --- !u!1 &972865653 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8073394494526041668, guid: caa7eb1620835dc4da43a1cdca06c629, type: 3}
@@ -2683,7 +2678,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameCamera: {fileID: 963194227}
-  Speed: 3
+  BaseSpeed: 3
+  MaxSpeed: 20
+  Acceleration: 0.98
 --- !u!114 &989166763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4307,6 +4304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateInterval: 0.5
   m_Text: {fileID: 420356667}
+  CurTime: 0
 --- !u!114 &1547713379
 MonoBehaviour:
   m_ObjectHideFlags: 0
