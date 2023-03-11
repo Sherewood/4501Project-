@@ -167,7 +167,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildQueue: []
   _queueTimers: []
-  _supportedUnitTypes: []
+  _supportedUnitTypes:
+  - player-dynamic-military-tank
+  - player-dynamic-military-artillery
 --- !u!114 &3531464063517887513
 MonoBehaviour:
   m_ObjectHideFlags: 0

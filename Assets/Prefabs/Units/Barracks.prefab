@@ -167,7 +167,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildQueue: []
   _queueTimers: []
-  _supportedUnitTypes: []
+  _supportedUnitTypes:
+  - player-dynamic-military-infantry
+  - player-dynamic-military-rpg
+  - player-dynamic-military-minigun
 --- !u!114 &3531464063517887513
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -136,9 +136,15 @@ public class UnitController : MonoBehaviour
                     break;
                 case "buildUnit":
                     UnitBuilderComponent unitBuilder = selectedUnit.GetComponent<UnitBuilderComponent>();
-                    //idk if this should be done here, but it doesn't work here and does work in display info controller so ?????
-                    //unitBuilder._buildQueue.Add("player-dynamic-military-infantry");
-                    //unitBuilder._queueTimers.Add(1);
+                    Debug.Log(command);
+                    string unitType = command.Split("_")[1];
+                    if (_gameStateController.CanAffordUnit(unitType))
+                    {
+                        //remove resources from player
+                        unitBuilder._buildQueue.Add(unitType);
+                        //adjust to account for varying build times for different units maybe
+                        unitBuilder._queueTimers.Add(10);
+                    }
                     break;
                 default:
                     Debug.Log("Unsupported action");
