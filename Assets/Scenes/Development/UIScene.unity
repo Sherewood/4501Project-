@@ -3580,15 +3580,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateInterval: 0.5
   m_Text: {fileID: 599328780}
-<<<<<<< Updated upstream
-=======
   CurTime: 0
 --- !u!4 &1264003063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5799474905048768431, guid: ed9af26eb90599947aee7984365b4f08, type: 3}
   m_PrefabInstance: {fileID: 1810713059}
   m_PrefabAsset: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!1001 &1282113699
 PrefabInstance:
   m_ObjectHideFlags: 0
