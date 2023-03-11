@@ -23,11 +23,6 @@ public class UnitDatabase : MonoBehaviour
 
         _unitData = new Dictionary<string, Dictionary<string, string>>();
 
-        //create unit records
-        CreateUnitDataRecord("neutral-test", 0, 0, "unitInfo unitState movement health targeting");
-        CreateUnitDataRecord("player-dynamic-test", 0, 0, "unitInfo unitState movement attack weapon health targeting");
-        CreateUnitDataRecord("neutral-test-spawner", 0, 0, "unitInfo unitState unitSpawner");
-
         //worker
         CreateUnitDataRecord("player-dynamic-worker", 0, 0, "unitInfo unitState movement health harvester construction unitSpawner");
 
