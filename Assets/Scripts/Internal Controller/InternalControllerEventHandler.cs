@@ -92,7 +92,6 @@ public class InternalControllerEventHandler : MonoBehaviour
         _selectionController.HandleSingleSelection(selectionTarget);
 
         //clear additional menu options open if a new unit is selected
-        //usage might need to be revisited when we test MenuSelectionEvents/get Display Info Controllers
         _displayInfoController.ClearAdditionalInfo();
     }
 
@@ -111,7 +110,6 @@ public class InternalControllerEventHandler : MonoBehaviour
             _unitController.HandleTargetedOrder(order, orderTarget);
 
             //clear additional menu options open if a new unit is selected
-            //usage might need to be revisited when we test MenuSelectionEvents/get Display Info Controllers
             _displayInfoController.ClearAdditionalInfo();
         }
         else
@@ -129,6 +127,13 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController.HandleEventChainUIEventUpdate("UIOrder", command);
 
         Order order = _orderController.DetermineUntargetedOrder(command);
+
+        //lazy corner case handling - if worker unit fortifies during construction chain,
+        //it will break the event chain but the construction options in the UI do not disappear, so they need to be cleared
+        if (order == Order.ORDER_FORTIFY)
+        {
+            _displayInfoController.ClearAdditionalInfo();
+        }
 
         if (order != Order.ORDER_INVALID)
         {
