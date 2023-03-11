@@ -290,7 +290,6 @@ public class Attack : MonoBehaviour
         GameObject possibleTarget = collision.gameObject;
         if (possibleTarget == _currentTarget)
         {
-            Debug.Log("Started colliding!");
             _collidedWithTarget = true;
         }
     }
