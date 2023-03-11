@@ -48,6 +48,7 @@ public class SelectionController : MonoBehaviour
         if (selectedEntity == null)
         {
             Debug.Log("Selected unit destroyed inbetween selection and selection controller handling, ignoring");
+            ClearOldSelectionData(true);
             return;
         }
 
@@ -55,6 +56,7 @@ public class SelectionController : MonoBehaviour
         if (_entityStorage.FindEntity(selectedEntity.GetInstanceID()) == null)
         {
             Debug.Log("Selection target is not a unit - No selection made");
+            ClearOldSelectionData(true);
             return;
         }
 
