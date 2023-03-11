@@ -33,11 +33,23 @@ public class SelectionController : MonoBehaviour
         _entityStorage = FindObjectOfType<EntityStorage>();
     }
 
+    void Update()
+    {
+        //check if any selected units have been destroyed, and clear them if they have
+        CheckIfSelectedUnitsGone();
+    }
+
     //Handle single unit selection
     public void HandleSingleSelection(RaycastHit selection)
     {
         //get the hit GameObject
         GameObject selectedEntity = selection.transform.gameObject;
+
+        if (selectedEntity == null)
+        {
+            Debug.Log("Selected unit destroyed inbetween selection and selection controller handling, ignoring");
+            return;
+        }
 
         //if GameObject not found in entity storage, then the GameObject does not correspond to a unit.
         if (_entityStorage.FindEntity(selectedEntity.GetInstanceID()) == null)
@@ -47,10 +59,7 @@ public class SelectionController : MonoBehaviour
         }
 
         //clear old selected unit data
-        _selectedUnits.Clear();
-        _selectedUnitCapabilities.Clear();
-        ClearSelectionIndicators();
-
+        ClearOldSelectionData(true);
 
         _selectedUnits.Add(selectedEntity);
         _selectedUnitCapabilities = _capabilityController.GetCapabilitiesOfUnit(selectedEntity);
@@ -66,12 +75,50 @@ public class SelectionController : MonoBehaviour
 
     public List<GameObject> GetSelectedUnits()
     {
+        //check if any selected units died before delivering info
+        CheckIfSelectedUnitsGone();
         return _selectedUnits;
     }
 
     public List<Capability> GetSelectedUnitCapabilities()
     {
         return _selectedUnitCapabilities;
+    }
+
+    private void ClearOldSelectionData(bool eraseUnits)
+    {
+        if (eraseUnits)
+        {
+            _selectedUnits.Clear();
+        }
+        _selectedUnitCapabilities.Clear();
+        ClearSelectionIndicators();
+    }
+
+    private void CheckIfSelectedUnitsGone()
+    {
+        bool unitDestroyed = false;
+        //remove any selected units that were destroyed
+        for(int i = 0; i < _selectedUnits.Count; i++)
+        {
+            if (_selectedUnits[i] == null)
+            {
+                _selectedUnits.RemoveAt(i);
+                unitDestroyed = true;
+                i--;
+            }
+        }
+
+        //if a unit was destroyed, clear the capability data/indicators and re-create them
+        if (unitDestroyed)
+        {
+            ClearOldSelectionData(false);
+            _selectedUnitCapabilities = _capabilityController.GetCapabilitiesOfUnits(_selectedUnits);
+            foreach (GameObject unit in _selectedUnits)
+            {
+                AddNewSelectionIndicator(unit);
+            }
+        }
     }
 
     //create a new selection indicator mapped to a given target object

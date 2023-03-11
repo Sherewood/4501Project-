@@ -24,12 +24,49 @@ public class CapabilityController : MonoBehaviour
         //check tech requirements (to be implemented later)
 
         //check if any capabilities are incompatible due to other capabilities
-        foreach(Capability capability in possibleCapabilities)
+        actualCapabilities = ResolveCapabilityConflicts(possibleCapabilities);
+
+        return actualCapabilities;
+    }
+
+    public List<Capability> GetCapabilitiesOfUnits(List<GameObject> units)
+    {
+        //get all the unique capabilities available to any units in the selection
+        List<Capability> totalCapabilities = new List<Capability>();
+        foreach (GameObject unit in units)
+        {
+            //todo - add parameter to indicate multi-unit capabilities should not be included if more than 1 unit selected
+            List<Capability> possibleCapabilities = _capabilityModel.GetCapabilitiesOfUnit(unit);
+        
+            foreach(Capability capability in possibleCapabilities)
+            {
+                if (!totalCapabilities.Contains(capability))
+                {
+                    totalCapabilities.Add(capability);
+                }
+            }
+        }
+        List<Capability> actualCapabilities = new List<Capability>();
+
+        //check tech requirements (to be implemented later)
+
+        //check if any capabilities are incompatible due to other capabilities
+        actualCapabilities = ResolveCapabilityConflicts(totalCapabilities);
+
+        return actualCapabilities;
+    }
+
+    private List<Capability> ResolveCapabilityConflicts(List<Capability> possibleCapabilities)
+    {
+        List<Capability> compatibleCapabilities = new List<Capability>();
+
+        //check if any capabilities are incompatible due to other capabilities
+        foreach (Capability capability in possibleCapabilities)
         {
             bool validAction = true;
-            foreach(Capability comparedCapability in possibleCapabilities)
+            foreach (Capability comparedCapability in possibleCapabilities)
             {
-                if(comparedCapability == capability)
+                if (comparedCapability == capability)
                 {
                     continue;
                 }
@@ -42,11 +79,11 @@ public class CapabilityController : MonoBehaviour
 
             if (validAction)
             {
-                actualCapabilities.Add(capability);
+                compatibleCapabilities.Add(capability);
             }
         }
 
-        return actualCapabilities;
+        return compatibleCapabilities;
     }
 
 
