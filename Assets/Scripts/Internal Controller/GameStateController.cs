@@ -27,7 +27,7 @@ public class GameStateController : MonoBehaviour
         _unitDb = FindObjectOfType<UnitDatabase>();
         //get all units (each unit must have a Unit Info component)
         UnitInfo[] allUnits = FindObjectsOfType<UnitInfo>();
-        
+
         foreach (UnitInfo unit in allUnits)
         {
             //add to entity storage using unit creation controller
@@ -81,7 +81,7 @@ public class GameStateController : MonoBehaviour
     public bool CanAffordUnit(string unitType)
     {
         //should move getting available resources to model class...
-        List<string> availableResources = new List<string>(){ "minerals", "fuel" };
+        List<string> availableResources = new List<string>() { "minerals", "fuel" };
 
         //check each supported resource to see if the player has enough of it to purchase the unit.
         foreach (string resource in availableResources)
@@ -89,13 +89,21 @@ public class GameStateController : MonoBehaviour
             int playerStockpile = GetPlayerResource(resource);
             int unitCost = _unitDb.GetUnitCost(unitType, resource);
 
-            if(playerStockpile < unitCost)
+            if (playerStockpile < unitCost)
             {
                 Debug.Log("Player has insufficient: " + resource + ", they have " + playerStockpile + " and the unit requires " + unitCost);
                 return false;
             }
         }
         return true;
+    }
+
+    //deduct resources for the cost of some unit from the player's storage
+    public void PurchaseUnit(string unitType)
+    {
+        Debug.Log("mineral cost deducted: " + _unitDb.GetUnitCost(unitType, "minerals") + "fuel deducted: " + _unitDb.GetUnitCost(unitType, "fuel"));
+        _gameStateModel.SubtractPlayerMinerals(_unitDb.GetUnitCost(unitType, "minerals"));
+        _gameStateModel.SubtractPlayerFuel(_unitDb.GetUnitCost(unitType, "fuel"));
     }
 
     //get player resources
