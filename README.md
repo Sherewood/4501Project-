@@ -12,7 +12,11 @@ Area selection - saving for the advanced prototype
 
 Special abilities - ran short on time unfortunately, should be in advanced prototype
 
-Visual indication is also limited, but it wasn't fleshed out in the proposal anyways so not sure why I mentioned this here.
+Edenite Ravager was supposed to have multiple weapons, did not make the cut this time - unclear if will make it into final delieverable
+
+Enemy Spawner has not been provided - should be in advanced prototype, if not then 100% in final deliverable
+
+Visual indications are also limited, but it wasn't fleshed out in the proposal anyways so not sure why I mentioned this here.
 
 # Testing
 -------------------
