@@ -261,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-static-civilianbuilding
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &8002568013237805364
 MonoBehaviour:
@@ -288,7 +287,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 500
-  _actualHealth: 0
   BaseDefense: 33
   FortifyDefenseBonus: 0
 --- !u!114 &2814840499170927294
@@ -321,7 +319,7 @@ MonoBehaviour:
   PeriodicUnitSpawnTypes: []
   PeriodicUnitSpawnIntervals: []
   RandomSpawnMode: 0
-  SpawnPositionFixedOffset: {x: 2, y: -1.4, z: 0}
+  SpawnPositionFixedOffset: {x: 2, y: 0.1, z: 0}
   SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
   SpawnRetryAttemptLimit: 0
   SpawnRetryMode: 0

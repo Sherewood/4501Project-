@@ -962,30 +962,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &237628380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
-  m_PrefabInstance: {fileID: 1608287478}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &237628390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237628380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 674286c98b34cee4d9762c5c8f76d213, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PeriodicUnitSpawnTypes: []
-  PeriodicUnitSpawnIntervals: []
-  RandomSpawnMode: 0
-  SpawnPositionFixedOffset: {x: 2, y: -1.4, z: 0}
-  SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
-  SpawnRetryAttemptLimit: 0
-  SpawnRetryMode: 0
 --- !u!1001 &280762659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5655,6 +5631,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5891611578312411882, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: SpawnPositionFixedOffset.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2814840499170927294, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
       propertyPath: NumCivilians
       value: 40
@@ -5726,10 +5706,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 237628390}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
 --- !u!1 &1609543931
 GameObject:
