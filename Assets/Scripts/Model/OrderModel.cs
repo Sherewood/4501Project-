@@ -88,7 +88,7 @@ public class OrderModel : MonoBehaviour
         CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "evacuateCivies", "", 1, new string[] { "evacuateCivies" });
 
         //planetary evac order
-        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "planetaryEvac", "", 1, new string[] { "planetaryEvac" });
+        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "evacuateMainBase", "", 1, new string[] { "evacuateMainBase" });
 
         //unit creation order 
         CreateOrder(Order.ORDER_BUILD_UNIT, new string[] { "player-static-barracks", "player-static-factory" }, new string[] { }, "all-buildUnit", "", 1, new string[] { "buildUnit" });
