@@ -7266,7 +7266,7 @@ PrefabInstance:
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.data[9]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 311997538237005692, guid: 811b5119ff9bbc54c950ec2d1f55b8c4, type: 3}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.data[11]
       value: 
