@@ -101,7 +101,7 @@ https://assetstore.unity.com/packages/3d/characters/insectoid-crab-monster-lurke
 Weird ass spider thing (Edenite Ravager):
 https://assetstore.unity.com/packages/3d/characters/creatures/fantastic-creature-1-103074
 
-Barracks, factory, research lab, both vehicles
+Barracks, factory, both vehicles
 ---------------------
 RTS Space pack:
 https://assetstore.unity.com/packages/3d/environments/sci-fi/rts-sci-fi-game-assets-v1-112251
@@ -131,7 +131,7 @@ Drill (not used at this time, but might be for worker long term):
 https://www.turbosquid.com/3d-models/3d-berserker-drill-machine-model-2019334
 Minerals (mineral deposit):
 https://assetstore.unity.com/packages/3d/environments/fantasy/translucent-crystals-106274
-Main Base, Civilian building, fuel deposit:
+Main Base, research lab, fuel deposit:
 https://free-game-assets.itch.io/free-space-colony-3d-low-poly-models
 Textures taken from sources not included:
 Burnt metal:
