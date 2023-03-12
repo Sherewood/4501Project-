@@ -25,7 +25,10 @@ public class Sun : MonoBehaviour
         
         //transform.Rotate(0, _rotationSpeed, 0);
         transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
-        light.GetComponent<Light>().intensity += _rotationSpeed/1000;
+        
+        //turned off for now, can't get quite right
+        //idea is the game will be brighter over time as heat rises
+        //light.GetComponent<Light>().intensity += _rotationSpeed/1000;
         
     }
 }
