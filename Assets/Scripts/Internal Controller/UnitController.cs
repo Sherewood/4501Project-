@@ -67,7 +67,14 @@ public class UnitController : MonoBehaviour
                     //order the unit to move to a location to construct a building
                     unitMovement = selectedUnit.GetComponent<Movement>();
                     Construction construction = selectedUnit.GetComponent<Construction>();
-                    unitMovement.SetOrderedConstructionDestination(target.point);
+                    string buildingType = construction.GetCurrentBuilding();
+                    //purchase actually made here, if the building is obstructed currently nothing in place to refund....
+                    if (_gameStateController.CanAffordUnit(buildingType))
+                    {
+                        _gameStateController.PurchaseUnit(buildingType);
+                        unitMovement.SetOrderedConstructionDestination(target.point);
+                    }
+                    
                     break;
                 case "":
                     break;
@@ -121,7 +128,11 @@ public class UnitController : MonoBehaviour
                     //get the building type that the player wants to select for the unit, then save it in the unit's construction component.
                     Construction construction = selectedUnit.GetComponent<Construction>();
                     string buildingType = command.Split("_")[1];
-                    construction.SetCurrentBuilding(buildingType);
+                    //only check the wealth here
+                    if (_gameStateController.CanAffordUnit(buildingType))
+                    {
+                        construction.SetCurrentBuilding(buildingType);
+                    }
                     break;
 
                 case "evacuateCivies":

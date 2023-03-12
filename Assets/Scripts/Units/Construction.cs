@@ -52,6 +52,11 @@ public class Construction : MonoBehaviour
         _forwardOffsetFromConstructionSite = transform.localScale.z + targetUnitScale.z / 2 + 0.4f;
     }
 
+    public string GetCurrentBuilding()
+    {
+        return _currentBuildingType;
+    }
+
     public float GetConstructionSiteOffset()
     {
         return _forwardOffsetFromConstructionSite;
