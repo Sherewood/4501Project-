@@ -3,10 +3,27 @@
 
  Group members: Andrew Krutelevich, Danny Michaud, Julien Rougerie
 
+# Missing from proposal
+-------------------------------------------
+
+Area selection - saving for the advanced prototype
+
+Special abilities - ran short on time unfortunately, should be in advanced prototype
+
+Visual indication is also limited, but it wasn't fleshed out in the proposal anyways so not sure why I mentioned this here.
+
 # Testing
 -------------------
 
-1. Use PrototypeDemoScene
+- Use PrototypeDemoScene, other scenes probably don't even compile at this time lol
+
+To the south, there are resource deposits. Use a worker to harvest them (small blueish dude who kinda looks like a mass effect husk)
+
+    -if your worker died somehow, the civilian buildings (skyscrapers) will spawn workers
+
+After the initial battle is settled, there are some enemy units to the west if you want to test out the combat actions.
+
+To the east, all of the buildings in the game have been placed for you to test.
 
 # Controls
 -------------------
@@ -17,6 +34,8 @@ Unit selection: Left click on a unit to select it.
     Note: Multi-unit selection not available, will not be supported until advanced prototype
 
 Movement: Right clicking on an empty region of the game world will cause your selected unit to move towards it
+
+Return to base: Clicking on the 'returnToBase' button with a unit that supports the action selected will cause it to return to the Main Base.
 
 Attack: Right clicking on an enemy unit with an ally unit selected will cause that unit to attack the enemy unit.
 
@@ -37,6 +56,14 @@ Construct building: Perform the following sequence of actions with a worker sele
     1. Click on the 'construct' button in the UI
     2. Click on the option that represents the building you want to construct, on the left side of the UI
     3. Right click on an empty region of the game world, the worker will then move towards that area and generate a building.
+
+Evacuate civilians: Clicking on the 'evacuateCivies' button with a civlian building selected will cause the building to periodically start removing civlians, which
+are then transferred to the main base.
+
+Evacuate planet: Clicking on the 'evacuatePlanet' button with the main base selected will cause the game to end after ~30 seconds, if you met the requirements
+
+    -for testing purposes: Set the threshold to 5 civilians evacuated and 0 fuel. Test out the game ending functionality by evacutating some civilians from 1+ civilian buildings,
+        then trying to evacuate the planet (just wait ~10-15 seconds for the civilians to be evacuated, then 30 seconds after trying to evacuate the planet)
 
 
 
