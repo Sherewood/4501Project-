@@ -183,7 +183,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle harvesting of resource deposit
     public void HandleResourceHarvestEvent(string resourceType, int resourceAmount)
     {
-        Debug.Log("Resource Harvest Event received - resource type: " + resourceType + ", resource amount: " + resourceAmount);
+        //Debug.Log("Resource Harvest Event received - resource type: " + resourceType + ", resource amount: " + resourceAmount);
 
         //store newly gained resources in game state model
         _gameStateController.StoreHarvestedResource(resourceType, resourceAmount);
@@ -192,7 +192,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle evacuation of civilian(s) from a civilian building
     public void HandleCivilianEvacEvent(int numCivilians)
     {
-        Debug.Log("Evacuate Civilian Event received - " + numCivilians + " evacuated.");
+        //Debug.Log("Evacuate Civilian Event received - " + numCivilians + " evacuated.");
 
         _gameStateController.EvacuateCivilians(numCivilians);
     }
