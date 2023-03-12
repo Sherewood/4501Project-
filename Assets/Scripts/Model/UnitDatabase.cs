@@ -33,8 +33,8 @@ public class UnitDatabase : MonoBehaviour
         //buildings
         CreateUnitDataRecord("player-static-mainbase", 0, 0, "unitInfo unitState health planetaryEvac");
         CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
-        CreateUnitDataRecord("player-static-barracks", 0, 0, "unitInfo unitState health unitBuilderComponent unitSpawner");
-        CreateUnitDataRecord("player-static-factory", 0, 0, "unitInfo unitState health unitBuilderComponent unitSpawner");
+        CreateUnitDataRecord("player-static-barracks", 200, 200, "unitInfo unitState health unitBuilderComponent unitSpawner");
+        CreateUnitDataRecord("player-static-factory", 400, 400, "unitInfo unitState health unitBuilderComponent unitSpawner");
 
         //military units
 
@@ -44,8 +44,8 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("player-dynamic-military-minigun", 20, 20, "unitInfo unitState movement health attack weapon targeting");
 
         //vehicles
-        CreateUnitDataRecord("player-dynamic-military-tank", 0, 0, "unitInfo unitState movement health attack weapon targeting");
-        CreateUnitDataRecord("player-dynamic-military-artillery", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting");
 
         //enemy units
 

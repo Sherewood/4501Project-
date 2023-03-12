@@ -49,7 +49,7 @@ public class Construction : MonoBehaviour
         //get the dimensions of the building, and use it to configure the forward offset
         Vector3 targetUnitScale = _unitDb.GetUnitDimensions(_currentBuildingType);
 
-        _forwardOffsetFromConstructionSite = transform.localScale.z + targetUnitScale.z / 2 + 0.25f;
+        _forwardOffsetFromConstructionSite = transform.localScale.z + targetUnitScale.z / 2 + 0.4f;
     }
 
     public float GetConstructionSiteOffset()
@@ -88,9 +88,8 @@ public class Construction : MonoBehaviour
         Vector3 targetUnitScale = _unitDb.GetUnitDimensions(_currentBuildingType);
 
         //offset the building's spawn position using the z-scale (including the worker's z-scale) as the forward offset
-        //and the y-scale as the upward offset (to prevent spawning the building in the ground)
         //extra padding added to lazily avoid failure to spawn, in scenarios where the worker oriented diagonally, while the building spawned is not
-        Vector3 spawnOffset = (transform.rotation * Vector3.forward) * (_forwardOffsetFromConstructionSite) + (transform.rotation * Vector3.up) * (targetUnitScale.y / 2.5f);
+        Vector3 spawnOffset = (transform.rotation * Vector3.forward) * (_forwardOffsetFromConstructionSite);
 
         _unitSpawner.SetSpawnOffset(spawnOffset);
 
