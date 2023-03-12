@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
 
 /* Event definitions go here */
 
@@ -201,6 +202,9 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleEndOfGameEvent(bool won)
     {
         Debug.Log("End Of Game Event received - " + (won ? "player won!" : "player lost."));
+
+        //11:35pm reporting in
+        EditorApplication.isPlaying = false; 
     }
 
     // Helper functions
