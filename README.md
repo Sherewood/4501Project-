@@ -3,6 +3,8 @@
 
  Group members: Andrew Krutelevich, Danny Michaud, Julien Rougerie
 
+ Student IDs: 101146675, 101121600, 101067032
+
 # Missing from proposal
 -------------------------------------------
 
@@ -65,10 +67,14 @@ Evacuate planet: Clicking on the 'evacuatePlanet' button with the main base sele
     -for testing purposes: Set the threshold to 5 civilians evacuated and 0 fuel. Test out the game ending functionality by evacutating some civilians from 1+ civilian buildings,
         then trying to evacuate the planet (just wait ~10-15 seconds for the civilians to be evacuated, then 30 seconds after trying to evacuate the planet)
 
+# Extra
+----------------------------
+
+To confirm the obvious - we haven't done any animation work with these models lol
 
 
-
-#Model Sources:
+# Model Sources:
+------------------------------
 
 Terrain materials
 -------------------
