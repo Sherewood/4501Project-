@@ -15,6 +15,8 @@ public class UnitController : MonoBehaviour
 
     private GameStateController _gameStateController;
 
+    private EventChainController _eventChainController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,8 @@ public class UnitController : MonoBehaviour
         _capabilityController = GetComponent<CapabilityController>();
 
         _gameStateController = GetComponent<GameStateController>();
+
+        _eventChainController = GetComponent<EventChainController>();
     }
 
     /* Unit command handling (will need to refactor later once we have more capabilities) */
@@ -74,7 +78,12 @@ public class UnitController : MonoBehaviour
                         _gameStateController.PurchaseUnit(buildingType);
                         unitMovement.SetOrderedConstructionDestination(target.point);
                     }
-                    
+                    //otherwise, need to reset event chain to prevent bad state
+                    else
+                    {
+                        _eventChainController.RevertEventChainStage();
+                    }
+
                     break;
                 case "":
                     break;
@@ -132,6 +141,11 @@ public class UnitController : MonoBehaviour
                     if (_gameStateController.CanAffordUnit(buildingType))
                     {
                         construction.SetCurrentBuilding(buildingType);
+                    }
+                    //otherwise, need to reset event chain to prevent bad state
+                    else
+                    {
+                        _eventChainController.RevertEventChainStage();
                     }
                     break;
 

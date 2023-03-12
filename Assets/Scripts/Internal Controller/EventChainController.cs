@@ -14,9 +14,13 @@ public class EventChainController : MonoBehaviour
 
     private string _curEventChain;
 
+    private string _prevEventChain;
+
     void Start()
     {
         _curEventChain = "";
+
+        _prevEventChain = "";
 
         _eventChainModel = FindObjectOfType<EventChainModel>();
     }
@@ -66,9 +70,18 @@ public class EventChainController : MonoBehaviour
 
         Debug.Log("Event Chain Controller - Handling Event Chain Update for event: " + eventName);
 
+        _prevEventChain = _curEventChain;
+
         //update current event chain using event chain model
         _curEventChain = _eventChainModel.UpdateCurrentEventChainStatus(_curEventChain, eventName);
 
         Debug.Log("Event Chain Controller - new event chain status is: " + _curEventChain);
+    }
+
+    //reverts event chain back to the previous stage
+    //totally not a frantic hotfix for a bug I found 1 hour before the deadline!
+    public void RevertEventChainStage()
+    {
+        _curEventChain = _prevEventChain;
     }
 }
