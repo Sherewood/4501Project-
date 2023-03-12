@@ -154,7 +154,7 @@ public class UnitController : MonoBehaviour
                     Civilian civilianComp = selectedUnit.GetComponent<Civilian>();
                     civilianComp.TriggerEvacuation();
                     break;
-                case "planetaryEvac":
+                case "evacuateMainBase":
                     //try to trigger planetary evacuation
                     PlanetaryEvacuation planetaryEvac = selectedUnit.GetComponent<PlanetaryEvacuation>();
                     planetaryEvac.InitPlanetaryEvac(_gameStateController.GetPlayerResource("fuel"));
