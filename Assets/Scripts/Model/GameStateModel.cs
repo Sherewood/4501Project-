@@ -14,6 +14,7 @@ public class GameStateModel : MonoBehaviour
 
     private int _currentMinerals;
     private int _currentFuel;
+    private int _currentResearchPts;
     private int _currentScore;
 
     private int _heatLevel;
@@ -57,6 +58,19 @@ public class GameStateModel : MonoBehaviour
     public bool CanPlayerAffordCost(int mineralCost, int fuelCost)
     {
         return (_currentMinerals >= mineralCost) && (_currentFuel >= fuelCost);
+    }
+
+    public int GetPlayerRP()
+    {
+        return _currentResearchPts;
+    }
+    public void AddPlayerRP(int rp)
+    {
+        _currentResearchPts += rp;
+    }
+    public void SubtractPlayerRP(int rp)
+    {
+        _currentResearchPts -= rp;
     }
 
     /* player score */

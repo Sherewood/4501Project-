@@ -71,6 +71,9 @@ public class GameStateController : MonoBehaviour
             case "fuel":
                 _gameStateModel.AddPlayerFuel(amount);
                 break;
+            case "research points":
+                _gameStateModel.AddPlayerRP(amount);
+                break;
             default:
                 Debug.LogError("Unknown resource type: " + type + " cannot add.");
                 break;
@@ -115,6 +118,8 @@ public class GameStateController : MonoBehaviour
                 return _gameStateModel.GetPlayerMinerals();
             case "fuel":
                 return _gameStateModel.GetPlayerFuel();
+            case "research points":
+                return _gameStateModel.GetPlayerRP();
             default:
                 Debug.LogError("Unknown resource type: " + type + " cannot get.");
                 break;
