@@ -100,16 +100,7 @@ public class UserInterfaceController : MonoBehaviour
         //future: other unit-specific statistics?
 
         //get unit icon
-        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
-        unitIcon.enabled = true;
-        foreach (Sprite sp in UnitIcons)
-        {
-            //Debug.Log(sp.name + "," + unitName);
-            if (sp.name.Equals(unitName))
-            {
-                unitIcon.sprite = sp;
-            }
-        }
+        DisplayUnitIcon();
 
         //some really primitive attempt to place buttons from left to right
         //ability display. 
@@ -137,6 +128,30 @@ public class UserInterfaceController : MonoBehaviour
             
         }
     }
+
+    private void DisplayUnitIcon()
+    {
+        string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
+        unitIcon.enabled = true;
+        foreach (Sprite sp in UnitIcons)
+        {
+            //Debug.Log(sp.name + "," + unitName);
+            if (sp.name.Equals(unitName))
+            {
+                unitIcon.sprite = sp;
+            }
+        }
+        foreach (Sprite sp in BuildIcons)
+        {
+            //Debug.Log(sp.name + "," + unitName);
+            if (sp.name.Equals(unitName))
+            {
+                unitIcon.sprite = sp;
+            }
+        }
+    }
+
     private void displayBuildOptions()
     {
         //refresh before repopulating
