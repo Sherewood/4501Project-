@@ -8251,6 +8251,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Time: {fileID: 1547713377}
+  DayLength: 0
+  light: {fileID: 705507993}
 --- !u!135 &2099293009
 SphereCollider:
   m_ObjectHideFlags: 0
