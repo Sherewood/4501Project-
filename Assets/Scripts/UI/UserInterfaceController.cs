@@ -53,14 +53,17 @@ public class UserInterfaceController : MonoBehaviour
         _constructDisplay = component.GetAdditionalMenuInfo();
         
         //Updating the resources panel
-        List<string> check = new List<string>() { "minerals", "fuel" };
+        List<string> check = new List<string>() { "minerals", "fuel", "research points" };
         Dictionary<string, int> curResources= component.GetPlayerResources(check);
         string resourcePrint = "";
-        foreach (KeyValuePair<string,int> res in curResources)
-        {
-            resourcePrint+= res.Value.ToString()+"x"+res.Key+"  ";
-        }
-        resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = resourcePrint;
+        TextMeshProUGUI mineralText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI fuelText = resourceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rpText = resourceText.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+
+        mineralText.text = "Minerals: " + curResources["minerals"];
+        fuelText.text = "Fuel: " + curResources["fuel"];
+        rpText.text = "RP: " + curResources["research points"];
+
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
