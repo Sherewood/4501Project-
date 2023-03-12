@@ -54,6 +54,9 @@ public class UnitDatabase : MonoBehaviour
         //edenite ravager
         CreateUnitDataRecord("enemy-dynamic-edenite_ravager", 0, 0, "unitInfo unitState movement health attack weapon targeting");
 
+        //edenite devil
+        CreateUnitDataRecord("enemy-dynamic-edenite_devil", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+
     }
 
     //fills a record in _unitData with the specified information
