@@ -56,8 +56,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.8}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 1.02, y: 0.7, z: 0.8}
+  m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!114 &6684196009847440324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +71,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-static-mainbase
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &8002568013237805364
 MonoBehaviour:
@@ -98,7 +97,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 2000
-  _actualHealth: 0
   BaseDefense: 33
   FortifyDefenseBonus: 0
 --- !u!114 &-1427860165722815463
