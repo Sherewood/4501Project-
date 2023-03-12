@@ -83,6 +83,13 @@ public class UnitCreationController : MonoBehaviour
             harvester.ConfigureResourceHarvestCallback((UnityAction<string, int>)_eventHandler.HandleResourceHarvestEvent);
         }
 
+        //if research generator component.... ALSO bind ResourceHarvestEvent callback because the deadline is in less than 2 hours
+        if (unit.DoesUnitHaveComponent("researchGenerator"))
+        {
+            ResearchGenerator researchGenerator = unit.gameObject.GetComponent<ResearchGenerator>();
+            researchGenerator.ConfigureResearchGenCallback((UnityAction<string, int>)_eventHandler.HandleResourceHarvestEvent);
+        }
+
         //if civilian component -> bind CivilianEvacEvent callback
         if (unit.DoesUnitHaveComponent("civilian"))
         {

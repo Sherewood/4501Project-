@@ -2013,7 +2013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-dynamic-worker
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &1054784434429841851
 MonoBehaviour:
@@ -2081,7 +2080,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 50
-  _actualHealth: 0
   BaseDefense: 10
   FortifyDefenseBonus: 10
 --- !u!114 &293711125061417572
@@ -2111,9 +2109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupportedBuildingTypes:
-  - player-static-civilianbuilding
   - player-static-barracks
   - player-static-factory
+  - player-static-researchlab
 --- !u!65 &-85849543380895519
 BoxCollider:
   m_ObjectHideFlags: 0
