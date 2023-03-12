@@ -53,16 +53,6 @@ Infantry units
 --------------------
 Vangaurd By T.Choonyung:https://www.mixamo.com/#/?page=1&type=Character
 
-Edenite muncher
------------------
-Creature Crab:
-https://assetstore.unity.com/packages/3d/characters/creatures/creature-crab-97918
-
-Incestoid Crab Monster:
-https://assetstore.unity.com/packages/3d/characters/insectoid-crab-monster-lurker-of-the-shores-20-animations-107223
-
-Weird ass spider thing:
-https://assetstore.unity.com/packages/3d/characters/creatures/fantastic-creature-1-103074
 
 Barracks, research lab, both vehicles
 ---------------------
