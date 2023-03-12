@@ -155,22 +155,17 @@ public class DisplayInfoController : MonoBehaviour
 
         if (command == "buildUnit")
         {
-            Debug.Log("build a unit");
             List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
 
             GameObject selectedUnit = selectedUnits[0];
             UnitInfo selectedUnitInfo = selectedUnit.GetComponent<UnitInfo>();
             UnitBuilderComponent unitbuilderComp = selectedUnit.GetComponent<UnitBuilderComponent>();
 
-            unitbuilderComp._buildQueue.Add("player-dynamic-military-infantry");
-            unitbuilderComp._queueTimers.Add(1);
-
             ClearAdditionalInfo();
 
             foreach (string supportedUnitType in unitbuilderComp._supportedUnitTypes)
             {
-                Debug.Log(supportedUnitType);
-                string supportedUnitMenuOption = "construct_" + supportedUnitType;
+                string supportedUnitMenuOption = "buildUnit_" + supportedUnitType;
                 _additionalDisplayInfo.Add(supportedUnitMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }

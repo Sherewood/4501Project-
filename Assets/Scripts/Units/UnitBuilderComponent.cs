@@ -16,8 +16,6 @@ public class UnitBuilderComponent : MonoBehaviour
     {
         _spawner = GetComponent<UnitSpawner>();
         _spawner.SetSpawnOffset(new Vector3(1,0,0));
-        //_buildQueue.Add("player-dynamic-military-infantry");
-        //_queueTimers.Add(10);
     }
 
     // Update is called once per frame
@@ -25,7 +23,6 @@ public class UnitBuilderComponent : MonoBehaviour
     {
         if (_buildQueue.Count > 0)
         {
-            Debug.Log("stuff in queue");
             _queueTimers[0] -= Time.deltaTime;
             if(_queueTimers[0] < 0)
             {

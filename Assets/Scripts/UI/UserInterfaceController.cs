@@ -104,7 +104,7 @@ public class UserInterfaceController : MonoBehaviour
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
         {
-            Debug.Log(sp.name + "," + unitName);
+            //Debug.Log(sp.name + "," + unitName);
             if (sp.name.Equals(unitName))
             {
                 unitIcon.sprite = sp;
