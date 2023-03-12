@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
-public class sun : MonoBehaviour
+
+//Purpose: To adjust the intensity of the directional light source over time.
+public class Sun : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject Time;
