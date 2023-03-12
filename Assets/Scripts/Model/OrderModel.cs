@@ -91,7 +91,7 @@ public class OrderModel : MonoBehaviour
         CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "planetaryEvac", "", 1, new string[] { "planetaryEvac" });
 
         //unit creation order 
-        CreateOrder(Order.ORDER_BUILD_UNIT, new string[] { "player-static-barracks" }, new string[] { }, "all-buildUnit", "", 1, new string[] { "buildUnit" });
+        CreateOrder(Order.ORDER_BUILD_UNIT, new string[] { "player-static-barracks", "player-static-factory" }, new string[] { }, "all-buildUnit", "", 1, new string[] { "buildUnit" });
     }
 
     private void CreateOrder(Order order, string[] orderUnitTypes, string[] orderTargets, string orderCommand, string eventChain, int priority, string[] orderActions)

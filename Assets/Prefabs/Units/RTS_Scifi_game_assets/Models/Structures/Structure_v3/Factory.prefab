@@ -917,7 +917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012050981084}
   m_Layer: 0
-  m_Name: Barracks
+  m_Name: Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

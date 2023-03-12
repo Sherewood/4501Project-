@@ -82,17 +82,17 @@ All Build Icons/UnitIcons/Ability Icons Except Research Lab:
 Ai generated art made with nightcafe studios.
 https://nightcafe.studio/
 =======
-Futuristic Soldier:
+Futuristic Soldier (used for Worker):
 https://www.turbosquid.com/3d-models/3d-futuristic-soldier-sci-fi-character-male-1864193
-Bazooka:
+Bazooka (RPG Infantry):
 https://www.turbosquid.com/3d-models/3d-model-bazooka-rocket-launcher/361997
-Machine Gun (Robot chain arms):
+Machine Gun (Robot chain arms) (used for Heavy Minigun Infantry):
 https://www.turbosquid.com/3d-models/free-chaingun-robotic-arm-3d-model/480360
-Drill:
+Drill (not used at this time, but might be for worker long term):
 https://www.turbosquid.com/3d-models/3d-berserker-drill-machine-model-2019334
-Minerals:
+Minerals (mineral deposit):
 https://assetstore.unity.com/packages/3d/environments/fantasy/translucent-crystals-106274
-Main Base, Civilian building, fuel:
+Main Base, Civilian building, fuel deposit:
 https://free-game-assets.itch.io/free-space-colony-3d-low-poly-models
 Textures taken from sources not included:
 Burnt metal:

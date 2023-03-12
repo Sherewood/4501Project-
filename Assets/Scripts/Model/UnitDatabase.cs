@@ -34,6 +34,7 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("player-static-mainbase", 0, 0, "unitInfo unitState health planetaryEvac");
         CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
         CreateUnitDataRecord("player-static-barracks", 0, 0, "unitInfo unitState health unitBuilderComponent unitSpawner");
+        CreateUnitDataRecord("player-static-factory", 0, 0, "unitInfo unitState health unitBuilderComponent unitSpawner");
 
         //military units
 
