@@ -70,7 +70,9 @@ Evacuate planet: Clicking on the 'evacuatePlanet' button with the main base sele
 # Extra
 ----------------------------
 
-To confirm the obvious - we haven't done any animation work with these models lol
+1. Apologies for the mess in the Assets > Prefabs > Units folder, to see all the game unit prefabs check the "GameUnitsHere" subfolder within that folder.
+
+2. To confirm the obvious - we haven't done any animation work with these models lol
 
 
 # Model Sources:
