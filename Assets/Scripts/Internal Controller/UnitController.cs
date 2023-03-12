@@ -140,7 +140,7 @@ public class UnitController : MonoBehaviour
                     string unitType = command.Split("_")[1];
                     if (_gameStateController.CanAffordUnit(unitType))
                     {
-                        //remove resources from player
+                        _gameStateController.PurchaseUnit(unitType);
                         unitBuilder._buildQueue.Add(unitType);
                         //adjust to account for varying build times for different units maybe
                         unitBuilder._queueTimers.Add(10);
