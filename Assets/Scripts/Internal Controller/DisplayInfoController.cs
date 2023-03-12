@@ -103,6 +103,12 @@ public class DisplayInfoController : MonoBehaviour
         return resourceAmounts;
     }
 
+    //return the number of evacuated civies
+    public int GetEvacuatedCivs()
+    {
+        return _gameStateController.GetEvacuatedCivs();
+    }
+
 
     /* event handling */
 

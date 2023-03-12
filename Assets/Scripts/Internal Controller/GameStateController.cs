@@ -134,4 +134,9 @@ public class GameStateController : MonoBehaviour
         return _playerMainBase.gameObject;
     }
 
+    public int GetEvacuatedCivs()
+    {
+        return _playerMainBase.GetNumCivies();
+    }
+
 }

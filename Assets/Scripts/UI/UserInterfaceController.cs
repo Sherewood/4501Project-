@@ -64,6 +64,11 @@ public class UserInterfaceController : MonoBehaviour
         fuelText.text = "Fuel: " + curResources["fuel"];
         rpText.text = "RP: " + curResources["research points"];
 
+        //civies evacuated
+        TextMeshProUGUI civiesText = resourceText.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+
+        civiesText.text = "Civs evacuated: " + component.GetEvacuatedCivs();
+
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
