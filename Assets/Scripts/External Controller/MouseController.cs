@@ -19,9 +19,13 @@ public class MouseController : MonoBehaviour
     private bool _mouseHeld;
     private int _heldMouseButton;
 
+    //stored initial mouse position
+    private Vector3 _initialMousePosition;
     //stored raycast of the initial mouse click
     private RaycastHit _initialMouseSelection;
 
+    //stored held mouse position
+    private Vector3 _latestHeldMousePosition;
     //stored raycast of latest mouse position while held down
     private RaycastHit _latestHeldMouseSelection;
 
@@ -51,6 +55,22 @@ public class MouseController : MonoBehaviour
         _mouseHeld = false;
         _areaSelectionInProgress = false;
         _heldMouseButton = -1;
+    }
+
+    //return the mouse positions representing the boundaries of the area selection, if they exist
+    //will not be accurate if the player moves the camera during click and drag selection.... should be revised long term
+    //return true if area selection in progress, false otherwise
+    public bool GetAreaSelectionPositionsIfAvailable(out Vector3 initialMousePosition, out Vector3 heldMousePosition)
+    {
+        initialMousePosition = _initialMousePosition;
+        heldMousePosition = _latestHeldMousePosition;
+
+        if (!_areaSelectionInProgress)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     // Update is called once per frame
@@ -85,6 +105,8 @@ public class MouseController : MonoBehaviour
                         _mouseHeld = false;
                         _heldMouseButton = -1;
                     }
+
+                    _initialMousePosition = Input.mousePosition;
 
 
                     break;
@@ -171,6 +193,8 @@ public class MouseController : MonoBehaviour
                 yield return null;
                 continue;
             }
+
+            _latestHeldMousePosition = Input.mousePosition;
 
             //compare the distance between the world space positions of the two raycasts to determine if it is sufficient for an area selection
             float mouseDist = Vector3.Distance(_initialMouseSelection.point, _latestHeldMouseSelection.point);
