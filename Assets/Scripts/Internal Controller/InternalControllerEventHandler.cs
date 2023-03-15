@@ -10,6 +10,9 @@ using UnityEditor;
 public class SelectionEvent : UnityEvent<RaycastHit> { }
 
 [System.Serializable]
+public class AreaSelectionEvent : UnityEvent<RaycastHit, RaycastHit> { }
+
+[System.Serializable]
 public class MouseOrderEvent : UnityEvent<RaycastHit> { }
 
 [System.Serializable]
@@ -91,6 +94,21 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController.HandleEventChainUpdateGeneral("unitSelection");
 
         _selectionController.HandleSingleSelection(selectionTarget);
+
+        //clear additional menu options open if a new unit is selected
+        _displayInfoController.ClearAdditionalInfo();
+    }
+
+    //handle selection of a region of the map done via the mouse
+    public void HandleAreaSelectionEvent(RaycastHit initialSelection, RaycastHit finalSelection)
+    {
+        Debug.Log("Area Selection event received, Point 1: " + initialSelection.point + ", Point 2: " + finalSelection.point);
+
+        //for now, won't consider the target here when updating event chain
+        //if that has to change, special method should be defined in event chain controller for it
+        _eventChainController.HandleEventChainUpdateGeneral("areaSelection");
+
+        _selectionController.HandleAreaSelection(initialSelection, finalSelection);
 
         //clear additional menu options open if a new unit is selected
         _displayInfoController.ClearAdditionalInfo();

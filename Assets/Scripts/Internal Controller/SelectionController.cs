@@ -71,7 +71,32 @@ public class SelectionController : MonoBehaviour
         Debug.Log("Selected unit has " + _selectedUnitCapabilities.Count + " capabilities. Too lazy to list them out right now lmao.");
     }
 
-    //TODO: Handle area selection (use .point parameter of raycast hit)
+
+    //handle area selection
+    public void HandleAreaSelection(RaycastHit initialSelection, RaycastHit finalSelection)
+    {
+
+        List<GameObject> newSelectedEntities = _entityStorage.FindEntitiesInRange(initialSelection.point, finalSelection.point);
+
+        Debug.Log("Selection Controller - Area Selection selected " + newSelectedEntities.Count + " entities.");
+
+        //todo: apply filters to selection (ex: if 1+ player unit selected, ignore enemy units)
+
+
+        //clear old selected unit data
+        ClearOldSelectionData(true);
+
+        //track all newly selected units
+        foreach(GameObject selectedEntity in newSelectedEntities)
+        {
+            _selectedUnits.Add(selectedEntity);
+            AddNewSelectionIndicator(selectedEntity);
+        }
+
+        //get capabilities of selected units
+        //can cause an overflow in UI Controller since it only has 6 hardcoded ability slots
+        _selectedUnitCapabilities = _capabilityController.GetCapabilitiesOfUnits(newSelectedEntities);
+    }
 
     //helpers
 

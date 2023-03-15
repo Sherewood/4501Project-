@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1239,7 +1239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameCamera: {fileID: 963194227}
-  Speed: 3
+  BaseSpeed: 0
+  MaxSpeed: 0
+  Acceleration: 0
 --- !u!114 &989166763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,6 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80f007b4b1801049ada7fe2d5aea0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectionIndicatorPrefab: {fileID: 0}
 --- !u!114 &989166767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1643,10 +1646,9 @@ Transform:
   m_LocalPosition: {x: 324, y: -46, z: 4068}
   m_LocalScale: {x: 589.35425, y: 589.35425, z: 589.35425}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1993229340}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1445570865
 MonoBehaviour:
@@ -1742,6 +1744,21 @@ MonoBehaviour:
       - m_Target: {fileID: 989166760}
         m_TargetAssemblyTypeName: InternalControllerEventHandler, Assembly-CSharp
         m_MethodName: HandleSelectionEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  AreaSelectionEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 989166760}
+        m_TargetAssemblyTypeName: InternalControllerEventHandler, Assembly-CSharp
+        m_MethodName: HandleAreaSelectionEvent
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1916,7 +1933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2062d79350057d3479d430b6ab418eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackerGameObject: {fileID: 0}
 --- !u!135 &2095500377
 SphereCollider:
   m_ObjectHideFlags: 0

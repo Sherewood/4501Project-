@@ -12,6 +12,9 @@ public class MouseController : MonoBehaviour
     private const int RIGHT_MOUSE_BUTTON = 1;
     private const int NUM_MOUSE_BUTTONS_TRACKED = 2;
 
+    //distance threshold for when the initial mouse click and held mouse position are considered to be for an area selection
+    private const float AREA_SELECTION_DISTANCE_THRESHOLD = 0.5f;
+
     //variables for tracking mouse click status
     private bool _mouseHeld;
     private int _heldMouseButton;
@@ -19,11 +22,20 @@ public class MouseController : MonoBehaviour
     //stored raycast of the initial mouse click
     private RaycastHit _initialMouseSelection;
 
+    //stored raycast of latest mouse position while held down
+    private RaycastHit _latestHeldMouseSelection;
+
+    //true if an area selection is being made
+    private bool _areaSelectionInProgress;
+
     //game camera, used for raycasting
     public Camera gameCamera;
 
     //selection event callback - left click
     public SelectionEvent SelectionEvent;
+
+    //area selection event - left click and drag over a region
+    public AreaSelectionEvent AreaSelectionEvent;
 
     //mouse order event callback - right click
     public MouseOrderEvent MouseOrderEvent;
@@ -37,6 +49,7 @@ public class MouseController : MonoBehaviour
     void Start()
     {
         _mouseHeld = false;
+        _areaSelectionInProgress = false;
         _heldMouseButton = -1;
     }
 
@@ -83,14 +96,25 @@ public class MouseController : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(_heldMouseButton))
             {
+                Debug.Log("RELEASE");
+
                 //if released, stop the coroutine, and trigger corresponding callback using raycasted mouse position
                 _mouseHeld = false;
                 StopCoroutine(MonitorPressedMouse(_heldMouseButton));
 
                 //selection callback
                 if(_heldMouseButton == LEFT_MOUSE_BUTTON)
-                {         
-                    SelectionEvent.Invoke(_initialMouseSelection);
+                {
+                    //area selection
+                    if (_areaSelectionInProgress)
+                    {
+                        _areaSelectionInProgress = false;
+                        AreaSelectionEvent.Invoke(_initialMouseSelection, _latestHeldMouseSelection);
+                    }
+                    else
+                    {
+                        SelectionEvent.Invoke(_initialMouseSelection);
+                    }
                 }
                 //order callback
                 else if(_heldMouseButton == RIGHT_MOUSE_BUTTON)
@@ -126,6 +150,34 @@ public class MouseController : MonoBehaviour
     //not in use for now.... will come into play for area selection...
     IEnumerator MonitorPressedMouse(int mouseButton)
     {
-        yield return null;
+        while (true)
+        {
+            //if not holding left mouse button down, nothing to see here
+            if (mouseButton != LEFT_MOUSE_BUTTON)
+            {
+                yield break;
+            }
+
+            //perform a raycast with the latest mouse position
+            Ray mouseRay = gameCamera.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit oldRaycastHit = _latestHeldMouseSelection;
+
+            //if nothing hit, or a UI element is hit, ignore the mouse for this frame
+            if (IsMouseInUIRegion(Input.mousePosition) || !Physics.Raycast(mouseRay, out _latestHeldMouseSelection))
+            {
+                //revert to last saved position
+                _latestHeldMouseSelection = oldRaycastHit;
+                yield return null;
+                continue;
+            }
+
+            //compare the distance between the world space positions of the two raycasts to determine if it is sufficient for an area selection
+            float mouseDist = Vector3.Distance(_initialMouseSelection.point, _latestHeldMouseSelection.point);
+
+            _areaSelectionInProgress = (mouseDist >= AREA_SELECTION_DISTANCE_THRESHOLD);
+
+            yield return null;
+        }
     }
 }

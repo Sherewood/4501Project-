@@ -50,18 +50,46 @@ public class EntityStorage : MonoBehaviour
         return entityToReturn;
     }
 
-    //return all entities whose coordinates are within the box formed by bottomLeftPos and topRightPos
-    public List<GameObject> FindEntitiesInRange(Vector3 bottomLeftPos, Vector3 topRightPos)
+    //return all entities whose coordinates are within the box formed by topLeftPos and bottomRightPos
+    //how in god's name did this work first try? I straight up guessed the normal vectors...
+    public List<GameObject> FindEntitiesInRange(Vector3 topLeftPos, Vector3 bottomRightPos)
     {
         List<GameObject> entitiesInRange = new List<GameObject>();
+
+        //due to the camera orientation, need an OBB test instead of an AABB test
+
+        //temporary hard-coded 45 degree y-axis rotation for normal vectors
+        //obviously, this will cause area selection to break if the camera is oriented differently.
+        Quaternion testRot = Quaternion.AngleAxis(45, new Vector3(0, 1, 0));
+
+        //thinking: forward vector of camera should work as normal vector for testing x-axis, and so on?
+        //kinda lost the thread here
+        Vector3 xAxisNormal = testRot * Vector3.forward;
+        Vector3 zAxisNormal = testRot * Vector3.right;
+
+        //project points onto normals
+        //probably horrendous to do it this way instead of calculating scalar projection normally
+        //blame unity for not including a Vector3 scalar projection function I guess...
+        //todo: try manually inserting scalar projection formula before submission because this is vomit inducing
+        float topLeftProjectionXAxis = Vector3.Project(topLeftPos, xAxisNormal).magnitude;
+        float bottomRightProjectionXAxis = Vector3.Project(bottomRightPos, xAxisNormal).magnitude;
+
+        float topLeftProjectionZAxis = Vector3.Project(topLeftPos, zAxisNormal).magnitude;
+        float bottomRightProjectionZAxis = Vector3.Project(bottomRightPos, zAxisNormal).magnitude;
 
         foreach (GameObject entity in _entityStorage.Values)
         {
             Vector3 entityPos = entity.transform.position;
 
+            //only checking if center point lies within the box for now....
+            //this worked out so I'm not touching this ever again.
+            float entityProjectionXAxis = Vector3.Project(entityPos, xAxisNormal).magnitude;
+
+            float entityProjectionZAxis = Vector3.Project(entityPos, zAxisNormal).magnitude;
+
             //check if within boundaries
-            if(((entityPos.x >= bottomLeftPos.x) && (entityPos.z >= bottomLeftPos.z)) &&
-                ((entityPos.x <= topRightPos.x) && (entityPos.z <= topRightPos.z)))
+            if((bottomRightProjectionXAxis <= entityProjectionXAxis && entityProjectionXAxis <= topLeftProjectionXAxis) &&
+                (bottomRightProjectionZAxis <= entityProjectionZAxis && entityProjectionZAxis <= topLeftProjectionZAxis))
             {
                 entitiesInRange.Add(entity);
             }
