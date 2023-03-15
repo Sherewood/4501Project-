@@ -33,6 +33,10 @@ public class CapabilityController : MonoBehaviour
     {
         //get all the unique capabilities available to any units in the selection
         List<Capability> totalCapabilities = new List<Capability>();
+
+        //track if multiple units are selected, in order to hide single unit only capabilities
+        bool multipleUnitsSelected = units.Count > 1;
+
         foreach (GameObject unit in units)
         {
             //todo - add parameter to indicate multi-unit capabilities should not be included if more than 1 unit selected
@@ -40,6 +44,13 @@ public class CapabilityController : MonoBehaviour
         
             foreach(Capability capability in possibleCapabilities)
             {
+                //skip if multiple units are selected and the capability is not available when multiple units are selected
+                if(!capability.MultiUnit && multipleUnitsSelected)
+                {
+                    continue;
+                }
+
+                //only add if not already included in capability list
                 if (!totalCapabilities.Contains(capability))
                 {
                     totalCapabilities.Add(capability);
