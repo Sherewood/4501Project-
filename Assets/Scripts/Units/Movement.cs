@@ -37,9 +37,6 @@ public class CRSpline {
         point[0] = splinePath.corners[0];
         point[numControlPoints-1] = splinePath.corners[numControlPoints - 1];
 
-        Debug.Log("Start: " + point[0] + ", End: " + point[numControlPoints - 1]);
-        Debug.Log("Num control points: " + numControlPoints);
-
         Vector3 destDirection = Vector3.Normalize(point[numControlPoints - 1] - point[0]);
 
         //set first tangent to direction from start to end, and last tangent the same
@@ -365,16 +362,6 @@ public class Movement : MonoBehaviour
         }
 
         Vector3 dest = isOrdered ? _orderedDestination : _destination;
-
-        //confirm NavMesh exists
-        /*
-        if (NavMesh == null)
-        {
-            Debug.LogError("Error: Map does not have navigation mesh. Please configure a NavMesh before using dynamic units.");
-
-            return;
-        }
-        */
 
         //calculate a path in order to get control points for the spline.
 

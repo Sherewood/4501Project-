@@ -59,12 +59,9 @@ public class Attack : MonoBehaviour
             //loss of target handling
             if(latestTarget == null)
             {
-                Debug.Log("loss of target");
                 HandleTargetLoss();
                 return;
             }
-
-            Debug.Log("change of target");
             //target change handling
             HandleTargetChange(latestTarget);
         }
@@ -211,7 +208,9 @@ public class Attack : MonoBehaviour
 
     private void HandleEnteredAttackRange()
     {
+        UState curState = _unitState.GetState();
         _targetInRange = true;
+
         //stop prior movement, resume targetting, but only rotate towards it now.
         _movement.StopMovement(false);
         _movement.SetDynamicDestination(_currentTarget.transform, true);

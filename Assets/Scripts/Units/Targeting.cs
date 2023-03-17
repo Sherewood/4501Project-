@@ -128,9 +128,6 @@ public class Targeting : MonoBehaviour
             }
         }
 
-        if (newClosestTarget != null) {
-            //Debug.Log("closest position: " + newClosestTarget.transform.position.x + "," + newClosestTarget.transform.position.y + "," + newClosestTarget.transform.position.z);
-        }
         //finally, if the ordered target is currently being targetted, do not switch
         if (IsOrderedTarget(_currentTarget))
         {
