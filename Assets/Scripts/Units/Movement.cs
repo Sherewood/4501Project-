@@ -2,22 +2,142 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 /* destination reached event definition */
 [System.Serializable]
 public class DestinationReachedEvent : UnityEvent { }
 
+/* from animation microdemo, modified to serve this component */
+public class CRSpline {
+
+    // Points, tangents, and segment lengths that form the piecewise spline
+    private Vector3[] point;
+    private Vector3[] tangent; // tangent[i] is the curve tangent at point[i]
+    private float[] length; // length[i] is the length of curve segments from point 0 up to point 'i'
+
+    //configure spline using a given NavMeshPath's corner points as control points
+    //call this before using the spline...
+    public bool InitSpline(NavMeshPath splinePath)
+    {
+        int numControlPoints = splinePath.corners.Length;
+
+        //path needs at least 2 endpoints
+        if(numControlPoints <= 1)
+        {
+            Debug.LogError("Error: Invalid path computed - only one or less endpoints");
+            return false;
+        }
+
+        point = new Vector3[numControlPoints];
+        tangent = new Vector3[numControlPoints];
+        length = new float[numControlPoints];
+
+        //get first and last corner, and use the direction between them to set up the tangents
+        point[0] = splinePath.corners[0];
+        point[numControlPoints-1] = splinePath.corners[numControlPoints - 1];
+
+        Debug.Log("Start: " + point[0] + ", End: " + point[numControlPoints - 1]);
+        Debug.Log("Num control points: " + numControlPoints);
+
+        Vector3 destDirection = Vector3.Normalize(point[numControlPoints - 1] - point[0]);
+
+        //set first tangent to direction from start to end, and last tangent to direction from end to start
+        tangent[0] = destDirection;
+        tangent[numControlPoints - 1] = -destDirection;
+
+        //first length is zero
+        length[0] = 0;
+
+        //set up intermediate control points
+        for (int i = 1; i < splinePath.corners.Length-1; i++)
+        {
+            point[i] = splinePath.corners[i];
+            // Tangent computed according to Catmull-Rom formula
+            tangent[i] = (splinePath.corners[i + 1] - splinePath.corners[i - 1]) / 2.0f;
+            // Length is the length of line segments so far
+            length[i] = length[i - 1] + Vector3.Distance(point[i],point[i - 1]);
+        }
+
+        // The last length is the total length of the curve
+        length[numControlPoints - 1] = length[numControlPoints-2] + Vector3.Distance(point[numControlPoints - 1], point[numControlPoints - 2]);
+
+        return true;
+    }
+
+    // Interpolate this Catmull-Rom Spline according to parameter t = [0, 1]
+    public Vector3 CRSplineInterp(float t)
+    {
+        // Clamp parameter to the valid range
+        if (t < 0.0f) { t = 0.0f; }
+        if (t > 1.0f) { t = 1.0f; }
+
+        float tlen = GetCompletedLength(t);
+
+        // Find out which curve segment we are in
+        int curve = 0;
+        for (int i = 0; (i < length.Length) && (tlen > length[i]); i++)
+        {
+            curve = i;
+        }
+
+        // If we are at the last point, return the point directly
+        if (curve == (length.Length - 1))
+        {
+            return point[point.Length - 1];
+        }
+
+        // Get interpolation parameter inside the selected curve segment
+        float s = (tlen - length[curve]) / (length[curve + 1] - length[curve]);
+
+        // Compute Catmull-Rom spline
+        float s2 = Mathf.Pow(s, 2);
+        float s3 = Mathf.Pow(s, 3);
+        Vector3 pos = (2 * s3 - 3 * s2 + 1) * point[curve] +
+                      (s3 - 2 * s2 + s) * tangent[curve] +
+                      (-2 * s3 + 3 * s2) * point[curve + 1] +
+                      (s3 - s2) * tangent[curve + 1];
+        return pos;
+    }
+
+    /* extra helpers */
+
+    //given parameter t = [0,1], return the (approximate) length of the completed section of the curve
+    public float GetCompletedLength(float t)
+    {
+        // Translate t in [0, 1] to a parameter between [0, total length of curve segments]
+        // tlen is the parameter in an approximate arc-length parameterized version of the curve
+        // It's approximate because we are using the length of line segments and not of the curve itself
+        float tlen = t * length[length.Length - 1];
+
+        return tlen;
+    }
+
+    //returns the last tangent of the curve
+    public Vector3 GetLastTangent()
+    {
+        return tangent[tangent.Length - 1];
+    }
+}
+
+
 /* Unit Component */
 //Purpose: Control movement (and rotation) of the unit
 
-/* Note: Movement method will have to be updated for advanced prototype (And final deliverable!) */
-
-//this whole component should be nuked from orbit tbh, what in gods name have I done, TIL having a proper state machine is important
+/* Note: Movement method will have to be updated for final deliverable */
 
 public class Movement : MonoBehaviour
 {
     /* callbacks */
     public DestinationReachedEvent DestinationReachedEvent;
+
+    /* spline \/ */
+
+    private CRSpline _curSpline;
+
+    private float s = 0.0f;
+
+    /* spline ^ */
 
     //destination (lower priority - via the object itself)
     private Vector3 _destination;
@@ -70,18 +190,20 @@ public class Movement : MonoBehaviour
         _unitState = GetComponent<UnitState>();
 
         //start up coroutines
-        StartCoroutine(RotationHandler());
+        StartCoroutine(InPlaceRotationHandler());
 
         StartCoroutine(UpdateDynamicDestination());
 
         _targetRotation = Quaternion.identity;
+
+        _curSpline = new CRSpline();
     
     }
 
     //destroy coroutines at end
     void OnDestroy()
     {
-        StopCoroutine(RotationHandler());
+        StopCoroutine(InPlaceRotationHandler());
         StopCoroutine(UpdateDynamicDestination());
     }
 
@@ -96,18 +218,45 @@ public class Movement : MonoBehaviour
             //if nothing to move towards, stop.
             if (target == Vector3.zero)
             {
+                _moving = false;
                 return;
             }
 
-            //for getting direction, eliminate the y component before normalizing
-            Vector3 direction = target - transform.position;
+            //handling spline movement using animation microdemo code
+            //update spline in FixedUpdate because physics is wack otherwise
 
-            direction.y = 0.0f;
+            //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
 
-            direction = Vector3.Normalize(direction);
+            //update time parameter (todo: tune this timing properly...)
+            s += Time.deltaTime / 10.0f;
 
-            //lack of ease out leads to jittery physics from sudden stop? ease-in/out should help later....
-            _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
+            //todo: add ease in/out for s
+
+            // Evaluate spline to get the position
+            Vector3 newPos = _curSpline.CRSplineInterp(s);
+
+            /* not sure if using the rigidbody MovePosition method will allow it to still count as spline movement,
+             but the collision detection + rigidbody physics was not working properly otherwise.... */
+
+            _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position) * Time.deltaTime);
+            //Debug.Log("Time: " + s);
+            // Get orientation from tangent along the curve
+            Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
+            curve_tan.Normalize();
+            // Check if we are close to the last point along the path
+            if (s >= 0.99f)
+            {
+                // The last point does not have a well-defined tangent, so use the one of the curve
+                // might want to revisit, causes unit to turn around at the end of its movement
+                curve_tan = _curSpline.GetLastTangent();
+            }
+            // Create orientation from the tangent
+            Quaternion orient = new Quaternion();
+            orient.SetLookRotation(curve_tan, Vector3.up);
+
+            // Set ship's orientation
+            _targetRotation = orient;
+            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
 
             if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
             {
@@ -118,10 +267,13 @@ public class Movement : MonoBehaviour
                 DestinationReachedEvent.Invoke();
             }
         }
-
-        if (_targetRotation != Quaternion.identity)
+        //rotation in place for when unit is not in motion (aiming)
+        else
         {
-            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+            if (_targetRotation != Quaternion.identity)
+            {
+                _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+            }
         }
     }
 
@@ -156,6 +308,8 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
+
+        StartSplineMovement(true);
     }
 
     //set destination - not specifically ordered so can be overridden by ordered destination
@@ -168,6 +322,43 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
+
+        StartSplineMovement(false);
+    }
+
+    //triggers spline-based movement
+    public void StartSplineMovement(bool isOrdered)
+    {
+        //do not start if movement is not ordered, and ordered movment is in progress
+        if(!isOrdered && _orderedDestination != Vector3.zero)
+        {
+            return;
+        }
+
+        Vector3 dest = isOrdered ? _orderedDestination : _destination;
+
+        //confirm NavMesh exists
+        /*
+        if (NavMesh == null)
+        {
+            Debug.LogError("Error: Map does not have navigation mesh. Please configure a NavMesh before using dynamic units.");
+
+            return;
+        }
+        */
+
+        //calculate a path in order to get control points for the spline.
+        NavMeshPath splinePath = new NavMeshPath();
+
+        NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath);
+
+        //Instantiate the spline
+        if (!_curSpline.InitSpline(splinePath)){
+            Debug.LogError("Spline initialization failed, cannot begin moving the unit.");
+        }
+
+        //set time parameter to 0
+        s = 0.0f;
     }
 
     /* set destination methods for dynamic destinations */
@@ -175,6 +366,8 @@ public class Movement : MonoBehaviour
     //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
     public void SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly)
     {
+        /* temporarily disabled */
+        /*
         _dynamicDestination = dynamicDestination;
 
         _isDynamicDestOrdered = true;
@@ -189,10 +382,13 @@ public class Movement : MonoBehaviour
                 _unitState.SetState(UState.STATE_MOVING);
             }
         }
+        */
     }
 
     public void SetDynamicDestination(Transform dynamicDestination, bool rotateOnly)
     {
+        /* temporarily disabled */
+        /*
         _dynamicDestination = dynamicDestination;
 
         _isDynamicDestOrdered = false;
@@ -206,6 +402,7 @@ public class Movement : MonoBehaviour
                 _unitState.SetState(UState.STATE_MOVING);
             }
         }
+        */
     }
 
     /* worker-specific stuff */
@@ -254,6 +451,8 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
+
+        StartSplineMovement(true);
     }
 
 
@@ -302,14 +501,17 @@ public class Movement : MonoBehaviour
         return idleOrHarvesting || overridableStatesIfOrdered;
     }
 
-    /* Coroutines */
-
-    //handle rotation separately from movement, so it can be done without being in a moving state if needed
-    //to likely be replaced long term
-    IEnumerator RotationHandler()
+    //handle rotation when the unit is to be stationary
+    IEnumerator InPlaceRotationHandler()
     {
         while (true)
         {
+            //rotation in place is disabled while movement ongoing for now
+            if (_moving)
+            {
+                yield return null;
+            }
+
             Vector3 target = GetDestination();
 
             //if nothing to rotate towards, skip
