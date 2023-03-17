@@ -42,9 +42,10 @@ public class CRSpline {
 
         Vector3 destDirection = Vector3.Normalize(point[numControlPoints - 1] - point[0]);
 
-        //set first tangent to direction from start to end, and last tangent to direction from end to start
+        //set first tangent to direction from start to end, and last tangent the same
+        //originally inverted last tangent, but that led to the unit turning away from its destination at the end of spline movement
         tangent[0] = destDirection;
-        tangent[numControlPoints - 1] = -destDirection;
+        tangent[numControlPoints - 1] = destDirection;
 
         //first length is zero
         length[0] = 0;
@@ -378,9 +379,6 @@ public class Movement : MonoBehaviour
         //calculate a path in order to get control points for the spline.
         //some issues with calculating a path when the unit's presence is causing an obstruction on the navmesh
         //might need to use NavMeshAgent pathfinding method directly instead?
-
-        /* Note for tomorrow: Use NavMeshAgent component on units and use its CalculatePath method instead */
-        /* otherwise if the unit obstructs its position in the NavMesh it won't be able to calculate a path... */
 
         NavMeshPath splinePath = new NavMeshPath();
 
