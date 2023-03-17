@@ -57,9 +57,16 @@ public class UnitController : MonoBehaviour
                     unitMovement = selectedUnit.GetComponent<Movement>();
                     Targeting unitTargeting = selectedUnit.GetComponent<Targeting>();
                     //move to enemy, not rotation only
-                    unitMovement.SetDynamicOrderedDestination(target.collider.gameObject.transform, false);
+                    //temp fix: do not set ordered dynamic destination because the attack component cannot stop it properly...
+                    //will have to stop the previously ordered movement in order to prevent it from overriding this action
+                    //will also cause the enemy to abandon this order to target nearby enemies.... no real wins here :(
+                    unitMovement.StopMovement(true);
+                    unitMovement.SetDynamicDestination(target.collider.gameObject.transform, false);
                     //set ordered target
                     unitTargeting.SetOrderedTarget(target.collider.gameObject);
+                    //set attacking state
+                    UnitState unitState = selectedUnit.GetComponent<UnitState>();
+                    unitState.SetState(UState.STATE_ATTACKING);
                     break;
                 case "harvest":
                     unitMovement = selectedUnit.GetComponent<Movement>();
