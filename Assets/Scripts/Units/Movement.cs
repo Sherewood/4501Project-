@@ -377,12 +377,22 @@ public class Movement : MonoBehaviour
         */
 
         //calculate a path in order to get control points for the spline.
-        //some issues with calculating a path when the unit's presence is causing an obstruction on the navmesh
-        //might need to use NavMeshAgent pathfinding method directly instead?
 
         NavMeshPath splinePath = new NavMeshPath();
 
-        NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath);
+        //if trying to path to the destination directly fails, need to determine an alternative destination
+        //will occur when the target point is not on the navmesh.
+        if (!NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath))
+        {
+            Debug.Log("Attempted to path to obstructed region, need to try and compute alternative destination");
+
+            if(!FindUnobstructedPath(dest, out splinePath))
+            {
+                //todo: better fallback -> just to default movement or use physically-based movement?
+                Debug.LogError("Could not find valid alternative destination, movement will fail");
+                return;
+            }
+        };
 
         //Instantiate the spline
         if (!_curSpline.InitSpline(splinePath)){
@@ -399,14 +409,97 @@ public class Movement : MonoBehaviour
         sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
     }
 
+    //if the target position is the position of a NavMeshObstacle object, pathfinding will fail, so need to find a position sufficiently offseted
+    //such that it is on the NavMesh.
+    private bool FindUnobstructedPath(Vector3 dest, out NavMeshPath path)
+    {
+        path = new NavMeshPath();
+
+        //first, try finding one in direction of our unit
+        Vector3 directionToUnit = Vector3.Normalize(transform.position - dest);
+
+        Vector3 offset = new Vector3();
+
+        //if not targetting an object, then there is no size to base off of.
+        if(_dynamicDestination == null)
+        {
+            //if offset from destination was requested, use that offset now to set the destination,
+            //then don't include it in 'distance from destination' calculations later.
+            if (_offsetFromDestination != 0.0f)
+            {
+                offset = directionToUnit * _offsetFromDestination;
+                _offsetFromDestination = 0.0f;
+            }
+            else
+            {
+                offset = directionToUnit * 2.0f; //default value - provide some cushion...
+            }
+        }
+        else
+        {
+            //Get angle from direction vector to target's forward and side vectors
+            Quaternion fromForwardRot = Quaternion.FromToRotation(directionToUnit, _dynamicDestination.forward);
+
+            Quaternion fromSideRot = Quaternion.FromToRotation(directionToUnit, _dynamicDestination.right);
+
+            Vector3 forwardOffset = transform.localScale.z * _dynamicDestination.forward;
+            Vector3 sideOffset = transform.localScale.x * _dynamicDestination.right;
+            //offset is a combination of the forward and side offsets based on the angle between the target's forward angle and the direction vector
+            //probably missing some obvious quaternion magic but whatever
+
+            float forwardYAxisAngle = fromForwardRot.eulerAngles.y;
+
+            //case 1 - angle between 315 and 45 degrees -> apply full forward offset, and side offset in range [315,45] -> [-45,45]/45
+            if(forwardYAxisAngle <= 45.0f || forwardYAxisAngle >= 315.0f)
+            {
+                float localAngle = (forwardYAxisAngle >= 315.0f) ? forwardYAxisAngle - 360.0f : forwardYAxisAngle;
+
+                offset = forwardOffset + sideOffset * (localAngle / 45.0f);
+            }
+            //case 2 - angle between 45 and 135 degrees -> apply full side offset, and forward offset in range [45,135] -> [-45,45]/-45
+            else if(forwardYAxisAngle > 45.0f && forwardYAxisAngle <= 135.0f)
+            {
+                float localAngle = forwardYAxisAngle - 90.0f;
+
+                offset = forwardOffset * (localAngle / -45.0f) + sideOffset;
+            }
+            //case 3 - angle between 135 and 225 degrees -> apply full negative forward offset, and side offset in range [135,225] -> [-45,45]/-45
+            else if (forwardYAxisAngle > 135.0f && forwardYAxisAngle <= 225.0f)
+            {
+                float localAngle = forwardYAxisAngle - 180.0f;
+
+                offset = -forwardOffset + sideOffset * (localAngle / -45.0f);
+            }
+            //case 4 - angle between 225 and 315 degrees -> apply full negative side offest, and forward offset in range [225,315] -> [-45,45]/-45
+            else if (forwardYAxisAngle > 225.0f && forwardYAxisAngle <= 315.0f)
+            {
+                float localAngle = forwardYAxisAngle - 270.0f;
+
+                offset = forwardOffset * (localAngle / -45.0f) - sideOffset;
+            }
+        }
+
+        //apply offset and try to recalculate path
+        dest += offset;
+
+        if(NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, path))
+        {
+            return true;
+        }
+
+        //todo: Try alternative destination in all directions surrounding destination point (will implement if needed)
+        //this is suboptimal so might be best to go a different route entirely for unit movement instead of having to deal with stuff like this...
+
+        return false;
+    }
+
     /* set destination methods for dynamic destinations */
 
     //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
     public void SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly)
-    {
-        /* temporarily disabled */
-        /*
+    {     
         _dynamicDestination = dynamicDestination;
+        _orderedDestination = dynamicDestination.position;
 
         _isDynamicDestOrdered = true;
 
@@ -419,15 +512,16 @@ public class Movement : MonoBehaviour
             {
                 _unitState.SetState(UState.STATE_MOVING);
             }
+
+            StartSplineMovement(true);
         }
-        */
+        
     }
 
     public void SetDynamicDestination(Transform dynamicDestination, bool rotateOnly)
-    {
-        /* temporarily disabled */
-        /*
+    {    
         _dynamicDestination = dynamicDestination;
+        _destination = dynamicDestination.position;
 
         _isDynamicDestOrdered = false;
 
@@ -439,8 +533,10 @@ public class Movement : MonoBehaviour
             {
                 _unitState.SetState(UState.STATE_MOVING);
             }
+
+            StartSplineMovement(false);
         }
-        */
+        
     }
 
     /* worker-specific stuff */
