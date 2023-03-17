@@ -378,6 +378,10 @@ public class Movement : MonoBehaviour
         //calculate a path in order to get control points for the spline.
         //some issues with calculating a path when the unit's presence is causing an obstruction on the navmesh
         //might need to use NavMeshAgent pathfinding method directly instead?
+
+        /* Note for tomorrow: Use NavMeshAgent component on units and use its CalculatePath method instead */
+        /* otherwise if the unit obstructs its position in the NavMesh it won't be able to calculate a path... */
+
         NavMeshPath splinePath = new NavMeshPath();
 
         NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath);

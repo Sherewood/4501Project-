@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8002568013237805364}
   - component: {fileID: 2694723874917545885}
   - component: {fileID: -1427860165722815463}
+  - component: {fileID: -3434741240587025556}
   m_Layer: 0
   m_Name: Main Base
   m_TagString: Untagged
@@ -114,6 +115,22 @@ MonoBehaviour:
   CivilianThreshold: 200
   FuelThreshold: 1000
   EvacuationLaunchTime: 60
+--- !u!208 &-3434741240587025556
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.51, y: 0.35, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.35, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5576664183351431811
 PrefabInstance:
   m_ObjectHideFlags: 0
