@@ -113,6 +113,12 @@ public class CRSpline {
         return tlen;
     }
 
+    //return the (approximate) full path length of the curve
+    public float GetFullPathLength()
+    {
+        return length[length.Length - 1];
+    }
+
     //returns the last tangent of the curve
     public Vector3 GetLastTangent()
     {
@@ -133,9 +139,20 @@ public class Movement : MonoBehaviour
 
     /* spline \/ */
 
+    //todo: add boolean to toggle spline movement on/off? (for working with flocking?)
+
     private CRSpline _curSpline;
 
-    private float s = 0.0f;
+    //timing parameter (range [0,1])
+    private float s;
+
+    //spline parameter should be set initially above 0 for proper initial delta when determining the new position for rigidbody MovePosition
+    private const float INITIAL_SPLINE_PARAM = 0.01f;
+
+    //rate of change of s
+    private float sChangeRate;
+
+    private const float BASE_CHANGE_RATE = 1.0f;
 
     /* spline ^ */
 
@@ -196,7 +213,10 @@ public class Movement : MonoBehaviour
 
         _targetRotation = Quaternion.identity;
 
+        //initialize spline-related parameters
         _curSpline = new CRSpline();
+        s = 0.0f;
+        sChangeRate = 0.0f;
     
     }
 
@@ -210,6 +230,12 @@ public class Movement : MonoBehaviour
     //moved to fixedupdate for better physics
     void FixedUpdate()
     {
+        /* recommendation: Send speed to animation script somewhere around here
+         * will need to track last known position to determine actual speed of the unit 
+         * (not the constant speed param)
+         * animation script will then update the corresponding state variable
+         */
+
         if (_moving)
         {
             //get target
@@ -228,7 +254,7 @@ public class Movement : MonoBehaviour
             //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
 
             //update time parameter (todo: tune this timing properly...)
-            s += Time.deltaTime / 10.0f;
+            s += Time.deltaTime * sChangeRate;
 
             //todo: add ease in/out for s
 
@@ -238,8 +264,10 @@ public class Movement : MonoBehaviour
             /* not sure if using the rigidbody MovePosition method will allow it to still count as spline movement,
              but the collision detection + rigidbody physics was not working properly otherwise.... */
 
-            _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position) * Time.deltaTime);
-            //Debug.Log("Time: " + s);
+            //using unnormalized travelDir is suprisingly accurate
+            Vector3 travelDir = newPos - this.transform.position;
+
+            _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position)*Time.deltaTime);
             // Get orientation from tangent along the curve
             Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
             curve_tan.Normalize();
@@ -348,6 +376,8 @@ public class Movement : MonoBehaviour
         */
 
         //calculate a path in order to get control points for the spline.
+        //some issues with calculating a path when the unit's presence is causing an obstruction on the navmesh
+        //might need to use NavMeshAgent pathfinding method directly instead?
         NavMeshPath splinePath = new NavMeshPath();
 
         NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath);
@@ -355,10 +385,16 @@ public class Movement : MonoBehaviour
         //Instantiate the spline
         if (!_curSpline.InitSpline(splinePath)){
             Debug.LogError("Spline initialization failed, cannot begin moving the unit.");
+
+            return;
         }
 
         //set time parameter to 0
-        s = 0.0f;
+        s = INITIAL_SPLINE_PARAM;
+
+        //calculate rate of change (of s) based on length of spline and speed
+        //length of spline taken into account so unit will progress through the spline at the expected physical speed
+        sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
     }
 
     /* set destination methods for dynamic destinations */
