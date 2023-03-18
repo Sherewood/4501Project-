@@ -185,6 +185,8 @@ public class Movement : MonoBehaviour
 
     //destination which changes over time (due to the unit associated with the Transform object moving)
     private Transform _dynamicDestination;
+    //true if target destination has changed due to the dynamic destination moving
+    private bool _dynamicDestUpdateMade;
 
     //true if dynamic destination is ordered
     private bool _isDynamicDestOrdered;
@@ -307,6 +309,12 @@ public class Movement : MonoBehaviour
         //update spline in FixedUpdate because physics is wack otherwise
 
         //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
+        //need better handling here to ensure motion remains smooth.
+        if (_dynamicDestUpdateMade)
+        {
+            StartSplineMovement(GetDestination());
+        }
+
 
         //update time parameter (todo: tune this timing properly...)
         s += Time.deltaTime * sChangeRate;
@@ -776,22 +784,39 @@ public class Movement : MonoBehaviour
     {
         while (true)
         {
-            if(_dynamicDestination == null)
+            //skip if no dynamic destination, or if order is being carried out and it's not to move to the given
+            //dynamic destination
+            if(_dynamicDestination == null || (!_isDynamicDestOrdered && _orderedDestination != Vector3.zero))
             {
                 yield return null;
                 continue;
             }
 
-            //update the respective destination vector to match the dynamic destination
-            if (_isDynamicDestOrdered)
+            //get the current destination
+
+            //determine if the object has moved a certain distance, if so, update the destination to match the latest position
+            Vector3 target = GetDestination();
+
+            //could quickly optimize using manhattan distance if this is too inefficient
+            float distToTarget = Vector3.Distance(target, _dynamicDestination.position);
+
+            if (distToTarget > 0.5f)
             {
-                _orderedDestination = _dynamicDestination.position;
+                //update the respective destination vector to match the dynamic destination
+                _dynamicDestUpdateMade = true;
+                if (_isDynamicDestOrdered)
+                {
+                    _orderedDestination = _dynamicDestination.position;
+                }
+                else
+                {
+                    _destination = _dynamicDestination.position;
+                }
             }
             else
             {
-                _destination = _dynamicDestination.position;
+                _dynamicDestUpdateMade = false;
             }
-
 
             yield return null;
         }
