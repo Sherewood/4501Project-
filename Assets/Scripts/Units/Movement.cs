@@ -393,10 +393,10 @@ public class Movement : MonoBehaviour
         return target;
     }
 
-    /* destination setters */
+    /* move to methods */
 
-    //set ordered destination - should usually be from player command
-    public bool SetOrderedDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
+    //move to ordered destination - should usually be from player command
+    public bool OrderMoveToDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
     {
         _orderedDestination = orderedDestination;
         _offsetFromDestination = offsetFromDestination;
@@ -410,8 +410,8 @@ public class Movement : MonoBehaviour
         return StartMovement(movementMode, true);
     }
 
-    //set destination - not specifically ordered so can be overridden by ordered destination
-    public bool SetDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    //move to - not specifically ordered so can be overridden by ordered destination
+    public bool MoveToDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         _destination = destination;
         _moving = true;
@@ -424,10 +424,10 @@ public class Movement : MonoBehaviour
         return StartMovement(movementMode, false);
     }
 
-    /* set destination methods for dynamic destinations */
+    /* move to methods for dynamic destinations */
 
     //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
-    public bool SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    public bool OrderMoveToDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         _dynamicDestination = dynamicDestination;
         _orderedDestination = dynamicDestination.position;
@@ -453,7 +453,7 @@ public class Movement : MonoBehaviour
         return true;
     }
 
-    public bool SetDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    public bool MoveToDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         _dynamicDestination = dynamicDestination;
         _destination = dynamicDestination.position;
@@ -480,10 +480,10 @@ public class Movement : MonoBehaviour
 
     /* worker-specific stuff */
 
-    //set moving to harvest
-    public bool SetOrderedHarvestDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    //moving to harvest
+    public bool OrderMoveToHarvest(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
-        if(!SetOrderedDestination(orderedDestination, movementMode))
+        if(!OrderMoveToDestination(orderedDestination, movementMode))
         {
             return false;
         };
@@ -495,14 +495,14 @@ public class Movement : MonoBehaviour
         return true;
     }
 
-    //set moving to construct
-    public bool SetOrderedConstructionDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    //moving to construct
+    public bool OrderMoveToConstruct(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         //get the forward offset from the construction component
         Construction constructComp = GetComponent<Construction>();
 
         //move to the construction site, but stop short according to the offset
-        SetOrderedDestination(orderedDestination, movementMode, constructComp.GetConstructionSiteOffset());
+        OrderMoveToDestination(orderedDestination, movementMode, constructComp.GetConstructionSiteOffset());
 
         //just straight up forcing the state to 'moving to construct' could be problematic
         //but only workers will support this component so it won't interfere with any attacking states.
