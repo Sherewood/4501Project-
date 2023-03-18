@@ -366,13 +366,13 @@ public class Movement : MonoBehaviour
 
         //move at constant rate
         //could still add proper acceleration here later, but since this is only a fallback method don't see the point in spending time on it.
-        _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
+        _rigidBody.MovePosition(transform.position += moveDirection * Speed * Time.deltaTime);
 
         //only rotate based on x,z direction
         //works a lot better on flat surfaces, tbd on slanted regions
         moveDirection.y = 0;
         //determine the target rotation
-        _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
+        _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), moveDirection);
         _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
     }
 
