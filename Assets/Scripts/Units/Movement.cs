@@ -8,6 +8,25 @@ using UnityEngine.AI;
 [System.Serializable]
 public class DestinationReachedEvent : UnityEvent { }
 
+/* 
+  This enum will be used for switching between spline-based/physically-based movement modes 
+ 
+  Will also be used for providing a safe default when the spline's attempt to use unity pathfinding doesn't work properly
+ */
+public enum MovementMode
+{
+    //used for spline-based movement
+    //might be removed after prototype because I don't like how it's turned out, but for now all movement
+    //from point A to point B for individual units will try to use this.
+    MODE_SPLINE,
+    //used for physics-based movement (flocking, steering, arrival, etc.)
+    //should be activated for units that use the flocking behaviour
+    MODE_PHYSICAL,
+    //fall back to if other modes don't work to prevent unit not moving/error
+    //use warning log to indicate fallback to default movement if applicable...
+    MODE_DEFAULT,
+}
+
 /* from animation microdemo, modified to serve this component */
 public class CRSpline {
 
@@ -135,6 +154,11 @@ public class Movement : MonoBehaviour
     /* callbacks */
     public DestinationReachedEvent DestinationReachedEvent;
 
+    /* movement type */
+
+    //the type of movement to use to update the unit's position
+    private MovementMode _movementMode;
+
     /* spline \/ */
 
     //todo: add boolean to toggle spline movement on/off? (for working with flocking?)
@@ -246,43 +270,17 @@ public class Movement : MonoBehaviour
                 return;
             }
 
-            //handling spline movement using animation microdemo code
-            //update spline in FixedUpdate because physics is wack otherwise
-
-            //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
-
-            //update time parameter (todo: tune this timing properly...)
-            s += Time.deltaTime * sChangeRate;
-
-            //todo: add ease in/out for s
-
-            // Evaluate spline to get the position
-            Vector3 newPos = _curSpline.CRSplineInterp(s);
-
-            /* not sure if using the rigidbody MovePosition method will allow it to still count as spline movement,
-             but the collision detection + rigidbody physics was not working properly otherwise.... */
-
-            //using unnormalized travelDir is suprisingly accurate
-            Vector3 travelDir = newPos - this.transform.position;
-
-            _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position)*Time.deltaTime);
-            // Get orientation from tangent along the curve
-            Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
-            curve_tan.Normalize();
-            // Check if we are close to the last point along the path
-            if (s >= 0.99f)
-            {
-                // The last point does not have a well-defined tangent, so use the one of the curve
-                // might want to revisit, causes unit to turn around at the end of its movement
-                curve_tan = _curSpline.GetLastTangent();
+            //handle movement based on the current movement mode.
+            switch (_movementMode) {
+                case MovementMode.MODE_SPLINE:
+                    SplineMovementUpdate();
+                    break;
+                case MovementMode.MODE_PHYSICAL:
+                    break;
+                case MovementMode.MODE_DEFAULT:
+                    DefaultMovementUpdate();
+                    break;
             }
-            // Create orientation from the tangent
-            Quaternion orient = new Quaternion();
-            orient.SetLookRotation(curve_tan, Vector3.up);
-
-            // Set ship's orientation
-            _targetRotation = orient;
-            _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
 
             if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
             {
@@ -303,6 +301,80 @@ public class Movement : MonoBehaviour
         }
     }
 
+    private void SplineMovementUpdate()
+    {
+        //handling spline movement using animation microdemo code
+        //update spline in FixedUpdate because physics is wack otherwise
+
+        //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
+
+        //update time parameter (todo: tune this timing properly...)
+        s += Time.deltaTime * sChangeRate;
+
+        //todo: add ease in/out for s
+
+        // Evaluate spline to get the position
+        Vector3 newPos = _curSpline.CRSplineInterp(s);
+
+        //todo: extra handling to recalculate the spline if unit ends up too far away from the expected spline position?
+        //will prevent "rubber-banding" where unit speed skyrockets once broken free to try and catch up.
+
+        /* not sure if using the rigidbody MovePosition method will allow it to still count as spline movement,
+         but the collision detection + rigidbody physics was not working properly otherwise.... */
+
+        //using unnormalized travelDir is suprisingly accurate
+        Vector3 travelDir = newPos - this.transform.position;
+
+        _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position) * Time.deltaTime);
+        // Get orientation from tangent along the curve
+        Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
+        curve_tan.Normalize();
+        // Check if we are close to the last point along the path
+        if (s >= 0.99f)
+        {
+            // The last point does not have a well-defined tangent, so use the one of the curve
+            // might want to revisit, causes unit to turn around at the end of its movement
+            curve_tan = _curSpline.GetLastTangent();
+        }
+        // Create orientation from the tangent
+        Quaternion orient = new Quaternion();
+        orient.SetLookRotation(curve_tan, Vector3.up);
+
+        // Set unit's orientation
+        _targetRotation = orient;
+        _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+    }
+
+    //todo: add flocking code here
+    //forces added based on whether unit is leader or not.
+    private void PhysicsBasedMovmentUpdate()
+    {
+        //remove when added, obviously
+        Debug.LogWarning("Physics based movement is not available!");
+    }
+
+    //should not be used intentionally, meant as a fallback
+    private void DefaultMovementUpdate()
+    {
+        //get the target destination
+        Vector3 target = GetDestination();
+        if(target == Vector3.zero)
+        {
+            return;
+        }
+        Vector3 moveDirection = Vector3.Normalize(target - transform.position);
+
+        //move at constant rate
+        //could still add proper acceleration here later, but since this is only a fallback method don't see the point in spending time on it.
+        _rigidBody.MovePosition(transform.position += direction * Speed * Time.deltaTime);
+
+        //only rotate based on x,z direction
+        //works a lot better on flat surfaces, tbd on slanted regions
+        moveDirection.y = 0;
+        //determine the target rotation
+        _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
+        _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+    }
 
 
     //helper for determining destination
@@ -324,7 +396,7 @@ public class Movement : MonoBehaviour
     /* destination setters */
 
     //set ordered destination - should usually be from player command
-    public void SetOrderedDestination(Vector3 orderedDestination, float offsetFromDestination = 0.0f)
+    public bool SetOrderedDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
     {
         _orderedDestination = orderedDestination;
         _offsetFromDestination = offsetFromDestination;
@@ -335,11 +407,11 @@ public class Movement : MonoBehaviour
             _unitState.SetState(UState.STATE_MOVING);
         }
 
-        StartSplineMovement(true);
+        return StartMovement(movementMode, true);
     }
 
     //set destination - not specifically ordered so can be overridden by ordered destination
-    public void SetDestination(Vector3 destination)
+    public bool SetDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         _destination = destination;
         _moving = true;
@@ -349,19 +421,157 @@ public class Movement : MonoBehaviour
             _unitState.SetState(UState.STATE_MOVING);
         }
 
-        StartSplineMovement(false);
+        return StartMovement(movementMode, false);
     }
 
-    //triggers spline-based movement
-    public void StartSplineMovement(bool isOrdered)
+    /* set destination methods for dynamic destinations */
+
+    //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
+    public bool SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
-        //do not start if movement is not ordered, and ordered movment is in progress
-        if(!isOrdered && _orderedDestination != Vector3.zero)
+        _dynamicDestination = dynamicDestination;
+        _orderedDestination = dynamicDestination.position;
+
+        _isDynamicDestOrdered = true;
+
+        //only enter movement mode if rotateOnly is false.
+        if (!rotateOnly)
         {
-            return;
+            _moving = true;
+
+            if (ShouldChangeToMoveState())
+            {
+                _unitState.SetState(UState.STATE_MOVING);
+            }
+
+            if (!StartMovement(movementMode, true))
+            {
+                return false;
+            };
+        }
+
+        return true;
+    }
+
+    public bool SetDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    {
+        _dynamicDestination = dynamicDestination;
+        _destination = dynamicDestination.position;
+
+        _isDynamicDestOrdered = false;
+
+        if (!rotateOnly)
+        {
+            _moving = true;
+
+            if (ShouldChangeToMoveState())
+            {
+                _unitState.SetState(UState.STATE_MOVING);
+            }
+
+            if(!StartMovement(movementMode, false))
+            {
+                return false;
+            };
+        }
+
+        return true;
+    }
+
+    /* worker-specific stuff */
+
+    //set moving to harvest
+    public bool SetOrderedHarvestDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    {
+        if(!SetOrderedDestination(orderedDestination, movementMode))
+        {
+            return false;
+        };
+
+        //just straight up forcing the state to 'moving to harvest' could be problematic
+        //but only workers will support this component so it won't interfere with any attacking states.
+        _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
+
+        return true;
+    }
+
+    //set moving to construct
+    public bool SetOrderedConstructionDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    {
+        //get the forward offset from the construction component
+        Construction constructComp = GetComponent<Construction>();
+
+        //move to the construction site, but stop short according to the offset
+        SetOrderedDestination(orderedDestination, movementMode, constructComp.GetConstructionSiteOffset());
+
+        //just straight up forcing the state to 'moving to construct' could be problematic
+        //but only workers will support this component so it won't interfere with any attacking states.
+        _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
+
+        return true;
+    }
+
+
+
+    /* Return point */
+
+    //set point to return to
+    public void SetReturnPoint(Vector3 returnPoint)
+    {
+        _returnPoint = returnPoint;
+    }
+
+    //order return to return point
+    public bool OrderReturn(float offsetFromDestination = 0.0f, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    {
+        _orderedDestination = _returnPoint;
+        _offsetFromDestination = offsetFromDestination;
+        _moving = true;
+
+        if (ShouldChangeToMoveState())
+        {
+            _unitState.SetState(UState.STATE_MOVING);
+        }
+
+        return StartMovement(movementMode, true);
+    }
+
+    //general method to initiate unit movement
+    private bool StartMovement(MovementMode movementMode, bool isOrdered)
+    {
+        //do not start new movement command if movement is not ordered, and ordered movment is in progress
+        if (!isOrdered && _orderedDestination != Vector3.zero)
+        {
+            return false;
         }
 
         Vector3 dest = isOrdered ? _orderedDestination : _destination;
+
+        //update movement mode to match request
+        _movementMode = movementMode;
+
+        //trigger handling for starting movement, based on the specified movement mode
+        switch (_movementMode)
+        {
+            case MovementMode.MODE_SPLINE:
+                StartSplineMovement(dest);
+                break;
+            case MovementMode.MODE_PHYSICAL:
+                Debug.LogError("Request to trigger physics-based movement, but that is not ready yet.");
+                return false;
+            case MovementMode.MODE_DEFAULT:
+                Debug.LogError("Request to trigger default movement, but that is not ready yet.");
+                return false;
+        }
+
+        return true;
+    }
+
+    /* Movement Starting Methods */
+
+    //triggers spline-based movement
+    private void StartSplineMovement(Vector3 dest)
+    {
 
         //calculate a path in order to get control points for the spline.
 
@@ -375,8 +585,9 @@ public class Movement : MonoBehaviour
 
             if(!FindUnobstructedPath(dest, out splinePath))
             {
-                //todo: better fallback -> just to default movement or use physically-based movement?
-                Debug.LogError("Could not find valid alternative destination, movement will fail");
+                //fallback to default movement if can't make spline movement work...
+                Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
+                _movementMode = MovementMode.MODE_DEFAULT;
                 return;
             }
         };
@@ -480,101 +691,7 @@ public class Movement : MonoBehaviour
         return false;
     }
 
-    /* set destination methods for dynamic destinations */
 
-    //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
-    public void SetDynamicOrderedDestination(Transform dynamicDestination, bool rotateOnly)
-    {     
-        _dynamicDestination = dynamicDestination;
-        _orderedDestination = dynamicDestination.position;
-
-        _isDynamicDestOrdered = true;
-
-        //only enter movement mode if rotateOnly is false.
-        if (!rotateOnly)
-        {
-            _moving = true;
-
-            if (ShouldChangeToMoveState())
-            {
-                _unitState.SetState(UState.STATE_MOVING);
-            }
-
-            StartSplineMovement(true);
-        }
-        
-    }
-
-    public void SetDynamicDestination(Transform dynamicDestination, bool rotateOnly)
-    {    
-        _dynamicDestination = dynamicDestination;
-        _destination = dynamicDestination.position;
-
-        _isDynamicDestOrdered = false;
-
-        if (!rotateOnly)
-        {
-            _moving = true;
-
-            if (ShouldChangeToMoveState())
-            {
-                _unitState.SetState(UState.STATE_MOVING);
-            }
-
-            StartSplineMovement(false);
-        }
-        
-    }
-
-    /* worker-specific stuff */
-
-    //set moving to harvest
-    public void SetOrderedHarvestDestination(Vector3 orderedDestination)
-    {
-        SetOrderedDestination(orderedDestination);
-        
-        //just straight up forcing the state to 'moving to harvest' could be problematic
-        //but only workers will support this component so it won't interfere with any attacking states.
-        _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
-    }
-
-    //set moving to construct
-    public void SetOrderedConstructionDestination(Vector3 orderedDestination)
-    {
-        //get the forward offset from the construction component
-        Construction constructComp = GetComponent<Construction>();
-
-        //move to the construction site, but stop short according to the offset
-        SetOrderedDestination(orderedDestination, constructComp.GetConstructionSiteOffset());
-
-        //just straight up forcing the state to 'moving to construct' could be problematic
-        //but only workers will support this component so it won't interfere with any attacking states.
-        _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
-    }
-
-    
-    /* Return point */
-
-    //set point to return to
-    public void SetReturnPoint(Vector3 returnPoint)
-    {
-        _returnPoint = returnPoint;
-    }
-
-    //order return to return point
-    public void OrderReturn(float offsetFromDestination = 0.0f)
-    {
-        _orderedDestination = _returnPoint;
-        _offsetFromDestination = offsetFromDestination;
-        _moving = true;
-
-        if (ShouldChangeToMoveState())
-        {
-            _unitState.SetState(UState.STATE_MOVING);
-        }
-
-        StartSplineMovement(true);
-    }
 
 
     //cease all movement, or just unordered movement if stopOrderedMovement = false

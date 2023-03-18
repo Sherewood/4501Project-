@@ -50,7 +50,7 @@ public class UnitController : MonoBehaviour
             {
                 case "move":
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
-                    unitMovement.SetOrderedDestination(target.point);
+                    unitMovement.SetOrderedDestination(target.point, MovementMode.MODE_SPLINE);
                     break;
                 case "attack":
                     //order unit to move towards enemy, and set enemy as ordered target
@@ -61,7 +61,7 @@ public class UnitController : MonoBehaviour
                     //will have to stop the previously ordered movement in order to prevent it from overriding this action
                     //will also cause the enemy to abandon this order to target nearby enemies.... no real wins here :(
                     unitMovement.StopMovement(true);
-                    unitMovement.SetDynamicDestination(target.collider.gameObject.transform, false);
+                    unitMovement.SetDynamicDestination(target.collider.gameObject.transform, false, MovementMode.MODE_SPLINE);
                     //set ordered target
                     unitTargeting.SetOrderedTarget(target.collider.gameObject);
                     //set attacking state
@@ -71,7 +71,7 @@ public class UnitController : MonoBehaviour
                 case "harvest":
                     unitMovement = selectedUnit.GetComponent<Movement>();
                     Harvesting unitHarvester = selectedUnit.GetComponent<Harvesting>();
-                    unitMovement.SetOrderedHarvestDestination(target.collider.gameObject.transform.position);
+                    unitMovement.SetOrderedHarvestDestination(target.collider.gameObject.transform.position, MovementMode.MODE_SPLINE);
                     unitHarvester.SetTargetResourceDeposit(target.collider.gameObject);
                     break;
                 case "construct":
@@ -83,7 +83,7 @@ public class UnitController : MonoBehaviour
                     if (_gameStateController.CanAffordUnit(buildingType))
                     {
                         _gameStateController.PurchaseUnit(buildingType);
-                        unitMovement.SetOrderedConstructionDestination(target.point);
+                        unitMovement.SetOrderedConstructionDestination(target.point, MovementMode.MODE_SPLINE);
                     }
                     //otherwise, need to reset event chain to prevent bad state
                     else
@@ -138,7 +138,7 @@ public class UnitController : MonoBehaviour
 
                     movement = selectedUnit.GetComponent<Movement>();
                     movement.SetReturnPoint(mainBase.transform.position);
-                    movement.OrderReturn(mainBaseOffset);
+                    movement.OrderReturn(mainBaseOffset, MovementMode.MODE_SPLINE);
                     break;
                 case "construct":
                     //get the building type that the player wants to select for the unit, then save it in the unit's construction component.

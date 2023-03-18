@@ -159,7 +159,7 @@ public class Attack : MonoBehaviour
                 break;
             case UState.STATE_GUARDING:
                 //if guarding - return to guard position
-                _movement.OrderReturn();
+                _movement.OrderReturn(0.0f, MovementMode.MODE_SPLINE);
                 break;
             case UState.STATE_FORTIFIED:
                 //if fortifying - do nothing :)
@@ -189,7 +189,7 @@ public class Attack : MonoBehaviour
                 goto case UState.STATE_IDLE;
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
-                _movement.SetDynamicDestination(newTarget.transform, false);
+                _movement.SetDynamicDestination(newTarget.transform, false, MovementMode.MODE_SPLINE);
                 break;
             case UState.STATE_FORTIFIED:
                 //fortify state: turn towards unit, but do not move towards it
@@ -232,7 +232,7 @@ public class Attack : MonoBehaviour
                 goto case UState.STATE_IDLE;
             case UState.STATE_IDLE:
                 //if attacking, guarding, or in idle state, should request movement component to move towards target
-                _movement.SetDynamicDestination(_currentTarget.transform, false);
+                _movement.SetDynamicDestination(_currentTarget.transform, false, MovementMode.MODE_SPLINE);
                 break;
             default:
                 //else, no action needed here
