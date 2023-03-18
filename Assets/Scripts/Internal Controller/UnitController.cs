@@ -40,6 +40,34 @@ public class UnitController : MonoBehaviour
 
         Debug.Log("Handling order: " + order);
 
+        /* some future notes for flocking */
+        /*
+         * If done with player controlled units - should consider the following extra handling in unit controller
+         * if move order is given and multiple units are selected
+         * 1) Select one of the units that can move, randomly or otherwise, as the flock leader
+         * 2) Track that unit, and the group of units that can move associated with it
+         *      i) Need to check if any of the units selected were in prior flocking groups, and if so remove them from those groups
+         *      ii) If the leader of another flock is in this new flocking group, need to invoke the flocking termination behaviour listed on step 4
+         * 3) Order all of the units to move using MODE_PHYSICAL movement, only the flocking leader should be given a destination
+         *      i) in movement component, only use steering-type behaviours on flock leader (unit using physics-based movement with a destination)
+         *         units that are not the flock leader will only move based on flocking forces (might want to inform them of the leader somehow for the "follow leader" forces)
+         *      note: Specifying no destination to an unit will require an update to these methods which I leave to you.
+         *      
+         * 4) When the flock leader reaches its destination, it will have to send a callback to the internal controller, the unit controller
+         *    should do the following
+         *      i) Identify the flock leader who finished moving
+         *      ii) Order the other units in the flock to stop moving
+         *      note: can use the DestinationReachedEvent callback, just bind it and add handling in the event handler to call the unit controller when it happens
+         *            will add some overhead due to extra callbacks from units reaching their destination reaching the internal controller, but shouldn't be noticeable.
+         *      
+         * NOTE: If this proves too complicated, backup option might be to have a group of edenite munchers hardcoded follow a edenite ravager which wanders, or something similar
+         *       Would then specify to the TA to check out a group of enemy units on the map demonstrating this behaviour.
+         *       Simpler, but leaves more work later if you want to give player units flocking behaviour in the final product. 
+         *       
+         * NOTE 2: Make sure all flocking commands use "ordered movement", otherwise the unit's attacking component will break the flocking behaviour
+         *         by issuing overriding commands.
+         */
+
         foreach (GameObject selectedUnit in selectedUnits)
         {
             List<Capability> unitCapabilities = _capabilityController.GetCapabilitiesOfUnit(selectedUnit);
