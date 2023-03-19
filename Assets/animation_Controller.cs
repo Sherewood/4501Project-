@@ -9,6 +9,10 @@ public class animation_Controller : MonoBehaviour
     public Animator animator;
     private AnimatorControllerParameter[] parameter;
     public GameObject weapon;
+    //differenct animation functions 
+    public bool gun;
+    public bool heavy_gun;
+    public bool rocket;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +32,7 @@ public class animation_Controller : MonoBehaviour
     }
    public  void SetAnim(String str)
     {
-        if (str.Equals("FIRE")) weapon.SetActive(true);
+        if (str.Equals("FIRE") && gun) weapon.SetActive(true);
         for (int i = 0; i < parameter.Length; i++)
         {
             animator.SetBool(parameter[i].name,false);
