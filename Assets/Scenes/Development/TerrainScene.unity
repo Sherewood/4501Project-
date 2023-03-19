@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80f007b4b1801049ada7fe2d5aea0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionIndicatorPrefab: {fileID: 0}
+  SelectionIndicatorPrefab: {fileID: 8670840931534521216, guid: 4440dbf9b21a1174dbb388a9e0176aa2, type: 3}
 --- !u!114 &989166767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1303,6 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dafae3b6a4bb4b4fa155d76c4f484f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 1417856404910398061, guid: ff70e6281fe50bd4ca1f421a69f0c436, type: 3}
 --- !u!114 &989166768
 MonoBehaviour:
   m_ObjectHideFlags: 0

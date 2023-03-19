@@ -15,6 +15,9 @@ public class UnitCreationController : MonoBehaviour
     //need access to bind callbacks
     private InternalControllerEventHandler _eventHandler;
 
+    //prefab used for health bar on unit
+    public HealthBarControl HealthBarPrefab;
+
     void Awake()
     {
         _entityStorage = FindObjectOfType<EntityStorage>();
@@ -41,6 +44,9 @@ public class UnitCreationController : MonoBehaviour
 
         //setup callbacks
         BindUnitCallbacks(unitInfo);
+
+        //add UI elements
+        AddUnitUIElements(unitInfo);
 
         _entityStorage.AddEntity(unit);
     }
@@ -104,5 +110,15 @@ public class UnitCreationController : MonoBehaviour
             planetaryEvac.ConfigureEndOfGameCallback((UnityAction<bool>)_eventHandler.HandleEndOfGameEvent);
         }
 
+    }
+
+    //add UI elements for units
+    private void AddUnitUIElements(UnitInfo unit)
+    {
+        //add health bar to track unit's health
+        if (unit.DoesUnitHaveComponent("health")){
+            HealthBarControl newHealthBar = Instantiate(HealthBarPrefab, new Vector3(0,0,0), Quaternion.identity);
+            newHealthBar.SetTarget(unit.gameObject);
+        }
     }
 }
