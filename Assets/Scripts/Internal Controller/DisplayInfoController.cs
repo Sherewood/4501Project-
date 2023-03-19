@@ -7,6 +7,7 @@ public enum UIEvTrigger
 {
     TRIGGER_UIORDER,
     TRIGGER_MENUSELECT,
+    TRIGGER_RESEARCHTECH,
     TRIGGER_NONE
 }
 
@@ -24,12 +25,18 @@ public class DisplayInfoController : MonoBehaviour
 
     private UnitDatabase _unitDatabase;
 
+    private ResearchModel _researchModel;
+
     //stores mappings between actions that will be displayed in the UI, and the event types triggered when these actions are selected
     //should be in the capability model in some form but whatever...
     private Dictionary<string, UIEvTrigger> _actionEventTypeMappings;
 
     //additional information for the UI to display, gathered based on request
     private Dictionary<string, UIEvTrigger> _additionalDisplayInfo;
+
+    //information for the research menu
+    private Dictionary<Technology, UIEvTrigger> _researchMenuInfo;
+    private bool _researchMenuActive;
     
 
     // Start is called before the first frame update
@@ -40,7 +47,12 @@ public class DisplayInfoController : MonoBehaviour
 
         _unitDatabase = FindObjectOfType<UnitDatabase>();
 
+        _researchModel = FindObjectOfType<ResearchModel>();
+
         _additionalDisplayInfo = new Dictionary<string, UIEvTrigger>();
+
+        _researchMenuInfo = new Dictionary<Technology, UIEvTrigger>();
+        _researchMenuActive = false;
 
         InitActionEventTypeMappings();
     }
@@ -88,6 +100,38 @@ public class DisplayInfoController : MonoBehaviour
     {
         return _additionalDisplayInfo;
     }
+
+    /* research menu specific methods */
+
+    public bool IsResearchMenuOpen()
+    {
+        return _researchMenuActive;
+    }
+
+    public Dictionary<Technology, UIEvTrigger> GetResearchMenuInfo()
+    {
+        return _researchMenuInfo;
+    }
+
+    public bool IsTechResearchable(string techId)
+    {
+        return _gameStateController.IsTechResearchable(techId);
+    }
+
+    //refresh the available technologies in the research menu
+    public void UpdateResearchMenuInfo()
+    {
+        _researchMenuInfo.Clear();
+        List<Technology> availableTechs = _researchModel.GetResearchableTechnologies();
+
+        foreach (Technology tech in availableTechs)
+        {
+            _researchMenuInfo.Add(tech, UIEvTrigger.TRIGGER_RESEARCHTECH);
+        }
+    }
+
+    /* other helpers */
+
 
     //given a list of resource types (minerals, fuel), returns a dictionary mapping resource types to the number of resources the player has
     public Dictionary<string, int> GetPlayerResources(List<string> resourceTypes)
@@ -158,8 +202,14 @@ public class DisplayInfoController : MonoBehaviour
                 _additionalDisplayInfo.Add(supportedBuildingMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }
-
-        if (command == "buildUnit")
+        /*
+        example2: If 'buildUnit' command sent, should...
+          1. Get selected barracks/factory unit (if more than 1 selected log error)
+          2. Get list of supported units from Unit Builder component
+          3. Update additionalDisplayInfo with 'build_<unit's type>' entries, 
+             and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
+        */
+        else if (command == "buildUnit")
         {
             List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
 
@@ -175,14 +225,24 @@ public class DisplayInfoController : MonoBehaviour
                 _additionalDisplayInfo.Add(supportedUnitMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }
+        /* case 3: open/close research menu */
+        else if (command == "researchMenu")
+        {
+            //if menu is open, close it
+            if(_researchMenuActive)
+            {
+                _researchMenuInfo.Clear();
+                _researchMenuActive = false;
+            }
+            //else, open the menu and update information
+            else
+            {
+                _researchMenuActive = true;
 
-        /*
-        example2: If 'buildUnit' command sent, should...
-          1. Get selected barracks/factory unit (if more than 1 selected log error)
-          2. Get list of supported units from Unit Builder component
-          3. Update additionalDisplayInfo with 'build_<unit's type>' entries, 
-             and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
-        */
+                UpdateResearchMenuInfo();
+            }
+        }
+ 
     }
 
     public string GetUnitName(string unitType)

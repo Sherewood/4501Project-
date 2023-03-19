@@ -16,6 +16,8 @@ public class GameStateController : MonoBehaviour
 
     private GameStateModel _gameStateModel;
 
+    private ResearchModel _researchModel;
+
     private PlanetaryEvacuation _playerMainBase;
 
     void Start()
@@ -23,6 +25,7 @@ public class GameStateController : MonoBehaviour
         Debug.Log("Game State Controller - Begin game initialization");
         _unitCreationController = GetComponent<UnitCreationController>();
         _gameStateModel = FindObjectOfType<GameStateModel>();
+        _researchModel = FindObjectOfType<ResearchModel>();
         _entityStorage = FindObjectOfType<EntityStorage>();
         _unitDb = FindObjectOfType<UnitDatabase>();
         //get all units (each unit must have a Unit Info component)
@@ -127,6 +130,24 @@ public class GameStateController : MonoBehaviour
 
         return -1;
     }
+
+    /* technologies */
+
+    //return true if tech is researchable
+    public bool IsTechResearchable(string techId)
+    {
+        int rp = GetPlayerResource("research points");
+
+        return _researchModel.CanTechBeResearched(techId, rp);
+    }
+
+    //unlock technology with given technology ID
+    public bool ResearchTechnology(string techId)
+    {
+        return _researchModel.CompleteTechnology(techId);
+    }
+
+    /* other helpers */
 
     //returns the player's main base
     public GameObject GetMainBase()

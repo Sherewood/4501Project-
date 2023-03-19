@@ -22,6 +22,9 @@ public class UIOrderEvent : UnityEvent<string> { }
 public class MenuSelectionEvent : UnityEvent<string> { }
 
 [System.Serializable]
+public class ResearchTechEvent : UnityEvent<string> { }
+
+[System.Serializable]
 public class DirectionKeyEvent : UnityEvent<string> { }
 
 [System.Serializable]
@@ -161,6 +164,18 @@ public class InternalControllerEventHandler : MonoBehaviour
         else
         {
             Debug.LogWarning("Invalid Order received from prior UI order event.");
+        }
+    }
+
+    //handle request to research technology
+    public void HandleResearchTechEvent(string techId)
+    {
+        Debug.Log("Research tech event received, tech id: " + techId);
+
+        //try to complete research of tech, if successful, refresh available technologies
+        if (_gameStateController.ResearchTechnology(techId))
+        {
+            _displayInfoController.UpdateResearchMenuInfo();
         }
     }
 
