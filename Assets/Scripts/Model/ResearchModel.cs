@@ -162,6 +162,8 @@ public class ResearchModel : MonoBehaviour
 
             newTech.AddPrerequisite(prereqTech);
         }
+
+        _technologyNodes.Add(techId, newTech);
     }
 
     //determine which of the technologies added have no prerequisites, and track them
