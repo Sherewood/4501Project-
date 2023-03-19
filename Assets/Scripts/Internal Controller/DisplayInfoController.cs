@@ -31,8 +31,8 @@ public class DisplayInfoController : MonoBehaviour
     //should be in the capability model in some form but whatever...
     private Dictionary<string, UIEvTrigger> _actionEventTypeMappings;
 
-    //additional information for the UI to display, gathered based on request
-    private Dictionary<string, UIEvTrigger> _additionalDisplayInfo;
+    //information for the construction menu (units/buildings available to build)
+    private Dictionary<string, UIEvTrigger> _constructionMenuInfo;
 
     //information for the research menu
     private Dictionary<Technology, UIEvTrigger> _researchMenuInfo;
@@ -49,7 +49,7 @@ public class DisplayInfoController : MonoBehaviour
 
         _researchModel = FindObjectOfType<ResearchModel>();
 
-        _additionalDisplayInfo = new Dictionary<string, UIEvTrigger>();
+        _constructionMenuInfo = new Dictionary<string, UIEvTrigger>();
 
         _researchMenuInfo = new Dictionary<Technology, UIEvTrigger>();
         _researchMenuActive = false;
@@ -96,9 +96,9 @@ public class DisplayInfoController : MonoBehaviour
         return actions;
     }
 
-    public Dictionary<string, UIEvTrigger> GetAdditionalMenuInfo()
+    public Dictionary<string, UIEvTrigger> GetConstructionMenuInfo()
     {
-        return _additionalDisplayInfo;
+        return _constructionMenuInfo;
     }
 
     /* research menu specific methods */
@@ -156,7 +156,7 @@ public class DisplayInfoController : MonoBehaviour
 
     /* event handling */
 
-    public void UpdateAdditionalDisplayInfo(string command)
+    public void UpdateAdditionalMenuInfo(string command)
     {
 
         /*
@@ -167,7 +167,7 @@ public class DisplayInfoController : MonoBehaviour
         example: If 'construct' command sent, should
           1. Get selected worker unit (if more than 1 unit selected log error)
           2. Get list of supported buildings from worker unit's Construction component
-          3. Update additionalDisplayInfo with 'construct_<building's unit type>' entries,
+          3. Update constructionMenuInfo with 'construct_<building's unit type>' entries,
              and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
         */
 
@@ -199,14 +199,14 @@ public class DisplayInfoController : MonoBehaviour
 
             foreach (string supportedBuildingType in unitConstructionComp.SupportedBuildingTypes) {
                 string supportedBuildingMenuOption = "construct_" + supportedBuildingType;
-                _additionalDisplayInfo.Add(supportedBuildingMenuOption, UIEvTrigger.TRIGGER_UIORDER);
+                _constructionMenuInfo.Add(supportedBuildingMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }
         /*
         example2: If 'buildUnit' command sent, should...
           1. Get selected barracks/factory unit (if more than 1 selected log error)
           2. Get list of supported units from Unit Builder component
-          3. Update additionalDisplayInfo with 'build_<unit's type>' entries, 
+          3. Update constructionMenuInfo with 'build_<unit's type>' entries, 
              and their corresponding UIEvTrigger (should all be TRIGGER_UIORDER)
         */
         else if (command == "buildUnit")
@@ -222,7 +222,7 @@ public class DisplayInfoController : MonoBehaviour
             foreach (string supportedUnitType in unitbuilderComp._supportedUnitTypes)
             {
                 string supportedUnitMenuOption = "buildUnit_" + supportedUnitType;
-                _additionalDisplayInfo.Add(supportedUnitMenuOption, UIEvTrigger.TRIGGER_UIORDER);
+                _constructionMenuInfo.Add(supportedUnitMenuOption, UIEvTrigger.TRIGGER_UIORDER);
             }
         }
         /* case 3: open/close research menu */
@@ -253,7 +253,7 @@ public class DisplayInfoController : MonoBehaviour
     //clear all additional display information
     public void ClearAdditionalInfo()
     {
-        _additionalDisplayInfo.Clear();
+        _constructionMenuInfo.Clear();
     }
 
 

@@ -50,7 +50,7 @@ public class UserInterfaceController : MonoBehaviour
         // Gets a selected unit+ it's actions
         _selectedUnits = component.GetSelectedUnits();
         _selectedUnitCapabilities = component.GetSelectedUnitActions();
-        _constructDisplay = component.GetAdditionalMenuInfo();
+        _constructDisplay = component.GetConstructionMenuInfo();
         
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel", "research points" };

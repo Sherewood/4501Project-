@@ -188,7 +188,7 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController.HandleEventChainUIEventUpdate("menuSelection", command);
 
         //display info controller will find additional information to display based on the command.
-        _displayInfoController.UpdateAdditionalDisplayInfo(command);
+        _displayInfoController.UpdateAdditionalMenuInfo(command);
     }
 
     //handle indication of direction from key presses
