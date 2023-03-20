@@ -120,6 +120,9 @@ https://www.pinterest.ca/pin/sci-fi-lab-techno-thriller-sci-fi--4741446670120676
 All Build Icons/UnitIcons/Ability Icons Except Research Lab:
 Ai generated art made with nightcafe studios.
 https://nightcafe.studio/
+
+UI background:
+https://assetstore.unity.com/packages/2d/gui/sci-fi-gui-skin-15606
 =======
 Futuristic Soldier (used for Worker):
 https://www.turbosquid.com/3d-models/3d-futuristic-soldier-sci-fi-character-male-1864193
