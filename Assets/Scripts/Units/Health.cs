@@ -51,6 +51,7 @@ public class Health : MonoBehaviour
             _actualDefense = BaseDefense;
         }
 
+        
         //check if dead
         HandleDeathIfNeeded();
     }
@@ -102,9 +103,10 @@ public class Health : MonoBehaviour
     {
         if (_actualHealth <= 0)
         {
+            this.GetComponent<animation_Controller>().SetAnim("DEAD");
             Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
             _entityDeathEvent.Invoke(gameObject);
-            this.GetComponent<animation_Controller>().SetAnim("DEAD");
+            
         }
     }
 
@@ -113,5 +115,9 @@ public class Health : MonoBehaviour
     {
         _entityDeathEvent.AddListener(entityDeathCallback);
     }
-
+    IEnumerator Death()
+    {
+        
+        yield return new WaitForSeconds(.03f);
+    }
 }

@@ -23,6 +23,7 @@ public class animation_Controller : MonoBehaviour
             Debug.Log(parameter[i].name);
         }
        if (weapon == null) { weapon = new GameObject(); }
+        animator.SetBool("IDLE", true);
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class animation_Controller : MonoBehaviour
         for (int i = 0; i < parameter.Length; i++)
         {
             animator.SetBool(parameter[i].name,false);
-            Debug.Log(parameter[i].name);
+           // Debug.Log(parameter[i].name);
         }
         animator.SetBool(str, true);
        
