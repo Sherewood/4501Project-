@@ -9,72 +9,123 @@ using UnityEngine.UI;
 
 public class UserInterfaceController : MonoBehaviour
 {
-    public GameObject InternalController;
-    public GameObject UnitInfo;
+    //prefabs (to be used later)
     public GameObject AbilPrefab;
+
+    //UI elements
+    //link all base sections of the UI here
+    //information panels
+    public GameObject UnitInfo;
+    public GameObject ResourceSection;
+    //UI buttons
+    public GameObject EvacButton;
+    public GameObject ResearchButton;
+    //action panels
+    public GameObject AbilityPanel;
+    public GameObject BuildPanel;
+
+    //UI icons
+    //list all icons to be used here
     public List<Sprite> AbilityIcons;
     public List<Sprite> BuildIcons;
     public List<Sprite> UnitIcons;
+    //default sprite for tabs
+    public Sprite def;
     //copied from the selection controller 
     //selections variables 
     private List<GameObject> _selectedUnits;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
     //Unity GameObject 
-    private CapabilityController _capabilityController;
     public Material tracker;
-    private DisplayInfoController  component;
-    //Icons list
-    public List<GameObject> buttonlist;
-    public GameObject resourceText;
-    public List<GameObject> BuildOptions;
+
+    //internal controller
+    private DisplayInfoController _displayInfoController;
     
-    public Sprite def;//default sprite for tabs
-    public GameObject Evac_button;
+    //action panel button lists
+    private List<GameObject> _abilityOptions;
+
+    private List<GameObject> _buildOptions;
+    
+
+
     
     // Start is called before the first frame update
     void Start()
     {
-        InternalController = GameObject.Find("InternalController");
-        component= InternalController.GetComponent<DisplayInfoController>();
-        Evac_button.GetComponent<UiAbilties>().setTrigger(("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER));
-        
+        _displayInfoController = FindObjectOfType<DisplayInfoController>();
+        EvacButton.GetComponent<UiAbilties>().setTrigger(("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER));
 
 
+        InitButtonLists();
 
+    }
+
+    //initialize all button lists
+    private void InitButtonLists()
+    {
+        _abilityOptions = new List<GameObject>();
+        _buildOptions = new List<GameObject>();
+
+        if(AbilityPanel == null)
+        {
+            Debug.LogError("Failed to assign Ability Panel in UI Controller!");
+            return;
+        }
+        if (BuildPanel == null)
+        {
+            Debug.LogError("Failed to assign Build Panel in UI Controller!");
+            return;
+        }
+
+        //get all ability buttons (include inactive ones)
+        UiAbilties[] abilityButtons = AbilityPanel.GetComponentsInChildren<UiAbilties>(true);
+
+        foreach(UiAbilties abilityButton in abilityButtons)
+        {
+            _abilityOptions.Add(abilityButton.gameObject);
+        }
+
+        //get all build buttons (include inactive ones)
+        UiAbilties[] buildButtons = BuildPanel.GetComponentsInChildren<UiAbilties>(true);
+
+        foreach (UiAbilties buildButton in buildButtons)
+        {
+            _buildOptions.Add(buildButton.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         // Gets a selected unit+ it's actions
-        _selectedUnits = component.GetSelectedUnits();
-        _selectedUnitCapabilities = component.GetSelectedUnitActions();
-        _constructDisplay = component.GetConstructionMenuInfo();
+        _selectedUnits = _displayInfoController.GetSelectedUnits();
+        _selectedUnitCapabilities = _displayInfoController.GetSelectedUnitActions();
+        _constructDisplay = _displayInfoController.GetConstructionMenuInfo();
         
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel", "research points" };
-        Dictionary<string, int> curResources= component.GetPlayerResources(check);
+        Dictionary<string, int> curResources= _displayInfoController.GetPlayerResources(check);
         string resourcePrint = "";
-        TextMeshProUGUI mineralText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI fuelText = resourceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI rpText = resourceText.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI mineralText = ResourceSection.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI fuelText = ResourceSection.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rpText = ResourceSection.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
         mineralText.text = "Minerals: " + curResources["minerals"];
         fuelText.text = "Fuel: " + curResources["fuel"];
         rpText.text = "RP: " + curResources["research points"];
 
         //civies evacuated
-        TextMeshProUGUI civiesText = resourceText.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI civiesText = ResourceSection.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
 
-        civiesText.text = "Civs evacuated: " + component.GetEvacuatedCivs();
+        civiesText.text = "Civs evacuated: " + _displayInfoController.GetEvacuatedCivs();
 
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
             
             displayUnit(); //loads the unit info+abilities 
-            displayBuildOptions(); //Loads all possible building capabilities 
+            display_buildOptions(); //Loads all possible building capabilities 
         }
         else
         {
@@ -91,7 +142,7 @@ public class UserInterfaceController : MonoBehaviour
 
         //get unit name
         TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
         unitNameComp.text = unitName;
 
         //get unit health
@@ -117,7 +168,7 @@ public class UserInterfaceController : MonoBehaviour
         
         foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
         {
-            buttonlist[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+            _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
             
             foreach (Sprite sp in AbilityIcons)
             {
@@ -125,13 +176,13 @@ public class UserInterfaceController : MonoBehaviour
                 if (sp.name.Equals(ability.Key))
                 {
 
-                    buttonlist[i].GetComponent<UiAbilties>().Icon= sp;
+                    _abilityOptions[i].GetComponent<UiAbilties>().Icon= sp;
                  
 
                     break;
                 }
             }
-            buttonlist[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+            _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
 
             i++;
             
@@ -140,7 +191,7 @@ public class UserInterfaceController : MonoBehaviour
 
     private void DisplayUnitIcon()
     {
-        string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
@@ -161,10 +212,10 @@ public class UserInterfaceController : MonoBehaviour
         }
     }
 
-    private void displayBuildOptions()
+    private void display_buildOptions()
     {
         //refresh before repopulating
-        ClearBuildOptions();
+        Clear_buildOptions();
 
         int i = 0;
 
@@ -173,13 +224,13 @@ public class UserInterfaceController : MonoBehaviour
             //get command type (construct or buildUnit), unit type, and the name of that unit
             string commandType = ability.Key.Split("_")[0];
             string unitType = ability.Key.Split("_")[1];
-            string unitName = component.GetUnitName(unitType);
+            string unitName = _displayInfoController.GetUnitName(unitType);
 
-            UiAbilties buildButton = BuildOptions[i].GetComponent<UiAbilties>();
-            TextMeshProUGUI buildName = BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            UiAbilties buildButton = _buildOptions[i].GetComponent<UiAbilties>();
+            TextMeshProUGUI buildName = _buildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
 
-            BuildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+            _buildOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
 
             List<Sprite> spritesToCheck = new List<Sprite>();
             
@@ -200,7 +251,7 @@ public class UserInterfaceController : MonoBehaviour
                 if (sp.name.Equals(unitName))
                 {
 
-                    BuildOptions[i].GetComponent<UiAbilties>().Icon = sp;
+                    _buildOptions[i].GetComponent<UiAbilties>().Icon = sp;
 
                     break;
                 }
@@ -218,7 +269,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         ClearUnitInformation();
         ClearAbilities();
-        ClearBuildOptions();
+        Clear_buildOptions();
     }
 
     private void ClearUnitInformation()
@@ -237,19 +288,19 @@ public class UserInterfaceController : MonoBehaviour
 
     private void ClearAbilities()
     {
-        for (int i = 0; i < buttonlist.Count; i++)
+        for (int i = 0; i < _abilityOptions.Count; i++)
         {
-            buttonlist[i].GetComponent<UiAbilties>().Icon = def;
-            buttonlist[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+            _abilityOptions[i].GetComponent<UiAbilties>().Icon = def;
+            _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 
-    private void ClearBuildOptions()
+    private void Clear_buildOptions()
     {
-        for (int i = 0; i < BuildOptions.Count; i++)
+        for (int i = 0; i < _buildOptions.Count; i++)
         {
-            BuildOptions[i].GetComponent<UiAbilties>().Icon = def;
-            BuildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+            _buildOptions[i].GetComponent<UiAbilties>().Icon = def;
+            _buildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 }

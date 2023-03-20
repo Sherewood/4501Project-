@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &802088152286929892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 802088152286929889}
+  - component: {fileID: 802088152286929894}
+  - component: {fileID: 802088152286929895}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &802088152286929889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802088152286929892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.000061035156, y: -2.3999634, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 56
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &802088152286929894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802088152286929892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c9822fa9114744dbc6be0de5d92e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilPrefab: {fileID: 8073394494526041668, guid: caa7eb1620835dc4da43a1cdca06c629, type: 3}
+  UnitInfo: {fileID: 0}
+  ResourceSection: {fileID: 0}
+  EvacButton: {fileID: 0}
+  ResearchButton: {fileID: 0}
+  AbilityPanel: {fileID: 0}
+  BuildPanel: {fileID: 0}
+  AbilityIcons:
+  - {fileID: 21300000, guid: d2f307623939ca84f852e8e23fcd1326, type: 3}
+  - {fileID: 21300000, guid: 950557e73aa7c2048afc513ed33754c5, type: 3}
+  - {fileID: 21300000, guid: b02d04a3fd18be94b9f7b7e5b89921d0, type: 3}
+  - {fileID: 21300000, guid: a1f044cc476df3f458a2c2e7c5b6312c, type: 3}
+  - {fileID: 21300000, guid: 052cc84a7010e1040a908fa099c30852, type: 3}
+  - {fileID: 21300000, guid: d7b9cfde68df26f4795acbf5c5f2860d, type: 3}
+  - {fileID: 21300000, guid: c436d926d1041ed46b5f35b6688a8675, type: 3}
+  - {fileID: 21300000, guid: 8bb21cd29fb00674886e45a83570f0ac, type: 3}
+  - {fileID: 21300000, guid: d51acbbcecc73e84c886d1ff09d63988, type: 3}
+  - {fileID: 21300000, guid: cd6b15c5b058da743b528e28c89fca4a, type: 3}
+  - {fileID: 21300000, guid: 950557e73aa7c2048afc513ed33754c5, type: 3}
+  - {fileID: 21300000, guid: c5dfd5459cd394d4ba53c5ec8cc5dd99, type: 3}
+  BuildIcons:
+  - {fileID: 21300000, guid: 8713ed8980722174d85619b80bb816cb, type: 3}
+  - {fileID: 21300000, guid: bac76cb6594e4d544a8f579d68d70864, type: 3}
+  - {fileID: 21300000, guid: 4e14a8c504b3d1a41aba6ff0b867aff2, type: 3}
+  - {fileID: 21300000, guid: 272830081f35060489d7113bed8cceee, type: 3}
+  - {fileID: 21300000, guid: 7f90d5f4d61af1a409adf3f457c7a98a, type: 3}
+  UnitIcons:
+  - {fileID: 21300000, guid: 62731555b7ba2e64abb75f22cb044757, type: 3}
+  - {fileID: 21300000, guid: cbd617c56e60a8f43b001c5ee1b94c1f, type: 3}
+  - {fileID: 21300000, guid: 274474678139be24aaf1eeddb942603a, type: 3}
+  - {fileID: 21300000, guid: f93707643968eac4c9f20240351b9eab, type: 3}
+  - {fileID: 21300000, guid: 1b4e562ba98f09d41ae1a8f5741eeb85, type: 3}
+  - {fileID: 21300000, guid: 644e35e6e1561234cb88399072607e38, type: 3}
+  - {fileID: 21300000, guid: fd36341245077b146a484898a4c05bd9, type: 3}
+  - {fileID: 21300000, guid: 0496d719a6531ac4a83773df78bdfad2, type: 3}
+  - {fileID: 21300000, guid: 11745bd54e350e547a1eb4a5dde69271, type: 3}
+  def: {fileID: 21300000, guid: 09b309980813d2642adc1d568108233f, type: 3}
+  tracker: {fileID: 2100000, guid: 8d1e3158d9338be459cfb809f3c6dd30, type: 2}
+--- !u!114 &802088152286929895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802088152286929892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f765d85dd4d9041bfe3e85f44e19a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateInterval: 0.5
+  m_Text: {fileID: 0}
+  CurTime: 0
