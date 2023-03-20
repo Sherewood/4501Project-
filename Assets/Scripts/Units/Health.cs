@@ -104,6 +104,7 @@ public class Health : MonoBehaviour
         {
             Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
             _entityDeathEvent.Invoke(gameObject);
+            this.GetComponent<animation_Controller>().SetAnim("DEAD");
         }
     }
 

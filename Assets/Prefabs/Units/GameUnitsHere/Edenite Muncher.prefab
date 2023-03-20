@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6706952161272946159}
   - component: {fileID: 2326709973046975689}
   - component: {fileID: 6368790175945561419}
+  - component: {fileID: -7096437158727397096}
   m_Layer: 0
   m_Name: Edenite Muncher
   m_TagString: Untagged
@@ -54,7 +55,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: enemy-dynamic-edenite_muncher
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &-4117392146962909486
 MonoBehaviour:
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 45
-  _actualHealth: 0
   BaseDefense: 5
   FortifyDefenseBonus: 0
 --- !u!114 &6706952161272946159
@@ -197,6 +196,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!95 &-7096437158727397096
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164426}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 5779b1a41ccf45b45bfc238034373133, type: 3}
+  m_Controller: {fileID: 9100000, guid: 40308d8b1f3347249b1299c2c8ffe225, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &1256408996188566151
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,9 +10,9 @@ public class animation_Controller : MonoBehaviour
     private AnimatorControllerParameter[] parameter;
     public GameObject weapon;
     //differenct animation functions 
-    public bool gun;
-    public bool heavy_gun;
-    public bool rocket;
+    public bool gun=false;
+    public bool heavy_gun=false;
+    public bool rocket = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class animation_Controller : MonoBehaviour
             parameter[i] = animator.GetParameter(i);
             Debug.Log(parameter[i].name);
         }
-
+       if (weapon == null) { weapon = new GameObject(); }
     }
 
     // Update is called once per frame
