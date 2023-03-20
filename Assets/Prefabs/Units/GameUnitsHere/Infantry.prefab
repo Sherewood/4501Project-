@@ -2340,7 +2340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-dynamic-military-infantry
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &739037638480714193
 MonoBehaviour:
@@ -2367,7 +2366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 75
-  _actualHealth: 0
   BaseDefense: 15
   FortifyDefenseBonus: 10
 --- !u!114 &-6085547059052233694

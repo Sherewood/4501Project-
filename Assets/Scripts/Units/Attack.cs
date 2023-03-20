@@ -112,7 +112,7 @@ public class Attack : MonoBehaviour
         //if weapon can be fired, fire it by creating a projectile object
         if (CheckIfReadyToFire(distanceToTarget, targetDirection))
         {
-            this.GetComponent<animation_Controller>().SetAnim("FIRE"); //animation trigger
+            //this.GetComponent<animation_Controller>().SetAnim("FIRE"); //animation trigger
             _weapon.FireWeapon(_currentTarget);
         }
         //might be case where unit is turned away from enemy due to ordered movement

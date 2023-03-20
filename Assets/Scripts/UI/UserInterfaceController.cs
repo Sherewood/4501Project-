@@ -57,15 +57,15 @@ public class UserInterfaceController : MonoBehaviour
         Dictionary<string, int> curResources= component.GetPlayerResources(check);
         string resourcePrint = "";
         TextMeshProUGUI mineralText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI fuelText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI rpText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI fuelText = resourceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rpText = resourceText.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
         mineralText.text = "Minerals: " + curResources["minerals"];
         fuelText.text = "Fuel: " + curResources["fuel"];
         rpText.text = "RP: " + curResources["research points"];
 
         //civies evacuated
-        TextMeshProUGUI civiesText = resourceText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI civiesText = resourceText.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
 
         civiesText.text = "Civs evacuated: " + component.GetEvacuatedCivs();
 
@@ -90,12 +90,12 @@ public class UserInterfaceController : MonoBehaviour
 
 
         //get unit name
-        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
         unitNameComp.text = unitName;
 
         //get unit health
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
         if (unitHealthComp != null)
         {
@@ -141,7 +141,7 @@ public class UserInterfaceController : MonoBehaviour
     private void DisplayUnitIcon()
     {
         string unitName = component.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
-        Image unitIcon = UnitInfo.transform.GetChild(0).GetComponent<Image>();
+        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
         {
@@ -224,13 +224,13 @@ public class UserInterfaceController : MonoBehaviour
     private void ClearUnitInformation()
     {
         //clear unit name
-        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         unitNameComp.text = "";
         //clear unit health
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         healthTextComp.text = "";
         //clear unit icon
-        Image unitIcon = UnitInfo.transform.GetChild(0).GetComponent<Image>();
+        Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.sprite = null;
         unitIcon.enabled = false;
     }

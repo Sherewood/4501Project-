@@ -271,7 +271,7 @@ public class Movement : MonoBehaviour
                 _moving = false;
                 return;
             }
-            this.GetComponent<animation_Controller>().SetAnim("WALK"); // animation trigger
+            //this.GetComponent<animation_Controller>().SetAnim("WALK"); // animation trigger
             //handle movement based on the current movement mode.
             switch (_movementMode) {
                 case MovementMode.MODE_SPLINE:
