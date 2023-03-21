@@ -268,7 +268,7 @@ public class Movement : MonoBehaviour
 
         if (_moving)
         {
-            if (!_animator.Equals(null)) _animator.SetAnim("WALK");
+            if (_animator != null) _animator.SetAnim("WALK");
             //get target
             Vector3 target = GetDestination();
 

@@ -116,7 +116,7 @@ public class Attack : MonoBehaviour
         //if weapon can be fired, fire it by creating a projectile object
         if (CheckIfReadyToFire(distanceToTarget, targetDirection))
         {
-            if (!_animator.Equals(null))
+            if (_animator != null)
             {
                 if (_weapon.WeaponType.Equals("melee"))
                 {
