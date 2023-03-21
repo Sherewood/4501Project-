@@ -2302,6 +2302,8 @@ GameObject:
   - component: {fileID: -2791979558073093744}
   - component: {fileID: 4600160231310051482}
   - component: {fileID: -2730881971866878755}
+  - component: {fileID: -6655177297058389892}
+  - component: {fileID: -6498539443950779355}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Untagged
@@ -2481,6 +2483,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 2, z: 0.8}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-6655177297058389892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8101192436672986434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1623f06eae3034ab457ec8bb1a8cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: -6498539443950779355}
+  weapon: {fileID: 0}
+  tool: {fileID: 0}
+  gun: 0
+  heavy_gun: 0
+  rocket: 0
+--- !u!95 &-6498539443950779355
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8101192436672986434}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: bcd246040199b644d928d5dd1bffaf9c, type: 3}
+  m_Controller: {fileID: 9100000, guid: a7596ce20e44cf648a9ccffb50fa7cba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &8817898888258712963
 GameObject:
   m_ObjectHideFlags: 0

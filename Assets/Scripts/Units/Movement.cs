@@ -215,6 +215,10 @@ public class Movement : MonoBehaviour
     public float Speed;
     public float TurnRate;
 
+    // animateor
+
+    private animation_Controller _animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -241,6 +245,8 @@ public class Movement : MonoBehaviour
         _curSpline = new CRSpline();
         s = 0.0f;
         sChangeRate = 0.0f;
+        //animator
+        _animator = this.GetComponent<animation_Controller>();
     
     }
 
@@ -262,6 +268,7 @@ public class Movement : MonoBehaviour
 
         if (_moving)
         {
+            if (!_animator.Equals(null)) _animator.SetAnim("WALK");
             //get target
             Vector3 target = GetDestination();
 
@@ -296,6 +303,7 @@ public class Movement : MonoBehaviour
         //rotation in place for when unit is not in motion (aiming)
         else
         {
+            
             if (_targetRotation != Quaternion.identity)
             {
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));

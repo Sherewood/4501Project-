@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -1985163176651472814}
   - component: {fileID: -5942888071925629939}
+  - component: {fileID: 8357822971235418195}
+  - component: {fileID: -5045766340618929395}
   m_Layer: 0
   m_Name: Edenite Ravager
   m_TagString: Untagged
@@ -54,7 +56,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: enemy-dynamic-edenite_ravager
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &5163663985060468333
 MonoBehaviour:
@@ -81,7 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 125
-  _actualHealth: 0
   BaseDefense: 20
   FortifyDefenseBonus: 10
 --- !u!114 &8130077436605554117
@@ -197,6 +197,44 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8357822971235418195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1623f06eae3034ab457ec8bb1a8cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: -5045766340618929395}
+  weapon: {fileID: 0}
+  tool: {fileID: 0}
+  gun: 0
+  heavy_gun: 0
+  rocket: 0
+--- !u!95 &-5045766340618929395
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 1c345d5c2a9b820439fe3bd81aa11b09, type: 3}
+  m_Controller: {fileID: 9100000, guid: 73656d61198e95244887bfb747b30016, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &7969317841166876095
 PrefabInstance:
   m_ObjectHideFlags: 0

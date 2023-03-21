@@ -24,6 +24,8 @@ public class Attack : MonoBehaviour
     //note: if unit is colliding with more than 1 possible target and it switches target, this boolean will not be adjusted properly.
     private bool _collidedWithTarget;
 
+    //animator
+    private animation_Controller _animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +37,8 @@ public class Attack : MonoBehaviour
         _currentTarget = null;
 
         _targetInRange = false;
+
+        _animator = this.GetComponent<animation_Controller>();
     }
 
     // Update is called once per frame
@@ -112,7 +116,18 @@ public class Attack : MonoBehaviour
         //if weapon can be fired, fire it by creating a projectile object
         if (CheckIfReadyToFire(distanceToTarget, targetDirection))
         {
-            //this.GetComponent<animation_Controller>().SetAnim("FIRE"); //animation trigger
+            if (!_animator.Equals(null))
+            {
+                if (_weapon.WeaponType.Equals("melee"))
+                {
+                    _animator.SetAnim("ATTACK");
+                }
+                else
+                {
+                    _animator.SetAnim("FIRE");
+                }
+            }
+            
             _weapon.FireWeapon(_currentTarget);
         }
         //might be case where unit is turned away from enemy due to ordered movement

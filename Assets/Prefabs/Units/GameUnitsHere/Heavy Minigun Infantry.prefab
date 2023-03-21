@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -1985163176651472814}
   - component: {fileID: -5942888071925629939}
+  - component: {fileID: -4877965133192292278}
+  - component: {fileID: 2726456880675129194}
   m_Layer: 0
   m_Name: Heavy Minigun Infantry
   m_TagString: Untagged
@@ -54,7 +56,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: player-dynamic-military-minigun
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &5163663985060468333
 MonoBehaviour:
@@ -81,7 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 130
-  _actualHealth: 0
   BaseDefense: 20
   FortifyDefenseBonus: 10
 --- !u!114 &8130077436605554117
@@ -197,6 +197,44 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &-4877965133192292278
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: bcd246040199b644d928d5dd1bffaf9c, type: 3}
+  m_Controller: {fileID: 9100000, guid: c197eae8146996e4aba186e06f391040, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &2726456880675129194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1623f06eae3034ab457ec8bb1a8cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: -4877965133192292278}
+  weapon: {fileID: 0}
+  tool: {fileID: 0}
+  gun: 0
+  heavy_gun: 0
+  rocket: 0
 --- !u!1001 &101269569701444965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205,6 +243,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2059503152919943354}
     m_Modifications:
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.043
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.314
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.084
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6765876
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.42494333
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.3193854
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5095542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 64.225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.116
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127587070840379856, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -74.041
+      objectReference: {fileID: 0}
     - target: {fileID: 5127587071604280687, guid: a3578a1d52142ad4d8de703f96f735ce, type: 3}
       propertyPath: m_RootOrder
       value: 1
