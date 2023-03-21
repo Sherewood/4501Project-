@@ -39,13 +39,18 @@ public class Attack : MonoBehaviour
         _targetInRange = false;
 
         _animator = this.GetComponent<animation_Controller>();
+        _animator.SetAnim("IDlE");
     }
 
     // Update is called once per frame
     void Update()
     {
         GameObject latestTarget = UpdateTarget();
-
+        if (_animator.IsIdle())
+        {
+            Debug.Log("OXOA");
+            _animator.SetAnim("IDLE");
+        }
         //check if ordered movement that overrode command has ceased.
         //if so, reset locally stored information to re-trigger any relevant handling
         if (_orderedMovementOngoing && !_movement.IsOrderedMovementInProgress())
@@ -73,6 +78,14 @@ public class Attack : MonoBehaviour
         //if no target at this point, finish up as there is nothing to be done.
         if (_currentTarget == null)
         {
+            if (_weapon.WeaponType.Equals("melee"))
+            {
+                _animator.UnSetAnim("ATTACK");
+            }
+            else
+            {
+                _animator.UnSetAnim("FIRE");
+            }
             return;
         }
 
@@ -138,6 +151,7 @@ public class Attack : MonoBehaviour
         {
             CheckIfOrderedMovementOverridesCommand();
         }
+
     }
 
     //get the latest target from the targeting component
@@ -148,6 +162,7 @@ public class Attack : MonoBehaviour
         //if no target, use full range detection, else just use the auto detection
         if (_currentTarget == null)
         {
+            
             latestTarget = _targeting.GetTargetAfterFullDetection();
         }
         else
