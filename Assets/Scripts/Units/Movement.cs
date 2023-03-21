@@ -664,16 +664,34 @@ public class Movement : MonoBehaviour
         //will occur when the target point is not on the navmesh.
         if (!NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath))
         {
-            Debug.Log("Attempted to path to obstructed region, need to try and compute alternative destination");
-
-            if(!FindUnobstructedPath(dest, out splinePath))
+            //special case: if unit has navMeshObstacle attached, then try plotting a path 
+            //with the first control point on the path placed in front of the unit, then manually adjusted afterward
+            if (GetComponent<NavMeshObstacle>() != null)
             {
-                //fallback to default movement if can't make spline movement work...
-                Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
-                _movementMode = MovementMode.MODE_DEFAULT;
-                return;
+                Debug.Log("Path planning likely failing due to unit having NavMeshObstacle attached, need to try and compute alternative destination.");
+
+                if(!FindUnobstructedPathUnitHasObstacle(dest, out splinePath))
+                {
+                    //fallback to default movement if can't make spline movement work...
+                    Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
+                    _movementMode = MovementMode.MODE_DEFAULT;
+                    return;
+                }
             }
-        };
+            else
+            {
+                Debug.Log("Attempted to path to obstructed region, need to try and compute alternative destination");
+
+                if (!FindUnobstructedPath(transform.position, dest, out splinePath))
+                {
+                    //fallback to default movement if can't make spline movement work...
+                    Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
+                    _movementMode = MovementMode.MODE_DEFAULT;
+                    return;
+                }
+            }
+            Debug.Log("Alternative path calculation successful.");
+        }
 
         //Instantiate the spline
         if (!_curSpline.InitSpline(splinePath)){
@@ -696,14 +714,43 @@ public class Movement : MonoBehaviour
         sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
     }
 
+    //finding unobstructed path when unit has a NavMeshObstacle attached - will allow for units with NavMeshObstacle to path plan
+    //this will be removed in final product assuming we don't go with hermite spline movement, because we won't need
+    //to place NavMeshObstacle on heavier units to mitigate the lack of collision detection with kinematic movement
+    private bool FindUnobstructedPathUnitHasObstacle(Vector3 dest, out NavMeshPath path)
+    {
+        NavMeshObstacle obstacle = GetComponent<NavMeshObstacle>();
+
+        path = new NavMeshPath();
+
+        //offset the start position to be out of range of the NavMeshObstacle
+        Vector3 newStartPos = transform.position + transform.forward * (obstacle.size.z+0.5f);
+
+        //if still fails, try adding in the usual unobstructed path handling
+        if (!NavMesh.CalculatePath(newStartPos, dest, NavMesh.AllAreas, path))
+        {
+            Debug.Log("Attempted to path to obstructed region, need to try and compute alternative destination");
+
+            if (!FindUnobstructedPath(newStartPos, dest, out path))
+            {
+                return false;
+            }
+        }
+
+        //reset first control point to our position
+        path.corners[0] = transform.position;
+
+        return true;
+    }
+
     //if the target position is the position of a NavMeshObstacle object, pathfinding will fail, so need to find a position sufficiently offseted
     //such that it is on the NavMesh.
-    private bool FindUnobstructedPath(Vector3 dest, out NavMeshPath path)
+    private bool FindUnobstructedPath(Vector3 start, Vector3 dest, out NavMeshPath path)
     {
         path = new NavMeshPath();
 
         //first, try finding one in direction of our unit
-        Vector3 directionToUnit = Vector3.Normalize(transform.position - dest);
+        Vector3 directionToUnit = Vector3.Normalize(start - dest);
 
         Vector3 offset = new Vector3();
 
@@ -769,7 +816,7 @@ public class Movement : MonoBehaviour
         //apply offset and try to recalculate path
         dest += offset;
 
-        if(NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, path))
+        if(NavMesh.CalculatePath(start, dest, NavMesh.AllAreas, path))
         {
             return true;
         }
