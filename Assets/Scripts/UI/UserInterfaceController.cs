@@ -140,9 +140,18 @@ public class UserInterfaceController : MonoBehaviour
         ClearAbilities();
 
 
+        UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
+
+        //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
+        if (unitInfo == null)
+        {
+            ClearUnitInformation();
+            return;
+        }
+
         //get unit name
         TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        string unitName = _displayInfoController.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
         unitNameComp.text = unitName;
 
         //get unit health

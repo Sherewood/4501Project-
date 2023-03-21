@@ -128,7 +128,7 @@ public class SelectionController : MonoBehaviour
         //remove any selected units that were destroyed
         for(int i = 0; i < _selectedUnits.Count; i++)
         {
-            if (_selectedUnits[i] == null)
+            if (_selectedUnits[i] == null || _selectedUnits[i].GetComponent<UnitInfo>() == null)
             {
                 _selectedUnits.RemoveAt(i);
                 unitDestroyed = true;
