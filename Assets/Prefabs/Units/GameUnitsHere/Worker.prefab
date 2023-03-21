@@ -1248,7 +1248,7 @@ GameObject:
   - component: {fileID: 9110595728722643755}
   - component: {fileID: 2287393507300226035}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6154,7 +6154,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 1.7532e-41, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 3.9e-44, z: 1.2525e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7117,11 +7117,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5866666021909216657}
-  weapon: {fileID: 0}
+  weapon: {fileID: 1964599282681860572}
   tool: {fileID: 7578207032882149261}
-  gun: 0
+  gun: 1
   heavy_gun: 0
+  heldItem: 0
   rocket: 0
+  drill: 1
 --- !u!1 &8174140538269110592
 GameObject:
   m_ObjectHideFlags: 0

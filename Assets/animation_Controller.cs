@@ -11,9 +11,8 @@ public class animation_Controller : MonoBehaviour
     public GameObject weapon;
     public GameObject tool;
     //differenct animation functions 
-    public bool gun=false;
-    public bool heavy_gun=false;
-    public bool rocket = false;
+    public bool gun=false; // If the unit holds a gun
+    public bool drill = false; // If the unit has a drill
     // Start is called before the first frame update
     void Start()
     {
@@ -24,19 +23,20 @@ public class animation_Controller : MonoBehaviour
             Debug.Log(parameter[i].name);
         }
        if (weapon == null) { weapon = new GameObject(); }
-        animator.SetBool("IDLE", true);
+       if (tool ==null) { tool = new GameObject(); }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(animator.GetBool("FIRE")==false) weapon.SetActive(false);
-        if (animator.GetBool("HARVEST") == true)
+        if(animator.GetBool("FIRE")==false && gun) weapon.SetActive(false);
+        if (animator.GetBool("HARVEST") == true && drill)
         {
             tool.transform.GetChild(2).gameObject.SetActive(true);
             tool.transform.GetChild(0).transform.Rotate(0, 20.0f, 0);
         }
-        else if (animator.GetBool("HARVEST") == false)
+        else if (animator.GetBool("HARVEST") == false && drill)
         {
             tool.transform.GetChild(0).transform.Rotate(0, 0.0f, 0);
             tool.transform.GetChild(2).gameObject.SetActive(false);

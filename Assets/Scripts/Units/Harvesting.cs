@@ -56,7 +56,7 @@ public class Harvesting : MonoBehaviour
                 _cooldown = BASE_COOLDOWN / HarvestingRate;
             }
         }
-        else if (_unitState.GetState() == UState.STATE_IDLE) animator.SetAnim("IDLE");
+        
     }
 
     //periodic harvesting of resource from resource deposit
