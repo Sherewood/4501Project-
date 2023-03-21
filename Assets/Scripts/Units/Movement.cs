@@ -168,8 +168,9 @@ public class Movement : MonoBehaviour
     //timing parameter (range [0,1])
     private float s;
 
-    //spline parameter should be set initially above 0 for proper initial delta when determining the new position for rigidbody MovePosition
-    private const float INITIAL_SPLINE_PARAM = 0.01f;
+    //for tweaking initial s value of spline
+    //will prob remove later if 0.0f is best (which it prob is with kinematic movement)
+    private const float INITIAL_SPLINE_PARAM = 0.0f;
 
     //rate of change of s
     private float sChangeRate;
@@ -235,6 +236,7 @@ public class Movement : MonoBehaviour
         _orderedDestination = new Vector3();
         _moving = false;
         _returnPoint = new Vector3();
+        _movementMode = MovementMode.MODE_DEFAULT;
 
         _dynamicDestination = null;
         _isDynamicDestOrdered = false;
@@ -345,13 +347,6 @@ public class Movement : MonoBehaviour
         //todo: add ease in/out for s
         float t = Ease(s);
 
-        //dynamic destination handling: Check if target has moved too far, and recalculate spline if so
-        //don't bother if t is too high as unit has basically arrived anyways...
-        if (_dynamicDestUpdateMade && t < 0.99f)
-        {
-            HandleDynamicSplineChange(t);
-        }
-
         // Evaluate spline to get the position
         Vector3 newPos = _curSpline.CRSplineInterp(t);
 
@@ -375,6 +370,13 @@ public class Movement : MonoBehaviour
         // Set unit's orientation
         _targetRotation = orient;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
+
+        //dynamic destination handling: Check if target has moved too far, and recalculate spline if so
+        //don't bother if t is too high as unit has basically arrived anyways...
+        if (_dynamicDestUpdateMade && t < 0.99f)
+        {
+            HandleDynamicSplineChange(t);
+        }
     }
 
     //todo: add flocking code here
@@ -618,13 +620,22 @@ public class Movement : MonoBehaviour
         Vector3 dest = isOrdered ? _orderedDestination : _destination;
 
         //update movement mode to match request
+        MovementMode oldMoveMode = _movementMode;
         _movementMode = movementMode;
 
         //trigger handling for starting movement, based on the specified movement mode
         switch (_movementMode)
         {
             case MovementMode.MODE_SPLINE:
-                StartSplineMovement(dest);
+                //if already performing spline movement, try using dynamic recalculation?
+                if (_moving && oldMoveMode == MovementMode.MODE_SPLINE)
+                {
+                    HandleDynamicSplineChange(s);
+                }
+                else
+                {
+                    StartSplineMovement(dest);
+                }
                 break;
             case MovementMode.MODE_PHYSICAL:
                 Debug.LogError("Request to trigger physics-based movement, but that is not ready yet.");
@@ -792,6 +803,9 @@ public class Movement : MonoBehaviour
         //only stop the movement in general if supposed to stop ordered movement, and/or there is no ordered movement
         if (stopOrderedMovement || _orderedDestination == Vector3.zero)
         {
+            _pathCompletionOffset = 0;
+            _totalPathLength = 0;
+            _movementMode = MovementMode.MODE_DEFAULT;
             _moving = false;
         }
 
