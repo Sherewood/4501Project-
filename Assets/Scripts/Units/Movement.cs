@@ -278,7 +278,7 @@ public class Movement : MonoBehaviour
                 _moving = false;
                 return;
             }
-            //this.GetComponent<animation_Controller>().SetAnim("WALK"); // animation trigger
+
             //handle movement based on the current movement mode.
             switch (_movementMode) {
                 case MovementMode.MODE_SPLINE:
@@ -332,16 +332,9 @@ public class Movement : MonoBehaviour
         // Evaluate spline to get the position
         Vector3 newPos = _curSpline.CRSplineInterp(s);
 
-        //todo: extra handling to recalculate the spline if unit ends up too far away from the expected spline position?
-        //will prevent "rubber-banding" where unit speed skyrockets once broken free to try and catch up.
-
-        /* not sure if using the rigidbody MovePosition method will allow it to still count as spline movement,
-         but the collision detection + rigidbody physics was not working properly otherwise.... */
-
-        //using unnormalized travelDir is suprisingly accurate
-        Vector3 travelDir = newPos - this.transform.position;
-
-        _rigidBody.MovePosition(this.transform.position + (newPos - this.transform.position) * Time.deltaTime);
+        // just set it to the new position
+        //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.
+        transform.position = newPos;
         // Get orientation from tangent along the curve
         Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
         curve_tan.Normalize();
@@ -358,7 +351,7 @@ public class Movement : MonoBehaviour
 
         // Set unit's orientation
         _targetRotation = orient;
-        _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
     }
 
     //todo: add flocking code here
@@ -372,6 +365,8 @@ public class Movement : MonoBehaviour
     //should not be used intentionally, meant as a fallback
     private void DefaultMovementUpdate()
     {
+        //needs to be physics-based
+        if(_rigidBody.isKinematic) _rigidBody.isKinematic = false;
         //get the target destination
         Vector3 target = GetDestination();
         if(target == Vector3.zero)
@@ -588,6 +583,8 @@ public class Movement : MonoBehaviour
     //triggers spline-based movement
     private void StartSplineMovement(Vector3 dest)
     {
+        //set rigidbody to kinematic so movement can be controlled by setting the transform
+        _rigidBody.isKinematic = true;
 
         //calculate a path in order to get control points for the spline.
 
@@ -713,6 +710,9 @@ public class Movement : MonoBehaviour
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement(bool stopOrderedMovement)
     {
+        //disable kinematic rigidbody if it was enabled
+        _rigidBody.isKinematic = false;
+
         if (stopOrderedMovement)
         {
             _orderedDestination = Vector3.zero;
