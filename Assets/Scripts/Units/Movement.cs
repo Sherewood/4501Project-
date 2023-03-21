@@ -287,7 +287,7 @@ public class Movement : MonoBehaviour
             if (target == Vector3.zero)
             {
                 _moving = false;
-              //  SetToIdle();
+                SetToIdle();
                 return;
             }
 
@@ -855,6 +855,7 @@ public class Movement : MonoBehaviour
             _totalPathLength = 0;
             _movementMode = MovementMode.MODE_DEFAULT;
             _moving = false;
+            SetToIdle();
         }
 
         if (_unitState.GetState() == UState.STATE_MOVING)
@@ -958,12 +959,10 @@ public class Movement : MonoBehaviour
     }
     public void SetToIdle()
     {
-        
-            if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
-            {
-                _animator.SetAnim("IDLE");
-            }
-        
-      
+
+        if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
+        {
+            _animator.SetAnim("IDLE");
+        }
     }
 }
