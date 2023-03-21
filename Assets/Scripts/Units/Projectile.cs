@@ -91,7 +91,8 @@ public class Projectile : MonoBehaviour
                     GameObject currentObject = hitCollider.gameObject;
                     if (currentObject.GetComponent<Health>() != null)
                     {
-                        if (string.Compare(currentObject.GetComponent<UnitInfo>().GetAllegiance(), _unitAllegiance) != 0)
+                        UnitInfo unitInfo = currentObject.GetComponent<UnitInfo>();
+                        if (unitInfo != null && string.Compare(unitInfo.GetAllegiance(), _unitAllegiance) != 0)
                         {
                             DealDamage(currentObject);
                         }

@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
 
     //used to report unit death
     private EntityDeadEvent _entityDeathEvent;
+    private bool _reportedDeath;
 
     private UnitState _unitState;
 
@@ -34,6 +35,7 @@ public class Health : MonoBehaviour
         _actualDefense = BaseDefense;
         _unitState = GetComponent<UnitState>();
         _entityDeathEvent = new EntityDeadEvent();
+        _reportedDeath = false;
     }
 
     // Update is called once per frame
@@ -101,12 +103,12 @@ public class Health : MonoBehaviour
     //check if unit is dead, and if so report death to listeners
     private void HandleDeathIfNeeded()
     {
-        if (_actualHealth <= 0)
+        if (!_reportedDeath && _actualHealth <= 0)
         {
             //this.GetComponent<animation_Controller>().SetAnim("DEAD");
             Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
             _entityDeathEvent.Invoke(gameObject);
-            
+            _reportedDeath = true;
         }
     }
 

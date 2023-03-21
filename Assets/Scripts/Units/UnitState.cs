@@ -24,10 +24,22 @@ public class UnitState : MonoBehaviour
 
     private UState _state;
 
+    //storing some components so they can be disabled upon request
+    //todo: refactor this
+    private Movement _movement;
+    private Attack _attack;
+    private Targeting _targeting;
+    private UnitBuilderComponent _unitBuilder;
+
     // Start is called before the first frame update
     void Awake()
     {
         _state = UState.STATE_IDLE;
+
+        _movement = GetComponent<Movement>();
+        _attack = GetComponent<Attack>();
+        _targeting = GetComponent<Targeting>();
+        _unitBuilder = GetComponent<UnitBuilderComponent>();
     }
 
     public void SetState(UState state)
@@ -38,5 +50,26 @@ public class UnitState : MonoBehaviour
     public UState GetState()
     {
         return _state;
+    }
+
+    //disable relevant active components of unit
+    public void DisableUnit()
+    {
+        if(_movement != null)
+        {
+            _movement.enabled = false;
+        }
+        if(_attack != null)
+        {
+            _attack.enabled = false;
+        }
+        if(_targeting != null)
+        {
+            _targeting.enabled = false;
+        }
+        if(_unitBuilder != null)
+        {
+            _unitBuilder.enabled = false;
+        }
     }
 }
