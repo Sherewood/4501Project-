@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -5942888071925629939}
   - component: {fileID: 1126958368904962192}
+  - component: {fileID: -5753729588458461803}
+  - component: {fileID: -9086340107227583309}
   m_Layer: 0
   m_Name: Edenite Devil
   m_TagString: Untagged
@@ -54,7 +56,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: enemy-dynamic-edenite_devil
-  UnitPic: {fileID: 0}
   SupportedComponents: []
 --- !u!114 &5163663985060468333
 MonoBehaviour:
@@ -81,7 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 500
-  _actualHealth: 0
   BaseDefense: 20
   FortifyDefenseBonus: 0
 --- !u!114 &8130077436605554117
@@ -197,6 +197,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-5753729588458461803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1623f06eae3034ab457ec8bb1a8cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: -9086340107227583309}
+  weapon: {fileID: 0}
+  tool: {fileID: 0}
+  gun: 0
+  heavy_gun: 0
+  rocket: 0
+--- !u!95 &-9086340107227583309
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 116fc84b7af38df468c0121c4a5c5a64, type: 3}
+  m_Controller: {fileID: 9100000, guid: 40308d8b1f3347249b1299c2c8ffe225, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &9008600563307586549
 PrefabInstance:
   m_ObjectHideFlags: 0

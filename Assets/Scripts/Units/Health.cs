@@ -29,6 +29,9 @@ public class Health : MonoBehaviour
 
     private const float MAX_DEFENSE = 100;
 
+    //animator
+    private animation_Controller _animator;
+
     void Awake()
     {
         _actualHealth = MaxHealth;
@@ -36,6 +39,8 @@ public class Health : MonoBehaviour
         _unitState = GetComponent<UnitState>();
         _entityDeathEvent = new EntityDeadEvent();
         _reportedDeath = false;
+        _animator=this.GetComponent<animation_Controller>();
+
     }
 
     // Update is called once per frame
@@ -105,7 +110,7 @@ public class Health : MonoBehaviour
     {
         if (!_reportedDeath && _actualHealth <= 0)
         {
-            //this.GetComponent<animation_Controller>().SetAnim("DEAD");
+            if (!_animator.Equals(null)) _animator.SetAnim("DEAD");
             Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
             _entityDeathEvent.Invoke(gameObject);
             _reportedDeath = true;

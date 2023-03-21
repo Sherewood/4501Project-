@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class Harvesting : MonoBehaviour
 {
     /* Callbacks */
-
+    private animation_Controller animator;
     private ResourceHarvestEvent _resourceHarvestEvent;
 
     /* Configuration */
@@ -37,6 +37,7 @@ public class Harvesting : MonoBehaviour
 
         //just don't set harvesting rate to 0...
         _cooldown = BASE_COOLDOWN / HarvestingRate;
+        animator = this.GetComponent<animation_Controller>();
     }
 
 
@@ -44,16 +45,18 @@ public class Harvesting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_unitState.GetState() == UState.STATE_HARVESTING)
+        if (_unitState.GetState() == UState.STATE_HARVESTING)
         {
+            if (!animator.Equals(null)) animator.SetAnim("HARVEST");
             _cooldown -= Time.deltaTime;
 
-            if(_cooldown < 0)
+            if (_cooldown < 0)
             {
                 HarvestResource();
                 _cooldown = BASE_COOLDOWN / HarvestingRate;
             }
         }
+        else if (_unitState.GetState() == UState.STATE_IDLE) animator.SetAnim("IDLE");
     }
 
     //periodic harvesting of resource from resource deposit
@@ -62,7 +65,7 @@ public class Harvesting : MonoBehaviour
         string resourceType = _targetDeposit.GetResourceType();
 
         int harvestAmount = _targetDeposit.WithdrawResources(HarvestingAmount);
-
+        
         //-1 = deposit is depleted, stop harvesting.
         if(harvestAmount == -1)
         {
