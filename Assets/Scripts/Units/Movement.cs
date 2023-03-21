@@ -176,6 +176,15 @@ public class Movement : MonoBehaviour
 
     private const float BASE_CHANGE_RATE = 1.0f;
 
+    //represents the percentage of the motion completed in scenarios where the spline has been
+    //recalculated before movement is done
+    //Example: Finish 50% of the original spline, then recalculate a new spline where its path length ends
+    //up equal to that of the remaining section of the original spline -> pco = 0.5 as 50% of the actual path was completed
+    private float _pathCompletionOffset = 0.0f;
+
+    //tracking total hermite spline length, needs to be updated properly to set PCO properly
+    private float _totalPathLength = 0.0f;
+
     /* spline ^ */
 
     //destination (lower priority - via the object itself)
@@ -311,35 +320,49 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //todo: incorporate path-completion offset
+    //will have to apply ease as an offset on s, instead of a replacement of s for that to work.
+    private float Ease(float s)
+    {
+
+        float t = _pathCompletionOffset + s * (1.0f - _pathCompletionOffset);
+        //formula from animation microdemo
+        float delta = (Mathf.Sin(t * Mathf.PI - Mathf.PI / 2.0f) + 1.0f) / 2.0f - t;
+
+        return s + delta;
+    }
+
     private void SplineMovementUpdate()
     {
         //handling spline movement using animation microdemo code
         //update spline in FixedUpdate because physics is wack otherwise
 
-        //todo: dynamic destination handling: Check if target has moved too far, and recalculate spline if so
-        //need better handling here to ensure motion remains smooth.
-        if (_dynamicDestUpdateMade)
-        {
-            StartSplineMovement(GetDestination());
-        }
-
+        
 
         //update time parameter (todo: tune this timing properly...)
         s += Time.deltaTime * sChangeRate;
 
         //todo: add ease in/out for s
+        float t = Ease(s);
+
+        //dynamic destination handling: Check if target has moved too far, and recalculate spline if so
+        //don't bother if t is too high as unit has basically arrived anyways...
+        if (_dynamicDestUpdateMade && t < 0.99f)
+        {
+            HandleDynamicSplineChange(t);
+        }
 
         // Evaluate spline to get the position
-        Vector3 newPos = _curSpline.CRSplineInterp(s);
+        Vector3 newPos = _curSpline.CRSplineInterp(t);
 
         // just set it to the new position
         //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.
         transform.position = newPos;
         // Get orientation from tangent along the curve
-        Vector3 curve_tan = _curSpline.CRSplineInterp(s + 0.01f) - _curSpline.CRSplineInterp(s);
+        Vector3 curve_tan = _curSpline.CRSplineInterp(t + 0.01f) - _curSpline.CRSplineInterp(t);
         curve_tan.Normalize();
         // Check if we are close to the last point along the path
-        if (s >= 0.99f)
+        if (t >= 0.99f)
         {
             // The last point does not have a well-defined tangent, so use the one of the curve
             // might want to revisit, causes unit to turn around at the end of its movement
@@ -385,6 +408,42 @@ public class Movement : MonoBehaviour
         //determine the target rotation
         _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), moveDirection);
         _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+    }
+
+    //handle recalculating a new spline while performing spline movement
+    //goal is to keep motion smooth and keep ease-in/out accurate
+    private void HandleDynamicSplineChange(float t)
+    {
+
+        //get the previously recorded completed length based on PCO and total length
+        float PCOSplineLength = _pathCompletionOffset * _totalPathLength;
+
+        //get length of the old spline, and the length of the completed part of the old spline
+        float oldSplineLength = _curSpline.GetFullPathLength();
+        float oldSplineCompletedLength = _curSpline.GetCompletedLength(t);
+
+        StartSplineMovement(GetDestination());
+
+        //now, get the length of the new spline
+        float newSplineLength = _curSpline.GetFullPathLength();
+
+        //calculate the new total path length
+        _totalPathLength = _totalPathLength - (oldSplineLength - oldSplineCompletedLength) + newSplineLength;
+
+        //and calculate the new PCO based on the total length of completed path divided by the new total path length
+        _pathCompletionOffset = (PCOSplineLength + oldSplineCompletedLength) / _totalPathLength;
+
+        //clamp to [0,1]
+        if(_pathCompletionOffset < 0)
+        {
+            Debug.LogWarning("Spline movement - Somehow calculated path completion offset of: " + _pathCompletionOffset);
+            _pathCompletionOffset = 0;
+        }
+        else if(_pathCompletionOffset > 1.0f)
+        {
+            Debug.LogWarning("Spline movement - Somehow calculated path completion offset of: " + _pathCompletionOffset);
+            _pathCompletionOffset = 1.0f;
+        }
     }
 
 
@@ -614,6 +673,12 @@ public class Movement : MonoBehaviour
 
         //set time parameter to 0
         s = INITIAL_SPLINE_PARAM;
+
+        //if total path length not set, do it here
+        if(_totalPathLength == 0)
+        {
+            _totalPathLength = _curSpline.GetFullPathLength();
+        }
 
         //calculate rate of change (of s) based on length of spline and speed
         //length of spline taken into account so unit will progress through the spline at the expected physical speed
