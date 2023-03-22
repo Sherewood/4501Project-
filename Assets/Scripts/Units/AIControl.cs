@@ -265,4 +265,70 @@ public class AIControl : MonoBehaviour
 
         return true;
     }
+
+    /* action handling */
+    private void performActionsForRule(int ruleId)
+    {
+        List<string> actionList = _actions[ruleId];
+
+        if (actionList == null)
+        {
+            foreach(string action in actionList)
+            {
+                PerformAction(action);
+            }
+        }
+    }
+
+    private void performAction(string action)
+    {
+        //handle equality actions separately
+        if (action.Contains("="))
+        {
+            performSetAction(action);
+            return;
+        }
+
+        //pretty much all actions are todo...
+        switch (action)
+        {
+            case "doNothing":
+                //yes
+                break;
+            case "moveTarget":
+                //move towards the target
+                break;
+            case "attackTarget":
+                //rotate towards the target while firing at it
+                break;
+            case "breakCommand":
+                //remove the player's command, so automatic actions are available again.
+                break;
+            case "initReturn":
+                //move towards the return point
+                break;
+            default:
+                Debug.LogError("Unsupported rule-based action: " + action);
+                return;
+        }
+    }
+
+    //perform action which involves setting a value.
+    private void performSetAction(string setAction)
+    {
+        //split into type and value
+        string[] splitAction = setAction.Split("=");
+        string type = splitAction[0];
+        string value = splitAction[1];
+
+        switch (type)
+        {
+            case "setState":
+                _unitState.SetState(_unitState.StringToUState(value));
+                break;
+            default:
+                Debug.LogError("Unsupported rule-based setting action: " + action);
+                return;
+        }
+    }
 }
