@@ -175,4 +175,66 @@ public class AIControl : MonoBehaviour
 
         return true;
     }
+
+    /* prerequisite handling */
+
+    //check if the rule's prerequisites are valid
+    public bool CheckIfRuleValid(int ruleId, string aiEvent)
+    {
+        foreach (string[] prereqSet in _prereqs[ruleId])
+        {
+            //each prereq set is an and statement for all prereqs in the set
+            //therefore, set is only satisfied if all prereqs in it are true
+            bool prereqSetSatisfied = true;
+            
+            foreach(string prereq in prereqSet)
+            {
+                if(!IsPrereqSatisfied(prereq, aiEvent))
+            }
+
+            if (prereqSetSatisfied)
+            {
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    //check if prereq satisfied
+    //use the indicated AI event aswell as certain prereqs are satisfied immediately if they match it
+    public bool IsPrereqSatisfied(string prereq, string aiEvent)
+    {
+        if(prereq.Contains("==") || prereq.Contains("!="))
+        {
+            return IsEqualityPrereqSatisfied(prereq);
+        }
+
+        switch (prereq)
+        {
+            case "targetChanged":
+                return (prereq.Equals(aiEvent));
+            case "targetLost":
+                return (prereq.Equals(aiEvent));
+            case "reachedDestination":
+                return (prereq.Equals(aiEvent));
+            //todo: range checking prereqs should ask attack component if aiEvent doesn't match
+            //this is because some rules will check range in addition to target being changed/etc.
+            case "targetNotInRange":
+                return (prereq.Equals(aiEvent));
+            case "targetInRange":
+                return (prereq.Equals(aiEvent));
+            //todo: add support for other prereqs
+            default:
+                Debug.LogError("Unsupported prereq: " + prereq);
+                return false;
+        }
+    }
+
+    //check if prereq that relies on checking if something is equal to x is true
+    //todo
+    public bool IsEqualityPrereqSatisfied(string equalityPrereq)
+    {
+        return true;
+    }
 }

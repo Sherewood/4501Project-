@@ -10,5 +10,5 @@ CM|If command=returnToBase and reachedDestination then breakCommand
 If noTargetInRange then doNothing
 If targetChanged and targetNotInRange and state!=fortify then moveTarget
 If targetInRange then attackTarget
-If lostTarget and state!=guard then doNothing
-If lostTarget and state=guard then initReturn
+If targetLost and state!=guard then doNothing
+If targetLost and state=guard then initReturn
