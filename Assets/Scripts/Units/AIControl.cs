@@ -29,6 +29,9 @@ public class AIControl : MonoBehaviour
 
     //command given to the unit by higher authority
     private string _command;
+    //variables to hold information necessary for initial handling of the command
+    private Vector3 _commandTargetPosition;
+    private GameObject _commandTarget;
 
     /* unit components */
     private UnitState _unitState;
@@ -41,6 +44,8 @@ public class AIControl : MonoBehaviour
         _actions = new Dictionary<int, List<string>>();
 
         _command = "";
+        _commandTargetPosition = transform.position;
+        _commandTarget = null;
 
         if (!InitRBS())
         {
@@ -186,6 +191,38 @@ public class AIControl : MonoBehaviour
         return true;
     }
 
+    /* command handling */
+    /* multiple methods needed to support multiple different types of command
+    would prefer to set the handling for these commands using the rule-based system alone,
+    but need to support different types of input... 
+
+    Solution: do 'pre-processing' for some commands based on input, then let rule handle the rest?
+    */
+    //no-input command
+    public void SendCommand(string command)
+    {
+        _command = command;
+        //handle 'new command' AI event
+        HandleAIEvent("newCommand");
+    }
+
+    public void SendCommand(string command, Vector3 targetPos)
+    {
+        _command = command;
+        //set "target position" to be used for initial command handling
+        _commandTargetPosition = targetPos;
+
+        HandleAIEvent("newCommand");
+    }
+
+    public void SendCommand(string command, GameObject target)
+    {
+        _command = command;
+        _commandTarget = target;
+
+        HandleAIEvent("newCommand");
+    }
+
     /* event handling */
     //handle callback meant to influence AI decision making
     public void HandleAIEvent(string aiEvent)
@@ -290,6 +327,9 @@ public class AIControl : MonoBehaviour
                 //check if unit state matches or doesn't match
                 bool doesUnitStateMatch = _unitState.IsState(_unitState.StringToUState(value));
                 return equalityCheckType.Equals("==") ? doesUnitStateMatch : !doesUnitStateMatch;
+            case "command":
+                //check if command matches the given value
+                return _command.Equals(value);
             default:
                 Debug.LogError("Unsupported equality check type: " + type);
                 return false;
@@ -332,7 +372,8 @@ public class AIControl : MonoBehaviour
                 //rotate towards the target while firing at it
                 break;
             case "breakCommand":
-                //remove the player's command, so automatic actions are available again.
+                //clear command, re-enabling use of automatic rules + actions
+                _command = "";
                 break;
             case "initReturn":
                 //move towards the return point
