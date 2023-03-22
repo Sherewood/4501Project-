@@ -27,6 +27,9 @@ public class AIControl : MonoBehaviour
     //stores actions to be taken for each rule.
     private Dictionary<int, List<string>> _actions;
 
+    //command given to the unit by higher authority
+    private string _command;
+
     /* unit components */
     private UnitState _unitState;
      
@@ -36,6 +39,8 @@ public class AIControl : MonoBehaviour
         _autoRules = new List<int>();
         _prereqs = new Dictionary<int, List<string[]>>();
         _actions = new Dictionary<int, List<string>>();
+
+        _command = "";
 
         if (!InitRBS())
         {
@@ -181,10 +186,36 @@ public class AIControl : MonoBehaviour
         return true;
     }
 
+    /* event handling */
+    //handle callback meant to influence AI decision making
+    public void HandleAIEvent(string aiEvent)
+    {
+        //choose the set of rules to check based on whether a command is being processed
+        List<int> chosenRules = (!_command.Equals("")) ? _commandBasedRules : _autoRules;
+
+        List<int> validRules = new List<int>();
+
+        //determine all valid rules
+        foreach (int ruleId in chosenRules)
+        {
+            if(CheckIfRuleValid(ruleId, aiEvent))
+            {
+                validRules.Add(ruleId);
+            }
+        }
+
+        //lazy tiebreaker : take the first one lmao
+        //may or may not need to revisit later
+        int chosenRule = validRules[0];
+
+        //perform the rule's actions.
+        PerformActionsForRule(chosenRule);
+    }
+
     /* prerequisite handling */
 
     //check if the rule's prerequisites are valid
-    public bool CheckIfRuleValid(int ruleId, string aiEvent)
+    private bool CheckIfRuleValid(int ruleId, string aiEvent)
     {
         foreach (string[] prereqSet in _prereqs[ruleId])
         {
@@ -259,17 +290,14 @@ public class AIControl : MonoBehaviour
                 //check if unit state matches or doesn't match
                 bool doesUnitStateMatch = _unitState.IsState(_unitState.StringToUState(value));
                 return equalityCheckType.Equals("==") ? doesUnitStateMatch : !doesUnitStateMatch;
-                break;
             default:
                 Debug.LogError("Unsupported equality check type: " + type);
                 return false;
         }
-
-        return true;
     }
 
     /* action handling */
-    private void performActionsForRule(int ruleId)
+    private void PerformActionsForRule(int ruleId)
     {
         List<string> actionList = _actions[ruleId];
 
