@@ -210,9 +210,11 @@ public class AIControl : MonoBehaviour
         return true;
     }
 
+
+
     //check if prereq satisfied
     //use the indicated AI event aswell as certain prereqs are satisfied immediately if they match it
-    public bool IsPrereqSatisfied(string prereq, string aiEvent)
+    private bool IsPrereqSatisfied(string prereq, string aiEvent)
     {
         if(prereq.Contains("==") || prereq.Contains("!="))
         {
@@ -241,7 +243,7 @@ public class AIControl : MonoBehaviour
     }
 
     //check if prereq that relies on checking if something is equal to x is true
-    public bool IsEqualityPrereqSatisfied(string equalityPrereq)
+    private bool IsEqualityPrereqSatisfied(string equalityPrereq)
     {
         //get the comparison type (could add more later if needed)
         string equalityCheckType = equalityPrereq.Contains("==") ? "==" : "!=";
@@ -280,12 +282,12 @@ public class AIControl : MonoBehaviour
         }
     }
 
-    private void performAction(string action)
+    private void PerformAction(string action)
     {
         //handle equality actions separately
         if (action.Contains("="))
         {
-            performSetAction(action);
+            PerformSetAction(action);
             return;
         }
 
@@ -314,7 +316,7 @@ public class AIControl : MonoBehaviour
     }
 
     //perform action which involves setting a value.
-    private void performSetAction(string setAction)
+    private void PerformSetAction(string setAction)
     {
         //split into type and value
         string[] splitAction = setAction.Split("=");
@@ -327,7 +329,7 @@ public class AIControl : MonoBehaviour
                 _unitState.SetState(_unitState.StringToUState(value));
                 break;
             default:
-                Debug.LogError("Unsupported rule-based setting action: " + action);
+                Debug.LogError("Unsupported rule-based setting action: " + type);
                 return;
         }
     }
