@@ -154,6 +154,8 @@ public class Movement : MonoBehaviour
     /* callbacks */
     public DestinationReachedEvent DestinationReachedEvent;
 
+    public AIEvent AICallback;
+
     /* movement type */
 
     //the type of movement to use to update the unit's position
@@ -301,7 +303,9 @@ public class Movement : MonoBehaviour
                 //terminate movement if destination reached.
                 StopMovement();
                 //report to interested parties that destination has been reached
+                //might remove Destination Reached Event and let AI Control sort everything out?
                 DestinationReachedEvent.Invoke();
+                AICallback.Invoke("reachedDestination");
             }
         }
         //rotation in place for when unit is not in motion (aiming)

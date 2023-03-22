@@ -1,6 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+/* Event callback */
+
+//AI event - used to notify the AI control of things that should prompt a reaction from it.
+[System.Serializable]
+public class AIEvent : UnityEvent<string> { }
+
+
+
 /* Unit Component */
 
 //Purpose: Manage decision making for the unit
@@ -256,6 +265,16 @@ public class AIControl : MonoBehaviour
             {
                 validRules.Add(ruleId);
             }
+        }
+
+        //cancel handling if no rules are valid
+        if(validRules.Count == 0)
+        {
+            if (DebugMode)
+            {
+                Debug.Log("No valid rules for event, so take no action");
+            }
+            return;
         }
 
         //lazy tiebreaker : take the first one lmao
