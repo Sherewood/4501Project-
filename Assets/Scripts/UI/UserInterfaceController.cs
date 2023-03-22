@@ -20,9 +20,12 @@ public class UserInterfaceController : MonoBehaviour
     //UI buttons
     public GameObject EvacButton;
     public GameObject ResearchButton;
+    public GameObject init_ScienceButton;
     //action panels
     public GameObject AbilityPanel;
     public GameObject BuildPanel;
+    public GameObject SciencePanel;
+   
 
     //UI icons
     //list all icons to be used here
@@ -36,6 +39,7 @@ public class UserInterfaceController : MonoBehaviour
     private List<GameObject> _selectedUnits;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
+    private Dictionary<Technology, UIEvTrigger> _researchDisplay;
     //Unity GameObject 
     public Material tracker;
 
@@ -46,6 +50,8 @@ public class UserInterfaceController : MonoBehaviour
     private List<GameObject> _abilityOptions;
 
     private List<GameObject> _buildOptions;
+
+    private List<GameObject> _reseachOptions;
     
 
 
@@ -66,6 +72,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         _abilityOptions = new List<GameObject>();
         _buildOptions = new List<GameObject>();
+        _reseachOptions = new List<GameObject>();
 
         if(AbilityPanel == null)
         {
@@ -102,7 +109,7 @@ public class UserInterfaceController : MonoBehaviour
         _selectedUnits = _displayInfoController.GetSelectedUnits();
         _selectedUnitCapabilities = _displayInfoController.GetSelectedUnitActions();
         _constructDisplay = _displayInfoController.GetConstructionMenuInfo();
-        
+        _researchDisplay = _displayInfoController.GetResearchMenuInfo();
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel", "research points" };
         Dictionary<string, int> curResources= _displayInfoController.GetPlayerResources(check);
@@ -123,14 +130,22 @@ public class UserInterfaceController : MonoBehaviour
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
-            
+
             displayUnit(); //loads the unit info+abilities 
             display_buildOptions(); //Loads all possible building capabilities 
         }
         else
         {
-            
+
             Clear();
+        }
+        if (_displayInfoController.IsResearchMenuOpen())
+        {
+            display_ResearchOptions();
+        }
+        else
+        {
+
         }
 
     }
@@ -273,7 +288,35 @@ public class UserInterfaceController : MonoBehaviour
 
         }
     }
+    private void display_ResearchOptions()
+    {
+        int pos = 150;
+        int i = 0;
+        //init_ScienceButton.SetActive(false);
+        if (_reseachOptions.Count == 0)
+        {
+            foreach (KeyValuePair<Technology, UIEvTrigger> science in _researchDisplay)
+            {
 
+                GameObject button = Instantiate(init_ScienceButton);
+                button.name = science.Key.Name;
+                button.transform.SetParent(SciencePanel.transform, false);
+                button.transform.Translate(0, -pos * i, 0);
+                button.GetComponent<UiAbilties>().setTrigger((science.Key.Id, science.Value));
+                button.GetComponent<UiAbilties>().Icon = def;
+                _buildOptions.Add(button);
+                i++;
+
+
+            }
+        }
+        else
+        {
+            Debug.Log("ASD");
+        }
+        
+        
+    }
     private void Clear()
     {
         ClearUnitInformation();
@@ -311,5 +354,21 @@ public class UserInterfaceController : MonoBehaviour
             _buildOptions[i].GetComponent<UiAbilties>().Icon = def;
             _buildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
+    }
+    public void EnableDisableScience()
+    {
+        _displayInfoController.UpdateAdditionalMenuInfo("researchMenu");
+        if (SciencePanel.activeSelf)
+        {
+            SciencePanel.SetActive(false);
+
+            for (int i = 2; i < SciencePanel.transform.childCount; i++)
+            {
+                Destroy(SciencePanel.transform.GetChild(i).gameObject);
+            }
+            _reseachOptions.Clear();
+        }
+        else SciencePanel.SetActive(true);
+
     }
 }
