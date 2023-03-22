@@ -153,16 +153,12 @@ public class UnitController : MonoBehaviour
             switch (bestAction)
             {
                 case "guard":
-                    //set unit state to guarding, and set return point to the unit's current position
-                    UnitState unitState = selectedUnit.GetComponent<UnitState>();
-                    Movement movement = selectedUnit.GetComponent<Movement>();
-                    movement.SetReturnPoint(selectedUnit.transform.position);
-                    unitState.SetState(UState.STATE_GUARDING);
+                    //order AI to enter guard mode
+                    unitAI.SendCommand("guard");
                     break;
                 case "fortify":
-                    //set unit state to fortified
-                    unitState = selectedUnit.GetComponent<UnitState>();
-                    unitState.SetState(UState.STATE_FORTIFIED);
+                    //order AI to enter fortify mode
+                    unitAI.SendCommand("fortify");
                     break;
                 case "returnToBase":
                     //get main base, and order unit to travel relatively close to it
