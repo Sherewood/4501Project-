@@ -190,16 +190,11 @@ public class Movement : MonoBehaviour
 
     //destination (lower priority - via the object itself)
     private Vector3 _destination;
-    //destination (high priority - via player command)
-    private Vector3 _orderedDestination;
 
     //destination which changes over time (due to the unit associated with the Transform object moving)
     private Transform _dynamicDestination;
     //true if target destination has changed due to the dynamic destination moving
     private bool _dynamicDestUpdateMade;
-
-    //true if dynamic destination is ordered
-    private bool _isDynamicDestOrdered;
 
     //true when unit is moving towards destination
     private bool _moving;
@@ -212,7 +207,6 @@ public class Movement : MonoBehaviour
     //currently only supported for ordered movement to a static location.
     private float _offsetFromDestination;
 
-    
     //point to return to when ordered to head back
     private Vector3 _returnPoint;
 
@@ -233,13 +227,11 @@ public class Movement : MonoBehaviour
     void Start()
     {
         _destination = new Vector3();
-        _orderedDestination = new Vector3();
         _moving = false;
         _returnPoint = new Vector3();
         _movementMode = MovementMode.MODE_DEFAULT;
 
         _dynamicDestination = null;
-        _isDynamicDestOrdered = false;
 
         _rigidBody = GetComponent<Rigidbody>();
 
@@ -307,7 +299,7 @@ public class Movement : MonoBehaviour
             {
                 Debug.Log("Destination reached...");
                 //terminate movement if destination reached.
-                StopMovement(true);
+                StopMovement();
                 //report to interested parties that destination has been reached
                 DestinationReachedEvent.Invoke();
             }
@@ -454,11 +446,7 @@ public class Movement : MonoBehaviour
     private Vector3 GetDestination()
     {
         Vector3 target = new Vector3();
-        if (_orderedDestination != Vector3.zero)
-        {
-            target = _orderedDestination;
-        }
-        else if(_destination != Vector3.zero)
+        if(_destination != Vector3.zero)
         {
             target = _destination;
         }
@@ -468,81 +456,40 @@ public class Movement : MonoBehaviour
 
     /* move to methods */
 
-    //move to ordered destination - should usually be from player command
-    public bool OrderMoveToDestination(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
+    //move to - not specifically ordered so can be overridden by ordered destination
+    public bool MoveToDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
     {
-        _orderedDestination = orderedDestination;
+        _destination = destination;
         _offsetFromDestination = offsetFromDestination;
         _moving = true;
 
+        //should remove this and leave it to the AI Controller
         if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
 
-        return StartMovement(movementMode, true);
-    }
-
-    //move to - not specifically ordered so can be overridden by ordered destination
-    public bool MoveToDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
-    {
-        _destination = destination;
-        _moving = true;
-
-        if (ShouldChangeToMoveState())
-        {
-            _unitState.SetState(UState.STATE_MOVING);
-        }
-
-        return StartMovement(movementMode, false);
+        return StartMovement(movementMode);
     }
 
     /* move to methods for dynamic destinations */
-
-    //note: if rotateOnly is true, only rotating will be done, otherwise both movement and rotation is done
-    public bool OrderMoveToDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
-    {
-        _dynamicDestination = dynamicDestination;
-        _orderedDestination = dynamicDestination.position;
-
-        _isDynamicDestOrdered = true;
-
-        //only enter movement mode if rotateOnly is false.
-        if (!rotateOnly)
-        {
-            _moving = true;
-
-            if (ShouldChangeToMoveState())
-            {
-                _unitState.SetState(UState.STATE_MOVING);
-            }
-
-            if (!StartMovement(movementMode, true))
-            {
-                return false;
-            };
-        }
-
-        return true;
-    }
 
     public bool MoveToDynamicDestination(Transform dynamicDestination, bool rotateOnly, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         _dynamicDestination = dynamicDestination;
         _destination = dynamicDestination.position;
 
-        _isDynamicDestOrdered = false;
-
         if (!rotateOnly)
         {
             _moving = true;
 
+            //should remove this and leave it to the AI Controller
             if (ShouldChangeToMoveState())
             {
                 _unitState.SetState(UState.STATE_MOVING);
             }
 
-            if(!StartMovement(movementMode, false))
+            if(!StartMovement(movementMode))
             {
                 return false;
             };
@@ -554,31 +501,33 @@ public class Movement : MonoBehaviour
     /* worker-specific stuff */
 
     //moving to harvest
-    public bool OrderMoveToHarvest(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    public bool MoveToHarvest(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
-        if(!OrderMoveToDestination(orderedDestination, movementMode))
+        if(!MoveToDestination(destination, movementMode))
         {
             return false;
         };
 
         //just straight up forcing the state to 'moving to harvest' could be problematic
         //but only workers will support this component so it won't interfere with any attacking states.
+        //should remove this and leave it to the AI Controller
         _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
 
         return true;
     }
 
     //moving to construct
-    public bool OrderMoveToConstruct(Vector3 orderedDestination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    public bool MoveToConstruct(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
         //get the forward offset from the construction component
         Construction constructComp = GetComponent<Construction>();
 
         //move to the construction site, but stop short according to the offset
-        OrderMoveToDestination(orderedDestination, movementMode, constructComp.GetConstructionSiteOffset());
+        MoveToDestination(destination, movementMode, constructComp.GetConstructionSiteOffset());
 
         //just straight up forcing the state to 'moving to construct' could be problematic
         //but only workers will support this component so it won't interfere with any attacking states.
+        //should remove this and leave it to the AI Controller
         _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
 
         return true;
@@ -595,30 +544,25 @@ public class Movement : MonoBehaviour
     }
 
     //order return to return point
-    public bool OrderReturn(float offsetFromDestination = 0.0f, MovementMode movementMode = MovementMode.MODE_DEFAULT)
+    public bool MoveToReturnPoint(float offsetFromDestination = 0.0f, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
-        _orderedDestination = _returnPoint;
+        _destination = _returnPoint;
         _offsetFromDestination = offsetFromDestination;
         _moving = true;
 
+        //should remove this and leave it to the AI Controller
         if (ShouldChangeToMoveState())
         {
             _unitState.SetState(UState.STATE_MOVING);
         }
 
-        return StartMovement(movementMode, true);
+        return StartMovement(movementMode);
     }
 
     //general method to initiate unit movement
-    private bool StartMovement(MovementMode movementMode, bool isOrdered)
+    private bool StartMovement(MovementMode movementMode)
     {
-        //do not start new movement command if movement is not ordered, and ordered movment is in progress
-        if (!isOrdered && _orderedDestination != Vector3.zero)
-        {
-            return false;
-        }
-
-        Vector3 dest = isOrdered ? _orderedDestination : _destination;
+        Vector3 dest = GetDestination();
 
         //update movement mode to match request
         MovementMode oldMoveMode = _movementMode;
@@ -832,45 +776,32 @@ public class Movement : MonoBehaviour
 
 
     //cease all movement, or just unordered movement if stopOrderedMovement = false
-    public void StopMovement(bool stopOrderedMovement)
+    public void StopMovement()
     {
         //disable kinematic rigidbody if it was enabled
         _rigidBody.isKinematic = false;
 
-        if (stopOrderedMovement)
-        {
-            _orderedDestination = Vector3.zero;
-            _isDynamicDestOrdered = false;
-        }
         _destination = Vector3.zero;
-        //only stop moving to dynamic destination if supposed to stop ordered movement, and/or the dynamic destination was not ordered.
-        if (stopOrderedMovement || !_isDynamicDestOrdered)
-        {
-            _dynamicDestination = null;
-        }
-        //only stop the movement in general if supposed to stop ordered movement, and/or there is no ordered movement
-        if (stopOrderedMovement || _orderedDestination == Vector3.zero)
-        {
-            _pathCompletionOffset = 0;
-            _totalPathLength = 0;
-            _movementMode = MovementMode.MODE_DEFAULT;
-            _moving = false;
-            SetToIdle();
-        }
 
+        _dynamicDestination = null;
+
+        //disable other movement-related stuff
+        _pathCompletionOffset = 0;
+        _totalPathLength = 0;
+        _movementMode = MovementMode.MODE_DEFAULT;
+        _moving = false;
+        //set idle animation
+        SetToIdle();
+
+        //should remove this and leave it to the AI Controller
         if (_unitState.GetState() == UState.STATE_MOVING)
         {
             _unitState.SetState(UState.STATE_IDLE);
         }
     }
 
-    //returns true if the movement component is currently carrying out ordered movement
-    public bool IsOrderedMovementInProgress()
-    {
-        return (_orderedDestination != Vector3.zero);
-    }
-
     //return true if based on the current state, the state should transition to "MOVING"
+    //should be removed and left to the AI Controller
     private bool ShouldChangeToMoveState()
     {
         UState curState = _unitState.GetState();
@@ -878,7 +809,7 @@ public class Movement : MonoBehaviour
         bool idleOrHarvesting = (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
 
         //attack, guarding, and fortified states should be overidden only if the player orders a change to move state
-        bool overridableStatesIfOrdered = IsOrderedMovementInProgress() && (curState == UState.STATE_ATTACKING || curState == UState.STATE_GUARDING || curState == UState.STATE_FORTIFIED);
+        bool overridableStatesIfOrdered = (curState == UState.STATE_ATTACKING || curState == UState.STATE_GUARDING || curState == UState.STATE_FORTIFIED);
 
         return idleOrHarvesting || overridableStatesIfOrdered;
     }
@@ -920,9 +851,8 @@ public class Movement : MonoBehaviour
     {
         while (true)
         {
-            //skip if no dynamic destination, or if order is being carried out and it's not to move to the given
-            //dynamic destination
-            if(_dynamicDestination == null || (!_isDynamicDestOrdered && _orderedDestination != Vector3.zero))
+            //skip if no dynamic destination
+            if(_dynamicDestination == null)
             {
                 yield return null;
                 continue;
@@ -940,14 +870,8 @@ public class Movement : MonoBehaviour
             {
                 //update the respective destination vector to match the dynamic destination
                 _dynamicDestUpdateMade = true;
-                if (_isDynamicDestOrdered)
-                {
-                    _orderedDestination = _dynamicDestination.position;
-                }
-                else
-                {
-                    _destination = _dynamicDestination.position;
-                }
+
+                _destination = _dynamicDestination.position;
             }
             else
             {

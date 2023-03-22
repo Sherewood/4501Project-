@@ -48,16 +48,7 @@ public class Attack : MonoBehaviour
         GameObject latestTarget = UpdateTarget();
         if (_animator.IsIdle())
         {
-            Debug.Log("OXOA");
             _animator.SetAnim("IDLE");
-        }
-        //check if ordered movement that overrode command has ceased.
-        //if so, reset locally stored information to re-trigger any relevant handling
-        if (_orderedMovementOngoing && !_movement.IsOrderedMovementInProgress())
-        {
-            _orderedMovementOngoing = false;
-            _currentTarget = null;
-            _targetInRange = false;
         }
 
         //target changed
@@ -143,14 +134,6 @@ public class Attack : MonoBehaviour
             
             _weapon.FireWeapon(_currentTarget);
         }
-        //might be case where unit is turned away from enemy due to ordered movement
-        //but is still in attack range and has not picked up a new target, so it never
-        //starts checking if ordered movement has ceased and thus does not resume action.
-        //Therefore, need to check if ordered movement is preventing the unit from firing aswell.
-        else
-        {
-            CheckIfOrderedMovementOverridesCommand();
-        }
 
     }
 
@@ -186,11 +169,11 @@ public class Attack : MonoBehaviour
             case UState.STATE_ATTACKING:
                 //if attacking - stop moving and return to idle state
                 _unitState.SetState(UState.STATE_IDLE);
-                _movement.StopMovement(false);
+                _movement.StopMovement();
                 break;
             case UState.STATE_GUARDING:
                 //if guarding - return to guard position
-                _movement.OrderReturn(0.0f, MovementMode.MODE_SPLINE);
+                //_movement.OrderReturn(0.0f, MovementMode.MODE_SPLINE);
                 break;
             case UState.STATE_FORTIFIED:
                 //if fortifying - do nothing :)
@@ -199,8 +182,6 @@ public class Attack : MonoBehaviour
                 //other states - do nothing :) (don't want the attacking component randomly interrupting movement state, for example)
                 break;
         }
-
-        CheckIfOrderedMovementOverridesCommand();
 
         _currentTarget = null;
     }
@@ -231,8 +212,6 @@ public class Attack : MonoBehaviour
                 break;
         }
 
-        CheckIfOrderedMovementOverridesCommand();
-
         //might want to move this into switch statement (ignore new target if not in relevant state)
         _currentTarget = newTarget;
     }
@@ -243,10 +222,8 @@ public class Attack : MonoBehaviour
         _targetInRange = true;
 
         //stop prior movement, resume targetting, but only rotate towards it now.
-        _movement.StopMovement(false);
+        _movement.StopMovement();
         _movement.MoveToDynamicDestination(_currentTarget.transform, true);
-
-        CheckIfOrderedMovementOverridesCommand();
     }
 
     private void HandleLeftAttackRange()
@@ -269,8 +246,6 @@ public class Attack : MonoBehaviour
                 //else, no action needed here
                 break;
         }
-
-        CheckIfOrderedMovementOverridesCommand();
     }
 
     /* condition checking helpers */
@@ -287,15 +262,6 @@ public class Attack : MonoBehaviour
         float distZ = Mathf.Abs(transform.position.z - _currentTarget.transform.position.z);
 
         return (distX >= _weapon.MaxRange + 0.01) || (distZ >= _weapon.MaxRange + 0.01);
-    }
-
-    //to be called after attack component issues a command
-    private void CheckIfOrderedMovementOverridesCommand()
-    {
-        if (_movement.IsOrderedMovementInProgress())
-        {
-            _orderedMovementOngoing = true;
-        }
     }
 
     //check if weapon is in range of enemy
