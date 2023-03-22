@@ -148,6 +148,8 @@ public class UnitController : MonoBehaviour
 
             string bestAction = _orderController.DetermineBestActionBasedOnOrder(order, unitCapabilities);
 
+            AIControl unitAI = selectedUnit.GetComponent<AIControl>();
+
             switch (bestAction)
             {
                 case "guard":
@@ -170,9 +172,8 @@ public class UnitController : MonoBehaviour
                     //add unit scale for extra padding, even though it isn't necessarily correct
                     float mainBaseOffset = mainBase.transform.localScale.x + selectedUnit.transform.localScale.z;
 
-                    movement = selectedUnit.GetComponent<Movement>();
-                    movement.SetReturnPoint(mainBase.transform.position);
-                    movement.MoveToReturnPoint(mainBaseOffset, MovementMode.MODE_SPLINE);
+                    //send command to unit AI
+                    unitAI.SendCommand("returnToBase", mainBase.transform.position, mainBaseOffset);
                     break;
                 case "construct":
                     //get the building type that the player wants to select for the unit, then save it in the unit's construction component.

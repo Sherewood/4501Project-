@@ -41,6 +41,7 @@ public class AIControl : MonoBehaviour
     //variables to hold information necessary for initial handling of the command
     private Vector3 _commandTargetPosition;
     private GameObject _commandTarget;
+    private float _commandValue;
 
     /* unit components */
     private UnitState _unitState;
@@ -234,6 +235,23 @@ public class AIControl : MonoBehaviour
         _command = command;
         //set "target position" to be used for initial command handling
         _commandTargetPosition = targetPos;
+
+        HandleAIEvent("newCommand");
+    }
+
+    //included this to keep some of the returnToBase handling in UnitController (for getting the main base)
+    //might decide to remove later? for now though its staying...
+    public void SendCommand(string command, Vector3 targetPos, float value)
+    {
+        if (DebugMode)
+        {
+            Debug.Log("Received command: " + command);
+        }
+        _command = command;
+        //set "target position" to be used for initial command handling
+        _commandTargetPosition = targetPos;
+        //set value to be used for initial command handling
+        _commandValue = value;
 
         HandleAIEvent("newCommand");
     }
@@ -450,6 +468,11 @@ public class AIControl : MonoBehaviour
                 break;
             case "initReturn":
                 //move towards the return point
+                break;
+            case "returnToBase":
+                //move towards the specified return point (base position), stop at the specified offset (command value)
+                _movement.SetReturnPoint(_commandTargetPosition);
+                _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_SPLINE);
                 break;
             default:
                 Debug.LogError("Unsupported rule-based action: " + action);
