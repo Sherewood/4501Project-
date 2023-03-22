@@ -201,6 +201,10 @@ public class AIControl : MonoBehaviour
     //no-input command
     public void SendCommand(string command)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Received command: " + command);
+        }
         _command = command;
         //handle 'new command' AI event
         HandleAIEvent("newCommand");
@@ -208,6 +212,10 @@ public class AIControl : MonoBehaviour
 
     public void SendCommand(string command, Vector3 targetPos)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Received command: " + command);
+        }
         _command = command;
         //set "target position" to be used for initial command handling
         _commandTargetPosition = targetPos;
@@ -217,6 +225,10 @@ public class AIControl : MonoBehaviour
 
     public void SendCommand(string command, GameObject target)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Received command: " + command);
+        }
         _command = command;
         _commandTarget = target;
 
@@ -227,6 +239,11 @@ public class AIControl : MonoBehaviour
     //handle callback meant to influence AI decision making
     public void HandleAIEvent(string aiEvent)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Handling AI event: " + aiEvent);
+        }
+
         //choose the set of rules to check based on whether a command is being processed
         List<int> chosenRules = (!_command.Equals("")) ? _commandBasedRules : _autoRules;
 
@@ -254,6 +271,13 @@ public class AIControl : MonoBehaviour
     //check if the rule's prerequisites are valid
     private bool CheckIfRuleValid(int ruleId, string aiEvent)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Checking if rule: " + ruleId + " is valid for aiEvent: " + aiEvent);
+        }
+
+        bool ruleSatisfied = false;
+
         foreach (string[] prereqSet in _prereqs[ruleId])
         {
             //each prereq set is an and statement for all prereqs in the set
@@ -271,11 +295,12 @@ public class AIControl : MonoBehaviour
 
             if (prereqSetSatisfied)
             {
+                ruleSatisfied = true;
                 break;
             }
         }
 
-        return true;
+        return ruleSatisfied;
     }
 
 
@@ -287,6 +312,11 @@ public class AIControl : MonoBehaviour
         if(prereq.Contains("==") || prereq.Contains("!="))
         {
             return IsEqualityPrereqSatisfied(prereq);
+        }
+
+        if (DebugMode)
+        {
+            Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         switch (prereq)
@@ -321,6 +351,11 @@ public class AIControl : MonoBehaviour
         string type = splitPrereq[0];
         string value = splitPrereq[1];
 
+        if (DebugMode)
+        {
+            Debug.Log("Checking if type: " + type + " is " + (equalityPrereq.Equals("==") ? "equal to" : "not equal to") + " value: " + value);
+        }
+
         switch (type)
         {
             case "state":
@@ -339,6 +374,11 @@ public class AIControl : MonoBehaviour
     /* action handling */
     private void PerformActionsForRule(int ruleId)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Performing actions for rule: " + ruleId);
+        }
+
         List<string> actionList = _actions[ruleId];
 
         if (actionList == null)
@@ -357,6 +397,11 @@ public class AIControl : MonoBehaviour
         {
             PerformSetAction(action);
             return;
+        }
+
+        if (DebugMode)
+        {
+            Debug.Log("Performing action: " + action);
         }
 
         //pretty much all actions are todo...
@@ -391,6 +436,11 @@ public class AIControl : MonoBehaviour
         string[] splitAction = setAction.Split("=");
         string type = splitAction[0];
         string value = splitAction[1];
+
+        if (DebugMode)
+        {
+            Debug.Log("Performing action to set type: " + type + " to value: " + value);
+        }
 
         switch (type)
         {
