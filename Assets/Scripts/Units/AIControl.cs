@@ -26,6 +26,9 @@ public class AIControl : MonoBehaviour
 
     //stores actions to be taken for each rule.
     private Dictionary<int, List<string>> _actions;
+
+    /* unit components */
+    private UnitState _unitState;
      
     void Awake()
     {
@@ -39,6 +42,8 @@ public class AIControl : MonoBehaviour
             Debug.LogError("Failed to initialize rule-based system. File name: " + RuleFile.name);
             return;
         }
+
+        _unitState = GetComponent<UnitState>();
     }
 
     //initialize the rule based system
@@ -189,7 +194,11 @@ public class AIControl : MonoBehaviour
             
             foreach(string prereq in prereqSet)
             {
-                if(!IsPrereqSatisfied(prereq, aiEvent))
+                if (!IsPrereqSatisfied(prereq, aiEvent))
+                {
+                    prereqSetSatisfied = false;
+                    break;
+                }
             }
 
             if (prereqSetSatisfied)
@@ -232,9 +241,28 @@ public class AIControl : MonoBehaviour
     }
 
     //check if prereq that relies on checking if something is equal to x is true
-    //todo
     public bool IsEqualityPrereqSatisfied(string equalityPrereq)
     {
+        //get the comparison type (could add more later if needed)
+        string equalityCheckType = equalityPrereq.Contains("==") ? "==" : "!=";
+
+        //split into type and value
+        string[] splitPrereq = equalityPrereq.Split(equalityCheckType);
+        string type = splitPrereq[0];
+        string value = splitPrereq[1];
+
+        switch (type)
+        {
+            case "state":
+                //check if unit state matches or doesn't match
+                bool doesUnitStateMatch = _unitState.IsState(_unitState.StringToUState(value));
+                return equalityCheckType.Equals("==") ? doesUnitStateMatch : !doesUnitStateMatch;
+                break;
+            default:
+                Debug.LogError("Unsupported equality check type: " + type);
+                return false;
+        }
+
         return true;
     }
 }

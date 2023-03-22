@@ -72,4 +72,33 @@ public class UnitState : MonoBehaviour
             _unitBuilder.enabled = false;
         }
     }
+
+    public bool IsState(UState state)
+    {
+        return _state == state;
+    }
+
+    public UState StringToUState(string stateString)
+    {
+        switch (stateString)
+        {
+            case "idle":
+                return UState.STATE_IDLE;
+            case "moving":
+                return UState.STATE_MOVING;
+            case "movingToHarvest":
+                return UState.STATE_MOVING_TO_HARVEST;
+            case "movingToConstruct":
+                return UState.STATE_MOVING_TO_CONSTRUCT;
+            case "attack":
+                return UState.STATE_ATTACKING;
+            case "guard":
+                return UState.STATE_GUARDING;
+            case "fortify":
+                return UState.STATE_FORTIFIED;
+            default:
+                Debug.LogError("Invalid state string: " + stateString);
+                return UState.STATE_IDLE;
+        }
+    }
 }
