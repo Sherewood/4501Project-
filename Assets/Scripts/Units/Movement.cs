@@ -287,7 +287,6 @@ public class Movement : MonoBehaviour
             if (target == Vector3.zero)
             {
                 _moving = false;
-              //  SetToIdle();
                 return;
             }
 
@@ -315,7 +314,7 @@ public class Movement : MonoBehaviour
         //rotation in place for when unit is not in motion (aiming)
         else
         {
-           // SetToIdle();
+            
             if (_targetRotation != Quaternion.identity)
             {
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
@@ -956,14 +955,5 @@ public class Movement : MonoBehaviour
             yield return null;
         }
     }
-    public void SetToIdle()
-    {
-        
-            if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
-            {
-                _animator.SetAnim("IDLE");
-            }
-        
-      
-    }
+
 }
