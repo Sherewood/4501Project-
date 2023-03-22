@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMode: 0
   RuleFile: {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
 --- !u!1 &1501569577
 GameObject:
