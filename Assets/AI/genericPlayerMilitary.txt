@@ -1,0 +1,14 @@
+#For player military units. Should work fine for all units, but maybe want extra 'backing off' behaviour on artillery?
+CM|If command=attack and targetInRange then attackTarget
+CM|If command=attack and targetNotInRange then moveTarget
+CM|If command=attack and targetLost then breakCommand
+CM|If command=guard then setState=guard and breakCommand
+CM|If command=fortify then setState=fortify and breakCommand
+CM|If command=returnToBase then returnToBase (except here, will remove this…)
+CM|If command=move and reachedDestination then breakCommand
+CM|If command=returnToBase and reachedDestination then breakCommand
+If noTargetInRange then doNothing
+If targetChanged and targetNotInRange and state!=fortify then moveTarget
+If targetInRange then attackTarget
+If lostTarget and state!=guard then doNothing
+If lostTarget and state=guard then initReturn
