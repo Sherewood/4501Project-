@@ -1,17 +1,17 @@
 #For player military units. Should work fine for all units, but maybe want extra 'backing off' behaviour on artillery?
-CM|If command=attack and newCommand then setTarget
-CM|If command=attack and targetInRange then attackTarget
-CM|If command=attack and targetNotInRange then moveTarget
-CM|If command=attack and targetLost then breakCommand
-CM|If command=guard and newCommand then setState=guard and breakCommand
-CM|If command=fortify and newCommand then setState=fortify and breakCommand
-CM|If command=move and newCommand then moveToDestination
-CM|If command=move and reachedDestination then breakCommand
-CM|If command=returnToBase and newCommand then returnToBase
-CM|If command=returnToBase and reachedDestination then breakCommand
+CM|If command==attack and newCommand then setTarget
+CM|If command==attack and targetInRange then attackTarget
+CM|If command==attack and targetNotInRange then moveTarget
+CM|If command==attack and targetLost then breakCommand
+CM|If command==guard and newCommand then setState=guard and breakCommand
+CM|If command==fortify and newCommand then setState=fortify and breakCommand
+CM|If command==move and newCommand then moveToDestination
+CM|If command==move and reachedDestination then breakCommand
+CM|If command==returnToBase and newCommand then returnToBase
+CM|If command==returnToBase and reachedDestination then breakCommand
 #If noTargetInRange then doNothing - causes crash due to invalid prereq - leave for now
 If targetChanged and targetNotInRange and state!=fortify then moveTarget
 If targetChanged and targetInRange then attackTarget
 If targetInRange then attackTarget
 If targetLost and state!=guard then doNothing
-If targetLost and state=guard then initReturn
+If targetLost and state==guard then initReturn

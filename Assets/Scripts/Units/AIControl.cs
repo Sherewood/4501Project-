@@ -44,6 +44,8 @@ public class AIControl : MonoBehaviour
 
     /* unit components */
     private UnitState _unitState;
+
+    private Movement _movement;
      
     void Awake()
     {
@@ -63,6 +65,7 @@ public class AIControl : MonoBehaviour
         }
 
         _unitState = GetComponent<UnitState>();
+        _movement = GetComponent<Movement>();
     }
 
     //initialize the rule based system
@@ -185,7 +188,10 @@ public class AIControl : MonoBehaviour
                 {
                     Debug.Log("Action for rule " + ruleId + ": " + actionSplitByAnd);
                 }
-                _actions[ruleId].Add(actionSplitByAnd);
+                
+                //hack: because actions are at end of the line, need to also remove this newline character...
+                //should filter it earlier instead but whatever
+                _actions[ruleId].Add(actionSplitByAnd.Replace("\r",""));
             }
 
             //increment rule id for next rule
@@ -352,6 +358,8 @@ public class AIControl : MonoBehaviour
                 return (prereq.Equals(aiEvent));
             case "targetInRange":
                 return (prereq.Equals(aiEvent));
+            case "newCommand":
+                return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
             default:
                 Debug.LogError("Unsupported prereq: " + prereq);
@@ -364,7 +372,6 @@ public class AIControl : MonoBehaviour
     {
         //get the comparison type (could add more later if needed)
         string equalityCheckType = equalityPrereq.Contains("==") ? "==" : "!=";
-
         //split into type and value
         string[] splitPrereq = equalityPrereq.Split(equalityCheckType);
         string type = splitPrereq[0];
@@ -372,7 +379,7 @@ public class AIControl : MonoBehaviour
 
         if (DebugMode)
         {
-            Debug.Log("Checking if type: " + type + " is " + (equalityPrereq.Equals("==") ? "equal to" : "not equal to") + " value: " + value);
+            Debug.Log("Checking if type: " + type + " is " + (equalityCheckType.Equals("==") ? "equal to" : "not equal to") + " value: " + value);
         }
 
         switch (type)
@@ -400,12 +407,9 @@ public class AIControl : MonoBehaviour
 
         List<string> actionList = _actions[ruleId];
 
-        if (actionList == null)
+        foreach(string action in actionList)
         {
-            foreach(string action in actionList)
-            {
-                PerformAction(action);
-            }
+            PerformAction(action);
         }
     }
 
@@ -428,6 +432,11 @@ public class AIControl : MonoBehaviour
         {
             case "doNothing":
                 //yes
+                break;
+            case "moveToDestination":
+                //self explanatory
+                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE);
+                _unitState.SetState(UState.STATE_MOVING);
                 break;
             case "moveTarget":
                 //move towards the target

@@ -74,11 +74,17 @@ public class UnitController : MonoBehaviour
 
             string bestAction = _orderController.DetermineBestActionBasedOnOrder(order, unitCapabilities);
 
+            AIControl unitAI = selectedUnit.GetComponent<AIControl>();
+
+            //todo remove
+            Movement unitMovement = selectedUnit.GetComponent<Movement>();
+            
+            //handle actions
             switch (bestAction)
             {
                 case "move":
-                    Movement unitMovement = selectedUnit.GetComponent<Movement>();
-                    unitMovement.MoveToDestination(target.point, MovementMode.MODE_SPLINE);
+                    //order AI to move to a location
+                    unitAI.SendCommand("move", target.point);
                     break;
                 case "attack":
                     //order unit to move towards enemy, and set enemy as ordered target
