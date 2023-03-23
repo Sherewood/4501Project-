@@ -6881,6 +6881,7 @@ GameObject:
   - component: {fileID: -2766499666674792300}
   - component: {fileID: -3734170572773034914}
   - component: {fileID: -4670644435355030328}
+  - component: {fileID: -3724616674004757153}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -6968,6 +6969,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 293711125061417572}
         m_TargetAssemblyTypeName: Harvesting, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
+      - m_Target: {fileID: -7150664565044291712}
+        m_TargetAssemblyTypeName: Construction, Assembly-CSharp
         m_MethodName: HandleDestinationReached
         m_Mode: 1
         m_Arguments:
@@ -6978,10 +6991,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-      - m_Target: {fileID: -7150664565044291712}
-        m_TargetAssemblyTypeName: Construction, Assembly-CSharp
-        m_MethodName: HandleDestinationReached
-        m_Mode: 1
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3724616674004757153}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7019,6 +7035,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448f426389dce4a4bbad230a76cc6ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3724616674004757153}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   HarvestingAmount: 5
   HarvestingRate: 1
 --- !u!114 &-7150664565044291712
@@ -7120,10 +7151,21 @@ MonoBehaviour:
   weapon: {fileID: 1964599282681860572}
   tool: {fileID: 7578207032882149261}
   gun: 1
-  heavy_gun: 0
-  heldItem: 0
-  rocket: 0
   drill: 1
+--- !u!114 &-3724616674004757153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFile: {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
 --- !u!1 &8174140538269110592
 GameObject:
   m_ObjectHideFlags: 0

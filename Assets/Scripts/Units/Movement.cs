@@ -504,22 +504,6 @@ public class Movement : MonoBehaviour
 
     /* worker-specific stuff */
 
-    //moving to harvest
-    public bool MoveToHarvest(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
-    {
-        if(!MoveToDestination(destination, movementMode))
-        {
-            return false;
-        };
-
-        //just straight up forcing the state to 'moving to harvest' could be problematic
-        //but only workers will support this component so it won't interfere with any attacking states.
-        //should remove this and leave it to the AI Controller
-        _unitState.SetState(UState.STATE_MOVING_TO_HARVEST);
-
-        return true;
-    }
-
     //moving to construct
     public bool MoveToConstruct(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {

@@ -10,6 +10,7 @@ public class Harvesting : MonoBehaviour
     /* Callbacks */
     private animation_Controller animator;
     private ResourceHarvestEvent _resourceHarvestEvent;
+    public AIEvent AICallback;
 
     /* Configuration */
 
@@ -69,34 +70,32 @@ public class Harvesting : MonoBehaviour
         //-1 = deposit is depleted, stop harvesting.
         if(harvestAmount == -1)
         {
-            _unitState.SetState(UState.STATE_IDLE);
+            AICallback.Invoke("depositDepleted");
             return;
         }
 
         _resourceHarvestEvent.Invoke(resourceType, harvestAmount);
     }
 
-    //handle reporting of destination being reached by movement component
-    public void HandleDestinationReached()
+    //try and start harvesting if there is a resource deposit at the unit's location
+    public bool StartHarvesting()
     {
-        //check if unit state is "moving to harvest"
-        //alternative if this proves too buggy: just check if the target deposit is within a certain distance
-        if(_unitState.GetState() == UState.STATE_MOVING_TO_HARVEST && _targetDeposit != null)
-        {
-            _unitState.SetState(UState.STATE_HARVESTING);
-        }
-    }
+        //find the resource deposit at the unit's current position
+        //short radius is more than enough if the unit is on the deposit
+        Collider[] candidateObjects = Physics.OverlapSphere(transform.position, 0.5f);
 
-    //set the resource deposit to harvest from when in harvesting state
-    //should receive from internal controller
-    public void SetTargetResourceDeposit(GameObject targetDeposit)
-    {
-        _targetDeposit = targetDeposit.GetComponent<Resource>();
-    
-        if(_targetDeposit == null)
+        foreach(Collider candidateObject in candidateObjects)
         {
-            Debug.LogError("Error: Target deposit specified to worker with instance ID " + gameObject.GetInstanceID() + " does not have Resource component. Target instance ID: " + targetDeposit.GetInstanceID());
+            //due to short search radius, can assume that the first gameObject with a Resource component is our guy
+            Resource possibleResource = candidateObject.gameObject.GetComponent<Resource>();
+            if (possibleResource != null)
+            {
+                _targetDeposit = possibleResource;
+                break;
+            }
         }
+
+        return _targetDeposit != null;
     }
 
     public void ConfigureResourceHarvestCallback(UnityAction<string,int> resourceHarvestCallback)

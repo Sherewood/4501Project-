@@ -1,0 +1,10 @@
+#For player worker units. Update harvest behaviour to fulfill semi-automatic actions requirement?
+#todo: add construction handling
+CM|If command==harvest and newCommand then moveToDestination
+CM|If command==harvest and reachedDestination then startHarvesting
+CM|If command==harvest and depositDepleted then setState=idle and breakCommand
+CM|If command==fortify and newCommand then setState=fortify and breakCommand
+CM|If command==move and newCommand then moveToDestination
+CM|If command==move and reachedDestination then breakCommand
+CM|If command==returnToBase and newCommand then returnToBase
+CM|If command==returnToBase and reachedDestination then breakCommand

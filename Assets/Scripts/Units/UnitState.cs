@@ -8,7 +8,6 @@ public enum UState
 {
     STATE_IDLE,
     STATE_MOVING,
-    STATE_MOVING_TO_HARVEST,
     STATE_MOVING_TO_CONSTRUCT,
     STATE_ATTACKING,
     STATE_GUARDING,
@@ -86,8 +85,6 @@ public class UnitState : MonoBehaviour
                 return UState.STATE_IDLE;
             case "moving":
                 return UState.STATE_MOVING;
-            case "movingToHarvest":
-                return UState.STATE_MOVING_TO_HARVEST;
             case "movingToConstruct":
                 return UState.STATE_MOVING_TO_CONSTRUCT;
             case "attack":

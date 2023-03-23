@@ -103,10 +103,8 @@ public class UnitController : MonoBehaviour
                     unitState.SetState(UState.STATE_ATTACKING);
                     break;
                 case "harvest":
-                    unitMovement = selectedUnit.GetComponent<Movement>();
-                    Harvesting unitHarvester = selectedUnit.GetComponent<Harvesting>();
-                    unitMovement.MoveToHarvest(target.collider.gameObject.transform.position, MovementMode.MODE_SPLINE);
-                    unitHarvester.SetTargetResourceDeposit(target.collider.gameObject);
+                    //order AI component to harvest at the specified location
+                    unitAI.SendCommand("harvest", target.collider.gameObject.transform.position);
                     break;
                 case "construct":
                     //order the unit to move to a location to construct a building

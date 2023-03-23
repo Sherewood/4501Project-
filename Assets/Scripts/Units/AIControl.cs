@@ -376,6 +376,8 @@ public class AIControl : MonoBehaviour
                 return (prereq.Equals(aiEvent));
             case "reachedDestination":
                 return (prereq.Equals(aiEvent));
+            case "depositDepleted":
+                return (prereq.Equals(aiEvent));
             case "targetNotInRange":
                 if (prereq.Equals(aiEvent))
                 {
@@ -515,6 +517,20 @@ public class AIControl : MonoBehaviour
                 //move towards the specified return point (base position), stop at the specified offset (command value)
                 _movement.SetReturnPoint(_commandTargetPosition);
                 _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_SPLINE);
+                break;
+            case "startHarvesting":
+                Harvesting harvestComp = GetComponent<Harvesting>();
+
+                //if able to harvest successfully, then enter harvesting state, else go to idle
+                if (harvestComp.StartHarvesting())
+                {
+                    _unitState.SetState(UState.STATE_HARVESTING);
+                }
+                else
+                {
+                    Debug.LogWarning("Unit was told to start harvesting but there was no deposit!");
+                    _unitState.SetState(UState.STATE_IDLE);
+                }
                 break;
             default:
                 Debug.LogError("Unsupported rule-based action: " + action);
