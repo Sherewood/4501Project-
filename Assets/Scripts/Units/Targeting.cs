@@ -38,7 +38,7 @@ public class Targeting : MonoBehaviour
         //if currently focused on a target, monitor to see if that target has died
         if (_focusMode)
         {
-            if(_currentTarget == null)
+            if(_currentTarget == null || _currentTarget.GetComponent<UnitInfo>() == null)
             {
                 _focusMode = false;
                 AICallback.Invoke("targetLost");
@@ -134,7 +134,7 @@ public class Targeting : MonoBehaviour
         if(newClosestTarget == null && _currentTarget != null)
         {
             _currentTarget = null;
-            AICallback.Invoke("targetLoss");
+            AICallback.Invoke("targetLost");
         }
         //if the determined target is different than the previously tracked target, notify of target change
         else if (newClosestTarget != null && newClosestTarget != _currentTarget)
