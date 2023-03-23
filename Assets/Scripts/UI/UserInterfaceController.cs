@@ -293,7 +293,7 @@ public class UserInterfaceController : MonoBehaviour
 
     private void DisplayUnitIcon(int place)
     {
-        string unitName = _displayInfoController.GetUnitName(_selectedUnits[palce].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[place].GetComponent<UnitInfo>().GetUnitType());
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
