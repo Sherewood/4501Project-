@@ -191,7 +191,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  DetectRange: 12
+  DetectRange: 14
   TargetAllegiances:
   - player
 --- !u!54 &-5942888071925629939

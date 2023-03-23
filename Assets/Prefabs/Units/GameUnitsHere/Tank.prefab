@@ -173,7 +173,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  DetectRange: 0
+  DetectRange: 14
   TargetAllegiances:
   - enemy
 --- !u!65 &8465769443800188590
