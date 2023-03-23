@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 5819029909641633931}
   - component: {fileID: -8649391099298343963}
   - component: {fileID: 5100054077482889108}
+  - component: {fileID: 7241931223193927197}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -86,6 +87,21 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7241931223193927197}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   Speed: 1.5
   TurnRate: 45
 --- !u!114 &5302439003636257768
@@ -100,6 +116,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567fe1a89da2e6545855035b4c34e91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7241931223193927197}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &6555970231536245867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +158,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 10
-  FullDetectRange: 10
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7241931223193927197}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  DetectRange: 0
   TargetAllegiances:
   - enemy
 --- !u!65 &8465769443800188590
@@ -273,6 +318,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &7241931223193927197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081780510105109408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFile: {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
 --- !u!1 &3495578011683036729
 GameObject:
   m_ObjectHideFlags: 0

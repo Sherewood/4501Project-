@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: -5942888071925629939}
   - component: {fileID: -4877965133192292278}
   - component: {fileID: 2726456880675129194}
+  - component: {fileID: 5284576789313679752}
   m_Layer: 0
   m_Name: Heavy Minigun Infantry
   m_TagString: Untagged
@@ -99,6 +100,21 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5284576789313679752}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   Speed: 1.25
   TurnRate: 45
 --- !u!114 &-6763880964242767567
@@ -113,6 +129,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567fe1a89da2e6545855035b4c34e91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5284576789313679752}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &-5681783094518175322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +176,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 9
-  FullDetectRange: 9
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5284576789313679752}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  DetectRange: 0
   TargetAllegiances:
   - enemy
 --- !u!65 &-1985163176651472814
@@ -233,9 +278,21 @@ MonoBehaviour:
   weapon: {fileID: 0}
   tool: {fileID: 0}
   gun: 1
-  heavy_gun: 0
-  heldItem: 0
-  rocket: 0
+  drill: 0
+--- !u!114 &5284576789313679752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFile: {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
 --- !u!1 &6767879751323810229
 GameObject:
   m_ObjectHideFlags: 0
