@@ -1,0 +1,5 @@
+#Use as placeholder in lieu of proper AI behaviour for enemies
+If targetChanged and targetNotInRange and state!=fortify then moveTarget
+If targetChanged and targetInRange then attackTarget
+If targetInRange then attackTarget
+If targetLost then clearTarget and doNothing

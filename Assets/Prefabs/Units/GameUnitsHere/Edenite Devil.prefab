@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1126958368904962192}
   - component: {fileID: -5753729588458461803}
   - component: {fileID: -9086340107227583309}
+  - component: {fileID: 7845172190781457986}
   m_Layer: 0
   m_Name: Edenite Devil
   m_TagString: Untagged
@@ -99,6 +100,21 @@ MonoBehaviour:
   DestinationReachedEvent:
     m_PersistentCalls:
       m_Calls: []
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7845172190781457986}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   Speed: 3
   TurnRate: 80
 --- !u!114 &-6763880964242767567
@@ -113,6 +129,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567fe1a89da2e6545855035b4c34e91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7845172190781457986}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &-5681783094518175322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +176,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17bd6529e4ae4bb1074bc5870c4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoDetectRange: 12
-  FullDetectRange: 12
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7845172190781457986}
+        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  DetectRange: 12
   TargetAllegiances:
   - player
 --- !u!54 &-5942888071925629939
@@ -213,8 +258,7 @@ MonoBehaviour:
   weapon: {fileID: 0}
   tool: {fileID: 0}
   gun: 0
-  heavy_gun: 0
-  rocket: 0
+  drill: 0
 --- !u!95 &-9086340107227583309
 Animator:
   serializedVersion: 5
@@ -235,6 +279,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &7845172190781457986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFile: {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!1001 &9008600563307586549
 PrefabInstance:
   m_ObjectHideFlags: 0
