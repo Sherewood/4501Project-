@@ -118,6 +118,7 @@ public class Attack : MonoBehaviour
     //assign a new target for the attacking component
     public void SetTarget(GameObject newTarget)
     {
+        _targetInRange = false;
         _currentTarget = newTarget;
     }
 
