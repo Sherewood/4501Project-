@@ -16,6 +16,8 @@ public class UserInterfaceController : MonoBehaviour
     //link all base sections of the UI here
     //information panels
     public GameObject UnitInfo;
+    public GameObject UnitInfoPrefab;
+    public GameObject UnitInfoCanvas;
     public GameObject ResourceSection;
     //UI buttons
     public GameObject EvacButton;
@@ -154,68 +156,144 @@ public class UserInterfaceController : MonoBehaviour
         //refresh before repopulating
         ClearAbilities();
 
-
-        UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
-
-        //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
-        if (unitInfo == null)
+        if (_selectedUnits.Count ==1)
         {
-            ClearUnitInformation();
-            return;
-        }
+            UnitInfoPrefab.SetActive(true);
 
-        //get unit name
-        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
-        unitNameComp.text = unitName;
+            UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
 
-        //get unit health
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
-        if (unitHealthComp != null)
-        {
-            healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
-        }
-        else
-        {
-            healthTextComp.text = "";
-        }
-
-        //future: other unit-specific statistics?
-
-        //get unit icon
-        DisplayUnitIcon();
-
-        //some really primitive attempt to place buttons from left to right
-        //ability display. 
-        int i = 0;
-        
-        foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
-        {
-            _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            
-            foreach (Sprite sp in AbilityIcons)
+            //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
+            if (unitInfo == null)
             {
+                ClearUnitInformation();
+                return;
+            }
 
-                if (sp.name.Equals(ability.Key))
+            //get unit name
+            TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
+            unitNameComp.text = unitName;
+
+            //get unit health
+            TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
+            if (unitHealthComp != null)
+            {
+                healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
+            }
+            else
+            {
+                healthTextComp.text = "";
+            }
+
+            //future: other unit-specific statistics?
+
+            //get unit icon
+            DisplayUnitIcon(0);
+
+            //some really primitive attempt to place buttons from left to right
+            //ability display. 
+            int i = 0;
+
+            foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
+            {
+                _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+
+                foreach (Sprite sp in AbilityIcons)
                 {
 
-                    _abilityOptions[i].GetComponent<UiAbilties>().Icon= sp;
-                 
+                    if (sp.name.Equals(ability.Key))
+                    {
 
-                    break;
+                        _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
+
+
+                        break;
+                    }
+                }
+                _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+
+                i++;
+
+
+            }
+        }
+        else if (_selectedUnits.Count > 1)
+        {
+            UnitInfoPrefab.SetActive(false);
+          
+            for (int x = 0;x < _selectedUnits.Count; x++)
+            {
+                GameObject unit = Instantiate(UnitInfoPrefab);
+                unit.transform.SetParent(UnitInfoCanvas.transform, false);
+                unit.transform.localScale = new Vector3(.5f, .5f, .5f);
+                unit.transform.position = new Vector3(-625f+(100*x), 483f, 0f);
+                UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
+
+                //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
+                if (unitInfo == null)
+                {
+                    ClearUnitInformation();
+                    return;
+                }
+
+                //get unit name
+                TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
+                unitNameComp.text = unitName;
+
+                //get unit health
+                TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                Health unitHealthComp = _selectedUnits[x].GetComponent<Health>();
+                if (unitHealthComp != null)
+                {
+                    healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
+                }
+                else
+                {
+                    healthTextComp.text = "";
+                }
+
+                //future: other unit-specific statistics?
+
+                //get unit icon
+                DisplayUnitIcon(x);
+
+                //some really primitive attempt to place buttons from left to right
+                //ability display. 
+                int i = 0;
+
+                foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
+                {
+                    _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+
+                    foreach (Sprite sp in AbilityIcons)
+                    {
+
+                        if (sp.name.Equals(ability.Key))
+                        {
+
+                            _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
+
+
+                            break;
+                        }
+                    }
+                    _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+
+                    i++;
+
+
                 }
             }
-            _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
-
-            i++;
-            
         }
+
+           
     }
 
-    private void DisplayUnitIcon()
+    private void DisplayUnitIcon(int place)
     {
-        string unitName = _displayInfoController.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[palce].GetComponent<UnitInfo>().GetUnitType());
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
