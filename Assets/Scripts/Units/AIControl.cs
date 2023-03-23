@@ -47,6 +47,10 @@ public class AIControl : MonoBehaviour
     private UnitState _unitState;
 
     private Movement _movement;
+
+    private Attack _attack;
+
+    private Targeting _targeting;
      
     void Awake()
     {
@@ -67,6 +71,8 @@ public class AIControl : MonoBehaviour
 
         _unitState = GetComponent<UnitState>();
         _movement = GetComponent<Movement>();
+        _attack = GetComponent<Attack>();
+        _targeting = GetComponent<Targeting>();
     }
 
     //initialize the rule based system
@@ -370,12 +376,20 @@ public class AIControl : MonoBehaviour
                 return (prereq.Equals(aiEvent));
             case "reachedDestination":
                 return (prereq.Equals(aiEvent));
-            //todo: range checking prereqs should ask attack component if aiEvent doesn't match
-            //this is because some rules will check range in addition to target being changed/etc.
             case "targetNotInRange":
-                return (prereq.Equals(aiEvent));
+                if (prereq.Equals(aiEvent))
+                {
+                    return true;
+                }
+
+                return !_attack.CheckIfEnemyInRange(DetermineTarget());
             case "targetInRange":
-                return (prereq.Equals(aiEvent));
+                if (prereq.Equals(aiEvent))
+                {
+                    return true;
+                }
+
+                return _attack.CheckIfEnemyInRange(DetermineTarget());
             case "newCommand":
                 return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
@@ -445,6 +459,8 @@ public class AIControl : MonoBehaviour
             Debug.Log("Performing action: " + action);
         }
 
+        GameObject target = DetermineTarget();
+
         //pretty much all actions are todo...
         switch (action)
         {
@@ -458,13 +474,36 @@ public class AIControl : MonoBehaviour
                 break;
             case "moveTarget":
                 //move towards the target
+                _movement.StopMovement();
+                if (target == null)
+                {
+                    break;
+                }
+                _attack.SetTarget(target);
+                _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_SPLINE);
                 break;
             case "attackTarget":
                 //rotate towards the target while firing at it
+                _movement.StopMovement();
+                if (target == null)
+                {
+                    break;
+                }
+                _attack.SetTarget(target);
+                _movement.MoveToDynamicDestination(target.transform, true);
+                break;
+            case "setFocusTarget":
+                _targeting.SetTargetFocus(_commandTarget);
+                _attack.SetTarget(_commandTarget);
+                break;
+            case "clearTarget":
+                _attack.ClearTarget();
                 break;
             case "breakCommand":
                 //clear command, re-enabling use of automatic rules + actions
                 _command = "";
+                //if targeting is still focusing on a target, it should stop.
+                _targeting.StopTargetFocus();
                 break;
             case "initReturn":
                 //move towards the return point
@@ -478,6 +517,21 @@ public class AIControl : MonoBehaviour
                 Debug.LogError("Unsupported rule-based action: " + action);
                 return;
         }
+    }
+
+    private GameObject DetermineTarget()
+    {
+        GameObject target = null;
+        if (_command.Equals(""))
+        {
+            target = _targeting.GetTarget();
+        }
+        else if (_command.Equals("attack"))
+        {
+            target = _commandTarget;
+        }
+
+        return target;
     }
 
     //perform action which involves setting a value.

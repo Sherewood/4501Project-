@@ -121,6 +121,11 @@ public class Attack : MonoBehaviour
         _currentTarget = newTarget;
     }
 
+    public void ClearTarget()
+    {
+        _currentTarget = null;
+    }
+
     /* State transitions/behaviour triggered by component */
 
     private void HandleEnteredAttackRange()
@@ -152,12 +157,32 @@ public class Attack : MonoBehaviour
     }
 
     //check if weapon is in range of enemy
-    //made public so AI can check if needed
-    public bool CheckIfInRange(float distance)
+    private bool CheckIfInRange(float distance = -1.0f)
     {
+        //if distance not specified, then compute it
+        if (distance == -1.0f)
+        {
+            distance = Vector3.Distance(_currentTarget.transform.position, transform.position);
+        }
         //use weapon component
         //alternatively, if collided with the target, then unit is clearly in range...
         return _weapon.IsWeaponInRange(distance) || _collidedWithTarget;
+    }
+
+    //general method for determining if enemy that might not be the target is in range
+    //need this because the correct target will not be assigned to the attack component when target change happens
+    //^ that above behaviour could be a source of problems
+    //AI checks this method
+    public bool CheckIfEnemyInRange(GameObject enemy)
+    {
+        if (enemy == null)
+        {
+            return false;
+        }
+        float distance = Vector3.Distance(enemy.transform.position, transform.position);
+
+        //todo: add melee-based check aswell (switch to overlapsphere?)
+        return _weapon.IsWeaponInRange(distance);
     }
 
     //check if weapon is ready to fire
