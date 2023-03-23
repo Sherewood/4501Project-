@@ -467,6 +467,9 @@ public class AIControl : MonoBehaviour
             case "doNothing":
                 //yes
                 break;
+            case "stopMovement":
+                _movement.StopMovement();
+                break;
             case "moveToDestination":
                 //self explanatory
                 _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE);

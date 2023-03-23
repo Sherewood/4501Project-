@@ -2,7 +2,7 @@
 CM|If command==attack and newCommand then setFocusTarget
 CM|If command==attack and targetInRange then attackTarget
 CM|If command==attack and targetNotInRange then moveTarget
-CM|If command==attack and targetLost then breakCommand
+CM|If command==attack and targetLost then breakCommand and stopMovement
 CM|If command==guard and newCommand then setState=guard and breakCommand
 CM|If command==fortify and newCommand then setState=fortify and breakCommand
 CM|If command==move and newCommand then moveToDestination
@@ -13,5 +13,5 @@ CM|If command==returnToBase and reachedDestination then breakCommand
 If targetChanged and targetNotInRange and state!=fortify then moveTarget
 If targetChanged and targetInRange then attackTarget
 If targetInRange then attackTarget
-If targetLost and state!=guard then clearTarget and doNothing
+If targetLost and state!=guard then clearTarget and stopMovement
 If targetLost and state==guard then clearTarget and initReturn

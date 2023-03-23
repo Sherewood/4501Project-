@@ -2,4 +2,4 @@
 If targetChanged and targetNotInRange and state!=fortify then moveTarget
 If targetChanged and targetInRange then attackTarget
 If targetInRange then attackTarget
-If targetLost then clearTarget and doNothing
+If targetLost then clearTarget and stopMovement;
