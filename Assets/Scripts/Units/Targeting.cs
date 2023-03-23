@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /* Unit Component */
 //Purpose: Track enemy units within range of the player, and determine the unit's target
 
 public class Targeting : MonoBehaviour
 {
+    public AIEvent AICallback;
 
     private GameObject _currentTarget;
-    private GameObject _orderedTarget;
+
+    //true if should focus on current target
+    private bool _focusMode;
 
     /* Configuration */
 
-    //splitting into a shorter automatic range and longer requested range for performance reasons.
+    //if game lags too much will have to look at having shorter automatic targeting range again
+    //or have targeting done entirely upon request (would need an Update loop for the unit AI)
     [Tooltip("Range at which enemies will be automatically detected.")]
-    public float AutoDetectRange;
-
-    [Tooltip("Range at which enemies will be detected if another component asks to check.")]
-    public float FullDetectRange;
+    public float DetectRange;
 
     //todo: move this parameter elsewhere (unit info?)
     [Tooltip("List of allegiances that are opposed to this unit")]
@@ -27,14 +29,25 @@ public class Targeting : MonoBehaviour
     void Start()
     {
         _currentTarget = null;
-        _orderedTarget = null;
+        _focusMode = false;
     }
 
     // General targeting update
     void Update()
     {
-        //determine target based on auto detection range
-        DetermineTarget(AutoDetectRange);
+        //if currently focused on a target, monitor to see if that target has died
+        if (_focusMode)
+        {
+            if(_currentTarget == null)
+            {
+                _focusMode = false;
+                AICallback.Invoke("targetLost");
+            }
+        }
+        else
+        {
+            DetermineTarget(DetectRange);
+        }
     }
 
     //get the currently determined target of the unit
@@ -42,25 +55,21 @@ public class Targeting : MonoBehaviour
     {
         return _currentTarget;
     }
-    
-    //perform a max range scan to determine a target, then return what was found.
-    public GameObject GetTargetAfterFullDetection()
-    {
-        DetermineTarget(FullDetectRange);
 
-        return _currentTarget;
+    //used when targeting component should focus on a specific target, and ignore its targeting range
+    public void SetTargetFocus(GameObject target)
+    {
+        _currentTarget = target;
+        _focusMode = true;
     }
-
-    //set target that this unit should focus on
-    public void SetOrderedTarget(GameObject orderedTarget)
+    //disable focusing on a specific target if currently happening.
+    public void StopTargetFocus()
     {
-        _orderedTarget = orderedTarget;
-    }
-
-    //stop ordered target fixation
-    public void ClearOrderedTarget()
-    {
-        _orderedTarget = null;
+        if (_focusMode)
+        {
+            _currentTarget = null;
+            _focusMode = false;
+        }
     }
 
     //determines the current target of the unit, based on the given targetting range
@@ -68,15 +77,15 @@ public class Targeting : MonoBehaviour
     {
         Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);
 
-        //Debug.Log("Num enemies: " + enemiesInRange.Length);
-
         //if no enemies in range, clear the current target unless it is the ordered target
         //or it is still in detection range (if using shorter than max range for this DetermineTarget call this is possible)
         if (enemiesInRange.Length == 0)
         {
-            if (!IsOrderedTarget(_currentTarget) && !IsCurrentTargetStillInRange())
+            //if target has been lost, 
+            if (_currentTarget != null && !IsCurrentTargetStillInRange())
             {
                 _currentTarget = null;
+                AICallback.Invoke("targetLost");
             }
             return;
         }
@@ -89,13 +98,6 @@ public class Targeting : MonoBehaviour
         foreach (Collider target in enemiesInRange)
         {
             GameObject targetObject = target.GetComponent<Collider>().gameObject;
-
-            //if ordered target is in range, we can skip finding the closest, and just choose the ordered object as our target.
-            if (IsOrderedTarget(targetObject))
-            {
-                newClosestTarget = targetObject;
-                break;
-            }
 
             //get info on object
             UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
@@ -128,13 +130,18 @@ public class Targeting : MonoBehaviour
             }
         }
 
-        //finally, if the ordered target is currently being targetted, do not switch
-        if (IsOrderedTarget(_currentTarget))
+        //if no target, but previously had target, then notify of target loss
+        if(newClosestTarget == null && _currentTarget != null)
         {
-            return;
+            _currentTarget = null;
+            AICallback.Invoke("targetLoss");
         }
-
-        _currentTarget = newClosestTarget;
+        //if the determined target is different than the previously tracked target, notify of target change
+        else if (newClosestTarget != null && newClosestTarget != _currentTarget)
+        {
+            _currentTarget = newClosestTarget;
+            AICallback.Invoke("targetChanged");
+        }
     }
 
     //return true if enemy is clearly not the closest target, and distance calculation not needed
@@ -151,21 +158,10 @@ public class Targeting : MonoBehaviour
         return (distX >= closestDist + 0.01) || (distZ >= closestDist + 0.01);
     }
 
-    //check if the given target object is the ordered target
-    private bool IsOrderedTarget(GameObject target)
-    {
-        return (target == _orderedTarget && _orderedTarget != null);
-    }
-
     //check if the currently selected target is still in range
     private bool IsCurrentTargetStillInRange()
     {
-        if(_currentTarget == null)
-        {
-            return false;
-        }
-
-        return Vector3.Distance(transform.position, _currentTarget.transform.position) > FullDetectRange;
+        return Vector3.Distance(transform.position, _currentTarget.transform.position) > DetectRange;
     }
 
     //determine if target is hostile to this unit in question

@@ -97,7 +97,7 @@ public class UnitController : MonoBehaviour
                     unitMovement.StopMovement();
                     unitMovement.MoveToDynamicDestination(target.collider.gameObject.transform, false, MovementMode.MODE_SPLINE);
                     //set ordered target
-                    unitTargeting.SetOrderedTarget(target.collider.gameObject);
+                    //unitTargeting.SetOrderedTarget(target.collider.gameObject);
                     //set attacking state
                     UnitState unitState = selectedUnit.GetComponent<UnitState>();
                     unitState.SetState(UState.STATE_ATTACKING);

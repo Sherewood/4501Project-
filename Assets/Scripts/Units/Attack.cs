@@ -1,24 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /* Unit Component */
 //Purpose: Handles unit attacking behaviour
 
 public class Attack : MonoBehaviour
 {
-    private Targeting _targeting;
-    private UnitState _unitState;
-    private Movement _movement;
+    public AIEvent AICallback;
+
     private Weapon _weapon;
 
-    //the target, as determined by the targeting component
+    //the target, as determined by the unit's AI
     private GameObject _currentTarget;
 
     //true if target was in range as of the last frame
     private bool _targetInRange;
-
-    //true if ordered movement is overriding the commands of the attack component
-    private bool _orderedMovementOngoing;
 
     //true if unit is currently colliding with its target
     //note: if unit is colliding with more than 1 possible target and it switches target, this boolean will not be adjusted properly.
@@ -29,9 +26,6 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _targeting = GetComponent<Targeting>();
-        _unitState = GetComponent<UnitState>();
-        _movement = GetComponent<Movement>();
         _weapon = GetComponent<Weapon>();
 
         _currentTarget = null;
@@ -45,28 +39,12 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject latestTarget = UpdateTarget();
         if (_animator.IsIdle())
         {
             _animator.SetAnim("IDLE");
         }
 
-        //target changed
-        //either the current target doesn't match the latest target, or the latest target is null when a target was in range on the last frame
-        //probably could use refactor here
-        if(_currentTarget != latestTarget || (latestTarget == null && _targetInRange))
-        {
-            //loss of target handling
-            if(latestTarget == null)
-            {
-                HandleTargetLoss();
-                return;
-            }
-            //target change handling
-            HandleTargetChange(latestTarget);
-        }
-
-        //if no target at this point, finish up as there is nothing to be done.
+        //if no target, then do nothing and disable attacking animations
         if (_currentTarget == null)
         {
             if (_weapon.WeaponType.Equals("melee"))
@@ -137,115 +115,24 @@ public class Attack : MonoBehaviour
 
     }
 
-    //get the latest target from the targeting component
-    private GameObject UpdateTarget()
+    //assign a new target for the attacking component
+    public void SetTarget(GameObject newTarget)
     {
-        GameObject latestTarget = null;
-
-        //if no target, use full range detection, else just use the auto detection
-        if (_currentTarget == null)
-        {
-            
-            latestTarget = _targeting.GetTargetAfterFullDetection();
-        }
-        else
-        {
-            latestTarget = _targeting.GetTarget();
-        }
-        return latestTarget;
+        _currentTarget = newTarget;
     }
 
     /* State transitions/behaviour triggered by component */
 
-    //handle loss of target
-    private void HandleTargetLoss()
-    {
-        _targetInRange = false;
-        _collidedWithTarget = false;
-        UState curState = _unitState.GetState();
-
-        switch (curState)
-        {
-            case UState.STATE_ATTACKING:
-                //if attacking - stop moving and return to idle state
-                _unitState.SetState(UState.STATE_IDLE);
-                _movement.StopMovement();
-                break;
-            case UState.STATE_GUARDING:
-                //if guarding - return to guard position
-                //_movement.OrderReturn(0.0f, MovementMode.MODE_SPLINE);
-                break;
-            case UState.STATE_FORTIFIED:
-                //if fortifying - do nothing :)
-                break;
-            default:
-                //other states - do nothing :) (don't want the attacking component randomly interrupting movement state, for example)
-                break;
-        }
-
-        _currentTarget = null;
-    }
-
-    //handle change of target (or finding new target)
-    private void HandleTargetChange(GameObject newTarget)
-    {
-        _targetInRange = false;
-        _collidedWithTarget = false;
-        UState curState = _unitState.GetState();
-
-        switch (curState)
-        {
-            case UState.STATE_ATTACKING:
-                goto case UState.STATE_IDLE;
-            case UState.STATE_GUARDING:
-                goto case UState.STATE_IDLE;
-            case UState.STATE_IDLE:
-                //if attacking, guarding, or in idle state, should request movement component to move towards target
-                _movement.MoveToDynamicDestination(newTarget.transform, false, MovementMode.MODE_SPLINE);
-                break;
-            case UState.STATE_FORTIFIED:
-                //fortify state: turn towards unit, but do not move towards it
-                _movement.MoveToDynamicDestination(newTarget.transform, true);
-                break;
-            default:
-                //else, no action needed here
-                break;
-        }
-
-        //might want to move this into switch statement (ignore new target if not in relevant state)
-        _currentTarget = newTarget;
-    }
-
     private void HandleEnteredAttackRange()
     {
-        UState curState = _unitState.GetState();
         _targetInRange = true;
-
-        //stop prior movement, resume targetting, but only rotate towards it now.
-        _movement.StopMovement();
-        _movement.MoveToDynamicDestination(_currentTarget.transform, true);
+        AICallback.Invoke("targetInRange");
     }
 
     private void HandleLeftAttackRange()
     {
         _targetInRange = false;
-        //could refactor this part into another helper to minimize code re-use, for now leave as is in case there are differences in handling
-        UState curState = _unitState.GetState();
-
-        switch (curState)
-        {
-            case UState.STATE_ATTACKING:
-                goto case UState.STATE_IDLE;
-            case UState.STATE_GUARDING:
-                goto case UState.STATE_IDLE;
-            case UState.STATE_IDLE:
-                //if attacking, guarding, or in idle state, should request movement component to move towards target
-                _movement.MoveToDynamicDestination(_currentTarget.transform, false, MovementMode.MODE_SPLINE);
-                break;
-            default:
-                //else, no action needed here
-                break;
-        }
+        AICallback.Invoke("targetNotInRange");
     }
 
     /* condition checking helpers */
@@ -265,7 +152,8 @@ public class Attack : MonoBehaviour
     }
 
     //check if weapon is in range of enemy
-    private bool CheckIfInRange(float distance)
+    //made public so AI can check if needed
+    public bool CheckIfInRange(float distance)
     {
         //use weapon component
         //alternatively, if collided with the target, then unit is clearly in range...
