@@ -484,7 +484,6 @@ public class AIControl : MonoBehaviour
                 {
                     break;
                 }
-                _attack.SetTarget(target);
                 _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_SPLINE);
                 break;
             case "attackTarget":
@@ -494,12 +493,14 @@ public class AIControl : MonoBehaviour
                 {
                     break;
                 }
-                _attack.SetTarget(target);
                 _movement.MoveToDynamicDestination(target.transform, true);
                 break;
             case "setFocusTarget":
                 _targeting.SetTargetFocus(_commandTarget);
                 _attack.SetTarget(_commandTarget);
+                break;
+            case "setTarget":
+                _attack.SetTarget(target);
                 break;
             case "clearTarget":
                 _attack.ClearTarget();

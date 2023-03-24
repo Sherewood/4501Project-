@@ -769,15 +769,16 @@ public class Movement : MonoBehaviour
         //disable kinematic rigidbody if it was enabled
         _rigidBody.isKinematic = false;
 
+        //disable general stuff for movement state
         _destination = Vector3.zero;
-
         _dynamicDestination = null;
+        _moving = false;
 
         //disable other movement-related stuff
         _pathCompletionOffset = 0;
         _totalPathLength = 0;
         _movementMode = MovementMode.MODE_DEFAULT;
-        _moving = false;
+
         //set idle animation
         SetToIdle();
 

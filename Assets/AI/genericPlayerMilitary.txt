@@ -10,8 +10,9 @@ CM|If command==move and reachedDestination then breakCommand
 CM|If command==returnToBase and newCommand then returnToBase
 CM|If command==returnToBase and reachedDestination then breakCommand
 #If noTargetInRange then doNothing - causes crash due to invalid prereq - leave for now
-If targetChanged and targetNotInRange and state!=fortify then moveTarget
-If targetChanged and targetInRange then attackTarget
+If targetChanged and targetNotInRange and state!=fortify then setTarget and moveTarget
+If targetChanged and targetInRange then setTarget and attackTarget
 If targetInRange then attackTarget
+If targetNotInRange then moveTarget
 If targetLost and state!=guard then clearTarget and stopMovement
 If targetLost and state==guard then clearTarget and initReturn

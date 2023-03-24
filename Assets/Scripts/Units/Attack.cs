@@ -5,6 +5,15 @@ using UnityEngine.Events;
 /* Unit Component */
 //Purpose: Handles unit attacking behaviour
 
+//enum to track the status of the target
+public enum TargetStatus
+{
+    IN_RANGE,
+    OUT_RANGE,
+    NEW_TARGET,
+    INVALID,
+}
+
 public class Attack : MonoBehaviour
 {
     public AIEvent AICallback;
@@ -14,8 +23,8 @@ public class Attack : MonoBehaviour
     //the target, as determined by the unit's AI
     private GameObject _currentTarget;
 
-    //true if target was in range as of the last frame
-    private bool _targetInRange;
+    //the last reported status of the target
+    private TargetStatus _lastTargetStatus;
 
     //true if unit is currently colliding with its target
     //note: if unit is colliding with more than 1 possible target and it switches target, this boolean will not be adjusted properly.
@@ -30,7 +39,7 @@ public class Attack : MonoBehaviour
 
         _currentTarget = null;
 
-        _targetInRange = false;
+        _lastTargetStatus = TargetStatus.INVALID;
 
         _animator = this.GetComponent<animation_Controller>();
         _animator.SetAnim("IDlE");
@@ -58,13 +67,11 @@ public class Attack : MonoBehaviour
             return;
         }
 
-        //determine if enemy is close enough to justify distance calculation
-        if (CheckIfEnemyFarOutOfRange())
+        //weapon handling
+
+        //handle checking if target is in range
+        if (!TargetRangeChecking())
         {
-            if (_targetInRange)
-            {
-                HandleLeftAttackRange();
-            }
             return;
         }
 
@@ -72,27 +79,6 @@ public class Attack : MonoBehaviour
         Vector3 playerToTarget = _currentTarget.transform.position - transform.position;
         float distanceToTarget = playerToTarget.magnitude;
         Vector3 targetDirection = playerToTarget / distanceToTarget;
-
-        //weapon handling
-
-        //check if target is in range
-
-        //if in range, perform 'got in range' handling if not in range
-        //if not in range, perform 'approach' handling if in range
-
-        if (!CheckIfInRange(distanceToTarget))
-        {
-            if (_targetInRange)
-            {
-                HandleLeftAttackRange();
-            }
-            return;
-        }
-
-        if (!_targetInRange)
-        {
-            HandleEnteredAttackRange();
-        }
 
         //if weapon in range, check if weapon can be fired
         //if weapon can be fired, fire it by creating a projectile object
@@ -115,10 +101,55 @@ public class Attack : MonoBehaviour
 
     }
 
+    //handles all range checking, and corresponding target status update
+    //returns true if target is in range, false otherwise
+    private bool TargetRangeChecking()
+    {
+        TargetStatus latestTargetStatus = TargetStatus.INVALID;
+
+        //determine if enemy is close enough to justify distance calculation
+        if (CheckIfEnemyFarOutOfRange())
+        {
+            latestTargetStatus = TargetStatus.OUT_RANGE;
+        }
+
+        if(latestTargetStatus != TargetStatus.OUT_RANGE)
+        {
+            //get distance between target and player, and direction from player to target
+            float distanceToTarget = Vector3.Distance(_currentTarget.transform.position, transform.position);
+
+            //if in range, perform 'got in range' handling if previously not in range
+            //if not in range, perform 'approach' handling if previously in range
+
+            latestTargetStatus = CheckIfInRange(distanceToTarget) ? TargetStatus.IN_RANGE : TargetStatus.OUT_RANGE;
+
+        }
+
+        //enter/left range notification if status changed since last frame
+        if (latestTargetStatus == TargetStatus.IN_RANGE && (_lastTargetStatus == TargetStatus.OUT_RANGE || _lastTargetStatus == TargetStatus.NEW_TARGET))
+        {
+            HandleEnteredAttackRange();
+        }
+        else if (latestTargetStatus == TargetStatus.OUT_RANGE && (_lastTargetStatus == TargetStatus.IN_RANGE || _lastTargetStatus == TargetStatus.NEW_TARGET))
+        {
+            HandleLeftAttackRange();
+        }
+
+        //store this value for the next frame
+        _lastTargetStatus = latestTargetStatus;
+
+        if(latestTargetStatus == TargetStatus.INVALID)
+        {
+            Debug.LogError("Error: Undefined behaviour when determining if target is in range");
+        }
+
+        return latestTargetStatus == TargetStatus.IN_RANGE;
+    }
+
     //assign a new target for the attacking component
     public void SetTarget(GameObject newTarget)
     {
-        _targetInRange = false;
+        _lastTargetStatus = TargetStatus.NEW_TARGET;
         _currentTarget = newTarget;
     }
 
@@ -131,13 +162,11 @@ public class Attack : MonoBehaviour
 
     private void HandleEnteredAttackRange()
     {
-        _targetInRange = true;
         AICallback.Invoke("targetInRange");
     }
 
     private void HandleLeftAttackRange()
     {
-        _targetInRange = false;
         AICallback.Invoke("targetNotInRange");
     }
 

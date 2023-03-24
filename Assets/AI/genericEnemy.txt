@@ -1,5 +1,7 @@
 #Use as placeholder in lieu of proper AI behaviour for enemies
-If targetChanged and targetNotInRange and state!=fortify then moveTarget
-If targetChanged and targetInRange then attackTarget
+If targetChanged and targetNotInRange and state!=fortify then setTarget and moveTarget
+If targetChanged and targetInRange then setTarget and attackTarget
 If targetInRange then attackTarget
-If targetLost then clearTarget and stopMovement;
+If targetNotInRange then moveTarget
+If targetLost and state!=guard then clearTarget and stopMovement
+If targetLost and state==guard then clearTarget and initReturn
