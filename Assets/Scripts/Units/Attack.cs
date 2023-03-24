@@ -56,6 +56,7 @@ public class Attack : MonoBehaviour
         //if no target, then do nothing and disable attacking animations
         if (_currentTarget == null)
         {
+            _currentTarget = null; //for the case where the UnitInfo component was null
             if (_weapon.WeaponType.Equals("melee"))
             {
                 _animator.UnSetAnim("ATTACK");

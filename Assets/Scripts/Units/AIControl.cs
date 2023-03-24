@@ -496,8 +496,8 @@ public class AIControl : MonoBehaviour
                 _movement.MoveToDynamicDestination(target.transform, true);
                 break;
             case "setFocusTarget":
-                _targeting.SetTargetFocus(_commandTarget);
-                _attack.SetTarget(_commandTarget);
+                _targeting.SetTargetFocus(target);
+                _attack.SetTarget(target);
                 break;
             case "setTarget":
                 _attack.SetTarget(target);

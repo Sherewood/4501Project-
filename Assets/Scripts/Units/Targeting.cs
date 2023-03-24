@@ -38,7 +38,7 @@ public class Targeting : MonoBehaviour
         //if currently focused on a target, monitor to see if that target has died
         if (_focusMode)
         {
-            if(_currentTarget == null || _currentTarget.GetComponent<UnitInfo>() == null)
+            if (_currentTarget == null || _currentTarget.GetComponent<UnitInfo>() == null)
             {
                 _focusMode = false;
                 AICallback.Invoke("targetLost");
