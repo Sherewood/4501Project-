@@ -143,4 +143,10 @@ https://free-game-assets.itch.io/free-space-colony-3d-low-poly-models
 Textures taken from sources not included:
 Burnt metal:
 https://media.istockphoto.com/id/89364201/photo/dark-background-abstract.jpg?s=612x612&w=0&k=20&c=86aHEgeG9bxRS5YQfEMX0zoGvX7gZ0m8ELgcmotWtdw=
+Animations:
+Soldier controller animations:
+Shooter pack mixamo:https://www.mixamo.com/#/?page=1&query=pack&type=Motion%2CMotionPack
+Machine gunner fire: mixamo Mutant Flexing muscles 
+Creature animations: From the same pack as the creatures (see above)
+
 
