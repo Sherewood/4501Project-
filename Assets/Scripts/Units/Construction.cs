@@ -69,25 +69,8 @@ public class Construction : MonoBehaviour
         _currentBuildingType = "";
     }
 
-    //handle reporting of destination being reached by movement component
-    public void HandleDestinationReached()
-    {
-        //check if unit state is "moving to construct"
-        if (_unitState.GetState() == UState.STATE_MOVING_TO_CONSTRUCT)
-        {
-            if(_currentBuildingType == "")
-            {
-                Debug.LogError("Construction component ordered to construct building, but lacks information on what it should build");
-                return;
-            }
-
-            ConstructBuilding();
-
-            _unitState.SetState(UState.STATE_IDLE);
-        }
-    }
-
-    private void ConstructBuilding()
+    //actually constructs the building
+    public void ConstructBuilding()
     {
         //get the dimensions of the building, and use it to configure the spawner's spawn offset
         Vector3 targetUnitScale = _unitDb.GetUnitDimensions(_currentBuildingType);

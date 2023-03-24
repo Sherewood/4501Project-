@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
-
-/* destination reached event definition */
-[System.Serializable]
-public class DestinationReachedEvent : UnityEvent { }
-
 /* 
   This enum will be used for switching between spline-based/physically-based movement modes 
  
@@ -151,9 +146,7 @@ public class CRSpline {
 
 public class Movement : MonoBehaviour
 {
-    /* callbacks */
-    public DestinationReachedEvent DestinationReachedEvent;
-
+    //callback to AI Control
     public AIEvent AICallback;
 
     /* movement type */
@@ -297,14 +290,13 @@ public class Movement : MonoBehaviour
                     break;
             }
 
+            //0.26f is a constant used because the unit wasn't properly reaching the destination without it...
             if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
             {
                 Debug.Log("Destination reached...");
                 //terminate movement if destination reached.
                 StopMovement();
                 //report to interested parties that destination has been reached
-                //might remove Destination Reached Event and let AI Control sort everything out?
-                DestinationReachedEvent.Invoke();
                 AICallback.Invoke("reachedDestination");
             }
         }
@@ -467,12 +459,6 @@ public class Movement : MonoBehaviour
         _offsetFromDestination = offsetFromDestination;
         _moving = true;
 
-        //should remove this and leave it to the AI Controller
-        if (ShouldChangeToMoveState())
-        {
-            _unitState.SetState(UState.STATE_MOVING);
-        }
-
         return StartMovement(movementMode);
     }
 
@@ -487,12 +473,6 @@ public class Movement : MonoBehaviour
         {
             _moving = true;
 
-            //should remove this and leave it to the AI Controller
-            if (ShouldChangeToMoveState())
-            {
-                _unitState.SetState(UState.STATE_MOVING);
-            }
-
             if(!StartMovement(movementMode))
             {
                 return false;
@@ -501,27 +481,6 @@ public class Movement : MonoBehaviour
 
         return true;
     }
-
-    /* worker-specific stuff */
-
-    //moving to construct
-    public bool MoveToConstruct(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT)
-    {
-        //get the forward offset from the construction component
-        Construction constructComp = GetComponent<Construction>();
-
-        //move to the construction site, but stop short according to the offset
-        MoveToDestination(destination, movementMode, constructComp.GetConstructionSiteOffset());
-
-        //just straight up forcing the state to 'moving to construct' could be problematic
-        //but only workers will support this component so it won't interfere with any attacking states.
-        //should remove this and leave it to the AI Controller
-        _unitState.SetState(UState.STATE_MOVING_TO_CONSTRUCT);
-
-        return true;
-    }
-
-
 
     /* Return point */
 
@@ -537,12 +496,6 @@ public class Movement : MonoBehaviour
         _destination = _returnPoint;
         _offsetFromDestination = offsetFromDestination;
         _moving = true;
-
-        //should remove this and leave it to the AI Controller
-        if (ShouldChangeToMoveState())
-        {
-            _unitState.SetState(UState.STATE_MOVING);
-        }
 
         return StartMovement(movementMode);
     }
@@ -760,9 +713,6 @@ public class Movement : MonoBehaviour
         return false;
     }
 
-
-
-
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement()
     {
@@ -782,25 +732,6 @@ public class Movement : MonoBehaviour
         //set idle animation
         SetToIdle();
 
-        //should remove this and leave it to the AI Controller
-        if (_unitState.GetState() == UState.STATE_MOVING)
-        {
-            _unitState.SetState(UState.STATE_IDLE);
-        }
-    }
-
-    //return true if based on the current state, the state should transition to "MOVING"
-    //should be removed and left to the AI Controller
-    private bool ShouldChangeToMoveState()
-    {
-        UState curState = _unitState.GetState();
-
-        bool idleOrHarvesting = (curState == UState.STATE_IDLE || curState == UState.STATE_HARVESTING);
-
-        //attack, guarding, and fortified states should be overidden only if the player orders a change to move state
-        bool overridableStatesIfOrdered = (curState == UState.STATE_ATTACKING || curState == UState.STATE_GUARDING || curState == UState.STATE_FORTIFIED);
-
-        return idleOrHarvesting || overridableStatesIfOrdered;
     }
 
     //handle rotation when the unit is to be stationary

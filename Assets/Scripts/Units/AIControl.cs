@@ -463,6 +463,9 @@ public class AIControl : MonoBehaviour
 
         GameObject target = DetermineTarget();
 
+        //todo: store directly when refactored into hierarchy of AI control classes (use in worker class)
+        Construction constructComp = GetComponent<Construction>();
+
         //pretty much all actions are todo...
         switch (action)
         {
@@ -475,7 +478,23 @@ public class AIControl : MonoBehaviour
             case "moveToDestination":
                 //self explanatory
                 _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE);
-                _unitState.SetState(UState.STATE_MOVING);
+                //todo: refactor into separate method for setting moving state
+                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
+                {
+                    _unitState.SetState(UState.STATE_MOVING);
+                }
+                break;
+            case "moveToConstructAtDestination":
+                //get the forward offset from the construction component
+                constructComp = GetComponent<Construction>();
+
+                //move to the construction site, but stop short according to the offset
+                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE, constructComp.GetConstructionSiteOffset());
+                //todo: refactor into separate method for setting moving state
+                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
+                {
+                    _unitState.SetState(UState.STATE_MOVING);
+                }
                 break;
             case "moveTarget":
                 //move towards the target
@@ -509,7 +528,10 @@ public class AIControl : MonoBehaviour
                 //clear command, re-enabling use of automatic rules + actions
                 _command = "";
                 //if targeting is still focusing on a target, it should stop.
-                _targeting.StopTargetFocus();
+                if (_targeting != null)
+                {
+                    _targeting.StopTargetFocus();
+                }
                 break;
             case "initReturn":
                 //move towards the return point
@@ -532,6 +554,12 @@ public class AIControl : MonoBehaviour
                     Debug.LogWarning("Unit was told to start harvesting but there was no deposit!");
                     _unitState.SetState(UState.STATE_IDLE);
                 }
+                break;
+            case "startConstruction":
+                constructComp = GetComponent<Construction>();
+
+                //construct the building
+                constructComp.ConstructBuilding();
                 break;
             default:
                 Debug.LogError("Unsupported rule-based action: " + action);

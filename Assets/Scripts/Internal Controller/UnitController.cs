@@ -103,7 +103,7 @@ public class UnitController : MonoBehaviour
                     if (_gameStateController.CanAffordUnit(buildingType))
                     {
                         _gameStateController.PurchaseUnit(buildingType);
-                        unitMovement.MoveToConstruct(target.point, MovementMode.MODE_SPLINE);
+                        unitAI.SendCommand("construct", target.point);
                     }
                     //otherwise, need to reset event chain to prevent bad state
                     else
