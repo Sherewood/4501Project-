@@ -355,8 +355,6 @@ public class Movement : MonoBehaviour
 
         // Evaluate spline to get the position
         Vector3 newPos = _curSpline.CRSplineInterp(t);
-        Debug.Log("newPos: " + newPos);
-        Debug.Log("s: " + s + ", t: " + t);
 
         // just set it to the new position
         //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.

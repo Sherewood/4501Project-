@@ -18,15 +18,31 @@ The purpose of this was to keep the ease function from starting at 0 whenever a 
 path, thus keeping the motion as smooth as possible. However, this didn't work all that well as calculating a new path still led to a brief stall in the motion.
 - Originally wanted to just include this in the prototype demo scene, but due to the bugginess decided to create a separate SplineDemoScene for you to view.
 Simply select the infantry unit and move it to the end of the path created by the civilian buildings.
+- Speed control is there but can be a bit inconsistent in some cases.
+- Due to setting buildings as NavMeshObstacles, ran into issues plotting spline paths that involved returning to a specific building, as the path planning failed
+when a destination point was not on the NavMesh. Came up with methods FindUnobstructedPath and FindUnobstructedPathUnitHasObstacle in the Movement component for dealing with such issues.
+- Speaking of methods, here are the relevant methods in the Movement component
+StartSplineMovement: Gets the path for the spline to follow, and initiates movement along that path
+SplineMovementUpdate: Updates the unit's movement along the spline path.
+HandleDynamicSplineChange: Handles changing the spline when the target destination has moved by a certain threshold
+
+
+# Misc features added in advanced prototype
+--------------------------------------------
+Area selection - Click and drag from one point to another to select all of the units in the region.
+Since the camera is angled, had to use oriented bounding box collision, in this case just determined if 
+each unit's position was inside the bounding box or not using a similar approach to the algorithm from the physics slides.
+
+Visual indications - Added a health bar for each unit, not currently attached to the unit's hierarchy but should definitely consider doing that... 
 
 # Missing from proposal
 -------------------------------------------
 
 Area selection - saving for the advanced prototype
 
-Special abilities - ran short on time unfortunately, should be in advanced prototype
+Special abilities - ran short on time unfortunately, should be in final deliverable
 
-Edenite Ravager was supposed to have multiple weapons, did not make the cut this time - unclear if will make it into final delieverable
+Edenite Ravager was supposed to have multiple weapons, unclear if will make it into final delieverable
 
 Enemy Spawner has not been provided - should be in advanced prototype, if not then 100% in final deliverable
 
