@@ -302,13 +302,15 @@ public class Movement : MonoBehaviour
                     PhysicsBasedMovementUpdate();
                     break;
                 case MovementMode.MODE_DEFAULT:
+                    Debug.Log("DEFAULT UPDATE! " + transform.position);
                     DefaultMovementUpdate();
                     break;
             }
 
-            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
+            //temporary: include spline timing parameter for reaching destination
+            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination || s > 1.0f)
             {
-                Debug.Log("Destination reached...");
+                Debug.Log("Destination reached..." + transform.position);
                 //terminate movement if destination reached.
                 StopMovement(true);
                 //report to interested parties that destination has been reached
@@ -330,8 +332,12 @@ public class Movement : MonoBehaviour
     //will have to apply ease as an offset on s, instead of a replacement of s for that to work.
     private float Ease(float s)
     {
-
         float t = _pathCompletionOffset + s * (1.0f - _pathCompletionOffset);
+
+        // Clamp parameter to the valid range
+        if (t < 0.0f) { t = 0.0f; }
+        if (t > 1.0f) { t = 1.0f; }
+
         //formula from animation microdemo
         float delta = (Mathf.Sin(t * Mathf.PI - Mathf.PI / 2.0f) + 1.0f) / 2.0f - t;
 
@@ -353,6 +359,8 @@ public class Movement : MonoBehaviour
 
         // Evaluate spline to get the position
         Vector3 newPos = _curSpline.CRSplineInterp(t);
+        Debug.Log("newPos: " + newPos);
+        Debug.Log("s: " + s + ", t: " + t);
 
         // just set it to the new position
         //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.
@@ -434,7 +442,6 @@ public class Movement : MonoBehaviour
     //goal is to keep motion smooth and keep ease-in/out accurate
     private void HandleDynamicSplineChange(float t)
     {
-
         //get the previously recorded completed length based on PCO and total length
         float PCOSplineLength = _pathCompletionOffset * _totalPathLength;
 
@@ -851,6 +858,12 @@ public class Movement : MonoBehaviour
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement(bool stopOrderedMovement)
     {
+        //temp fix for weird physics issues when switching off kinematics: set rotation on x,z axis to 0
+        //remove after spline movement is gone
+        Quaternion curRotation = transform.rotation;
+        curRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+        transform.rotation = curRotation;
+
         //disable kinematic rigidbody if it was enabled
         _rigidBody.isKinematic = false;
 
@@ -878,6 +891,8 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_IDLE);
         }
+
+        SetToIdle();
     }
 
     //returns true if the movement component is currently carrying out ordered movement
@@ -974,4 +989,15 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //for animations
+    public void SetToIdle()
+    {
+        if (_animator != null)
+        {
+            if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
+            {
+                _animator.SetAnim("IDLE");
+            }
+        }
+    }
 }
