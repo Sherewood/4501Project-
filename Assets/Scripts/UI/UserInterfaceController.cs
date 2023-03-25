@@ -53,7 +53,7 @@ public class UserInterfaceController : MonoBehaviour
 
     private List<GameObject> _buildOptions;
 
-    private List<GameObject> _reseachOptions;
+    private List<GameObject> _researchOptions;
     
 
 
@@ -74,7 +74,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         _abilityOptions = new List<GameObject>();
         _buildOptions = new List<GameObject>();
-        _reseachOptions = new List<GameObject>();
+        _researchOptions = new List<GameObject>();
 
         if(AbilityPanel == null)
         {
@@ -111,7 +111,7 @@ public class UserInterfaceController : MonoBehaviour
         _selectedUnits = _displayInfoController.GetSelectedUnits();
         _selectedUnitCapabilities = _displayInfoController.GetSelectedUnitActions();
         _constructDisplay = _displayInfoController.GetConstructionMenuInfo();
-        _researchDisplay = _displayInfoController.GetResearchMenuInfo();
+
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel", "research points" };
         Dictionary<string, int> curResources= _displayInfoController.GetPlayerResources(check);
@@ -368,29 +368,59 @@ public class UserInterfaceController : MonoBehaviour
     }
     private void display_ResearchOptions()
     {
-        int pos = 150;
+        //check if research menu options changed
+        Dictionary<Technology, UIEvTrigger> newResearchInfo = _displayInfoController.GetResearchMenuInfo();
+        //use screen height to keep scaling proper
+        int pos = Screen.height/12;
         int i = 0;
-        //init_ScienceButton.SetActive(false);
-        if (_reseachOptions.Count == 0)
+        init_ScienceButton.SetActive(false);
+        //update if menu is empty or data has changed
+        if (_researchOptions.Count == 0 || _displayInfoController.IsResearchMenuUpdated())
         {
+            //clear old menu elements
+            for (int x = 2; x < SciencePanel.transform.childCount; x++)
+            {
+                Destroy(SciencePanel.transform.GetChild(x).gameObject);
+            }
+            _researchOptions.Clear();
+
+            //store new menu info
+            _researchDisplay = newResearchInfo;
+            //dynamically initialize research buttons
             foreach (KeyValuePair<Technology, UIEvTrigger> science in _researchDisplay)
             {
 
-                GameObject button = Instantiate(init_ScienceButton);
+                GameObject button = Instantiate(init_ScienceButton, new Vector3(0,0,0), Quaternion.identity);
                 button.name = science.Key.Name;
+                //display the name
+                button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = science.Key.Name;
+                //display the cost
+                button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Cost: " + science.Key.Cost;
+                //adjustments
                 button.transform.SetParent(SciencePanel.transform, false);
-                button.transform.Translate(0, -pos * i, 0);
+                //can clean this up a bit later
+                if (i < 5)
+                {
+                    button.transform.Translate(-Screen.width / 16, Screen.height / 4.5f - pos * i, 0);
+                }
+                else if (i < 10)
+                {
+                    button.transform.Translate(0, Screen.height / 4.5f - pos * (i-5), 0);
+                }
+                else if (i < 15)
+                {
+                    button.transform.Translate(Screen.width / 16, Screen.height / 4.5f - pos * (i - 10), 0);
+                }
+                //configure event trigger
                 button.GetComponent<UiAbilties>().setTrigger((science.Key.Id, science.Value));
+                //you get the idea (todo get tech icons)
                 button.GetComponent<UiAbilties>().Icon = def;
-                _buildOptions.Add(button);
+                button.SetActive(true);
+                _researchOptions.Add(button);
                 i++;
 
 
             }
-        }
-        else
-        {
-            Debug.Log("ASD");
         }
         
         
@@ -444,7 +474,7 @@ public class UserInterfaceController : MonoBehaviour
             {
                 Destroy(SciencePanel.transform.GetChild(i).gameObject);
             }
-            _reseachOptions.Clear();
+            _researchOptions.Clear();
         }
         else SciencePanel.SetActive(true);
 

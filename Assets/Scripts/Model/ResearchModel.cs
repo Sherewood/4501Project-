@@ -72,7 +72,7 @@ public class TechnologyNode
 
     public void AddChild(TechnologyNode child)
     {
-        if (_children.Contains(child))
+        if (!_children.Contains(child))
         {
             _children.Add(child);
         }
@@ -190,6 +190,20 @@ public class ResearchModel : MonoBehaviour
 
     /* public methods */
 
+    //returns cost of tech
+    public int GetTechnologyCost(string techId)
+    {
+        TechnologyNode candidateTech = GetTechnology(techId);
+        if (candidateTech == null)
+        {
+            Debug.LogError("Tried to determine if technology that doesn't exist can be researched: '" + techId + "'");
+            return 0;
+        }
+
+        //get the cost and return it
+        return candidateTech.GetTechnology().Cost;
+    }
+
     //tries to complete the technology of the specified name
     //returns true if successful, or false if the tech is already completed
     public bool CompleteTechnology(string techId)
@@ -254,7 +268,6 @@ public class ResearchModel : MonoBehaviour
             TechnologyNode current = reached.Dequeue();
 
             List<TechnologyNode> currentChildren = current.GetChildren();
-
             //check each child to see if it is researchable, else add it to the list of nodes to check next
             foreach(TechnologyNode child in currentChildren)
             {

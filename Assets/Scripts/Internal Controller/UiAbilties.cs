@@ -40,6 +40,10 @@ public class UiAbilties : MonoBehaviour
             //trigger Menu Selection Event
             GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleMenuSelectionEvent(Event.Item1);
         }
+        else if (Event.Item2 == UIEvTrigger.TRIGGER_RESEARCHTECH)
+        {
+            GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleResearchTechEvent(Event.Item1);
+        }
         else {
             // otherwise triggers UIOrder Event
             GameObject.Find("InternalController").GetComponent<InternalControllerEventHandler>().HandleUIOrderEvent(Event.Item1); 
