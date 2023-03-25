@@ -5,14 +5,68 @@
 
  Student IDs: 101146675, 101121600, 101067032
 
+# Advanced Prototype feature notes
+-------------------------------------------
+Splines:
+
+- Tried to get splines working by using unity pathfinding to determine the control points,
+then modifying the animation microdemo CR-spline code to work with the Movement component.
+- Ease function was modified to act as an offset on t, rather than replacing the value of t entirely.
+This is to support 'dynamic spline update' functionality, where I developed an algorithm to determine what
+percentage of the path had actually been completed when the spline path had to be recalculated. 
+The purpose of this was to keep the ease function from starting at 0 whenever a new spline path was calculated to replace a portion of another spline's
+path, thus keeping the motion as smooth as possible. However, this didn't work all that well as calculating a new path still led to a brief stall in the motion.
+- Originally wanted to just include this in the prototype demo scene, but due to the bugginess decided to create a separate SplineDemoScene for you to view.
+Simply select the infantry unit and move it to the end of the path created by the civilian buildings.
+- Speed control is there but can be a bit inconsistent in some cases.
+- Due to setting buildings as NavMeshObstacles, ran into issues plotting spline paths that involved returning to a specific building, as the path planning failed
+when a destination point was not on the NavMesh. Came up with methods FindUnobstructedPath and FindUnobstructedPathUnitHasObstacle in the Movement component for dealing with such issues.
+- Speaking of methods, here are the relevant methods in the Movement component
+StartSplineMovement: Gets the path for the spline to follow, and initiates movement along that path
+SplineMovementUpdate: Updates the unit's movement along the spline path.
+HandleDynamicSplineChange: Handles changing the spline when the target destination has moved by a certain threshold
+
+#Animation 
+--------------------------------------------------------
+-Animation controllers have been made for for all soldiers, with the infantry and rocket launchers sharing the same controller while heavy machine gun receives a different version (one with a modified fireing animation of a flex). 
+
+
+- Current motions in game: Run/walk (the unit performs a movement of moving there legs, since the root is disabled, they should be moving in conjunction with the spline functionality). Fire/Attack: performs an attacking action which moves in conjunction with the units bullets or attack. Die: if theres no health left on the unit, the unit falls down dead. Harvest: a worker specific motion, basically just the unit crouching and a drill rotating with sparks. Idle: a unit's idle animation, should be returned with every occasion the unit is not moving.
+
+
+-Enemy Units models came with an animation controllers but those have now also been remade. They now have less movement options from before but their controllers are now constructed from our own input rather than taking a premade one. 
+
+-Using the any state, the controllers ideally should allow their units to cycle through their used animations: If you make a unit walk, it should walk, if a unit gets in range and should fire, the animation should play of the unit firing, and if the unit takes enough damage to die, they should have a death animation.
+-There are a few other animation options a unit can do (some have an option to run and some have the option to crouch) but i believe they are not yet called in function. 
+
+-Workers have a unique method for gathering minerals called the Harvest state.
+-In the controller, all controllers share the same boolean conditions, more for the sake of running them with one controller.
+-Some flourishes have been added to most units for specific animations. For example, if an infantry fires, the animation state will also enable some particle effects to show the soldiers gun firiing.
+
+-Vehicles have no animations (well, artillary vehicle has some built in but it's incompatible with controller motion). The vehicle controller has no motions in it but the states are used to determine the state of the vehicle (is it firing? is it dead? etc....) 
+
+- Units with no weapons have the attack function instead.
+- Things which could be added/improved:
+  -adding more motion to the vehicles 
+  -giving the worker an attack animation (as it has no weapon)
+  -giving the buildings some animation to represent if it's destroyed or functioning. 
+  
+
+# Misc features added in advanced prototype
+--------------------------------------------
+Area selection - Click and drag from one point to another to select all of the units in the region.
+Since the camera is angled, had to use oriented bounding box collision, in this case just determined if 
+each unit's position was inside the bounding box or not using a similar approach to the algorithm from the physics slides.
+
+Visual indications - Added a health bar for each unit, not currently attached to the unit's hierarchy but should definitely consider doing that... 
+
 # Missing from proposal
 -------------------------------------------
+Special abilities - ran short on time unfortunately, should be in final deliverable
+    -took time planned for this, and spent it refactoring the movement/attack/targeting+ components to serve a new AI control component, which will be included in final deliverable
+    (in summary: no more horrible 'ordered movement' spaghetti code, yay!)
 
-Area selection - saving for the advanced prototype
-
-Special abilities - ran short on time unfortunately, should be in advanced prototype
-
-Edenite Ravager was supposed to have multiple weapons, did not make the cut this time - unclear if will make it into final delieverable
+Edenite Ravager was supposed to have multiple weapons, unclear if will make it into final delieverable
 
 Enemy Spawner has not been provided - should be in advanced prototype, if not then 100% in final deliverable
 

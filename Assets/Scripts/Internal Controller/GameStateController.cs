@@ -144,6 +144,9 @@ public class GameStateController : MonoBehaviour
     //unlock technology with given technology ID
     public bool ResearchTechnology(string techId)
     {
+        //deduct the research point cost
+        _gameStateModel.SubtractPlayerRP(_researchModel.GetTechnologyCost(techId));
+
         return _researchModel.CompleteTechnology(techId);
     }
 

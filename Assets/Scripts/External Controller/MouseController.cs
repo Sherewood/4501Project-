@@ -44,10 +44,8 @@ public class MouseController : MonoBehaviour
     //mouse order event callback - right click
     public MouseOrderEvent MouseOrderEvent;
 
-    //temporary - should be set in UI for dynamic adjustment based on what menus are open
-    //denotes regions on the screen occupied by UI
-    //format is (x1, y1, x2, y2), with all x,y in range [0,1] where 0 is one end of the screen, and 1 is the other end
-    public List<Vector4> UIRegions;
+    //UI controller - used for determining UI obstructed regions
+    private UserInterfaceController _uiController;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +53,7 @@ public class MouseController : MonoBehaviour
         _mouseHeld = false;
         _areaSelectionInProgress = false;
         _heldMouseButton = -1;
+        _uiController = FindObjectOfType<UserInterfaceController>();
     }
 
     //return the mouse positions representing the boundaries of the area selection, if they exist
@@ -151,12 +150,21 @@ public class MouseController : MonoBehaviour
     //no doubt in my mind there's a better way of handling this, and this will probably fail in the future, but should work for now.
     private bool IsMouseInUIRegion(Vector3 mousePosition)
     {
+        //if no UI, then no UI region obviously
+        if(_uiController == null)
+        {
+            return false;
+        }
+
+        //get the obstructing regions of the UI
+        List<Vector4> uiRegions = _uiController.GetUIObstructingRegions();
+
         //convert mouse position so it is in range [0-1,0-1] with 0 being start of screen, 1 being end of screen
         //also invert mouse y coords because unity....
         Vector2 mousePosConverted = new Vector2(mousePosition.x / Screen.width, (Screen.height - mousePosition.y) / Screen.height);
 
         //check if in boundary
-        foreach (Vector4 UIRegion in UIRegions)
+        foreach (Vector4 UIRegion in uiRegions)
         {
             if((mousePosConverted.x >= UIRegion.x && mousePosConverted.x <= UIRegion.z) &&
                 (mousePosConverted.y >= UIRegion.y && mousePosConverted.y <= UIRegion.w))

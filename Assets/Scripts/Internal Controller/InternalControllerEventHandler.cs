@@ -175,6 +175,7 @@ public class InternalControllerEventHandler : MonoBehaviour
         //try to complete research of tech, if successful, refresh available technologies
         if (_gameStateController.ResearchTechnology(techId))
         {
+            Debug.Log("Tech research successful.");
             _displayInfoController.UpdateResearchMenuInfo();
         }
     }

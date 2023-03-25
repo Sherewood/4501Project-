@@ -37,6 +37,7 @@ public class DisplayInfoController : MonoBehaviour
     //information for the research menu
     private Dictionary<Technology, UIEvTrigger> _researchMenuInfo;
     private bool _researchMenuActive;
+    private bool _researchMenuChanged;
     
 
     // Start is called before the first frame update
@@ -121,12 +122,31 @@ public class DisplayInfoController : MonoBehaviour
     //refresh the available technologies in the research menu
     public void UpdateResearchMenuInfo()
     {
+        Dictionary<Technology, UIEvTrigger> oldResearchMenuInfo = new Dictionary<Technology, UIEvTrigger>(_researchMenuInfo);
         _researchMenuInfo.Clear();
         List<Technology> availableTechs = _researchModel.GetResearchableTechnologies();
 
         foreach (Technology tech in availableTechs)
         {
             _researchMenuInfo.Add(tech, UIEvTrigger.TRIGGER_RESEARCHTECH);
+        }
+
+        if (_researchMenuInfo != oldResearchMenuInfo)
+        {
+            _researchMenuChanged = true;
+        }
+    }
+
+    public bool IsResearchMenuUpdated()
+    {
+        if (_researchMenuChanged)
+        {
+            _researchMenuChanged = false;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

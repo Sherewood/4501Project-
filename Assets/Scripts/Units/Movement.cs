@@ -302,7 +302,6 @@ public class Movement : MonoBehaviour
                     PhysicsBasedMovementUpdate();
                     break;
                 case MovementMode.MODE_DEFAULT:
-                    Debug.Log("DEFAULT UPDATE! " + transform.position);
                     DefaultMovementUpdate();
                     break;
             }
@@ -347,11 +346,8 @@ public class Movement : MonoBehaviour
     private void SplineMovementUpdate()
     {
         //handling spline movement using animation microdemo code
-        //update spline in FixedUpdate because physics is wack otherwise
 
-        
-
-        //update time parameter (todo: tune this timing properly...)
+        //update time parameter (tuned using sChangeRate calculated in StartSplineMovement)
         s += Time.deltaTime * sChangeRate;
 
         //todo: add ease in/out for s
@@ -359,8 +355,6 @@ public class Movement : MonoBehaviour
 
         // Evaluate spline to get the position
         Vector3 newPos = _curSpline.CRSplineInterp(t);
-        Debug.Log("newPos: " + newPos);
-        Debug.Log("s: " + s + ", t: " + t);
 
         // just set it to the new position
         //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.
@@ -1001,7 +995,7 @@ public class Movement : MonoBehaviour
             //could quickly optimize using manhattan distance if this is too inefficient
             float distToTarget = Vector3.Distance(target, _dynamicDestination.position);
 
-            if (distToTarget > 0.5f)
+            if (distToTarget > 1.0f)
             {
                 //update the respective destination vector to match the dynamic destination
                 _dynamicDestUpdateMade = true;
