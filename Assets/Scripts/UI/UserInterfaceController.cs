@@ -224,10 +224,12 @@ public class UserInterfaceController : MonoBehaviour
           
             for (int x = 0;x < _selectedUnits.Count; x++)
             {
+                
                 GameObject unit = Instantiate(UnitInfoPrefab);
                 unit.transform.SetParent(UnitInfoCanvas.transform, false);
                 unit.transform.localScale = new Vector3(.5f, .5f, .5f);
                 unit.transform.position = new Vector3(-625f+(100*x), 483f, 0f);
+                
                 UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
 
                 //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
