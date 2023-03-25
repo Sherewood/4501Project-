@@ -5,6 +5,20 @@
 
  Student IDs: 101146675, 101121600, 101067032
 
+# Advanced Prototype feature notes
+-------------------------------------------
+Splines:
+
+- Tried to get splines working by using unity pathfinding to determine the control points,
+then modifying the animation microdemo CR-spline code to work with the Movement component.
+- Ease function was modified to act as an offset on t, rather than replacing the value of t entirely.
+This is to support 'dynamic spline update' functionality, where I developed an algorithm to determine what
+percentage of the path had actually been completed when the spline path had to be recalculated. 
+The purpose of this was to keep the ease function from starting at 0 whenever a new spline path was calculated to replace a portion of another spline's
+path, thus keeping the motion as smooth as possible. However, this didn't work all that well as calculating a new path still led to a brief stall in the motion.
+- Originally wanted to just include this in the prototype demo scene, but due to the bugginess decided to create a separate SplineDemoScene for you to view.
+Simply select the infantry unit and move it to the end of the path created by the civilian buildings.
+
 # Missing from proposal
 -------------------------------------------
 
