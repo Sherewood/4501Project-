@@ -157,7 +157,7 @@ public class UserInterfaceController : MonoBehaviour
         foreach(GameObject obstructingElement in ObstructingUIRegions)
         {
             //skip currently hidden regions of UI
-            if (!obstructingElement.activeSelf)
+            if (!obstructingElement.activeInHierarchy)
             {
                 continue;
             }
