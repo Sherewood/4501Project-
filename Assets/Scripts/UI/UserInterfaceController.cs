@@ -54,8 +54,12 @@ public class UserInterfaceController : MonoBehaviour
     private List<GameObject> _buildOptions;
 
     private List<GameObject> _researchOptions;
-    
 
+    //UI-obstructed regions
+    [Tooltip("Include regions of the UI that (at least partially) obstruct the game.")]
+    public List<GameObject> ObstructingUIRegions;
+    //the boundaries of these obstructing UI regions
+    private Dictionary<GameObject, Vector4> _obstructingUIRegionBoundaries;
 
     
     // Start is called before the first frame update
@@ -67,6 +71,7 @@ public class UserInterfaceController : MonoBehaviour
 
         InitButtonLists();
 
+        CalculateUIObstructingRegionBoundaries();
     }
 
     //initialize all button lists
@@ -102,6 +107,65 @@ public class UserInterfaceController : MonoBehaviour
         {
             _buildOptions.Add(buildButton.gameObject);
         }
+    }
+
+    private void CalculateUIObstructingRegionBoundaries()
+    {
+        _obstructingUIRegionBoundaries = new Dictionary<GameObject, Vector4>();
+
+        foreach(GameObject obstructingElement in ObstructingUIRegions)
+        {
+            //determine the x,y size as percentage of screen
+
+            Vector3[] elementBoundaries = new Vector3[4]; 
+                
+            obstructingElement.GetComponent<RectTransform>().GetWorldCorners(elementBoundaries);
+
+            //width is x coord of corner 3 (bottom right) - x coord of corner 1 (top left)
+            //height is same idea
+
+            float width = elementBoundaries[2].x - elementBoundaries[0].x;
+            float height = elementBoundaries[2].y - elementBoundaries[0].y;
+
+            float widthPct = width / Screen.width;
+            float heightPct = height / Screen.height;
+
+            //determine x,y pos as percentage of screen
+
+            //take top left corner
+            float xPct = elementBoundaries[0].x / Screen.width;
+            float yPct = elementBoundaries[0].y / Screen.height;
+
+            //calculate the bounding box
+            //invert y-axis because unity
+            Vector4 boundingBox = new Vector4(xPct, 1 - (yPct + heightPct), xPct + widthPct,1 - yPct);
+
+            Debug.Log("Obstructing UI region for " + obstructingElement.name + ": " + boundingBox);
+
+            //add to list of obstructing UI regions
+            _obstructingUIRegionBoundaries.Add(obstructingElement, boundingBox);
+        }
+
+        Debug.Log("Successfully initialized bounding regions of UI, to be used by Mouse Controller");
+        Debug.Log("Number of obstructing regions: " + _obstructingUIRegionBoundaries.Count);
+    }
+
+    public List<Vector4> GetUIObstructingRegions()
+    {
+        List<Vector4> boundingRegions = new List<Vector4>();
+
+        foreach(GameObject obstructingElement in ObstructingUIRegions)
+        {
+            //skip currently hidden regions of UI
+            if (!obstructingElement.activeSelf)
+            {
+                continue;
+            }
+
+            boundingRegions.Add(_obstructingUIRegionBoundaries[obstructingElement]);
+        }
+
+        return boundingRegions;
     }
 
     // Update is called once per frame
