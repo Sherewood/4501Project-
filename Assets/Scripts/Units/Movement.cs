@@ -395,24 +395,52 @@ public class Movement : MonoBehaviour
     //forces added based on whether unit is leader or not.
     private void PhysicsBasedMovementUpdate()
     {
-        _rigidBody.AddForce((_orderedDestination - transform.position));
+        //needs to be physics-based
+        if (_rigidBody.isKinematic) _rigidBody.isKinematic = false;
+        //get the target destination
+        Vector3 target = GetDestination();
+        if (target == Vector3.zero)
+        {
+            return;
+        }
+
         //leader
         if (_flockLeader == null)
         {
+            Vector3 moveDirection = Vector3.Normalize(target - transform.position);
+            _rigidBody.AddForce(moveDirection * Time.deltaTime, ForceMode.VelocityChange);
         }
         //follower
         else
         {
-            //stop moving if flock leader has finished their movement
-            if (_flockLeader.GetComponent<Movement>()._moving == false)
-            {
-                StopMovement(true);
-            }
-        }
-        //remove when added, obviously
-        Debug.LogWarning("Physics based movement is not available!");
-    }
+            Vector3 separation = new Vector3();
+            Vector3 cohesion = new Vector3();
+            Vector3 alignment = Vector3.Normalize(target - _flockLeader.transform.position);
 
+            //detecting smaller radius for separation
+            Vector3 sumOfNeighbourRelativePos = new Vector3();
+            Collider[] unitsInRange = Physics.OverlapSphere(transform.position, 1);
+            foreach (var unit in unitsInRange)
+            {
+                GameObject currentUnit = unit.gameObject;
+                sumOfNeighbourRelativePos += currentUnit.transform.position - transform.position;
+            }
+            separation = -Vector3.Normalize(sumOfNeighbourRelativePos);
+
+            //detecting larger radius for cohesion
+            sumOfNeighbourRelativePos = new Vector3();
+            unitsInRange = Physics.OverlapSphere(transform.position, 3);
+            foreach (var unit in unitsInRange)
+            {
+                GameObject currentUnit = unit.gameObject;
+                sumOfNeighbourRelativePos += currentUnit.transform.position - transform.position;
+            }
+            cohesion = Vector3.Normalize(sumOfNeighbourRelativePos);
+
+            _rigidBody.AddForce(Vector3.Normalize(separation + cohesion + alignment * 3), ForceMode.VelocityChange);
+        }
+        _rigidBody.velocity = Vector3.Normalize(_rigidBody.velocity) * Speed;
+    }
     //should not be used intentionally, meant as a fallback
     private void DefaultMovementUpdate()
     {
@@ -663,8 +691,8 @@ public class Movement : MonoBehaviour
                 }
                 break;
             case MovementMode.MODE_PHYSICAL:
-                Debug.LogError("Request to trigger physics-based movement, but that is not ready yet.");
-                return false;
+                StartPhysicalMovement(dest);
+                break;
             case MovementMode.MODE_DEFAULT:
                 Debug.LogError("Request to trigger default movement, but that is not ready yet.");
                 return false;
@@ -737,6 +765,12 @@ public class Movement : MonoBehaviour
         //calculate rate of change (of s) based on length of spline and speed
         //length of spline taken into account so unit will progress through the spline at the expected physical speed
         sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
+    }
+
+    //triggers spline-based movement
+    private void StartPhysicalMovement(Vector3 dest)
+    {
+        _rigidBody.isKinematic = false;
     }
 
     //finding unobstructed path when unit has a NavMeshObstacle attached - will allow for units with NavMeshObstacle to path plan

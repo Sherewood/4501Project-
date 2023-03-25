@@ -17,6 +17,8 @@ public class UnitController : MonoBehaviour
 
     private EventChainController _eventChainController;
 
+    List<List<GameObject>> _flocks;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class UnitController : MonoBehaviour
         _gameStateController = GetComponent<GameStateController>();
 
         _eventChainController = GetComponent<EventChainController>();
+
+        _flocks = new List<List<GameObject>>();
     }
 
     /* Unit command handling (will need to refactor later once we have more capabilities) */
@@ -78,6 +82,9 @@ public class UnitController : MonoBehaviour
             switch (bestAction)
             {
                 case "move":
+                    //check and remove object from flock if found
+                    deleteUnitFromFlock(selectedUnit);
+
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
                     //will activate always on first unit in list
                     if (selectedUnits.Count > 1)
@@ -87,11 +94,14 @@ public class UnitController : MonoBehaviour
                             unitMovement._flockLeader = null;
                             setFlockLeader = false;
                             unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
+                            _flocks.Add(new List<GameObject>());
+                            _flocks[_flocks.Count - 1].Add(selectedUnit);
                         }
                         else
                         {
                             unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
                             unitMovement._flockLeader = selectedUnits[0];
+                            _flocks[_flocks.Count - 1].Add(selectedUnit);
                         }
                     }
                     else
@@ -232,4 +242,57 @@ public class UnitController : MonoBehaviour
             }
         }
     }
+
+    public void deleteUnitFromFlock(GameObject unit)
+    {
+        List<int> deleteFlockIndexes = new List<int>();
+        foreach (List<GameObject> flock in _flocks)
+        {
+            //counts down each loop, if the leader of a flock will be joining another flock then this will allow the correct units to be informed of the new leader
+            int changeLeader = 0;
+            int deleteUnitIndex = -1;
+            //avoid last flock
+            if(_flocks.IndexOf(flock) < _flocks.Count - 1)
+            {
+                if (flock.Count < 2)
+                {
+                    deleteFlockIndexes.Add(_flocks.IndexOf(flock));
+                }
+                else
+                {
+                    foreach (GameObject flockUnit in flock)
+                    {
+                        if (GameObject.ReferenceEquals(unit, flockUnit))
+                        {
+                            //if the unit was found and it's the leader of a flock, we'll need to give leader to the next unit and tell the rest that there is a new leader
+                            if (flock.IndexOf(flockUnit) == 0)
+                            {
+                                flock[1].GetComponent<Movement>()._flockLeader = null;
+                                changeLeader = 2;
+                            }
+                            //either way, it needs to be deleted from that flock to join the new one
+                            deleteUnitIndex = flock.IndexOf(flockUnit);
+                        }
+                        else if (changeLeader > 0)
+                        {
+                            flockUnit.GetComponent<Movement>()._flockLeader = flock[1];
+                        }
+                        changeLeader--;
+                    }
+                    //remove the found unit
+                    if (deleteUnitIndex >= 0) flock.RemoveAt(deleteUnitIndex);
+                    //if the selected unit was found then it obviously wouldn't be found again
+                    break;
+                }
+                
+            }
+            
+        }
+        foreach (int index in deleteFlockIndexes)
+        {
+            _flocks.RemoveAt(index);
+        }
+    }
 }
+
+
