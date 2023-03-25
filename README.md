@@ -26,6 +26,22 @@ StartSplineMovement: Gets the path for the spline to follow, and initiates movem
 SplineMovementUpdate: Updates the unit's movement along the spline path.
 HandleDynamicSplineChange: Handles changing the spline when the target destination has moved by a certain threshold
 
+#Animation 
+--------------------------------------------------------
+-Animation controllers have been made for for all soldiers, with the infantry and rocket launchers sharing the same controller while heavy machine gun receives a different version (one with a modified fireing animation of a flex). 
+-Enemy Units models came with an animation controllers but those have now also been remade. They now have less movement options from before but their controllers are now constructed from our own input rather than taking a premade one. 
+-Using the any state, the controllers ideally should allow their units to cycle through their used animations: If you make a unit walk, it should walk, if a unit gets in range and should fire, the animation should play of the unit firing, and if the unit takes enough damage to die, they should have a death animation.
+-There are a few other animation options a unit can do (some have an option to run and some have the option to crouch) but i believe they are not yet called in function. 
+-Workers have a unique method for gathering minerals called the Harvest state.
+-In the controller, all controllers share the same boolean conditions, more for the sake of running them with one controller.
+-Some flourishes have been added to most units for specific animations. For example, if an infantry fires, the animation state will also enable some particle effects to show the soldiers gun firiing.
+-Vehicles have no animations (well, artillary vehicle has some built in but it's incompatible with controller motion). The vehicle controller has no motions in it but the states are used to determine the state of the vehicle (is it firing? is it dead? etc....) 
+- Units with no weapons have the attack function instead.
+- Things which could be added/improved:
+  -adding more motion to the vehicles 
+  -giving the worker an attack animation (as it has no weapon)
+  -giving the buildings some animation to represent if it's destroyed or functioning. 
+  
 
 # Misc features added in advanced prototype
 --------------------------------------------
