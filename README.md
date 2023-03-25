@@ -62,10 +62,9 @@ Visual indications - Added a health bar for each unit, not currently attached to
 
 # Missing from proposal
 -------------------------------------------
-
-Area selection - saving for the advanced prototype
-
 Special abilities - ran short on time unfortunately, should be in final deliverable
+    -took time planned for this, and spent it refactoring the movement/attack/targeting+ components to serve a new AI control component, which will be included in final deliverable
+    (in summary: no more horrible 'ordered movement' spaghetti code, yay!)
 
 Edenite Ravager was supposed to have multiple weapons, unclear if will make it into final delieverable
 
