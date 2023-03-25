@@ -873,6 +873,8 @@ public class Movement : MonoBehaviour
         {
             _unitState.SetState(UState.STATE_IDLE);
         }
+
+        SetToIdle();
     }
 
     //returns true if the movement component is currently carrying out ordered movement
@@ -920,7 +922,7 @@ public class Movement : MonoBehaviour
             //works a lot better on flat surfaces, tbd on slanted regions
             direction.y = 0;
             //determine the target rotation
-            //_targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
+            _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), direction);
 
             yield return null;
         }
@@ -969,4 +971,15 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //for animations
+    public void SetToIdle()
+    {
+        if (_animator != null)
+        {
+            if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
+            {
+                _animator.SetAnim("IDLE");
+            }
+        }
+    }
 }
