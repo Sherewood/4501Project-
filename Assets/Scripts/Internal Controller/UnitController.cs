@@ -37,6 +37,7 @@ public class UnitController : MonoBehaviour
     public void HandleTargetedOrder(Order order, RaycastHit target)
     {
         List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
+        bool setFlockLeader = true;
 
         Debug.Log("Handling order: " + order);
 
@@ -51,7 +52,7 @@ public class UnitController : MonoBehaviour
          * 3) Order all of the units to move using MODE_PHYSICAL movement, only the flocking leader should be given a destination
          *      i) in movement component, only use steering-type behaviours on flock leader (unit using physics-based movement with a destination)
          *         units that are not the flock leader will only move based on flocking forces (might want to inform them of the leader somehow for the "follow leader" forces)
-         *      note: Specifying no destination to an unit will require an update to these methods which I leave to you.
+         *      note: Specifying no destination to a unit will require an update to these methods which I leave to you.
          *      
          * 4) When the flock leader reaches its destination, it will have to send a callback to the internal controller, the unit controller
          *    should do the following
@@ -78,7 +79,25 @@ public class UnitController : MonoBehaviour
             {
                 case "move":
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
-                    unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_SPLINE);
+                    //will activate always on first unit in list
+                    if (selectedUnits.Count > 1)
+                    {
+                        if (setFlockLeader)
+                        {
+                            unitMovement._flockLeader = null;
+                            setFlockLeader = false;
+                            unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
+                        }
+                        else
+                        {
+                            unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
+                            unitMovement._flockLeader = selectedUnits[0];
+                        }
+                    }
+                    else
+                    {
+                        unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_SPLINE);
+                    }
                     break;
                 case "attack":
                     //order unit to move towards enemy, and set enemy as ordered target

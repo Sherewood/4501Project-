@@ -193,6 +193,8 @@ public class Movement : MonoBehaviour
     //destination (high priority - via player command)
     private Vector3 _orderedDestination;
 
+    public GameObject _flockLeader;
+
     //destination which changes over time (due to the unit associated with the Transform object moving)
     private Transform _dynamicDestination;
     //true if target destination has changed due to the dynamic destination moving
@@ -202,7 +204,7 @@ public class Movement : MonoBehaviour
     private bool _isDynamicDestOrdered;
 
     //true when unit is moving towards destination
-    private bool _moving;
+    public bool _moving;
 
     private Quaternion _targetRotation;
 
@@ -237,6 +239,7 @@ public class Movement : MonoBehaviour
         _moving = false;
         _returnPoint = new Vector3();
         _movementMode = MovementMode.MODE_DEFAULT;
+        _flockLeader = null;
 
         _dynamicDestination = null;
         _isDynamicDestOrdered = false;
@@ -296,6 +299,7 @@ public class Movement : MonoBehaviour
                     SplineMovementUpdate();
                     break;
                 case MovementMode.MODE_PHYSICAL:
+                    PhysicsBasedMovementUpdate();
                     break;
                 case MovementMode.MODE_DEFAULT:
                     DefaultMovementUpdate();
@@ -381,8 +385,22 @@ public class Movement : MonoBehaviour
 
     //todo: add flocking code here
     //forces added based on whether unit is leader or not.
-    private void PhysicsBasedMovmentUpdate()
+    private void PhysicsBasedMovementUpdate()
     {
+        _rigidBody.AddForce((_orderedDestination - transform.position));
+        //leader
+        if (_flockLeader == null)
+        {
+        }
+        //follower
+        else
+        {
+            //stop moving if flock leader has finished their movement
+            if (_flockLeader.GetComponent<Movement>()._moving == false)
+            {
+                StopMovement(true);
+            }
+        }
         //remove when added, obviously
         Debug.LogWarning("Physics based movement is not available!");
     }
