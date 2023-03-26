@@ -82,13 +82,13 @@ public class UnitController : MonoBehaviour
             switch (bestAction)
             {
                 case "move":
-                    //check and remove object from flock if found
+                    //check and remove object from previous flock if found
                     deleteUnitFromFlock(selectedUnit);
 
                     Movement unitMovement = selectedUnit.GetComponent<Movement>();
-                    //will activate always on first unit in list
                     if (selectedUnits.Count > 1)
                     {
+                        //will activate always on first unit in list, creates a flock and adds this as the leader
                         if (setFlockLeader)
                         {
                             unitMovement._flockLeader = null;
@@ -97,6 +97,7 @@ public class UnitController : MonoBehaviour
                             _flocks.Add(new List<GameObject>());
                             _flocks[_flocks.Count - 1].Add(selectedUnit);
                         }
+                        //all other selected units will be added to that flock
                         else
                         {
                             unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
@@ -292,6 +293,23 @@ public class UnitController : MonoBehaviour
         {
             _flocks.RemoveAt(index);
         }
+    }
+
+    //finds the flock based on a given leader of a flock
+    public List<GameObject> GetFlock(GameObject leader)
+    {
+        foreach (List<GameObject> flock in _flocks)
+        {
+            if (GameObject.ReferenceEquals(leader, flock[0]))
+            {
+                return flock;
+            }
+            else
+            {
+                Debug.LogError("flock not found based on leader");
+            }
+        }
+        return new List<GameObject>();
     }
 }
 

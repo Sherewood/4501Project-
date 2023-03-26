@@ -60,7 +60,7 @@ public class UnitCreationController : MonoBehaviour
             return;
         }
 
-        GetComponent<UnitController>().deleteUnitFromFlock(unit);
+        FindObjectOfType<UnitController>().deleteUnitFromFlock(unit);
 
         /* scuffed delayed death system */
         //Needed in order to give the death animation time to play without interfering with the game
