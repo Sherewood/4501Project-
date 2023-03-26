@@ -7,8 +7,8 @@
 
 # Advanced Prototype feature notes
 -------------------------------------------
-Splines:
-
+# Splines
+-----------------------------------------------------
 - Tried to get splines working by using unity pathfinding to determine the control points,
 then modifying the animation microdemo CR-spline code to work with the Movement component.
 - Ease function was modified to act as an offset on t, rather than replacing the value of t entirely.
@@ -26,7 +26,7 @@ StartSplineMovement: Gets the path for the spline to follow, and initiates movem
 SplineMovementUpdate: Updates the unit's movement along the spline path.
 HandleDynamicSplineChange: Handles changing the spline when the target destination has moved by a certain threshold
 
-#Animation 
+# Animation 
 --------------------------------------------------------
 -Animation controllers have been made for for all soldiers, with the infantry and rocket launchers sharing the same controller while heavy machine gun receives a different version (one with a modified fireing animation of a flex). 
 
@@ -52,6 +52,16 @@ HandleDynamicSplineChange: Handles changing the spline when the target destinati
   -giving the buildings some animation to represent if it's destroyed or functioning. 
   
 
+# Flocking
+---------------------------------------------
+Tried to get working with selection of a group of units (leader will be the first unit in the selection which might be at a location you do not expect)
+
+It's not tuned properly at all, alignment force in particular doesn't seem to have any effect. 
+
+Leader will seek and wander, and units in the flock will follow but its very janky.
+
+Test by going into FlockingDemoScene, and clicking and dragging to select all of the units, then right click to move to a destination.
+
 # Misc features added in advanced prototype
 --------------------------------------------
 Area selection - Click and drag from one point to another to select all of the units in the region.
@@ -67,8 +77,6 @@ Special abilities - ran short on time unfortunately, should be in final delivera
     (in summary: no more horrible 'ordered movement' spaghetti code, yay!)
 
 Edenite Ravager was supposed to have multiple weapons, unclear if will make it into final delieverable
-
-Enemy Spawner has not been provided - should be in advanced prototype, if not then 100% in final deliverable
 
 Visual indications are also limited, but it wasn't fleshed out in the proposal anyways so not sure why I mentioned this here.
 
@@ -200,7 +208,7 @@ https://media.istockphoto.com/id/89364201/photo/dark-background-abstract.jpg?s=6
 Animations:
 Soldier controller animations:
 Shooter pack mixamo:https://www.mixamo.com/#/?page=1&query=pack&type=Motion%2CMotionPack
-Machine gunner fire: mixamo Mutant Flexing muscles 
+Machine gunner fire: mixamo Mutant Flexing muscles: https://www.mixamo.com/#/?page=1&query=mutant+flexing+muscles&type=Motion%2CMotionPack
 Creature animations: From the same pack as the creatures (see above)
 
 
