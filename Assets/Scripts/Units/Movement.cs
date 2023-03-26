@@ -414,7 +414,7 @@ public class Movement : MonoBehaviour
             Vector3 moveVector = Vector3.zero;
             if(!_isWandering) moveVector = target - transform.position;
             else moveVector = _wanderDestination - transform.position;
-            _rigidBody.AddForce(moveVector.normalized * Speed * Time.deltaTime * 10, ForceMode.VelocityChange);
+            _rigidBody.AddForce(moveVector.normalized * Speed * Time.deltaTime * 5, ForceMode.VelocityChange);
             //adjust the velocity
             //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
             //rotate towards the direction of movement
@@ -489,7 +489,7 @@ public class Movement : MonoBehaviour
                 if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 12)
                 {
                     numAlignmentNeighbours++;
-                    alignmentVector += currentUnit.transform.forward - transform.forward;
+                    alignmentVector += currentUnit.transform.forward;
                 }
             }
             if (numAlignmentNeighbours != 0)
