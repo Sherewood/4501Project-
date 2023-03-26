@@ -51,7 +51,6 @@ public class EntityStorage : MonoBehaviour
     }
 
     //return all entities whose coordinates are within the box formed by topLeftPos and bottomRightPos
-    //how in god's name did this work first try? I straight up guessed the normal vectors...
     public List<GameObject> FindEntitiesInRange(Vector3 topLeftPos, Vector3 bottomRightPos)
     {
         List<GameObject> entitiesInRange = new List<GameObject>();
@@ -71,6 +70,7 @@ public class EntityStorage : MonoBehaviour
         //probably horrendous to do it this way instead of calculating scalar projection normally
         //blame unity for not including a Vector3 scalar projection function I guess...
         //todo: try manually inserting scalar projection formula before submission because this is vomit inducing
+        //update: left this in (for advanced prototype) in case you want a laugh
         float topLeftProjectionXAxis = Vector3.Project(topLeftPos, xAxisNormal).magnitude;
         float bottomRightProjectionXAxis = Vector3.Project(bottomRightPos, xAxisNormal).magnitude;
 
