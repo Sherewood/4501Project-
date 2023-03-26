@@ -414,12 +414,13 @@ public class Movement : MonoBehaviour
             Vector3 moveVector = Vector3.zero;
             if(!_isWandering) moveVector = target - transform.position;
             else moveVector = _wanderDestination - transform.position;
-            _rigidBody.AddForce(moveVector.normalized * Time.deltaTime * 40, ForceMode.VelocityChange);
+            _rigidBody.AddForce(moveVector.normalized * Speed * Time.deltaTime * 10, ForceMode.VelocityChange);
             //adjust the velocity
-            _rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
+            //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
             //rotate towards the direction of movement
-            Vector3 rotateDir = Vector3.RotateTowards(transform.forward, moveVector, 5.0f * Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(rotateDir);
+            Quaternion fixRotation = new Quaternion();
+            fixRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+            transform.rotation = fixRotation;
             //pick a new spot to wander to when the previous one or the initial destination is reached
             if ((Vector3.Distance(target, transform.position) < 2.0f && !_isWandering) || (Vector3.Distance(_wanderDestination, transform.position) < 2.0f && _isWandering))
             {
@@ -437,7 +438,7 @@ public class Movement : MonoBehaviour
             Vector3 separationVector = Vector3.zero;
             Vector3 cohesionVector = Vector3.zero;
             Vector3 alignmentVector = transform.forward;
-            Vector3 leaderVector = Vector3.Normalize(_flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f);
+            Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
             //getting all the units in the flock a given unit belongs too (kinda bugged rn)
             UnitController x = GetComponent<UnitController>();
             List<GameObject> flockMembers = GameObject.Find("InternalController").GetComponent<UnitController>().GetFlock(_flockLeader);
@@ -447,26 +448,28 @@ public class Movement : MonoBehaviour
             //sum the positions of the other units in the flock
             foreach (GameObject currentUnit in flockMembers)
             {
-                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 7)
+                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 3)
                 {
                     numSeparationNeighbours++;
-                    separationVector -= currentUnit.transform.position;
+                    separationVector -= currentUnit.transform.position - transform.position;
                 }
             }
             //if there were units, take the mean position of them relative to the unit this script is attached to and normalize it
+            /*
             if (numSeparationNeighbours != 0)
             {
                 separationVector = separationVector / numSeparationNeighbours;
                 cohesionVector += transform.position;
                 separationVector = Vector3.Normalize(separationVector);
             }
+            */
 
             //cohesion
             //basically the same as separation but in reverse with a different radius
             int numCohesionNeighbours = 0;
             foreach (GameObject currentUnit in flockMembers)
             {
-                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 12)
+                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 6)
                 {
                     numCohesionNeighbours++;
                     cohesionVector += currentUnit.transform.position;
@@ -476,7 +479,6 @@ public class Movement : MonoBehaviour
             {
                 cohesionVector = cohesionVector / numCohesionNeighbours;
                 cohesionVector -= transform.position;
-                cohesionVector = Vector3.Normalize(cohesionVector);
             }
 
             //alignment
@@ -487,29 +489,32 @@ public class Movement : MonoBehaviour
                 if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 12)
                 {
                     numAlignmentNeighbours++;
-                    alignmentVector += currentUnit.transform.forward;
+                    alignmentVector += currentUnit.transform.forward - transform.forward;
                 }
             }
             if (numAlignmentNeighbours != 0)
             {
                 alignmentVector = alignmentVector / numAlignmentNeighbours;
-                alignmentVector = Vector3.Normalize(alignmentVector);
+                //alignmentVector = Vector3.Normalize(alignmentVector);
             }
             alignmentVector.y = 0;
 
             //adjusting weights of each vector
-            separationVector = separationVector * 1.5f;
-            cohesionVector = cohesionVector * 0.5f;
-            alignmentVector = alignmentVector * 1.0f;
-            leaderVector = leaderVector * 1.0f;
+            separationVector = separationVector * 3.5f;
+            cohesionVector = cohesionVector * 0.8f;
+            alignmentVector = alignmentVector * 3.0f;
+            leaderVector = leaderVector * 2.0f;
 
             //add the forces and rotate the unit to where it's going, trying to align with the others as well
             Vector3 moveVector = separationVector + cohesionVector + alignmentVector + leaderVector;
-            moveVector = moveVector.normalized * Speed;
-            _rigidBody.AddForce(moveVector * Time.deltaTime * 10, ForceMode.VelocityChange);
-            _rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
-            Vector3 rotateDir = Vector3.RotateTowards(transform.forward, alignmentVector, 5.0f * Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(rotateDir);
+            moveVector.y = 0;
+            //moveVector = moveVector.normalized * Speed;
+            _rigidBody.AddForce(moveVector * Time.deltaTime, ForceMode.VelocityChange);
+            //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
+
+            Quaternion fixRotation = new Quaternion();
+            fixRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+            transform.rotation = fixRotation;
 
         }
         
