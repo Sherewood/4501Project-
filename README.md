@@ -58,7 +58,8 @@ Tried to get working with selection of a group of units (leader will be the firs
 
 It's not tuned properly at all, alignment force in particular doesn't seem to have any effect. 
 
-Leader will seek and wander, and units in the flock will follow but its very janky.
+Leader will seek and wander, and units in the flock will follow but its very janky. Had to force the x/z portions of the rotations to 0 to prevent the units from falling over.
+Might try a new collider in the final deliverable that avoids this problem? (capsule? :( )
 
 Test by going into FlockingDemoScene, and clicking and dragging to select all of the units, then right click to move to a destination.
 
