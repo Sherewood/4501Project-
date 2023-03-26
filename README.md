@@ -63,6 +63,8 @@ Might try a new collider in the final deliverable that avoids this problem? (cap
 
 Test by going into FlockingDemoScene, and clicking and dragging to select all of the units, then right click to move to a destination.
 
+Code is in Unit Controller, and in Movement component (physicsBasedMovementUpdate)
+
 # Misc features added in advanced prototype
 --------------------------------------------
 Area selection - Click and drag from one point to another to select all of the units in the region.
