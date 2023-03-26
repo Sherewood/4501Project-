@@ -30,6 +30,7 @@ HandleDynamicSplineChange: Handles changing the spline when the target destinati
 --------------------------------------------------------
 -Animation controllers have been made for for all soldiers, with the infantry and rocket launchers sharing the same controller while heavy machine gun receives a different version (one with a modified fireing animation of a flex). 
 
+(animation_controller script is in Assets/)
 
 - Current motions in game: Run/walk (the unit performs a movement of moving there legs, since the root is disabled, they should be moving in conjunction with the spline functionality). Fire/Attack: performs an attacking action which moves in conjunction with the units bullets or attack. Die: if theres no health left on the unit, the unit falls down dead. Harvest: a worker specific motion, basically just the unit crouching and a drill rotating with sparks. Idle: a unit's idle animation, should be returned with every occasion the unit is not moving.
 
