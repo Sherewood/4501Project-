@@ -27,6 +27,12 @@ public class animation_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if no animator controller, nothing to do
+        if(animator.runtimeAnimatorController == null)
+        {
+            return;
+        }
+
         if (animator.GetBool("FIRE") == false && gun)
         {
             if (weapon != null)
@@ -51,7 +57,8 @@ public class animation_Controller : MonoBehaviour
             }
         }
     }
-   public  void SetAnim(String str)
+
+    public void SetAnim(String str)
     {
         if (str.Equals("FIRE") && gun)
         {
@@ -60,6 +67,12 @@ public class animation_Controller : MonoBehaviour
                 weapon.SetActive(true);
             }
         }
+        //if no animator controller, nothing to do past this point
+        if (animator.runtimeAnimatorController == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < parameter.Length; i++)
         {
             animator.SetBool(parameter[i].name,false);
