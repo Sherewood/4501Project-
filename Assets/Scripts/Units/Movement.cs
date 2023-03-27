@@ -14,6 +14,8 @@ public enum MovementMode
     //might be removed after prototype because I don't like how it's turned out, but for now all movement
     //from point A to point B for individual units will try to use this.
     MODE_SPLINE,
+    //used for pathfinding from point A to B
+    MODE_PATHFINDING,
     //used for physics-based movement (flocking, steering, arrival, etc.)
     //should be activated for units that use the flocking behaviour
     MODE_PHYSICAL,
@@ -227,6 +229,9 @@ public class Movement : MonoBehaviour
 
     private animation_Controller _animator;
 
+    // navmeshagent for pathfinding mode
+    private NavMeshAgent _navMeshAgent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -247,6 +252,8 @@ public class Movement : MonoBehaviour
 
         _unitState = GetComponent<UnitState>();
 
+        ConfigNavMeshAgent();
+
         //start up coroutines
         StartCoroutine(InPlaceRotationHandler());
 
@@ -261,6 +268,17 @@ public class Movement : MonoBehaviour
         //animator
         _animator = this.GetComponent<animation_Controller>();
     
+    }
+
+    //configure NavMeshAgent using the speed specified for the unit
+    private void ConfigNavMeshAgent()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        if (_navMeshAgent == null)
+        {
+            _navMeshAgent.speed = Speed * 4;
+            _navMeshAgent.angularSpeed = TurnRate;
+        }
     }
 
     //destroy coroutines at end
@@ -296,6 +314,9 @@ public class Movement : MonoBehaviour
             switch (_movementMode) {
                 case MovementMode.MODE_SPLINE:
                     SplineMovementUpdate();
+                    break;
+                case MovementMode.MODE_PATHFINDING:
+                    PathfindingMovementUpdate();
                     break;
                 case MovementMode.MODE_PHYSICAL:
                     PhysicsBasedMovementUpdate();
@@ -382,6 +403,12 @@ public class Movement : MonoBehaviour
         {
             HandleDynamicSplineChange(t);
         }
+    }
+
+    //for pathfinding
+    public void PathfindingMovementUpdate()
+    {
+        //nothing really needed here, NavMeshAgent does the job.
     }
 
     //todo: add flocking code here
@@ -670,6 +697,9 @@ public class Movement : MonoBehaviour
                     StartSplineMovement(dest);
                 }
                 break;
+            case MovementMode.MODE_PATHFINDING:
+                StartPathfindingMovement(dest);
+                break;
             case MovementMode.MODE_PHYSICAL:
                 StartPhysicalMovement(dest);
                 break;
@@ -745,6 +775,18 @@ public class Movement : MonoBehaviour
         //calculate rate of change (of s) based on length of spline and speed
         //length of spline taken into account so unit will progress through the spline at the expected physical speed
         sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
+    }
+
+    public void StartPathfindingMovement(Vector3 dest)
+    {
+        if(_navMeshAgent == null)
+        {
+            Debug.LogError("Error: Tried to do pathfinding on unit without NavMeshAgent");
+            return;
+        }
+
+        _navMeshAgent.SetDestination(dest);
+        _navMeshAgent.stoppingDistance = _offsetFromDestination;
     }
 
     //triggers spline-based movement
@@ -882,6 +924,12 @@ public class Movement : MonoBehaviour
         _destination = Vector3.zero;
         _dynamicDestination = null;
         _moving = false;
+
+        //disable navmeshagent if enabled
+        if(_navMeshAgent != null)
+        {
+            _navMeshAgent.ResetPath();
+        }
 
         //disable other movement-related stuff
         _pathCompletionOffset = 0;

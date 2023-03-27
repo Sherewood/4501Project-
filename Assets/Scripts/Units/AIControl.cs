@@ -477,7 +477,7 @@ public class AIControl : MonoBehaviour
                 break;
             case "moveToDestination":
                 //self explanatory
-                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE);
+                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING);
                 //todo: refactor into separate method for setting moving state
                 if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
                 {
@@ -489,7 +489,7 @@ public class AIControl : MonoBehaviour
                 constructComp = GetComponent<Construction>();
 
                 //move to the construction site, but stop short according to the offset
-                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_SPLINE, constructComp.GetConstructionSiteOffset());
+                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING, constructComp.GetConstructionSiteOffset());
                 //todo: refactor into separate method for setting moving state
                 if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
                 {
@@ -503,7 +503,7 @@ public class AIControl : MonoBehaviour
                 {
                     break;
                 }
-                _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_SPLINE);
+                _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_PATHFINDING);
                 break;
             case "attackTarget":
                 //rotate towards the target while firing at it
@@ -539,7 +539,7 @@ public class AIControl : MonoBehaviour
             case "returnToBase":
                 //move towards the specified return point (base position), stop at the specified offset (command value)
                 _movement.SetReturnPoint(_commandTargetPosition);
-                _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_SPLINE);
+                _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_PATHFINDING);
                 break;
             case "startHarvesting":
                 Harvesting harvestComp = GetComponent<Harvesting>();

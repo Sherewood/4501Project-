@@ -18,11 +18,11 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -1985163176651472814}
   - component: {fileID: -5942888071925629939}
-  - component: {fileID: 2046618436344957451}
   - component: {fileID: 6122358955623055387}
   - component: {fileID: 4255946861567430409}
   - component: {fileID: -6001752382329818616}
   - component: {fileID: 7370511994494715889}
+  - component: {fileID: 2915018167533376699}
   m_Layer: 0
   m_Name: Artillery Tank
   m_TagString: Untagged
@@ -99,9 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7560fbecf40fad04da88e5c72bab1db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestinationReachedEvent:
-    m_PersistentCalls:
-      m_Calls: []
   AICallback:
     m_PersistentCalls:
       m_Calls:
@@ -117,6 +114,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+  _flockLeader: {fileID: 0}
+  _moving: 0
   Speed: 0.75
   TurnRate: 30
 --- !u!114 &-6763880964242767567
@@ -244,22 +243,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!208 &2046618436344957451
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239236345776070385}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.65}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 0
-  m_Center: {x: 0, y: 0.5, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!111 &6122358955623055387
 Animation:
   m_ObjectHideFlags: 0
@@ -328,6 +311,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugMode: 0
   RuleFile: {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
+--- !u!195 &2915018167533376699
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.8
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &3324952953311503687
 GameObject:
   m_ObjectHideFlags: 0

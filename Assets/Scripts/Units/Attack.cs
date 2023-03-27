@@ -49,7 +49,7 @@ public class Attack : MonoBehaviour
     {
 
         //if no target, then do nothing and disable attacking animations
-        if (_currentTarget == null)
+        if (_currentTarget == null || _currentTarget.GetComponent<UnitInfo>() == null)
         {
             _currentTarget = null; //for the case where the UnitInfo component was null
             return;
