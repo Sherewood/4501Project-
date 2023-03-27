@@ -716,6 +716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9060410599923791195, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_RootOrder
       value: 44
@@ -2679,6 +2683,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5942888071925629939, guid: 88ceb0e0a889ab04ea42d7ce5fdd56e6, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5942888071925629939, guid: 88ceb0e0a889ab04ea42d7ce5fdd56e6, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2059503152919943354, guid: 88ceb0e0a889ab04ea42d7ce5fdd56e6, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -3517,9 +3529,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  UIRegions:
-  - {x: 0, y: 0.6885, z: 1, w: 1}
-  - {x: 0.0786, y: 0.6149, z: 0.499, w: 0.7286}
 --- !u!1001 &1503715737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3825,6 +3834,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7241931223193927197, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: DebugMode
       value: 1
@@ -4011,6 +4024,10 @@ PrefabInstance:
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
       value: Tank (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9060410599923791195, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_RootOrder
