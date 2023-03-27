@@ -274,11 +274,11 @@ public class Movement : MonoBehaviour
     private void ConfigNavMeshAgent()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        if (_navMeshAgent == null)
+        if (_navMeshAgent != null)
         {
             _navMeshAgent.speed = Speed;
             _navMeshAgent.acceleration = Speed / 2;
-            _navMeshAgent.angularSpeed = TurnRate;
+            _navMeshAgent.angularSpeed = TurnRate / 1.5f;
             _navMeshAgent.stoppingDistance = 0.26f;
             _navMeshAgent.enabled = false;
         }
