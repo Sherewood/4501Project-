@@ -276,8 +276,11 @@ public class Movement : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         if (_navMeshAgent == null)
         {
-            _navMeshAgent.speed = Speed * 4;
+            _navMeshAgent.speed = Speed;
+            _navMeshAgent.acceleration = Speed / 2;
             _navMeshAgent.angularSpeed = TurnRate;
+            _navMeshAgent.stoppingDistance = 0.26f;
+            _navMeshAgent.enabled = false;
         }
     }
 
@@ -408,7 +411,11 @@ public class Movement : MonoBehaviour
     //for pathfinding
     public void PathfindingMovementUpdate()
     {
-        //nothing really needed here, NavMeshAgent does the job.
+        //need to update path destination if target location changes
+        if (_dynamicDestUpdateMade)
+        {
+            _navMeshAgent.SetDestination(GetDestination());
+        }
     }
 
     //todo: add flocking code here
@@ -785,6 +792,8 @@ public class Movement : MonoBehaviour
             return;
         }
 
+        _navMeshAgent.enabled = true;
+
         _navMeshAgent.SetDestination(dest);
         _navMeshAgent.stoppingDistance = _offsetFromDestination;
     }
@@ -926,9 +935,11 @@ public class Movement : MonoBehaviour
         _moving = false;
 
         //disable navmeshagent if enabled
-        if(_navMeshAgent != null)
+        if(_navMeshAgent != null && _navMeshAgent.enabled)
         {
+            _navMeshAgent.destination = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             _navMeshAgent.ResetPath();
+            _navMeshAgent.enabled = false;
         }
 
         //disable other movement-related stuff
