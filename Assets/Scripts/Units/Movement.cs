@@ -890,10 +890,6 @@ public class Movement : MonoBehaviour
 
         SetToIdle();
     }
-        //set idle animation
-        SetToIdle();
-
-    }
 
     //handle rotation when the unit is to be stationary
     IEnumerator InPlaceRotationHandler()

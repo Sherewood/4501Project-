@@ -47,23 +47,11 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_animator.IsIdle())
-        {
-            _animator.SetAnim("IDLE");
-        }
 
         //if no target, then do nothing and disable attacking animations
         if (_currentTarget == null)
         {
             _currentTarget = null; //for the case where the UnitInfo component was null
-            if (_weapon.WeaponType.Equals("melee"))
-            {
-                _animator.UnSetAnim("ATTACK");
-            }
-            else
-            {
-                _animator.UnSetAnim("FIRE");
-            }
             return;
         }
 
