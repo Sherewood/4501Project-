@@ -92,6 +92,7 @@ MonoBehaviour:
   - enemy-dynamic-edenite_muncher
   - enemy-dynamic-edenite_ravager
   - enemy-dynamic-eden_devil
+  - enemy-static-spawner
   UnitAssetPrefabs:
   - {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
   - {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
@@ -109,6 +110,7 @@ MonoBehaviour:
   - {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
   - {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
   - {fileID: 3239236345776070385, guid: 0a389e58f37cbe34ea7f0e4172e65b43, type: 3}
+  - {fileID: 3239236345776070385, guid: dea00401ae9df584a9b1918387aa2609, type: 3}
 --- !u!114 &6555852087881390600
 MonoBehaviour:
   m_ObjectHideFlags: 0

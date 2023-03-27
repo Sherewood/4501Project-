@@ -42,7 +42,6 @@ public class Attack : MonoBehaviour
         _lastTargetStatus = TargetStatus.INVALID;
 
         _animator = this.GetComponent<animation_Controller>();
-        _animator.SetAnim("IDlE");
     }
 
     // Update is called once per frame
@@ -99,7 +98,6 @@ public class Attack : MonoBehaviour
             
             _weapon.FireWeapon(_currentTarget);
         }
-
     }
 
     //handles all range checking, and corresponding target status update

@@ -186,13 +186,22 @@ public class Movement : MonoBehaviour
     //destination (lower priority - via the object itself)
     private Vector3 _destination;
 
+    //random destination for flocking
+    private Vector3 _wanderDestination;
+
+    //other variables needed for flocking
+    private float _wanderRadius;
+    private bool _isWandering;
+
+    public GameObject _flockLeader;
+
     //destination which changes over time (due to the unit associated with the Transform object moving)
     private Transform _dynamicDestination;
     //true if target destination has changed due to the dynamic destination moving
     private bool _dynamicDestUpdateMade;
 
     //true when unit is moving towards destination
-    private bool _moving;
+    public bool _moving;
 
     private Quaternion _targetRotation;
 
@@ -222,9 +231,15 @@ public class Movement : MonoBehaviour
     void Start()
     {
         _destination = new Vector3();
+
+        _wanderDestination = new Vector3();
+        _wanderRadius = 8.0f;
+        _isWandering = false;
+
         _moving = false;
         _returnPoint = new Vector3();
         _movementMode = MovementMode.MODE_DEFAULT;
+        _flockLeader = null;
 
         _dynamicDestination = null;
 
@@ -274,7 +289,6 @@ public class Movement : MonoBehaviour
             if (target == Vector3.zero)
             {
                 _moving = false;
-                SetToIdle();
                 return;
             }
 
@@ -284,16 +298,17 @@ public class Movement : MonoBehaviour
                     SplineMovementUpdate();
                     break;
                 case MovementMode.MODE_PHYSICAL:
+                    PhysicsBasedMovementUpdate();
                     break;
                 case MovementMode.MODE_DEFAULT:
                     DefaultMovementUpdate();
                     break;
             }
 
-            //0.26f is a constant used because the unit wasn't properly reaching the destination without it...
-            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
+            //temporary: include spline timing parameter for reaching destination
+            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination || s > 1.0f)
             {
-                Debug.Log("Destination reached...");
+                Debug.Log("Destination reached..." + transform.position);
                 //terminate movement if destination reached.
                 StopMovement();
                 //report to interested parties that destination has been reached
@@ -303,7 +318,7 @@ public class Movement : MonoBehaviour
         //rotation in place for when unit is not in motion (aiming)
         else
         {
-           // SetToIdle();
+            
             if (_targetRotation != Quaternion.identity)
             {
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
@@ -315,8 +330,12 @@ public class Movement : MonoBehaviour
     //will have to apply ease as an offset on s, instead of a replacement of s for that to work.
     private float Ease(float s)
     {
-
         float t = _pathCompletionOffset + s * (1.0f - _pathCompletionOffset);
+
+        // Clamp parameter to the valid range
+        if (t < 0.0f) { t = 0.0f; }
+        if (t > 1.0f) { t = 1.0f; }
+
         //formula from animation microdemo
         float delta = (Mathf.Sin(t * Mathf.PI - Mathf.PI / 2.0f) + 1.0f) / 2.0f - t;
 
@@ -326,11 +345,8 @@ public class Movement : MonoBehaviour
     private void SplineMovementUpdate()
     {
         //handling spline movement using animation microdemo code
-        //update spline in FixedUpdate because physics is wack otherwise
 
-        
-
-        //update time parameter (todo: tune this timing properly...)
+        //update time parameter (tuned using sChangeRate calculated in StartSplineMovement)
         s += Time.deltaTime * sChangeRate;
 
         //todo: add ease in/out for s
@@ -370,12 +386,144 @@ public class Movement : MonoBehaviour
 
     //todo: add flocking code here
     //forces added based on whether unit is leader or not.
-    private void PhysicsBasedMovmentUpdate()
+    private void PhysicsBasedMovementUpdate()
     {
-        //remove when added, obviously
-        Debug.LogWarning("Physics based movement is not available!");
-    }
+        //needs to be physics-based
+        if (_rigidBody.isKinematic) _rigidBody.isKinematic = false;
+        //get the target destination
+        Vector3 target = GetDestination();
+        if (target == Vector3.zero)
+        {
+            return;
+        }
 
+        //leader
+        if (_flockLeader == null)
+        {
+            //find the direction to move in and add the force
+            Vector3 moveVector = Vector3.zero;
+            if(!_isWandering) moveVector = target - transform.position;
+            else moveVector = _wanderDestination - transform.position;
+            _rigidBody.AddForce(moveVector.normalized * Speed * Time.deltaTime * 5, ForceMode.VelocityChange);
+            //adjust the velocity
+            //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
+            //rotate towards the direction of movement
+            Quaternion fixRotation = new Quaternion();
+            fixRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+            transform.rotation = fixRotation;
+            //pick a new spot to wander to when the previous one or the initial destination is reached
+            if ((Vector3.Distance(target, transform.position) < 2.0f && !_isWandering) || (Vector3.Distance(_wanderDestination, transform.position) < 2.0f && _isWandering))
+            {
+                _isWandering = true;
+                _wanderDestination = target + new Vector3(Random.Range(-_wanderRadius, _wanderRadius), 0, Random.Range(-_wanderRadius, _wanderRadius));
+            }
+
+            //if the unit walks away from the wandering area or a new destination is picked, then it won't wander anymore
+            if (Vector3.Distance(target, transform.position) > 10.0f) _isWandering = false;
+        }
+        //follower
+        else
+        {
+            //initial declaration for all the necessary forces
+            Vector3 separationVector = Vector3.zero;
+            Vector3 cohesionVector = Vector3.zero;
+            Vector3 alignmentVector = transform.forward;
+            Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
+            //getting all the units in the flock a given unit belongs too (kinda bugged rn)
+            UnitController x = GetComponent<UnitController>();
+            List<GameObject> flockMembers = GameObject.Find("InternalController").GetComponent<UnitController>().GetFlock(_flockLeader);
+
+            //separation
+            int numSeparationNeighbours = 0;
+            //sum the positions of the other units in the flock
+            foreach (GameObject currentUnit in flockMembers)
+            {
+                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 3)
+                {
+                    numSeparationNeighbours++;
+                    separationVector -= currentUnit.transform.position - transform.position;
+                }
+            }
+            //if there were units, take the mean position of them relative to the unit this script is attached to and normalize it
+            /*
+            if (numSeparationNeighbours != 0)
+            {
+                separationVector = separationVector / numSeparationNeighbours;
+                cohesionVector += transform.position;
+                separationVector = Vector3.Normalize(separationVector);
+            }
+            */
+
+            //cohesion
+            //basically the same as separation but in reverse with a different radius
+            int numCohesionNeighbours = 0;
+            foreach (GameObject currentUnit in flockMembers)
+            {
+                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 6)
+                {
+                    numCohesionNeighbours++;
+                    cohesionVector += currentUnit.transform.position;
+                }
+            }
+            if (numCohesionNeighbours != 0)
+            {
+                cohesionVector = cohesionVector / numCohesionNeighbours;
+                cohesionVector -= transform.position;
+            }
+
+            //alignment
+            //same as the other 2 except using transform.forward instead of position
+            int numAlignmentNeighbours = 0;
+            foreach (GameObject currentUnit in flockMembers)
+            {
+                if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 12)
+                {
+                    numAlignmentNeighbours++;
+                    alignmentVector += currentUnit.transform.forward;
+                }
+            }
+            if (numAlignmentNeighbours != 0)
+            {
+                alignmentVector = alignmentVector / numAlignmentNeighbours;
+                //alignmentVector = Vector3.Normalize(alignmentVector);
+            }
+            alignmentVector.y = 0;
+
+            //adjusting weights of each vector
+            separationVector = separationVector * 3.5f;
+            cohesionVector = cohesionVector * 0.8f;
+            alignmentVector = alignmentVector * 3.0f;
+            leaderVector = leaderVector * 2.0f;
+
+            //add the forces and rotate the unit to where it's going, trying to align with the others as well
+            Vector3 moveVector = separationVector + cohesionVector + alignmentVector + leaderVector;
+            moveVector.y = 0;
+            //moveVector = moveVector.normalized * Speed;
+            _rigidBody.AddForce(moveVector * Time.deltaTime, ForceMode.VelocityChange);
+            //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
+
+            Quaternion fixRotation = new Quaternion();
+            fixRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+            transform.rotation = fixRotation;
+
+        }
+        
+        
+        /*
+        _rigidBody.velocity = Vector3.Normalize(_rigidBody.velocity) * Speed;
+        Debug.LogError(_rigidBody.velocity);
+        Debug.LogError(target - transform.position);
+        Debug.LogError(" ");
+
+        // Create orientation from the tangent
+        Quaternion orient = new Quaternion();
+        orient.SetLookRotation(alignment, Vector3.up);
+
+        // Set unit's orientation
+        _targetRotation = orient;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
+        */
+    }
     //should not be used intentionally, meant as a fallback
     private void DefaultMovementUpdate()
     {
@@ -405,7 +553,6 @@ public class Movement : MonoBehaviour
     //goal is to keep motion smooth and keep ease-in/out accurate
     private void HandleDynamicSplineChange(float t)
     {
-
         //get the previously recorded completed length based on PCO and total length
         float PCOSplineLength = _pathCompletionOffset * _totalPathLength;
 
@@ -524,8 +671,8 @@ public class Movement : MonoBehaviour
                 }
                 break;
             case MovementMode.MODE_PHYSICAL:
-                Debug.LogError("Request to trigger physics-based movement, but that is not ready yet.");
-                return false;
+                StartPhysicalMovement(dest);
+                break;
             case MovementMode.MODE_DEFAULT:
                 Debug.LogError("Request to trigger default movement, but that is not ready yet.");
                 return false;
@@ -598,6 +745,12 @@ public class Movement : MonoBehaviour
         //calculate rate of change (of s) based on length of spline and speed
         //length of spline taken into account so unit will progress through the spline at the expected physical speed
         sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
+    }
+
+    //triggers spline-based movement
+    private void StartPhysicalMovement(Vector3 dest)
+    {
+        _rigidBody.isKinematic = false;
     }
 
     //finding unobstructed path when unit has a NavMeshObstacle attached - will allow for units with NavMeshObstacle to path plan
@@ -716,6 +869,12 @@ public class Movement : MonoBehaviour
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement()
     {
+        //temp fix for weird physics issues when switching off kinematics: set rotation on x,z axis to 0
+        //remove after spline movement is gone
+        Quaternion curRotation = transform.rotation;
+        curRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+        transform.rotation = curRotation;
+
         //disable kinematic rigidbody if it was enabled
         _rigidBody.isKinematic = false;
 
@@ -729,6 +888,8 @@ public class Movement : MonoBehaviour
         _totalPathLength = 0;
         _movementMode = MovementMode.MODE_DEFAULT;
 
+        SetToIdle();
+    }
         //set idle animation
         SetToIdle();
 
@@ -786,7 +947,7 @@ public class Movement : MonoBehaviour
             //could quickly optimize using manhattan distance if this is too inefficient
             float distToTarget = Vector3.Distance(target, _dynamicDestination.position);
 
-            if (distToTarget > 0.5f)
+            if (distToTarget > 1.0f)
             {
                 //update the respective destination vector to match the dynamic destination
                 _dynamicDestUpdateMade = true;
@@ -801,12 +962,16 @@ public class Movement : MonoBehaviour
             yield return null;
         }
     }
+
+    //for animations
     public void SetToIdle()
     {
-
-        if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
+        if (_animator != null)
         {
-            _animator.SetAnim("IDLE");
+            if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
+            {
+                _animator.SetAnim("IDLE");
+            }
         }
     }
 }

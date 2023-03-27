@@ -17,6 +17,8 @@ public class UnitController : MonoBehaviour
 
     private EventChainController _eventChainController;
 
+    List<List<GameObject>> _flocks;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class UnitController : MonoBehaviour
         _gameStateController = GetComponent<GameStateController>();
 
         _eventChainController = GetComponent<EventChainController>();
+
+        _flocks = new List<List<GameObject>>();
     }
 
     /* Unit command handling (will need to refactor later once we have more capabilities) */
@@ -37,6 +41,7 @@ public class UnitController : MonoBehaviour
     public void HandleTargetedOrder(Order order, RaycastHit target)
     {
         List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
+        bool setFlockLeader = true;
 
         Debug.Log("Handling order: " + order);
 
@@ -51,7 +56,7 @@ public class UnitController : MonoBehaviour
          * 3) Order all of the units to move using MODE_PHYSICAL movement, only the flocking leader should be given a destination
          *      i) in movement component, only use steering-type behaviours on flock leader (unit using physics-based movement with a destination)
          *         units that are not the flock leader will only move based on flocking forces (might want to inform them of the leader somehow for the "follow leader" forces)
-         *      note: Specifying no destination to an unit will require an update to these methods which I leave to you.
+         *      note: Specifying no destination to a unit will require an update to these methods which I leave to you.
          *      
          * 4) When the flock leader reaches its destination, it will have to send a callback to the internal controller, the unit controller
          *    should do the following
@@ -85,6 +90,36 @@ public class UnitController : MonoBehaviour
                 case "move":
                     //order AI to move to a location
                     unitAI.SendCommand("move", target.point);
+                    /* todo: incorporate flocking into AI control */
+                    /*
+                    //check and remove object from previous flock if found
+                    deleteUnitFromFlock(selectedUnit);
+
+                    Movement unitMovement = selectedUnit.GetComponent<Movement>();
+                    if (selectedUnits.Count > 1)
+                    {
+                        //will activate always on first unit in list, creates a flock and adds this as the leader
+                        if (setFlockLeader)
+                        {
+                            unitMovement._flockLeader = null;
+                            setFlockLeader = false;
+                            unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
+                            _flocks.Add(new List<GameObject>());
+                            _flocks[_flocks.Count - 1].Add(selectedUnit);
+                        }
+                        //all other selected units will be added to that flock
+                        else
+                        {
+                            unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_PHYSICAL);
+                            unitMovement._flockLeader = selectedUnits[0];
+                            _flocks[_flocks.Count - 1].Add(selectedUnit);
+                        }
+                    }
+                    else
+                    {
+                        unitMovement.OrderMoveToDestination(target.point, MovementMode.MODE_SPLINE);
+                    }
+                    */
                     break;
                 case "attack":
                     //order AI to attack target
@@ -202,4 +237,74 @@ public class UnitController : MonoBehaviour
             }
         }
     }
+
+    public void deleteUnitFromFlock(GameObject unit)
+    {
+        List<int> deleteFlockIndexes = new List<int>();
+        foreach (List<GameObject> flock in _flocks)
+        {
+            //counts down each loop, if the leader of a flock will be joining another flock then this will allow the correct units to be informed of the new leader
+            int changeLeader = 0;
+            int deleteUnitIndex = -1;
+            //avoid last flock
+            if(_flocks.IndexOf(flock) < _flocks.Count - 1)
+            {
+                if (flock.Count < 2)
+                {
+                    deleteFlockIndexes.Add(_flocks.IndexOf(flock));
+                }
+                else
+                {
+                    foreach (GameObject flockUnit in flock)
+                    {
+                        if (GameObject.ReferenceEquals(unit, flockUnit))
+                        {
+                            //if the unit was found and it's the leader of a flock, we'll need to give leader to the next unit and tell the rest that there is a new leader
+                            if (flock.IndexOf(flockUnit) == 0)
+                            {
+                                flock[1].GetComponent<Movement>()._flockLeader = null;
+                                changeLeader = 2;
+                            }
+                            //either way, it needs to be deleted from that flock to join the new one
+                            deleteUnitIndex = flock.IndexOf(flockUnit);
+                        }
+                        else if (changeLeader > 0)
+                        {
+                            flockUnit.GetComponent<Movement>()._flockLeader = flock[1];
+                        }
+                        changeLeader--;
+                    }
+                    //remove the found unit
+                    if (deleteUnitIndex >= 0) flock.RemoveAt(deleteUnitIndex);
+                    //if the selected unit was found then it obviously wouldn't be found again
+                    break;
+                }
+                
+            }
+            
+        }
+        foreach (int index in deleteFlockIndexes)
+        {
+            _flocks.RemoveAt(index);
+        }
+    }
+
+    //finds the flock based on a given leader of a flock
+    public List<GameObject> GetFlock(GameObject leader)
+    {
+        foreach (List<GameObject> flock in _flocks)
+        {
+            if (GameObject.ReferenceEquals(leader, flock[0]))
+            {
+                return flock;
+            }
+            else
+            {
+                Debug.LogError("flock not found based on leader");
+            }
+        }
+        return new List<GameObject>();
+    }
 }
+
+

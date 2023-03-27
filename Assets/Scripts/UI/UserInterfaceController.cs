@@ -16,13 +16,18 @@ public class UserInterfaceController : MonoBehaviour
     //link all base sections of the UI here
     //information panels
     public GameObject UnitInfo;
+    public GameObject UnitInfoPrefab;
+    public GameObject UnitInfoCanvas;
     public GameObject ResourceSection;
     //UI buttons
     public GameObject EvacButton;
     public GameObject ResearchButton;
+    public GameObject init_ScienceButton;
     //action panels
     public GameObject AbilityPanel;
     public GameObject BuildPanel;
+    public GameObject SciencePanel;
+   
 
     //UI icons
     //list all icons to be used here
@@ -36,6 +41,7 @@ public class UserInterfaceController : MonoBehaviour
     private List<GameObject> _selectedUnits;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
+    private Dictionary<Technology, UIEvTrigger> _researchDisplay;
     //Unity GameObject 
     public Material tracker;
 
@@ -46,8 +52,14 @@ public class UserInterfaceController : MonoBehaviour
     private List<GameObject> _abilityOptions;
 
     private List<GameObject> _buildOptions;
-    
 
+    private List<GameObject> _researchOptions;
+
+    //UI-obstructed regions
+    [Tooltip("Include regions of the UI that (at least partially) obstruct the game.")]
+    public List<GameObject> ObstructingUIRegions;
+    //the boundaries of these obstructing UI regions
+    private Dictionary<GameObject, Vector4> _obstructingUIRegionBoundaries;
 
     
     // Start is called before the first frame update
@@ -59,6 +71,7 @@ public class UserInterfaceController : MonoBehaviour
 
         InitButtonLists();
 
+        CalculateUIObstructingRegionBoundaries();
     }
 
     //initialize all button lists
@@ -66,6 +79,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         _abilityOptions = new List<GameObject>();
         _buildOptions = new List<GameObject>();
+        _researchOptions = new List<GameObject>();
 
         if(AbilityPanel == null)
         {
@@ -95,6 +109,65 @@ public class UserInterfaceController : MonoBehaviour
         }
     }
 
+    private void CalculateUIObstructingRegionBoundaries()
+    {
+        _obstructingUIRegionBoundaries = new Dictionary<GameObject, Vector4>();
+
+        foreach(GameObject obstructingElement in ObstructingUIRegions)
+        {
+            //determine the x,y size as percentage of screen
+
+            Vector3[] elementBoundaries = new Vector3[4]; 
+                
+            obstructingElement.GetComponent<RectTransform>().GetWorldCorners(elementBoundaries);
+
+            //width is x coord of corner 3 (bottom right) - x coord of corner 1 (top left)
+            //height is same idea
+
+            float width = elementBoundaries[2].x - elementBoundaries[0].x;
+            float height = elementBoundaries[2].y - elementBoundaries[0].y;
+
+            float widthPct = width / Screen.width;
+            float heightPct = height / Screen.height;
+
+            //determine x,y pos as percentage of screen
+
+            //take top left corner
+            float xPct = elementBoundaries[0].x / Screen.width;
+            float yPct = elementBoundaries[0].y / Screen.height;
+
+            //calculate the bounding box
+            //invert y-axis because unity
+            Vector4 boundingBox = new Vector4(xPct, 1 - (yPct + heightPct), xPct + widthPct,1 - yPct);
+
+            Debug.Log("Obstructing UI region for " + obstructingElement.name + ": " + boundingBox);
+
+            //add to list of obstructing UI regions
+            _obstructingUIRegionBoundaries.Add(obstructingElement, boundingBox);
+        }
+
+        Debug.Log("Successfully initialized bounding regions of UI, to be used by Mouse Controller");
+        Debug.Log("Number of obstructing regions: " + _obstructingUIRegionBoundaries.Count);
+    }
+
+    public List<Vector4> GetUIObstructingRegions()
+    {
+        List<Vector4> boundingRegions = new List<Vector4>();
+
+        foreach(GameObject obstructingElement in ObstructingUIRegions)
+        {
+            //skip currently hidden regions of UI
+            if (!obstructingElement.activeInHierarchy)
+            {
+                continue;
+            }
+
+            boundingRegions.Add(_obstructingUIRegionBoundaries[obstructingElement]);
+        }
+
+        return boundingRegions;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -102,7 +175,7 @@ public class UserInterfaceController : MonoBehaviour
         _selectedUnits = _displayInfoController.GetSelectedUnits();
         _selectedUnitCapabilities = _displayInfoController.GetSelectedUnitActions();
         _constructDisplay = _displayInfoController.GetConstructionMenuInfo();
-        
+
         //Updating the resources panel
         List<string> check = new List<string>() { "minerals", "fuel", "research points" };
         Dictionary<string, int> curResources= _displayInfoController.GetPlayerResources(check);
@@ -123,14 +196,22 @@ public class UserInterfaceController : MonoBehaviour
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
-            
+
             displayUnit(); //loads the unit info+abilities 
             display_buildOptions(); //Loads all possible building capabilities 
         }
         else
         {
-            
+
             Clear();
+        }
+        if (_displayInfoController.IsResearchMenuOpen())
+        {
+            display_ResearchOptions();
+        }
+        else
+        {
+
         }
 
     }
@@ -139,68 +220,146 @@ public class UserInterfaceController : MonoBehaviour
         //refresh before repopulating
         ClearAbilities();
 
-
-        UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
-
-        //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
-        if (unitInfo == null)
+        if (_selectedUnits.Count ==1)
         {
-            ClearUnitInformation();
-            return;
-        }
+            UnitInfoPrefab.SetActive(true);
 
-        //get unit name
-        TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
-        unitNameComp.text = unitName;
+            UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
 
-        //get unit health
-        TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
-        if (unitHealthComp != null)
-        {
-            healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
-        }
-        else
-        {
-            healthTextComp.text = "";
-        }
-
-        //future: other unit-specific statistics?
-
-        //get unit icon
-        DisplayUnitIcon();
-
-        //some really primitive attempt to place buttons from left to right
-        //ability display. 
-        int i = 0;
-        
-        foreach ( KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities) 
-        {
-            _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-            
-            foreach (Sprite sp in AbilityIcons)
+            //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
+            if (unitInfo == null)
             {
+                ClearUnitInformation();
+                return;
+            }
 
-                if (sp.name.Equals(ability.Key))
+            //get unit name
+            TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
+            unitNameComp.text = unitName;
+
+            //get unit health
+            TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
+            if (unitHealthComp != null)
+            {
+                healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
+            }
+            else
+            {
+                healthTextComp.text = "";
+            }
+
+            //future: other unit-specific statistics?
+
+            //get unit icon
+            DisplayUnitIcon(0);
+
+            //some really primitive attempt to place buttons from left to right
+            //ability display. 
+            int i = 0;
+
+            foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
+            {
+                _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+
+                foreach (Sprite sp in AbilityIcons)
                 {
 
-                    _abilityOptions[i].GetComponent<UiAbilties>().Icon= sp;
-                 
+                    if (sp.name.Equals(ability.Key))
+                    {
 
-                    break;
+                        _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
+
+
+                        break;
+                    }
+                }
+                _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+
+                i++;
+
+
+            }
+        }
+        else if (_selectedUnits.Count > 1)
+        {
+            UnitInfoPrefab.SetActive(false);
+          
+            for (int x = 0;x < _selectedUnits.Count; x++)
+            {
+                
+                GameObject unit = Instantiate(UnitInfoPrefab);
+                unit.transform.SetParent(UnitInfoCanvas.transform, false);
+                unit.transform.localScale = new Vector3(.5f, .5f, .5f);
+                unit.transform.position = new Vector3(-625f+(100*x), 483f, 0f);
+                
+                UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
+
+                //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
+                if (unitInfo == null)
+                {
+                    ClearUnitInformation();
+                    return;
+                }
+
+                //get unit name
+                TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
+                unitNameComp.text = unitName;
+
+                //get unit health
+                TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                Health unitHealthComp = _selectedUnits[x].GetComponent<Health>();
+                if (unitHealthComp != null)
+                {
+                    healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
+                }
+                else
+                {
+                    healthTextComp.text = "";
+                }
+
+                //future: other unit-specific statistics?
+
+                //get unit icon
+                DisplayUnitIcon(x);
+
+                //some really primitive attempt to place buttons from left to right
+                //ability display. 
+                int i = 0;
+
+                foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
+                {
+                    _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
+
+                    foreach (Sprite sp in AbilityIcons)
+                    {
+
+                        if (sp.name.Equals(ability.Key))
+                        {
+
+                            _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
+
+
+                            break;
+                        }
+                    }
+                    _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+
+                    i++;
+
+
                 }
             }
-            _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
-
-            i++;
-            
         }
+
+           
     }
 
-    private void DisplayUnitIcon()
+    private void DisplayUnitIcon(int place)
     {
-        string unitName = _displayInfoController.GetUnitName(_selectedUnits[0].GetComponent<UnitInfo>().GetUnitType());
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[place].GetComponent<UnitInfo>().GetUnitType());
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.enabled = true;
         foreach (Sprite sp in UnitIcons)
@@ -273,7 +432,65 @@ public class UserInterfaceController : MonoBehaviour
 
         }
     }
+    private void display_ResearchOptions()
+    {
+        //check if research menu options changed
+        Dictionary<Technology, UIEvTrigger> newResearchInfo = _displayInfoController.GetResearchMenuInfo();
+        //use screen height to keep scaling proper
+        int pos = Screen.height/12;
+        int i = 0;
+        init_ScienceButton.SetActive(false);
+        //update if menu is empty or data has changed
+        if (_researchOptions.Count == 0 || _displayInfoController.IsResearchMenuUpdated())
+        {
+            //clear old menu elements
+            for (int x = 2; x < SciencePanel.transform.childCount; x++)
+            {
+                Destroy(SciencePanel.transform.GetChild(x).gameObject);
+            }
+            _researchOptions.Clear();
 
+            //store new menu info
+            _researchDisplay = newResearchInfo;
+            //dynamically initialize research buttons
+            foreach (KeyValuePair<Technology, UIEvTrigger> science in _researchDisplay)
+            {
+
+                GameObject button = Instantiate(init_ScienceButton, new Vector3(0,0,0), Quaternion.identity);
+                button.name = science.Key.Name;
+                //display the name
+                button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = science.Key.Name;
+                //display the cost
+                button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Cost: " + science.Key.Cost;
+                //adjustments
+                button.transform.SetParent(SciencePanel.transform, false);
+                //can clean this up a bit later
+                if (i < 5)
+                {
+                    button.transform.Translate(-Screen.width / 16, Screen.height / 4.5f - pos * i, 0);
+                }
+                else if (i < 10)
+                {
+                    button.transform.Translate(0, Screen.height / 4.5f - pos * (i-5), 0);
+                }
+                else if (i < 15)
+                {
+                    button.transform.Translate(Screen.width / 16, Screen.height / 4.5f - pos * (i - 10), 0);
+                }
+                //configure event trigger
+                button.GetComponent<UiAbilties>().setTrigger((science.Key.Id, science.Value));
+                //you get the idea (todo get tech icons)
+                button.GetComponent<UiAbilties>().Icon = def;
+                button.SetActive(true);
+                _researchOptions.Add(button);
+                i++;
+
+
+            }
+        }
+        
+        
+    }
     private void Clear()
     {
         ClearUnitInformation();
@@ -311,5 +528,21 @@ public class UserInterfaceController : MonoBehaviour
             _buildOptions[i].GetComponent<UiAbilties>().Icon = def;
             _buildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
+    }
+    public void EnableDisableScience()
+    {
+        _displayInfoController.UpdateAdditionalMenuInfo("researchMenu");
+        if (SciencePanel.activeSelf)
+        {
+            SciencePanel.SetActive(false);
+
+            for (int i = 2; i < SciencePanel.transform.childCount; i++)
+            {
+                Destroy(SciencePanel.transform.GetChild(i).gameObject);
+            }
+            _researchOptions.Clear();
+        }
+        else SciencePanel.SetActive(true);
+
     }
 }
