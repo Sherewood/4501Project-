@@ -267,6 +267,10 @@ public class Movement : MonoBehaviour
         Vector3 cohesionVector = Vector3.zero;
         Vector3 alignmentVector = transform.forward;
         Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
+        if(leaderVector.magnitude > Speed * 3)
+        {
+            leaderVector = leaderVector.normalized * Speed * 3;
+        }
         //getting all the units in the flock a given unit belongs too (kinda bugged rn)
         UnitController x = GetComponent<UnitController>();
         List<GameObject> flockMembers = GameObject.Find("InternalController").GetComponent<UnitController>().GetFlock(_flockLeader);
@@ -285,15 +289,6 @@ public class Movement : MonoBehaviour
                 separationVector -= dir.normalized * (3-dist);
             }
         }
-        //if there were units, take the mean position of them relative to the unit this script is attached to and normalize it
-        /*
-        if (numSeparationNeighbours != 0)
-        {
-            separationVector = separationVector / numSeparationNeighbours;
-            cohesionVector += transform.position;
-            separationVector = Vector3.Normalize(separationVector);
-        }
-        */
 
         //cohesion
         //basically the same as separation but in reverse with a different radius
@@ -340,29 +335,17 @@ public class Movement : MonoBehaviour
         Vector3 moveVector = separationVector + cohesionVector + alignmentVector + leaderVector;
 
         moveVector.y = 0;
-        //moveVector = moveVector.normalized * Speed;
+
         _rigidBody.AddForce(moveVector * Time.deltaTime * Speed, ForceMode.VelocityChange);
-        //_rigidBody.velocity = _rigidBody.velocity.normalized * Speed;
-
-        Quaternion fixRotation = new Quaternion();
-        fixRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
-        transform.rotation = fixRotation;
         
-        
-        /*
-        _rigidBody.velocity = Vector3.Normalize(_rigidBody.velocity) * Speed;
-        Debug.LogError(_rigidBody.velocity);
-        Debug.LogError(target - transform.position);
-        Debug.LogError(" ");
-
-        // Create orientation from the tangent
+        // Create orientation from the alignment force
         Quaternion orient = new Quaternion();
-        orient.SetLookRotation(alignment, Vector3.up);
+        orient.SetLookRotation(alignmentVector, Vector3.up);
 
         // Set unit's orientation
         _targetRotation = orient;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
-        */
+        
     }
     //should not be used intentionally, meant as a fallback
     private void DefaultMovementUpdate()
