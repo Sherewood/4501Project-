@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -5942888071925629939}
   - component: {fileID: 1126958368904962192}
+  - component: {fileID: 6482966910463812740}
   - component: {fileID: -5753729588458461803}
   - component: {fileID: -9086340107227583309}
-  - component: {fileID: 7845172190781457986}
   - component: {fileID: 943548046557049941}
   m_Layer: 0
   m_Name: Edenite Devil
@@ -101,8 +101,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7845172190781457986}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 6482966910463812740}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -132,8 +132,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7845172190781457986}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 6482966910463812740}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -179,8 +179,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7845172190781457986}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 6482966910463812740}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -242,6 +242,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6482966910463812740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317c922c1f8b0c94c942a4e53769a2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFiles:
+  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!114 &-5753729588458461803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,21 +294,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &7845172190781457986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239236345776070385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  RuleFiles:
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!195 &943548046557049941
 NavMeshAgent:
   m_ObjectHideFlags: 0

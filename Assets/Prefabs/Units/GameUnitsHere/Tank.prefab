@@ -19,9 +19,9 @@ GameObject:
   - component: {fileID: 2580705106427885631}
   - component: {fileID: 362393153342364835}
   - component: {fileID: 3166186647628892101}
+  - component: {fileID: 3376413392711161977}
   - component: {fileID: -8649391099298343963}
   - component: {fileID: 5100054077482889108}
-  - component: {fileID: 7241931223193927197}
   - component: {fileID: 6893575474254911498}
   m_Layer: 0
   m_Name: Tank
@@ -87,8 +87,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7241931223193927197}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 3376413392711161977}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -118,8 +118,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7241931223193927197}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 3376413392711161977}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -160,8 +160,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7241931223193927197}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: 3376413392711161977}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -264,6 +264,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.88, y: 0.75, z: 1}
   m_Center: {x: 0, y: 1.45, z: 0}
+--- !u!114 &3376413392711161977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081780510105109408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317c922c1f8b0c94c942a4e53769a2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFiles:
+  - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
+  - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
+  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!114 &-8649391099298343963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,23 +318,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &7241931223193927197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2081780510105109408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  RuleFiles:
-  - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
-  - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!195 &6893575474254911498
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -6880,8 +6880,8 @@ GameObject:
   - component: {fileID: -85849543380895519}
   - component: {fileID: -2766499666674792300}
   - component: {fileID: -3734170572773034914}
+  - component: {fileID: -213169156206656598}
   - component: {fileID: -4670644435355030328}
-  - component: {fileID: -3724616674004757153}
   - component: {fileID: -7553375692525318713}
   m_Layer: 0
   m_Name: Worker
@@ -6968,8 +6968,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3724616674004757153}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: -213169156206656598}
+        m_TargetAssemblyTypeName: WorkerAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -7014,8 +7014,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3724616674004757153}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: -213169156206656598}
+        m_TargetAssemblyTypeName: WorkerAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -7111,6 +7111,21 @@ MonoBehaviour:
   SpawnBoundary: {x: 0, y: 0, z: 0, w: 0}
   SpawnRetryAttemptLimit: 0
   SpawnRetryMode: 0
+--- !u!114 &-213169156206656598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0e0802fd5be144eb168e5534f19f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFiles:
+  - {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
 --- !u!114 &-4670644435355030328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7128,21 +7143,6 @@ MonoBehaviour:
   tool: {fileID: 7578207032882149261}
   gun: 1
   drill: 1
---- !u!114 &-3724616674004757153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7910979562441037367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  RuleFiles:
-  - {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
 --- !u!195 &-7553375692525318713
 NavMeshAgent:
   m_ObjectHideFlags: 0

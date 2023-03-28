@@ -2396,9 +2396,9 @@ GameObject:
   - component: {fileID: -2791979558073093744}
   - component: {fileID: 4600160231310051482}
   - component: {fileID: -2730881971866878755}
+  - component: {fileID: -8158550295158998256}
   - component: {fileID: -6655177297058389892}
   - component: {fileID: -6498539443950779355}
-  - component: {fileID: -6668365137265666964}
   - component: {fileID: 6344102448751852164}
   m_Layer: 0
   m_Name: Infantry
@@ -2481,8 +2481,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -6668365137265666964}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: -8158550295158998256}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -2512,8 +2512,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -6668365137265666964}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: -8158550295158998256}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -2559,8 +2559,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -6668365137265666964}
-        m_TargetAssemblyTypeName: AIControl, Assembly-CSharp
+      - m_Target: {fileID: -8158550295158998256}
+        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -2622,6 +2622,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 2, z: 0.8}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-8158550295158998256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8101192436672986434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317c922c1f8b0c94c942a4e53769a2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFiles:
+  - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
+  - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
+  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!114 &-6655177297058389892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2659,23 +2676,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-6668365137265666964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8101192436672986434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70587dd8986a21f448ec57eb35d171ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  RuleFiles:
-  - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
-  - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
 --- !u!195 &6344102448751852164
 NavMeshAgent:
   m_ObjectHideFlags: 0

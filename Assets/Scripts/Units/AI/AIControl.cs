@@ -37,21 +37,19 @@ public class AIControl : MonoBehaviour
     private Dictionary<int, List<string>> _actions;
 
     //command given to the unit by higher authority
-    private string _command;
+    protected string _command;
     //variables to hold information necessary for initial handling of the command
-    private Vector3 _commandTargetPosition;
-    private GameObject _commandTarget;
-    private float _commandValue;
+    protected Vector3 _commandTargetPosition;
+    protected GameObject _commandTarget;
+    protected float _commandValue;
 
     /* unit components */
-    private UnitState _unitState;
+    protected UnitState _unitState;
 
-    private Movement _movement;
+    protected Movement _movement;
 
-    private Attack _attack;
+    protected Targeting _targeting;
 
-    private Targeting _targeting;
-     
     void Awake()
     {
         _commandBasedRules = new List<int>();
@@ -69,14 +67,29 @@ public class AIControl : MonoBehaviour
             return;
         }
 
+        GetComponents();
+    }
+
+    protected virtual void GetComponents()
+    {
         _unitState = GetComponent<UnitState>();
+        if(_unitState == null)
+        {
+            Debug.LogError("AI Control cannot find Unit State component");
+        }
         _movement = GetComponent<Movement>();
-        _attack = GetComponent<Attack>();
+        if(_movement == null)
+        {
+            Debug.LogError("AI Control cannot find Movement component");
+        }
+
+        //no null checking here because worker doesn't have targeting component
+        //todo: consider moving targeting to CombatAIControl?
         _targeting = GetComponent<Targeting>();
     }
 
     //initialize the rule based system
-    private bool InitRBS()
+    protected bool InitRBS()
     {
         List<string> ruleText = new List<string>();
         //note about parsing multiple files
@@ -287,7 +300,7 @@ public class AIControl : MonoBehaviour
 
     /* event handling */
     //handle callback meant to influence AI decision making
-    public void HandleAIEvent(string aiEvent)
+    public virtual void HandleAIEvent(string aiEvent)
     {
         if (DebugMode)
         {
@@ -367,7 +380,7 @@ public class AIControl : MonoBehaviour
 
     //check if prereq satisfied
     //use the indicated AI event aswell as certain prereqs are satisfied immediately if they match it
-    private bool IsPrereqSatisfied(string prereq, string aiEvent)
+    protected virtual bool IsPrereqSatisfied(string prereq, string aiEvent)
     {
         if(prereq.Contains("==") || prereq.Contains("!="))
         {
@@ -381,28 +394,8 @@ public class AIControl : MonoBehaviour
 
         switch (prereq)
         {
-            case "targetChanged":
-                return (prereq.Equals(aiEvent));
-            case "targetLost":
-                return (prereq.Equals(aiEvent));
             case "reachedDestination":
                 return (prereq.Equals(aiEvent));
-            case "depositDepleted":
-                return (prereq.Equals(aiEvent));
-            case "targetNotInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return !_attack.CheckIfEnemyInRange(DetermineTarget());
-            case "targetInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return _attack.CheckIfEnemyInRange(DetermineTarget());
             case "newCommand":
                 return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
@@ -413,7 +406,7 @@ public class AIControl : MonoBehaviour
     }
 
     //check if prereq that relies on checking if something is equal to x is true
-    private bool IsEqualityPrereqSatisfied(string equalityPrereq)
+    protected bool IsEqualityPrereqSatisfied(string equalityPrereq)
     {
         //get the comparison type (could add more later if needed)
         string equalityCheckType = equalityPrereq.Contains("==") ? "==" : "!=";
@@ -458,7 +451,7 @@ public class AIControl : MonoBehaviour
         }
     }
 
-    private void PerformAction(string action)
+    protected virtual void PerformAction(string action)
     {
         //handle equality actions separately
         if (action.Contains("="))
@@ -473,9 +466,6 @@ public class AIControl : MonoBehaviour
         }
 
         GameObject target = DetermineTarget();
-
-        //todo: store directly when refactored into hierarchy of AI control classes (use in worker class)
-        Construction constructComp = GetComponent<Construction>();
 
         //pretty much all actions are todo...
         switch (action)
@@ -495,46 +485,6 @@ public class AIControl : MonoBehaviour
                     _unitState.SetState(UState.STATE_MOVING);
                 }
                 break;
-            case "moveToConstructAtDestination":
-                //get the forward offset from the construction component
-                constructComp = GetComponent<Construction>();
-
-                //move to the construction site, but stop short according to the offset
-                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING, constructComp.GetConstructionSiteOffset());
-                //todo: refactor into separate method for setting moving state
-                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
-                {
-                    _unitState.SetState(UState.STATE_MOVING);
-                }
-                break;
-            case "moveTarget":
-                //move towards the target
-                _movement.StopMovement();
-                if (target == null)
-                {
-                    break;
-                }
-                _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_PATHFINDING);
-                break;
-            case "attackTarget":
-                //rotate towards the target while firing at it
-                _movement.StopMovement();
-                if (target == null)
-                {
-                    break;
-                }
-                _movement.MoveToDynamicDestination(target.transform, true);
-                break;
-            case "setFocusTarget":
-                _targeting.SetTargetFocus(target);
-                _attack.SetTarget(target);
-                break;
-            case "setTarget":
-                _attack.SetTarget(target);
-                break;
-            case "clearTarget":
-                _attack.ClearTarget();
-                break;
             case "breakCommand":
                 //clear command, re-enabling use of automatic rules + actions
                 _command = "";
@@ -552,37 +502,22 @@ public class AIControl : MonoBehaviour
                 _movement.SetReturnPoint(_commandTargetPosition);
                 _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_PATHFINDING);
                 break;
-            case "startHarvesting":
-                Harvesting harvestComp = GetComponent<Harvesting>();
-
-                //if able to harvest successfully, then enter harvesting state, else go to idle
-                if (harvestComp.StartHarvesting())
-                {
-                    _unitState.SetState(UState.STATE_HARVESTING);
-                }
-                else
-                {
-                    Debug.LogWarning("Unit was told to start harvesting but there was no deposit!");
-                    _unitState.SetState(UState.STATE_IDLE);
-                }
-                break;
-            case "startConstruction":
-                constructComp = GetComponent<Construction>();
-
-                //construct the building
-                constructComp.ConstructBuilding();
-                break;
             default:
                 Debug.LogError("Unsupported rule-based action: " + action);
                 return;
         }
     }
 
-    private GameObject DetermineTarget()
+    protected GameObject DetermineTarget()
     {
         GameObject target = null;
         if (_command.Equals(""))
         {
+            if(_targeting == null)
+            {
+                Debug.LogWarning("Unit's AI using an automatic behaviour that needs a target, but no targeting component is supported!");
+                return null;
+            }
             target = _targeting.GetTarget();
         }
         else if (_command.Equals("attack"))
@@ -594,7 +529,7 @@ public class AIControl : MonoBehaviour
     }
 
     //perform action which involves setting a value.
-    private void PerformSetAction(string setAction)
+    protected void PerformSetAction(string setAction)
     {
         //split into type and value
         string[] splitAction = setAction.Split("=");
