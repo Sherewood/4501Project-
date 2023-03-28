@@ -33,6 +33,10 @@ public class EntitySpawnEvent : UnityEvent<GameObject> { }
 [System.Serializable]
 public class EntityDeadEvent : UnityEvent<GameObject> { }
 
+//for when a unit reaches its destination
+[System.Serializable]
+public class DestinationReachedEvent : UnityEvent<GameObject> { }
+
 [System.Serializable]
 public class ResourceHarvestEvent : UnityEvent<string, int> { }
 
@@ -213,6 +217,13 @@ public class InternalControllerEventHandler : MonoBehaviour
         Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
 
         _unitCreationController.DeleteDeadEntity(newUnit);
+    }
+
+    //handle unit reaching destination
+    public void HandleDestinationReachedEvent(GameObject unit)
+    {
+        //todo: dedicated unit controller method for reaching destination?
+        _unitController.DeleteUnitFromFlock(unit);
     }
 
     //handle harvesting of resource deposit

@@ -30,6 +30,9 @@ public class Movement : MonoBehaviour
     //callback to AI Control
     public AIEvent AICallback;
 
+    //callback to unit controller
+    private DestinationReachedEvent _destReachedEvent;
+
     /* movement type */
 
     //the type of movement to use to update the unit's position
@@ -85,7 +88,11 @@ public class Movement : MonoBehaviour
     //terrain used for measuring
     private Terrain _terrain;
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        _destReachedEvent = new DestinationReachedEvent();
+    }
+
     void Start()
     {
         _destination = new Vector3();
@@ -120,9 +127,14 @@ public class Movement : MonoBehaviour
 
         //animator
         _animator = this.GetComponent<animation_Controller>();
-    
     }
-    
+
+    //set up callback for destination reached handling
+    public void ConfigureDestinationReachedCallback(UnityAction<GameObject> destinationReachedCallback)
+    {
+        _destReachedEvent.AddListener(destinationReachedCallback);
+    }
+
     //lock the unit to the terrain
     private void StabilizePosition()
     {
@@ -193,6 +205,7 @@ public class Movement : MonoBehaviour
                 StopMovement();
                 //report to interested parties that destination has been reached
                 AICallback.Invoke("reachedDestination");
+                _destReachedEvent.Invoke(gameObject);
             }
         }
         //rotation in place for when unit is not in motion (aiming)

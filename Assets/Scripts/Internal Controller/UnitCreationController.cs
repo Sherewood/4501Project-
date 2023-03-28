@@ -111,6 +111,13 @@ public class UnitCreationController : MonoBehaviour
             spawner.ConfigureUnitSpawnCallback((UnityAction<GameObject>)_eventHandler.HandleUnitSpawnEvent);
         }
 
+        //if movement component -> bind DestinationReachedEvent callback
+        if (unit.DoesUnitHaveComponent("movement"))
+        {
+            Movement movement = unit.gameObject.GetComponent<Movement>();
+            movement.ConfigureDestinationReachedCallback((UnityAction<GameObject>)_eventHandler.HandleDestinationReachedEvent);
+        }
+
         //if health component -> bind EntityDeathEvent callback
         if (unit.DoesUnitHaveComponent("health"))
         {
