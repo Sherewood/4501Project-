@@ -232,6 +232,8 @@ public class Movement : MonoBehaviour
     // navmeshagent for pathfinding mode
     private NavMeshAgent _navMeshAgent;
 
+    private TerrainData _terrainData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -252,6 +254,10 @@ public class Movement : MonoBehaviour
 
         _unitState = GetComponent<UnitState>();
 
+        _terrainData = FindObjectOfType<Terrain>().terrainData;
+
+        StabilizePosition();
+
         ConfigNavMeshAgent();
 
         //start up coroutines
@@ -268,6 +274,12 @@ public class Movement : MonoBehaviour
         //animator
         _animator = this.GetComponent<animation_Controller>();
     
+    }
+    
+    //lock the unit to the terrain
+    private void StabilizePosition()
+    {
+        _rigidBody.position = new Vector3(_rigidBody.position.x, _terrainData.GetHeight((int)_rigidBody.position.x, (int)_rigidBody.position.z), _rigidBody.position.z); 
     }
 
     //configure NavMeshAgent using the speed specified for the unit
@@ -348,6 +360,9 @@ public class Movement : MonoBehaviour
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
             }
         }
+
+        //keep unit attached to terrain
+        StabilizePosition();
     }
 
     //todo: incorporate path-completion offset
