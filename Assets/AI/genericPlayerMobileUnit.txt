@@ -1,5 +1,9 @@
 #For player dynamic units. Basic movement commands
 CM|If command==move and newCommand then moveToDestination
 CM|If command==move and reachedDestination then breakCommand
+#flocking handling - moveFlock indicates that the unit is moving as part of a flock
+CM|If command==moveFlock and newCommand then setFlockLeader and moveInFlock
+CM|If command==moveFlock and stopCommand then stopMovement and breakCommand
+#return to base
 CM|If command==returnToBase and newCommand then returnToBase
 CM|If command==returnToBase and reachedDestination then breakCommand

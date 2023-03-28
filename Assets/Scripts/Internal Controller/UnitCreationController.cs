@@ -15,6 +15,8 @@ public class UnitCreationController : MonoBehaviour
     //need access to bind callbacks
     private InternalControllerEventHandler _eventHandler;
 
+    private UnitController _unitController;
+
     //prefab used for health bar on unit
     public HealthBarControl HealthBarPrefab;
 
@@ -23,6 +25,7 @@ public class UnitCreationController : MonoBehaviour
         _entityStorage = FindObjectOfType<EntityStorage>();
         _unitDatabase = FindObjectOfType<UnitDatabase>();
         _eventHandler = GetComponent<InternalControllerEventHandler>();
+        _unitController = GetComponent<UnitController>();
     }
 
     //store newly created entities in the Entity Storage
@@ -60,7 +63,7 @@ public class UnitCreationController : MonoBehaviour
             return;
         }
 
-        FindObjectOfType<UnitController>().deleteUnitFromFlock(unit);
+        _unitController.DeleteUnitFromFlock(unit);
 
         /* scuffed delayed death system */
         //Needed in order to give the death animation time to play without interfering with the game

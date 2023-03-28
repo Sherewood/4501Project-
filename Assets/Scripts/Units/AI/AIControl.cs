@@ -298,6 +298,23 @@ public class AIControl : MonoBehaviour
         HandleAIEvent("newCommand");
     }
 
+    /* order a command to end */
+    public void StopCommand(string command)
+    {
+        if (DebugMode)
+        {
+            Debug.Log("Received order to terminate command: " + command);
+        }
+
+        if (!_command.Equals(command))
+        {
+            Debug.LogWarning("Tried to stop command '" + command + "', but unit is currently following command '" + _command + "'!");
+            return;
+        }
+
+        HandleAIEvent("stopCommand");
+    }
+
     /* event handling */
     //handle callback meant to influence AI decision making
     public virtual void HandleAIEvent(string aiEvent)
@@ -398,7 +415,8 @@ public class AIControl : MonoBehaviour
                 return (prereq.Equals(aiEvent));
             case "newCommand":
                 return (prereq.Equals(aiEvent));
-            //todo: add support for other prereqs
+            case "stopCommand":
+                return (prereq.Equals(aiEvent));
             default:
                 Debug.LogError("Unsupported prereq: " + prereq);
                 return false;
@@ -493,6 +511,13 @@ public class AIControl : MonoBehaviour
                 {
                     _targeting.StopTargetFocus();
                 }
+                break;
+            case "setFlockLeader":
+                _movement.SetFlockLeader(_commandTarget);
+                break;
+            case "moveInFlock":
+                //destination is dummy value so unit does not stop moving unless given external command
+                _movement.MoveToDestination(new Vector3(-1,-1,-1), MovementMode.MODE_PHYSICAL);
                 break;
             case "initReturn":
                 //move towards the return point
