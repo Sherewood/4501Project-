@@ -232,7 +232,8 @@ public class Movement : MonoBehaviour
     // navmeshagent for pathfinding mode
     private NavMeshAgent _navMeshAgent;
 
-    private TerrainData _terrainData;
+    //terrain used for measuring
+    private Terrain _terrain;
 
     // Start is called before the first frame update
     void Start()
@@ -254,7 +255,7 @@ public class Movement : MonoBehaviour
 
         _unitState = GetComponent<UnitState>();
 
-        _terrainData = FindObjectOfType<Terrain>().terrainData;
+        _terrain = FindObjectOfType<Terrain>();
 
         StabilizePosition();
 
@@ -279,7 +280,7 @@ public class Movement : MonoBehaviour
     //lock the unit to the terrain
     private void StabilizePosition()
     {
-        _rigidBody.position = new Vector3(_rigidBody.position.x, _terrainData.GetHeight((int)_rigidBody.position.x, (int)_rigidBody.position.z), _rigidBody.position.z); 
+        _rigidBody.position = new Vector3(_rigidBody.position.x, _terrain.SampleHeight(_rigidBody.position), _rigidBody.position.z); 
     }
 
     //configure NavMeshAgent using the speed specified for the unit
@@ -952,8 +953,6 @@ public class Movement : MonoBehaviour
         //disable navmeshagent if enabled
         if(_navMeshAgent != null && _navMeshAgent.enabled)
         {
-            _navMeshAgent.destination = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            _navMeshAgent.ResetPath();
             _navMeshAgent.enabled = false;
         }
 
