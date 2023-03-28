@@ -1,4 +1,4 @@
-#Use as placeholder in lieu of proper AI behaviour for enemies
+#Use for basic unit combat behaviour
 If targetChanged and targetNotInRange and state!=fortify then setTarget and moveTarget
 If targetChanged and targetInRange then setTarget and attackTarget
 If targetInRange then attackTarget

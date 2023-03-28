@@ -7141,7 +7141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 0
-  RuleFile: {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
+  RuleFiles:
+  - {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
 --- !u!195 &-7553375692525318713
 NavMeshAgent:
   m_ObjectHideFlags: 0

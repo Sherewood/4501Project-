@@ -22,7 +22,7 @@ public class AIControl : MonoBehaviour
     //potential issue: adding the asset here will lead to the contents of the text asset being read out every
     //time a unit is created. If this provides significant overhead, should move parsing to Unit Database
     [Tooltip("The rule data to be used by the AI's rule-based system.")]
-    public TextAsset RuleFile;
+    public List<TextAsset> RuleFiles;
 
     //provides the list of command-based rules (only followed if command was issued)
     private List<int> _commandBasedRules;
@@ -65,7 +65,7 @@ public class AIControl : MonoBehaviour
 
         if (!InitRBS())
         {
-            Debug.LogError("Failed to initialize rule-based system. File name: " + RuleFile.name);
+            Debug.LogError("Failed to initialize rule-based system.");
             return;
         }
 
@@ -78,12 +78,23 @@ public class AIControl : MonoBehaviour
     //initialize the rule based system
     private bool InitRBS()
     {
-        string[] rbsText = RuleFile.ToString().Split('\n');
-
+        List<string> ruleText = new List<string>();
+        //note about parsing multiple files
+        //1) might be more inefficient due to adding everything into list, but do not expect significant slowdown
+        //2) No duplicate checking necessary, in the odd chance that a rule is duplicated, tiebreaking will handle it....
+        foreach (TextAsset ruleFile in RuleFiles)
+        {
+            string[] rbsText = ruleFile.ToString().Split('\n');
+            ruleText.AddRange(rbsText);
+            if (DebugMode)
+            {
+                Debug.Log("Loaded in rule file: " + ruleFile.name);
+            }
+        }
         int ruleId = 0;
 
         //parse each line
-        foreach(string rbsLine in rbsText)
+        foreach(string rbsLine in ruleText)
         {
             bool commandRule = false;
             //local debug mode - debugging for the rule on this line alone
@@ -207,7 +218,7 @@ public class AIControl : MonoBehaviour
 
         if (DebugMode)
         {
-            Debug.Log("Successfully parsed rule file: " + RuleFile.name);
+            Debug.Log("Successfully parsed rule files");
         }
 
         return true;

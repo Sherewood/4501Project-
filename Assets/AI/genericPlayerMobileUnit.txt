@@ -1,0 +1,5 @@
+#For player dynamic units. Basic movement commands
+CM|If command==move and newCommand then moveToDestination
+CM|If command==move and reachedDestination then breakCommand
+CM|If command==returnToBase and newCommand then returnToBase
+CM|If command==returnToBase and reachedDestination then breakCommand
