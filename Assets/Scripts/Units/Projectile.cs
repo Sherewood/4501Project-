@@ -68,7 +68,7 @@ public class Projectile : MonoBehaviour
         {
             //move bullet towards target and once "close enough" deal damage and destroy self
             transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
-            if (currentDistance < 0.01f)
+            if (currentDistance < 0.05f)
             {
                 DealDamage(_target);
                 Destroy(gameObject);
@@ -83,7 +83,7 @@ public class Projectile : MonoBehaviour
             {
                 transform.position += new Vector3(0, step, 0);
             }
-            if (currentDistance < 0.01f)
+            if (currentDistance < 0.05f)
             {
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3);
                 foreach (var hitCollider in hitColliders)
