@@ -56,6 +56,7 @@ public class UnitState : MonoBehaviour
     {
         if(_movement != null)
         {
+            _movement.StopMovement();
             _movement.enabled = false;
         }
         if(_attack != null)

@@ -81,7 +81,7 @@ public class UnitCreationController : MonoBehaviour
         Destroy(unit.GetComponent<Collider>());
 
         //step 3
-        StartCoroutine(DestroyUnitAfterSetTime(unit, 2.0f));
+        StartCoroutine(DestroyUnitAfterSetTime(unit, 1.6f));
     }
 
     //coroutine to destroy the unit after a given interval has elapsed
