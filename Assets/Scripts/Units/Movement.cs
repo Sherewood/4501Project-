@@ -10,10 +10,6 @@ using UnityEngine.AI;
  */
 public enum MovementMode
 {
-    //used for spline-based movement
-    //might be removed after prototype because I don't like how it's turned out, but for now all movement
-    //from point A to point B for individual units will try to use this.
-    MODE_SPLINE,
     //used for pathfinding from point A to B
     MODE_PATHFINDING,
     //used for physics-based movement (flocking, steering, arrival, etc.)
@@ -23,123 +19,6 @@ public enum MovementMode
     //use warning log to indicate fallback to default movement if applicable...
     MODE_DEFAULT,
 }
-
-/* from animation microdemo, modified to serve this component */
-public class CRSpline {
-
-    // Points, tangents, and segment lengths that form the piecewise spline
-    private Vector3[] point;
-    private Vector3[] tangent; // tangent[i] is the curve tangent at point[i]
-    private float[] length; // length[i] is the length of curve segments from point 0 up to point 'i'
-
-    //configure spline using a given NavMeshPath's corner points as control points
-    //call this before using the spline...
-    public bool InitSpline(NavMeshPath splinePath)
-    {
-        int numControlPoints = splinePath.corners.Length;
-
-        //path needs at least 2 endpoints
-        if(numControlPoints <= 1)
-        {
-            Debug.LogError("Error: Invalid path computed - only one or less endpoints");
-            return false;
-        }
-
-        point = new Vector3[numControlPoints];
-        tangent = new Vector3[numControlPoints];
-        length = new float[numControlPoints];
-
-        //get first and last corner, and use the direction between them to set up the tangents
-        point[0] = splinePath.corners[0];
-        point[numControlPoints-1] = splinePath.corners[numControlPoints - 1];
-
-        Vector3 destDirection = Vector3.Normalize(point[numControlPoints - 1] - point[0]);
-
-        //set first tangent to direction from start to end, and last tangent the same
-        //originally inverted last tangent, but that led to the unit turning away from its destination at the end of spline movement
-        tangent[0] = destDirection;
-        tangent[numControlPoints - 1] = destDirection;
-
-        //first length is zero
-        length[0] = 0;
-
-        //set up intermediate control points
-        for (int i = 1; i < splinePath.corners.Length-1; i++)
-        {
-            point[i] = splinePath.corners[i];
-            // Tangent computed according to Catmull-Rom formula
-            tangent[i] = (splinePath.corners[i + 1] - splinePath.corners[i - 1]) / 2.0f;
-            // Length is the length of line segments so far
-            length[i] = length[i - 1] + Vector3.Distance(point[i],point[i - 1]);
-        }
-
-        // The last length is the total length of the curve
-        length[numControlPoints - 1] = length[numControlPoints-2] + Vector3.Distance(point[numControlPoints - 1], point[numControlPoints - 2]);
-
-        return true;
-    }
-
-    // Interpolate this Catmull-Rom Spline according to parameter t = [0, 1]
-    public Vector3 CRSplineInterp(float t)
-    {
-        // Clamp parameter to the valid range
-        if (t < 0.0f) { t = 0.0f; }
-        if (t > 1.0f) { t = 1.0f; }
-
-        float tlen = GetCompletedLength(t);
-
-        // Find out which curve segment we are in
-        int curve = 0;
-        for (int i = 0; (i < length.Length) && (tlen > length[i]); i++)
-        {
-            curve = i;
-        }
-
-        // If we are at the last point, return the point directly
-        if (curve == (length.Length - 1))
-        {
-            return point[point.Length - 1];
-        }
-
-        // Get interpolation parameter inside the selected curve segment
-        float s = (tlen - length[curve]) / (length[curve + 1] - length[curve]);
-
-        // Compute Catmull-Rom spline
-        float s2 = Mathf.Pow(s, 2);
-        float s3 = Mathf.Pow(s, 3);
-        Vector3 pos = (2 * s3 - 3 * s2 + 1) * point[curve] +
-                      (s3 - 2 * s2 + s) * tangent[curve] +
-                      (-2 * s3 + 3 * s2) * point[curve + 1] +
-                      (s3 - s2) * tangent[curve + 1];
-        return pos;
-    }
-
-    /* extra helpers */
-
-    //given parameter t = [0,1], return the (approximate) length of the completed section of the curve
-    public float GetCompletedLength(float t)
-    {
-        // Translate t in [0, 1] to a parameter between [0, total length of curve segments]
-        // tlen is the parameter in an approximate arc-length parameterized version of the curve
-        // It's approximate because we are using the length of line segments and not of the curve itself
-        float tlen = t * length[length.Length - 1];
-
-        return tlen;
-    }
-
-    //return the (approximate) full path length of the curve
-    public float GetFullPathLength()
-    {
-        return length[length.Length - 1];
-    }
-
-    //returns the last tangent of the curve
-    public Vector3 GetLastTangent()
-    {
-        return tangent[tangent.Length - 1];
-    }
-}
-
 
 /* Unit Component */
 //Purpose: Control movement (and rotation) of the unit
@@ -155,35 +34,6 @@ public class Movement : MonoBehaviour
 
     //the type of movement to use to update the unit's position
     private MovementMode _movementMode;
-
-    /* spline \/ */
-
-    //todo: add boolean to toggle spline movement on/off? (for working with flocking?)
-
-    private CRSpline _curSpline;
-
-    //timing parameter (range [0,1])
-    private float s;
-
-    //for tweaking initial s value of spline
-    //will prob remove later if 0.0f is best (which it prob is with kinematic movement)
-    private const float INITIAL_SPLINE_PARAM = 0.0f;
-
-    //rate of change of s
-    private float sChangeRate;
-
-    private const float BASE_CHANGE_RATE = 1.0f;
-
-    //represents the percentage of the motion completed in scenarios where the spline has been
-    //recalculated before movement is done
-    //Example: Finish 50% of the original spline, then recalculate a new spline where its path length ends
-    //up equal to that of the remaining section of the original spline -> pco = 0.5 as 50% of the actual path was completed
-    private float _pathCompletionOffset = 0.0f;
-
-    //tracking total hermite spline length, needs to be updated properly to set PCO properly
-    private float _totalPathLength = 0.0f;
-
-    /* spline ^ */
 
     //destination (lower priority - via the object itself)
     private Vector3 _destination;
@@ -268,10 +118,6 @@ public class Movement : MonoBehaviour
 
         _targetRotation = Quaternion.identity;
 
-        //initialize spline-related parameters
-        _curSpline = new CRSpline();
-        s = 0.0f;
-        sChangeRate = 0.0f;
         //animator
         _animator = this.GetComponent<animation_Controller>();
     
@@ -328,9 +174,6 @@ public class Movement : MonoBehaviour
 
             //handle movement based on the current movement mode.
             switch (_movementMode) {
-                case MovementMode.MODE_SPLINE:
-                    SplineMovementUpdate();
-                    break;
                 case MovementMode.MODE_PATHFINDING:
                     PathfindingMovementUpdate();
                     break;
@@ -343,7 +186,7 @@ public class Movement : MonoBehaviour
             }
 
             //temporary: include spline timing parameter for reaching destination
-            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination || s > 1.0f)
+            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
             {
                 Debug.Log("Destination reached..." + transform.position);
                 //terminate movement if destination reached.
@@ -364,64 +207,6 @@ public class Movement : MonoBehaviour
 
         //keep unit attached to terrain
         StabilizePosition();
-    }
-
-    //todo: incorporate path-completion offset
-    //will have to apply ease as an offset on s, instead of a replacement of s for that to work.
-    private float Ease(float s)
-    {
-        float t = _pathCompletionOffset + s * (1.0f - _pathCompletionOffset);
-
-        // Clamp parameter to the valid range
-        if (t < 0.0f) { t = 0.0f; }
-        if (t > 1.0f) { t = 1.0f; }
-
-        //formula from animation microdemo
-        float delta = (Mathf.Sin(t * Mathf.PI - Mathf.PI / 2.0f) + 1.0f) / 2.0f - t;
-
-        return s + delta;
-    }
-
-    private void SplineMovementUpdate()
-    {
-        //handling spline movement using animation microdemo code
-
-        //update time parameter (tuned using sChangeRate calculated in StartSplineMovement)
-        s += Time.deltaTime * sChangeRate;
-
-        //todo: add ease in/out for s
-        float t = Ease(s);
-
-        // Evaluate spline to get the position
-        Vector3 newPos = _curSpline.CRSplineInterp(t);
-
-        // just set it to the new position
-        //some issues with colliding with units that have significantly more mass, kinematic rigidbody will just pass through.
-        transform.position = newPos;
-        // Get orientation from tangent along the curve
-        Vector3 curve_tan = _curSpline.CRSplineInterp(t + 0.01f) - _curSpline.CRSplineInterp(t);
-        curve_tan.Normalize();
-        // Check if we are close to the last point along the path
-        if (t >= 0.99f)
-        {
-            // The last point does not have a well-defined tangent, so use the one of the curve
-            // might want to revisit, causes unit to turn around at the end of its movement
-            curve_tan = _curSpline.GetLastTangent();
-        }
-        // Create orientation from the tangent
-        Quaternion orient = new Quaternion();
-        orient.SetLookRotation(curve_tan, Vector3.up);
-
-        // Set unit's orientation
-        _targetRotation = orient;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
-
-        //dynamic destination handling: Check if target has moved too far, and recalculate spline if so
-        //don't bother if t is too high as unit has basically arrived anyways...
-        if (_dynamicDestUpdateMade && t < 0.99f)
-        {
-            HandleDynamicSplineChange(t);
-        }
     }
 
     //for pathfinding
@@ -599,42 +384,6 @@ public class Movement : MonoBehaviour
         _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
     }
 
-    //handle recalculating a new spline while performing spline movement
-    //goal is to keep motion smooth and keep ease-in/out accurate
-    private void HandleDynamicSplineChange(float t)
-    {
-        //get the previously recorded completed length based on PCO and total length
-        float PCOSplineLength = _pathCompletionOffset * _totalPathLength;
-
-        //get length of the old spline, and the length of the completed part of the old spline
-        float oldSplineLength = _curSpline.GetFullPathLength();
-        float oldSplineCompletedLength = _curSpline.GetCompletedLength(t);
-
-        StartSplineMovement(GetDestination());
-
-        //now, get the length of the new spline
-        float newSplineLength = _curSpline.GetFullPathLength();
-
-        //calculate the new total path length
-        _totalPathLength = _totalPathLength - (oldSplineLength - oldSplineCompletedLength) + newSplineLength;
-
-        //and calculate the new PCO based on the total length of completed path divided by the new total path length
-        _pathCompletionOffset = (PCOSplineLength + oldSplineCompletedLength) / _totalPathLength;
-
-        //clamp to [0,1]
-        if(_pathCompletionOffset < 0)
-        {
-            Debug.LogWarning("Spline movement - Somehow calculated path completion offset of: " + _pathCompletionOffset);
-            _pathCompletionOffset = 0;
-        }
-        else if(_pathCompletionOffset > 1.0f)
-        {
-            Debug.LogWarning("Spline movement - Somehow calculated path completion offset of: " + _pathCompletionOffset);
-            _pathCompletionOffset = 1.0f;
-        }
-    }
-
-
     //helper for determining destination
     private Vector3 GetDestination()
     {
@@ -709,17 +458,6 @@ public class Movement : MonoBehaviour
         //trigger handling for starting movement, based on the specified movement mode
         switch (_movementMode)
         {
-            case MovementMode.MODE_SPLINE:
-                //if already performing spline movement, try using dynamic recalculation?
-                if (_moving && oldMoveMode == MovementMode.MODE_SPLINE)
-                {
-                    HandleDynamicSplineChange(s);
-                }
-                else
-                {
-                    StartSplineMovement(dest);
-                }
-                break;
             case MovementMode.MODE_PATHFINDING:
                 StartPathfindingMovement(dest);
                 break;
@@ -735,70 +473,6 @@ public class Movement : MonoBehaviour
     }
 
     /* Movement Starting Methods */
-
-    //triggers spline-based movement
-    private void StartSplineMovement(Vector3 dest)
-    {
-        //set rigidbody to kinematic so movement can be controlled by setting the transform
-        _rigidBody.isKinematic = true;
-
-        //calculate a path in order to get control points for the spline.
-
-        NavMeshPath splinePath = new NavMeshPath();
-
-        //if trying to path to the destination directly fails, need to determine an alternative destination
-        //will occur when the target point is not on the navmesh.
-        if (!NavMesh.CalculatePath(transform.position, dest, NavMesh.AllAreas, splinePath))
-        {
-            //special case: if unit has navMeshObstacle attached, then try plotting a path 
-            //with the first control point on the path placed in front of the unit, then manually adjusted afterward
-            if (GetComponent<NavMeshObstacle>() != null)
-            {
-                Debug.Log("Path planning likely failing due to unit having NavMeshObstacle attached, need to try and compute alternative destination.");
-
-                if(!FindUnobstructedPathUnitHasObstacle(dest, out splinePath))
-                {
-                    //fallback to default movement if can't make spline movement work...
-                    Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
-                    _movementMode = MovementMode.MODE_DEFAULT;
-                    return;
-                }
-            }
-            else
-            {
-                Debug.Log("Attempted to path to obstructed region, need to try and compute alternative destination");
-
-                if (!FindUnobstructedPath(transform.position, dest, out splinePath))
-                {
-                    //fallback to default movement if can't make spline movement work...
-                    Debug.LogWarning("Could not find valid alternative destination, using default movement as fallback.");
-                    _movementMode = MovementMode.MODE_DEFAULT;
-                    return;
-                }
-            }
-            Debug.Log("Alternative path calculation successful.");
-        }
-
-        //Instantiate the spline
-        if (!_curSpline.InitSpline(splinePath)){
-            Debug.LogError("Spline initialization failed, cannot begin moving the unit.");
-
-            return;
-        }
-
-        //set time parameter to 0
-        s = INITIAL_SPLINE_PARAM;
-
-        //if total path length not set, do it here
-        if(_totalPathLength == 0)
-        {
-            _totalPathLength = _curSpline.GetFullPathLength();
-        }
-
-        //calculate rate of change (of s) based on length of spline and speed
-        //length of spline taken into account so unit will progress through the spline at the expected physical speed
-        sChangeRate = BASE_CHANGE_RATE * (Speed / _curSpline.GetFullPathLength());
-    }
 
     public void StartPathfindingMovement(Vector3 dest)
     {
@@ -819,6 +493,8 @@ public class Movement : MonoBehaviour
     {
         _rigidBody.isKinematic = false;
     }
+
+    //keeping these unobstructed path methods for now in case they are needed...
 
     //finding unobstructed path when unit has a NavMeshObstacle attached - will allow for units with NavMeshObstacle to path plan
     //this will be removed in final product assuming we don't go with hermite spline movement, because we won't need
@@ -942,9 +618,6 @@ public class Movement : MonoBehaviour
         curRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
         transform.rotation = curRotation;
 
-        //disable kinematic rigidbody if it was enabled
-        _rigidBody.isKinematic = false;
-
         //disable general stuff for movement state
         _destination = Vector3.zero;
         _dynamicDestination = null;
@@ -956,9 +629,6 @@ public class Movement : MonoBehaviour
             _navMeshAgent.enabled = false;
         }
 
-        //disable other movement-related stuff
-        _pathCompletionOffset = 0;
-        _totalPathLength = 0;
         _movementMode = MovementMode.MODE_DEFAULT;
 
         SetToIdle();
