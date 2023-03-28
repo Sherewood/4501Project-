@@ -230,6 +230,29 @@ public class Movement : MonoBehaviour
         {
             _navMeshAgent.SetDestination(GetDestination());
         }
+
+        //trying a light separation force
+        Collider[] nearbyUnits = Physics.OverlapSphere(transform.position, 2.0f);
+
+        Vector3 separationVector = new Vector3();
+
+        //todo: move this part back into targeting
+        foreach(Collider candidate in nearbyUnits)
+        {
+            GameObject unit = candidate.gameObject;
+
+            if(unit.GetComponent<UnitInfo>() == null)
+            {
+                continue;
+            }
+
+            float dist = Vector3.Distance(unit.transform.position, transform.position);
+            Vector3 dir = unit.transform.position - transform.position;
+
+            separationVector -= dir.normalized * (2.0f - dist);
+        }
+
+        _rigidBody.AddForce(separationVector * 0.5f * Time.deltaTime * Speed, ForceMode.VelocityChange);
     }
 
     public void SetFlockLeader(GameObject flockLeader)
