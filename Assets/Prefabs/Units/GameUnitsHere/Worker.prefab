@@ -7126,6 +7126,7 @@ MonoBehaviour:
   DebugMode: 0
   RuleFiles:
   - {fileID: 4900000, guid: 7bc2f680efbca9a4d98324ca4b301634, type: 3}
+  - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
 --- !u!114 &-4670644435355030328
 MonoBehaviour:
   m_ObjectHideFlags: 0

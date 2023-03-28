@@ -59,7 +59,7 @@ public class WorkerAIControl : AIControl
     }
 
     //construction and harvesting related actions
-    protected virtual void PerformAction(string action)
+    protected override void PerformAction(string action)
     {
         //handle equality actions separately
         if (action.Contains("="))
@@ -76,8 +76,6 @@ public class WorkerAIControl : AIControl
         GameObject target = DetermineTarget();
 
 
-
-        //pretty much all actions are todo...
         switch (action)
         {
             case "moveToConstructAtDestination":
@@ -107,7 +105,7 @@ public class WorkerAIControl : AIControl
                 _construction.ConstructBuilding();
                 break;
             default:
-                Debug.LogError("Unsupported rule-based action: " + action);
+                base.PerformAction(action);
                 return;
         }
     }
