@@ -31,6 +31,11 @@ public class PlanetaryEvacuation : MonoBehaviour
     private bool _evacStarted;
 
 
+    void Awake()
+    {
+        _endGameEvent = new EndOfGameEvent();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,8 +44,6 @@ public class PlanetaryEvacuation : MonoBehaviour
         _evacCountdown = EvacuationLaunchTime;
 
         _evacStarted = false;
-
-        _endGameEvent = new EndOfGameEvent();
     }
 
     public void AddCivies(int numCivies)
