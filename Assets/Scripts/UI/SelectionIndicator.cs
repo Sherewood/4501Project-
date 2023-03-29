@@ -15,15 +15,14 @@ public class SelectionIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //lazy ik...
+        //just terminate if the target vanishes
         if(_target == null)
         {
-            transform.position = new Vector3(0, -100, 0);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            transform.position = _target.transform.position;
-        }
+
+        transform.position = _target.transform.position;
     }
 
     public void SetTarget(GameObject target)

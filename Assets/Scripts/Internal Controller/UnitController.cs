@@ -45,6 +45,12 @@ public class UnitController : MonoBehaviour
 
         Debug.Log("Handling order: " + order);
 
+        //setting enemy target if attack order given
+        if (order == Order.ORDER_ATTACK)
+        {
+            _selectionController.SetTargetIndicator(target.collider.gameObject);
+        }
+
         /* some future notes for flocking */
         /*
          * If done with player controlled units - should consider the following extra handling in unit controller

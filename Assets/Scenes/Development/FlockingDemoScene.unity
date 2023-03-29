@@ -971,6 +971,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8158550295158998256, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: DebugMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4600160231310051482, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_Mass
       value: 100

@@ -10,6 +10,9 @@ public class SelectionController : MonoBehaviour
     [Tooltip("The prefab used to represent a selection ring.")]
     public SelectionIndicator SelectionIndicatorPrefab;
 
+    [Tooltip("The prefab used to represent a target indicator.")]
+    public SelectionIndicator EnemyTargetPrefab;
+
     //list of selected units
     private List<GameObject> _selectedUnits;
 
@@ -23,11 +26,16 @@ public class SelectionController : MonoBehaviour
     //all currently instantiated selection indicators
     private List<SelectionIndicator> _selectionIndicators;
 
+    //indicator for currently targeted enemy
+    //todo: figure out way to properly track all enemies targeted at a time, so we can have multiple indicators? might not want tbh
+    private SelectionIndicator _targetIndicator;
+
     void Start()
     {
         _selectedUnits = new List<GameObject>();
         _selectedUnitCapabilities = new List<Capability>();
         _selectionIndicators = new List<SelectionIndicator>();
+        _targetIndicator = null;
 
         _capabilityController = GetComponent<CapabilityController>();
         _entityStorage = FindObjectOfType<EntityStorage>();
@@ -167,5 +175,20 @@ public class SelectionController : MonoBehaviour
         }
 
         _selectionIndicators.Clear();
+    }
+
+    //set enemy target indicator
+    public void SetTargetIndicator(GameObject target)
+    {
+        if(_targetIndicator != null)
+        {
+            Destroy(_targetIndicator.gameObject);
+        }
+
+        SelectionIndicator targetIndicator = Instantiate(EnemyTargetPrefab);
+
+        targetIndicator.SetTarget(target);
+
+        _targetIndicator = targetIndicator;
     }
 }
