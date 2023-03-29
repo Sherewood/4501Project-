@@ -85,3 +85,4 @@ MonoBehaviour:
   SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
   SpawnRetryAttemptLimit: 10
   SpawnRetryMode: 1
+  SpawnEffect: {fileID: 1834194341294532, guid: 302a4b4491c8b5a47a8fb714f718f9b7, type: 3}

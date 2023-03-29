@@ -10,7 +10,10 @@ public class UnitSpawner : MonoBehaviour
     private EntitySpawnEvent _entitySpawnEvent;
 
     //unit database, needed to fetch associated prefab of unit
-    private UnitDatabase _unitDb; 
+    private UnitDatabase _unitDb;
+
+    //terrain, use for determining height of terrain
+    private Terrain _terrain;
 
     /* Unit spawn configuration */
 
@@ -38,6 +41,9 @@ public class UnitSpawner : MonoBehaviour
     [Tooltip("If enabled, spawner will attempt to relocate unit if spawning region is occupied.")]
     public bool SpawnRetryMode;
 
+    [Tooltip("The particle effect used when a unit is spawned, if applicable")]
+    public GameObject SpawnEffect;
+
     private System.Random _random;
 
     void Awake()
@@ -46,6 +52,7 @@ public class UnitSpawner : MonoBehaviour
         _unitDb = FindObjectOfType<UnitDatabase>();
         currentUnitSpawnIntervals = new List<float>(PeriodicUnitSpawnIntervals);
         _random = new System.Random();
+        _terrain = FindObjectOfType<Terrain>();
     }
 
     // Update is called once per frame
@@ -93,6 +100,12 @@ public class UnitSpawner : MonoBehaviour
         //instantiate new unit
         GameObject newUnit = Instantiate(prefab, finalSpawnPos, new Quaternion());
         
+        if (SpawnEffect != null)
+        {
+            //add spawn effect on terrain
+            GameObject spawnEffect = Instantiate(SpawnEffect, new Vector3(finalSpawnPos.x, _terrain.SampleHeight(finalSpawnPos), finalSpawnPos.z), Quaternion.identity);
+        }
+
         //trigger callback to controller
         _entitySpawnEvent.Invoke(newUnit);
 
