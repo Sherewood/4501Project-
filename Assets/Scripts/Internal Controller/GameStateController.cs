@@ -8,6 +8,11 @@ using UnityEngine.Events;
 public class GameStateController : MonoBehaviour
 {
 
+    //callbacks
+    public EndOfGameEvent EndOfGameEvent;
+
+    //controller/model classes
+
     private EntityStorage _entityStorage;
 
     private UnitDatabase _unitDb;
@@ -17,6 +22,8 @@ public class GameStateController : MonoBehaviour
     private GameStateModel _gameStateModel;
 
     private ResearchModel _researchModel;
+
+    //main base
 
     private PlanetaryEvacuation _playerMainBase;
 
@@ -53,6 +60,12 @@ public class GameStateController : MonoBehaviour
     //update loop functionality goes here
     void Update()
     {
+        //if player main base was destroyed
+        if (_playerMainBase == null)
+        {
+            //inform that the player sucks and should lose
+            EndOfGameEvent.Invoke(false);
+        }
     }
 
     //other helpers go here

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 /* Event definitions go here */
 
@@ -248,8 +249,10 @@ public class InternalControllerEventHandler : MonoBehaviour
     {
         Debug.Log("End Of Game Event received - " + (won ? "player won!" : "player lost."));
 
-        //11:35pm reporting in
-        EditorApplication.isPlaying = false; 
+        if (!won)
+        {
+            SceneManager.LoadScene("GameOverScene", LoadSceneMode.Single);
+        } 
     }
 
     // Helper functions

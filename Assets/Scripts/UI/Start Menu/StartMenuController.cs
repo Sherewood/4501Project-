@@ -7,6 +7,9 @@ using UnityEditor;
 //purpose: Handle the functionality of the start menu
 public class StartMenuController : MonoBehaviour
 {
+    //NOTE:
+    //Add the scene you want the Start Menu to load to the build settings (File -> Build Settings) before playing!!!!
+    //otherwise it will crash!!!!!11!!1111!
     [Tooltip("The scene that should be loaded when the user presses play")]
     public string GameSceneName;
 

@@ -2440,6 +2440,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a5b9fbc44239444abbf8b92211abae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EndOfGameEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 989166760}
+        m_TargetAssemblyTypeName: InternalControllerEventHandler, Assembly-CSharp
+        m_MethodName: HandleEndOfGameEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &989166765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3759,6 +3774,10 @@ PrefabInstance:
     - target: {fileID: -1427860165722815463, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: EvacuationLaunchTime
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694723874917545885, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+      propertyPath: MaxHealth
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5799474905048768431, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: m_RootOrder
