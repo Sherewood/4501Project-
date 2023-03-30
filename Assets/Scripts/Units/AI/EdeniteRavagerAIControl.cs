@@ -8,6 +8,19 @@ public class EdeniteRavagerAIControl : CombatAIControl
 
     private Commander _commander;
 
+    //properties
+    [Tooltip("The maximum radius from its spawn that the ravager can wander to when looking for munchers")]
+    public float WanderMaxRadius;
+
+    [Tooltip("The minimum distance the ravager can wander in one go.")]
+    public int WanderMinDist;
+
+    [Tooltip("The maximum distance the ravager can wander in one go.")]
+    public int WanderMaxDist;
+
+    [Tooltip("The arc (in degrees) from the ravager's forward direction that it can wander towards.")]
+    public int Arc;
+
     //boolean to track whether the unit should be gathering units or not
     private bool _isGatheringUnits = true;
 
@@ -26,6 +39,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
     //needed to get the callback to display properly in the inspector....
     public override void HandleAIEvent(string aiEvent)
     {
+        Debug.Log("Ravager AI event: " + aiEvent);
         base.HandleAIEvent(aiEvent);
     }
 
@@ -45,6 +59,10 @@ public class EdeniteRavagerAIControl : CombatAIControl
         //todo: add rest of prereqs
         switch (prereq)
         {
+            case "notAtCommandThreshold":
+                return aiEvent.Equals(prereq);
+            case "reachedCommandThreshold":
+                return aiEvent.Equals(prereq);
             case "shouldGatherUnits":
                 return _isGatheringUnits;
             case "shouldFight":
@@ -73,6 +91,23 @@ public class EdeniteRavagerAIControl : CombatAIControl
         //todo: add rest of actions
         switch (action)
         {
+            case "setFightMode":
+                _isGatheringUnits = false;
+                break;
+            case "setGatheringMode":
+                _isGatheringUnits = true;
+                break;
+            case "wanderNearSpawn":
+                //wander near the spawn point
+                _movement.WanderToPointWithinRadius(WanderMaxRadius, WanderMinDist, WanderMaxDist, true, Arc);
+                //todo: refactor into separate method for setting moving state
+                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
+                {
+                    _unitState.SetState(UState.STATE_MOVING);
+                }
+
+                _commander.OrderFollowCommander();
+                break;
             case "moveToDestination": //overriden from base class
                 //self explanatory
                 _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING);
@@ -92,7 +127,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
 
                 _commander.OrderHalt();
                 break;
-            case "moveTarget":
+            case "moveTarget": //overridden from base class
                 //move towards the target
                 _movement.StopMovement();
                 if (target == null)
@@ -104,7 +139,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 //order units under command to attack
                 _commander.OrderAttack(target);
                 break;
-            case "attackTarget":
+            case "attackTarget": //overridden from base class
                 //rotate towards the target while firing at it
                 _movement.StopMovement();
                 if (target == null)
@@ -122,6 +157,10 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 _movement.MoveToReturnPoint();
 
                 _commander.OrderFollowCommander();
+                break;
+            case "takeControl":
+                //use commander component to take control of nearby edenite munchers
+                _commander.SeizeUnitControl();
                 break;
             default:
                 base.PerformAction(action);

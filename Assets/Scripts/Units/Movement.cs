@@ -41,14 +41,10 @@ public class Movement : MonoBehaviour
     //destination (lower priority - via the object itself)
     private Vector3 _destination;
 
-    //random destination for flocking
-    private Vector3 _wanderDestination;
-
-    //other variables needed for flocking
-    private float _wanderRadius;
-    private bool _isWandering;
-
+    //flock leader - used for leader force in flocking
     private GameObject _flockLeader;
+    //for wandering
+    private System.Random _random;
 
     //destination which changes over time (due to the unit associated with the Transform object moving)
     private Transform _dynamicDestination;
@@ -88,35 +84,34 @@ public class Movement : MonoBehaviour
     //terrain used for measuring
     private Terrain _terrain;
 
+    //everything initialized here can cause race condition crashes if initialized in Start()
     void Awake()
     {
         _destReachedEvent = new DestinationReachedEvent();
+
+        _random = new System.Random();
+
+        _terrain = FindObjectOfType<Terrain>();
+
+        //moved all this due to race condition where initializing in Start will override shit
+        _moving = false;
+        _destination = new Vector3();
+        _returnPoint = new Vector3();
+        _movementMode = MovementMode.MODE_DEFAULT;
+        _flockLeader = null;
+        _dynamicDestination = null;
+
+        ConfigNavMeshAgent();
     }
 
     void Start()
     {
-        _destination = new Vector3();
-
-        _wanderDestination = new Vector3();
-        _wanderRadius = 8.0f;
-        _isWandering = false;
-
-        _moving = false;
-        _returnPoint = new Vector3();
-        _movementMode = MovementMode.MODE_DEFAULT;
-        _flockLeader = null;
-
-        _dynamicDestination = null;
 
         _rigidBody = GetComponent<Rigidbody>();
 
         _unitState = GetComponent<UnitState>();
 
-        _terrain = FindObjectOfType<Terrain>();
-
         StabilizePosition();
-
-        ConfigNavMeshAgent();
 
         //start up coroutines
         StartCoroutine(InPlaceRotationHandler());
@@ -150,7 +145,7 @@ public class Movement : MonoBehaviour
             _navMeshAgent.speed = Speed;
             _navMeshAgent.acceleration = Speed / 2;
             _navMeshAgent.angularSpeed = TurnRate / 1.5f;
-            _navMeshAgent.stoppingDistance = 0.26f;
+            _navMeshAgent.stoppingDistance = 0.0f;
             _navMeshAgent.enabled = false;
         }
     }
@@ -409,7 +404,7 @@ public class Movement : MonoBehaviour
 
     /* move to methods */
 
-    //move to - not specifically ordered so can be overridden by ordered destination
+    //move to
     public bool MoveToDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
     {
         _destination = destination;
@@ -417,6 +412,46 @@ public class Movement : MonoBehaviour
         _moving = true;
 
         return StartMovement(movementMode);
+    }
+
+    // get the unit to wander to a point within a given radius, either from their current position, or from their return point
+    public bool WanderToPointWithinRadius(float radius, int wanderMinDist, int wanderMaxDist, bool useReturnPoint, int arc = 360)
+    {
+        int attemptLimit = 25;
+        int attempts = 0;
+
+        //use either the return point or the unit's current position as the center
+        Vector3 center = useReturnPoint ? _returnPoint : transform.position;
+
+        while (attempts < attemptLimit)
+        {
+            //randomly pick an angle within [-arc/2,arc/2] to represent the angle between the unit's current forward direction, and the desired direction vector
+            int angle = _random.Next(arc) - arc / 2;
+            Quaternion dirQuat = Quaternion.AngleAxis(angle, Vector3.up);
+            Vector3 dir = dirQuat * transform.forward;
+
+            //randomly pick a magnitude to represent the distance travelled between [wanderMin, wanderMax]
+            int dist = _random.Next(wanderMinDist, wanderMaxDist);
+
+            //calculate the destination point, and determine if it is within the given radius of the unit position or return point
+            Vector3 destination = transform.position + dir * dist;
+
+            //if it is, then move to that destination, otherwise try again, if too many attempts fail in a row drop an error
+            if(Vector3.Distance(destination, center) <= radius)
+            {
+                //clamp to terrain first
+                destination.y = _terrain.SampleHeight(destination);
+
+                return MoveToDestination(destination, MovementMode.MODE_PATHFINDING);
+            }
+
+            //otherwise, try again
+            attempts++;
+        }
+
+        Debug.LogError("Failed to find a wandering destination, radius: " + radius + " min distance: " + wanderMinDist + " max distance: " + wanderMaxDist + "arc: " + arc + ", Consider adjusting?");
+
+        return false;
     }
 
     /* move to methods for dynamic destinations */

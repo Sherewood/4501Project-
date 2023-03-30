@@ -1,0 +1,7 @@
+#For edenite ravager's AI behaviour. Edenite Ravager will act as a commander of edenite munchers.
+### Searching for munchers to control
+#initially, attempt to take control of nearby munchers, and set return point to the unit's spawn position
+If init then setReturnPointToCurrentPosition and takeControl
+If notAtCommandThreshold and shouldGatherUnits then wanderNearSpawn
+If reachedDestination and shouldGatherUnits then stopMovement and takeControl
+If reachedCommandThreshold then setFightMode

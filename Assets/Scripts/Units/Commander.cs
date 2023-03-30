@@ -30,7 +30,7 @@ public class Commander : MonoBehaviour
     //units under this unit's command
     private List<GameObject> _controlledUnits;
 
-    void Start()
+    void Awake()
     {
         _targeting = GetComponent<Targeting>();
 
@@ -86,6 +86,8 @@ public class Commander : MonoBehaviour
                 return;
             }
         }
+
+        AICallback.Invoke("notAtCommandThreshold");
     }
 
     private void CheckIfUnitLost()

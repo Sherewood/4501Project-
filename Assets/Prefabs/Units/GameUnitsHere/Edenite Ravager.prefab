@@ -287,7 +287,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugMode: 0
   RuleFiles:
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
+  - {fileID: 4900000, guid: 0f6d8e4cec5576344b3d16ad712c978f, type: 3}
+  WanderMaxRadius: 18
+  WanderMinDist: 4
+  WanderMaxDist: 12
+  Arc: 270
 --- !u!114 &8357822971235418195
 MonoBehaviour:
   m_ObjectHideFlags: 0
