@@ -20,6 +20,8 @@ public class Attack : MonoBehaviour
 
     private Weapon _weapon;
 
+    private Targeting _targeting;
+
     //the target, as determined by the unit's AI
     private GameObject _currentTarget;
 
@@ -36,6 +38,8 @@ public class Attack : MonoBehaviour
     void Start()
     {
         _weapon = GetComponent<Weapon>();
+
+        _targeting = GetComponent<Targeting>();
 
         _currentTarget = null;
 
@@ -102,14 +106,36 @@ public class Attack : MonoBehaviour
 
         if(latestTargetStatus != TargetStatus.OUT_RANGE)
         {
-            //get distance between target and player, and direction from player to target
-            float distanceToTarget = Vector3.Distance(_currentTarget.transform.position, transform.position);
+            //special case for melee - use overlapsphere
+            if (_weapon.WeaponType.Equals("melee"))
+            {
+                //by getting objects in range this way, avoid issues where enemy is too large for
+                //our unit's position to be within the desired ranged of the enemy's position
+                List<GameObject> candidateTargets = _targeting.GetTargetsInRange(_weapon.MaxRange);
 
-            //if in range, perform 'got in range' handling if previously not in range
-            //if not in range, perform 'approach' handling if previously in range
+                bool targetFound = false;
 
-            latestTargetStatus = CheckIfInRange(distanceToTarget) ? TargetStatus.IN_RANGE : TargetStatus.OUT_RANGE;
+                foreach(GameObject target in candidateTargets)
+                {
+                    if (target == _currentTarget)
+                    {
+                        targetFound = true;
+                        break;
+                    }
+                }
 
+                latestTargetStatus = targetFound ? TargetStatus.IN_RANGE : TargetStatus.OUT_RANGE;
+            }
+            else
+            {
+                //get distance between target and player, and direction from player to target
+                float distanceToTarget = Vector3.Distance(_currentTarget.transform.position, transform.position);
+
+                //if in range, perform 'got in range' handling if previously not in range
+                //if not in range, perform 'approach' handling if previously in range
+
+                latestTargetStatus = CheckIfInRange(distanceToTarget) ? TargetStatus.IN_RANGE : TargetStatus.OUT_RANGE;
+            }
         }
 
         //enter/left range notification if status changed since last frame

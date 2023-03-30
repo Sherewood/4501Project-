@@ -144,6 +144,36 @@ public class Targeting : MonoBehaviour
         }
     }
 
+    public List<GameObject> GetTargetsInRange(float range)
+    {
+        List<GameObject> targets = new List<GameObject>();
+
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);
+
+        foreach (Collider target in enemiesInRange)
+        {
+            GameObject targetObject = target.GetComponent<Collider>().gameObject;
+
+            //get info on object
+            UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
+
+            if (targetInfo == null)
+            {
+                continue;
+            }
+
+            //determine if target is hostile based on allegiances
+            if (!IsTargetHostile(targetInfo.GetAllegiance()))
+            {
+                continue;
+            }
+
+            targets.Add(targetObject);
+        }
+
+        return targets;
+    }
+
     //return true if enemy is clearly not the closest target, and distance calculation not needed
     private bool CheckIfTargetCannotBeClosestTarget(GameObject target, float closestDist)
     {
