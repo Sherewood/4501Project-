@@ -193,6 +193,11 @@ https://nightcafe.studio/
 
 UI background:
 https://assetstore.unity.com/packages/2d/gui/sci-fi-gui-skin-15606
+UI Event Director (face in the top right):
+Ai generated in nightcafe:
+https://creator.nightcafe.studio/creation/KybLHwnf7TFzD6V0Mw77
+Television Screen effect (both on/off):
+Taken from youtube video: https://www.youtube.com/watch?v=E-vv1aL-JHU
 =======
 Futuristic Soldier (used for Worker):
 https://www.turbosquid.com/3d-models/3d-futuristic-soldier-sci-fi-character-male-1864193

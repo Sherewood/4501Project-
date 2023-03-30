@@ -39,6 +39,7 @@ public class UserInterfaceController : MonoBehaviour
     //copied from the selection controller 
     //selections variables 
     private List<GameObject> _selectedUnits;
+    private bool HaveNewUnitsBeenSelected=false;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
     private Dictionary<Technology, UIEvTrigger> _researchDisplay;
@@ -209,10 +210,7 @@ public class UserInterfaceController : MonoBehaviour
         {
             display_ResearchOptions();
         }
-        else
-        {
 
-        }
 
     }
     void displayUnit()
@@ -220,7 +218,7 @@ public class UserInterfaceController : MonoBehaviour
         //refresh before repopulating
         ClearAbilities();
 
-        if (_selectedUnits.Count ==1)
+        if (_selectedUnits.Count ==1 && !HaveNewUnitsBeenSelected)
         {
             UnitInfoPrefab.SetActive(true);
 
@@ -230,6 +228,7 @@ public class UserInterfaceController : MonoBehaviour
             if (unitInfo == null)
             {
                 ClearUnitInformation();
+                HaveNewUnitsBeenSelected = false;
                 return;
             }
 
@@ -253,7 +252,7 @@ public class UserInterfaceController : MonoBehaviour
             //future: other unit-specific statistics?
 
             //get unit icon
-            DisplayUnitIcon(0);
+            DisplayUnitIconSingle(0);
 
             //some really primitive attempt to place buttons from left to right
             //ability display. 
@@ -281,19 +280,19 @@ public class UserInterfaceController : MonoBehaviour
 
 
             }
+            HaveNewUnitsBeenSelected = true;
         }
-        else if (_selectedUnits.Count > 1)
+        else if (_selectedUnits.Count > 1 && !HaveNewUnitsBeenSelected)
         {
-            UnitInfoPrefab.SetActive(false);
+            //UnitInfoPrefab.SetActive(false);
           
             for (int x = 0;x < _selectedUnits.Count; x++)
             {
                 
                 GameObject unit = Instantiate(UnitInfoPrefab);
-                unit.transform.SetParent(UnitInfoCanvas.transform, false);
                 unit.transform.localScale = new Vector3(.5f, .5f, .5f);
-                unit.transform.position = new Vector3(-625f+(100*x), 483f, 0f);
-                
+                unit.transform.position = new Vector3(-691f+(700*x), 268f, 0f);
+                unit.transform.SetParent(UnitInfoCanvas.transform, false);
                 UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
 
                 //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
@@ -304,12 +303,12 @@ public class UserInterfaceController : MonoBehaviour
                 }
 
                 //get unit name
-                TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI unitNameComp = unit.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                 string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
                 unitNameComp.text = unitName;
 
                 //get unit health
-                TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI healthTextComp = unit.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
                 Health unitHealthComp = _selectedUnits[x].GetComponent<Health>();
                 if (unitHealthComp != null)
                 {
@@ -319,11 +318,11 @@ public class UserInterfaceController : MonoBehaviour
                 {
                     healthTextComp.text = "";
                 }
-
+                unit.SetActive(true);
                 //future: other unit-specific statistics?
 
                 //get unit icon
-                DisplayUnitIcon(x);
+                DisplayUnitIcon(unit,x);
 
                 //some really primitive attempt to place buttons from left to right
                 //ability display. 
@@ -352,12 +351,35 @@ public class UserInterfaceController : MonoBehaviour
 
                 }
             }
+            HaveNewUnitsBeenSelected = true;
         }
 
            
     }
 
-    private void DisplayUnitIcon(int place)
+    private void DisplayUnitIcon(GameObject instance, int place)
+    {
+        string unitName = _displayInfoController.GetUnitName(_selectedUnits[place].GetComponent<UnitInfo>().GetUnitType());
+        Image unitIcon = instance.transform.GetChild(2).GetComponent<Image>();
+        unitIcon.enabled = true;
+        foreach (Sprite sp in UnitIcons)
+        {
+            //Debug.Log(sp.name + "," + unitName);
+            if (sp.name.Equals(unitName))
+            {
+                unitIcon.sprite = sp;
+            }
+        }
+        foreach (Sprite sp in BuildIcons)
+        {
+            //Debug.Log(sp.name + "," + unitName);
+            if (sp.name.Equals(unitName))
+            {
+                unitIcon.sprite = sp;
+            }
+        }
+    }
+    private void DisplayUnitIconSingle( int place)
     {
         string unitName = _displayInfoController.GetUnitName(_selectedUnits[place].GetComponent<UnitInfo>().GetUnitType());
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
@@ -496,6 +518,7 @@ public class UserInterfaceController : MonoBehaviour
         ClearUnitInformation();
         ClearAbilities();
         Clear_buildOptions();
+        HaveNewUnitsBeenSelected = false;
     }
 
     private void ClearUnitInformation()
@@ -510,6 +533,13 @@ public class UserInterfaceController : MonoBehaviour
         Image unitIcon = UnitInfo.transform.GetChild(2).GetComponent<Image>();
         unitIcon.sprite = null;
         unitIcon.enabled = false;
+        if (UnitInfoCanvas.transform.childCount > 1)
+        {
+            for (int i=1;i<UnitInfoCanvas.transform.childCount; i++)
+            {
+                Destroy(UnitInfoCanvas.transform.GetChild(i).gameObject);
+            }
+        }
     }
 
     private void ClearAbilities()
