@@ -16,6 +16,9 @@ public class AIEvent : UnityEvent<string> { }
 //fulfills the "think-act" portion of "sense-think-act", will leave sensing to the Targeting component
 public class AIControl : MonoBehaviour
 {
+    //callbacks
+    protected PositionRequestEvent _positionRequestEvent;
+
     [Tooltip("Enable for extra troubleshooting logs. Recommended to only do for single unit at a time to prevent log flooding.")]
     public bool DebugMode = false;
 
@@ -43,6 +46,9 @@ public class AIControl : MonoBehaviour
     protected GameObject _commandTarget;
     protected float _commandValue;
 
+    //variable for holding notified position
+    protected Vector3 _notifiedTargetPosition;
+
     /* unit components */
     protected UnitState _unitState;
 
@@ -52,13 +58,16 @@ public class AIControl : MonoBehaviour
 
     void Awake()
     {
+        _positionRequestEvent = new PositionRequestEvent();
+
         _commandBasedRules = new List<int>();
         _autoRules = new List<int>();
         _prereqs = new Dictionary<int, List<string[]>>();
         _actions = new Dictionary<int, List<string>>();
 
         _command = "";
-        _commandTargetPosition = transform.position;
+        _commandTargetPosition = new Vector3();
+        _notifiedTargetPosition = new Vector3();
         _commandTarget = null;
 
         if (!InitRBS())
@@ -326,6 +335,15 @@ public class AIControl : MonoBehaviour
         HandleAIEvent("stopCommand");
     }
 
+    /* for non-command notification to the AI */
+    public void SendPositionNotification(Vector3 position)
+    {
+        _notifiedTargetPosition = position;
+
+        //handle receiving the position
+        HandleAIEvent("positionReceived");
+    }
+
     /* event handling */
     //handle callback meant to influence AI decision making
     public virtual void HandleAIEvent(string aiEvent)
@@ -424,6 +442,8 @@ public class AIControl : MonoBehaviour
         {
             case "reachedDestination":
                 return (prereq.Equals(aiEvent));
+            case "positionReceived":
+                return (prereq.Equals(aiEvent));
             case "newCommand":
                 return (prereq.Equals(aiEvent));
             case "stopCommand":
@@ -509,7 +529,7 @@ public class AIControl : MonoBehaviour
                 break;
             case "moveToDestination":
                 //self explanatory
-                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING);
+                _movement.MoveToDestination(DetermineTargetPosition(), MovementMode.MODE_PATHFINDING);
                 //todo: refactor into separate method for setting moving state
                 if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
                 {
@@ -519,6 +539,9 @@ public class AIControl : MonoBehaviour
             case "breakCommand":
                 //clear command, re-enabling use of automatic rules + actions
                 _command = "";
+                _commandTargetPosition = new Vector3();
+                _commandTarget = null;
+                _commandValue = 0.0f;
                 //if targeting is still focusing on a target, it should stop.
                 if (_targeting != null)
                 {
@@ -541,7 +564,7 @@ public class AIControl : MonoBehaviour
                 break;
             case "returnToBase":
                 //move towards the specified return point (base position), stop at the specified offset (command value)
-                _movement.SetReturnPoint(_commandTargetPosition);
+                _movement.SetReturnPoint(DetermineTargetPosition());
                 _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_PATHFINDING);
                 break;
             default:
@@ -570,6 +593,20 @@ public class AIControl : MonoBehaviour
         return target;
     }
 
+    //determines whether to use the commanded target position, notified target position, or default to the unit's position
+    protected Vector3 DetermineTargetPosition()
+    {
+        //if no command, use the notified target position if it exists
+        if (_command.Equals(""))
+        {
+            return (_notifiedTargetPosition != Vector3.zero) ? _notifiedTargetPosition : transform.position;
+        }
+        else
+        {
+            return (_commandTargetPosition != Vector3.zero) ? _commandTargetPosition : transform.position;
+        }
+    }
+
     //perform action which involves setting a value.
     protected void PerformSetAction(string setAction)
     {
@@ -592,5 +629,10 @@ public class AIControl : MonoBehaviour
                 Debug.LogError("Unsupported rule-based setting action: " + type);
                 return;
         }
+    }
+
+    public void ConfigurePositionRequestCallback(UnityAction<string, GameObject> positionRequestCallback)
+    {
+        _positionRequestEvent.AddListener(positionRequestCallback);
     }
 }

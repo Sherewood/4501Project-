@@ -24,7 +24,7 @@ public class UnitDatabase : MonoBehaviour
         _unitData = new Dictionary<string, Dictionary<string, string>>();
 
         //worker
-        CreateUnitDataRecord("player-dynamic-worker", 0, 0, "unitInfo unitState movement health harvester construction unitSpawner");
+        CreateUnitDataRecord("player-dynamic-worker", 0, 0, "unitInfo unitState movement health harvester construction unitSpawner AIControl");
 
         //resource deposits
         CreateUnitDataRecord("neutral-static-mineraldep", 0, 0, "unitInfo unitState resource");
@@ -40,24 +40,24 @@ public class UnitDatabase : MonoBehaviour
         //military units
 
         //human units
-        CreateUnitDataRecord("player-dynamic-military-infantry", 10, 10, "unitInfo unitState movement health attack weapon targeting");
-        CreateUnitDataRecord("player-dynamic-military-rpg", 15, 15, "unitInfo unitState movement health attack weapon targeting");
-        CreateUnitDataRecord("player-dynamic-military-minigun", 20, 20, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-infantry", 10, 10, "unitInfo unitState movement health attack weapon targeting AIControl");
+        CreateUnitDataRecord("player-dynamic-military-rpg", 15, 15, "unitInfo unitState movement health attack weapon targeting AIControl");
+        CreateUnitDataRecord("player-dynamic-military-minigun", 20, 20, "unitInfo unitState movement health attack weapon targeting AIControl");
 
         //vehicles
-        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting");
-        CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting AIControl");
+        CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting AIControl");
 
         //enemy units
 
         //edenite muncher
-        CreateUnitDataRecord("enemy-dynamic-edenite_muncher", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("enemy-dynamic-edenite_muncher", 0, 0, "unitInfo unitState movement health attack weapon targeting AIControl");
 
         //edenite ravager
-        CreateUnitDataRecord("enemy-dynamic-edenite_ravager", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("enemy-dynamic-edenite_ravager", 0, 0, "unitInfo unitState movement health attack weapon targeting AIControl");
 
         //edenite devil
-        CreateUnitDataRecord("enemy-dynamic-edenite_devil", 0, 0, "unitInfo unitState movement health attack weapon targeting");
+        CreateUnitDataRecord("enemy-dynamic-edenite_devil", 0, 0, "unitInfo unitState movement health attack weapon targeting AIControl");
 
         //enemy spawner
         CreateUnitDataRecord("enemy-static-spawner", 0, 0, "unitInfo unitState unitSpawner");

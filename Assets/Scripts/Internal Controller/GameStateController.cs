@@ -70,6 +70,34 @@ public class GameStateController : MonoBehaviour
 
     //other helpers go here
 
+    //for handling a request for a location by a specific unit
+    public void HandlePositionRequest(string requestType, GameObject requestingUnit)
+    {
+        AIControl requestingAI = requestingUnit.GetComponent<AIControl>();
+
+        Vector3 requestedPosition = new Vector3();
+
+        switch (requestType)
+        {
+            case "mainBase":
+                //just get the main base position if it exists (it should)
+                if(_playerMainBase == null)
+                {
+                    return;
+                }
+
+                requestedPosition = _playerMainBase.gameObject.transform.position;
+
+                break;
+            default:
+                Debug.LogError("Invalid position request type: " + requestType);
+                return;
+        }
+
+        //notify the unit's AI of the position it wanted
+        requestingAI.SendPositionNotification(requestedPosition);
+    }
+
     //move evacuated civilians to main base
     public void EvacuateCivilians(int numCivilians)
     {

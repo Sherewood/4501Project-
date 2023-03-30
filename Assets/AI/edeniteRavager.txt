@@ -4,15 +4,16 @@
 If init then setReturnPointToCurrentPosition and takeControl
 If notAtCommandThreshold and shouldGatherUnits then wanderNearSpawn
 If reachedDestination and shouldGatherUnits then stopMovement and takeControl
-If reachedCommandThreshold then setFightMode
 #logic for fight mode
-If reachedDestination and shouldFight then stopMovement
+If reachedCommandThreshold then setFightMode and requestMainBasePos
+If positionReceived and shouldFight then moveToDestination
+If reachedDestination and shouldFight then stopMovement and requestMainBasePos
 #logic for attacking units
 If targetChanged and targetNotInRange then setTarget and moveTarget
 If targetChanged and targetInRange then setTarget and attackTarget
 If targetInRange then attackTarget
 If targetNotInRange then moveTarget
-#in fight mode, stay in the area (todo add more logic once functionality for fight mode transition is in)
-If targetLost and shouldFight then clearTarget and stopMovement
+#in fight mode, go back to moving towards the main base
+If targetLost and shouldFight then clearTarget and stopMovement and requestMainBasePos
 #if in gathering unit mode, then return to spawn point
 If targetLost and shouldGatherUnits then clearTarget and initReturn

@@ -110,7 +110,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 break;
             case "moveToDestination": //overriden from base class
                 //self explanatory
-                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING);
+                _movement.MoveToDestination(DetermineTargetPosition(), MovementMode.MODE_PATHFINDING);
                 //todo: refactor into separate method for setting moving state
                 if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
                 {
@@ -161,6 +161,10 @@ public class EdeniteRavagerAIControl : CombatAIControl
             case "takeControl":
                 //use commander component to take control of nearby edenite munchers
                 _commander.SeizeUnitControl();
+                break;
+            case "requestMainBasePos":
+                //trigger position request for main base
+                _positionRequestEvent.Invoke("mainBase", this.gameObject);
                 break;
             default:
                 base.PerformAction(action);

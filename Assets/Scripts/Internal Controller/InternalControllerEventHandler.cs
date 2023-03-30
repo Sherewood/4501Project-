@@ -34,6 +34,10 @@ public class EntitySpawnEvent : UnityEvent<GameObject> { }
 [System.Serializable]
 public class EntityDeadEvent : UnityEvent<GameObject> { }
 
+//for requesting the position of a certain game element (usually the main base)
+[System.Serializable]
+public class PositionRequestEvent : UnityEvent<string, GameObject> { }
+
 //for when a unit reaches its destination
 [System.Serializable]
 public class DestinationReachedEvent : UnityEvent<GameObject> { }
@@ -218,6 +222,12 @@ public class InternalControllerEventHandler : MonoBehaviour
         Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
 
         _unitCreationController.DeleteDeadEntity(newUnit);
+    }
+
+    //handle position request
+    public void HandlePositionRequestEvent(string requestType, GameObject requestingUnit)
+    {
+        _gameStateController.HandlePositionRequest(requestType, requestingUnit);
     }
 
     //handle unit reaching destination

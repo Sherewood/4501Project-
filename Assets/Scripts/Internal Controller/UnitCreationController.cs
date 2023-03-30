@@ -153,6 +153,13 @@ public class UnitCreationController : MonoBehaviour
             planetaryEvac.ConfigureEndOfGameCallback((UnityAction<bool>)_eventHandler.HandleEndOfGameEvent);
         }
 
+        //if AI Control component -> bind PositionRequestEvent callback
+        if (unit.DoesUnitHaveComponent("AIControl"))
+        {
+            AIControl unitAI = unit.gameObject.GetComponent<AIControl>();
+            unitAI.ConfigurePositionRequestCallback((UnityAction<string, GameObject>)_eventHandler.HandlePositionRequestEvent);
+        }
+
     }
 
     //add UI elements for units
