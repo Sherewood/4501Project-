@@ -154,7 +154,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 break;
             case "retreat":
                 //return to spawn point, and have units under command follows
-                _movement.MoveToReturnPoint();
+                _movement.MoveToReturnPoint(0.0f, MovementMode.MODE_PATHFINDING);
 
                 _commander.OrderFollowCommander();
                 break;

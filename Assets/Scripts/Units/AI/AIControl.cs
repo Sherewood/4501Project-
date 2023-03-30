@@ -537,6 +537,7 @@ public class AIControl : MonoBehaviour
                 break;
             case "initReturn":
                 //move towards the return point
+                _movement.MoveToReturnPoint(0.0f, MovementMode.MODE_PATHFINDING);
                 break;
             case "returnToBase":
                 //move towards the specified return point (base position), stop at the specified offset (command value)
