@@ -54,3 +54,9 @@ For each unique command, the following rules should be included
 -A rule with the prereqs command=<yourCommandValue> and newCommand, with newCommand denoting that this rule holds the first decision to take after a command is given. (Optional, but you'll probably want it)
 
 -A rule including the prereq command=<yourCommandValue>, and the action breakCommand, to denote the rule which completes the command and resumes normal AI functionality. 
+
+other useful prereqs...
+
+-init -> for init AIEvent that is triggered when unit is initialized
+
+-stopCommand -> for stopCommand AIEvent that is given when command in progress should be terminated by force

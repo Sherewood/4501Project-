@@ -70,6 +70,11 @@ public class AIControl : MonoBehaviour
         GetComponents();
     }
 
+    void Start()
+    {
+        StartAI();
+    }
+
     protected virtual void GetComponents()
     {
         _unitState = GetComponent<UnitState>();
@@ -86,6 +91,12 @@ public class AIControl : MonoBehaviour
         //no null checking here because worker doesn't have targeting component
         //todo: consider moving targeting to CombatAIControl?
         _targeting = GetComponent<Targeting>();
+    }
+
+    //for units that use it, init event will start AI behaviour.
+    private void StartAI()
+    {
+        HandleAIEvent("init");
     }
 
     //initialize the rule based system
@@ -417,6 +428,8 @@ public class AIControl : MonoBehaviour
                 return (prereq.Equals(aiEvent));
             case "stopCommand":
                 return (prereq.Equals(aiEvent));
+            case "init":
+                return (prereq.Equals(aiEvent));
             default:
                 Debug.LogError("Unsupported prereq: " + prereq);
                 return false;
@@ -518,6 +531,9 @@ public class AIControl : MonoBehaviour
             case "moveInFlock":
                 //destination is dummy value so unit does not stop moving unless given external command
                 _movement.MoveToDestination(new Vector3(-1,-1,-1), MovementMode.MODE_PHYSICAL);
+                break;
+            case "setReturnPointToCurrentPosition":
+                _movement.SetReturnPoint(transform.position);
                 break;
             case "initReturn":
                 //move towards the return point
