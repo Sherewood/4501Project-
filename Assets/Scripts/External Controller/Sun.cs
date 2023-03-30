@@ -8,8 +8,10 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class Sun : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject Time;
-    public float DayLength;
+    public Timetracker Time;
+    public float intensity;
+    private float damage;
+    private float modifier = 0.01f;
     private float _rotationSpeed;
     public GameObject light;
     void Start()
@@ -21,14 +23,21 @@ public class Sun : MonoBehaviour
     void Update()
     {
         
-        _rotationSpeed = Time.GetComponent<Timetracker>().CurTime / DayLength;
-        
-        //transform.Rotate(0, _rotationSpeed, 0);
         transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
+        if (Time.CurTime %30 == 0)
+        {
+            intensify();
+        }
         
-        //turned off for now, can't get quite right
-        //idea is the game will be brighter over time as heat rises
-        //light.GetComponent<Light>().intensity += _rotationSpeed/1000;
-        
+    }
+    public void intensify()
+    {
+        light.GetComponent<Light>().intensity+= modifier;
+       
+        damage = intensity;
+    }
+    public float GetDamage()
+    {
+        return damage;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -10,6 +11,7 @@ public class VideoController : MonoBehaviour
     public GameObject offAnim;
     public GameObject Homie;
     public GameObject Text;
+    public typewriter_effect typewriter_Effect;
     
     
     // Start is called before the first frame update
@@ -18,7 +20,7 @@ public class VideoController : MonoBehaviour
         onAnim.SetActive(true);
         offAnim.SetActive(false);
         Homie.SetActive(false);
-        
+      
     }
 
     // Update is called once per frame
@@ -38,6 +40,7 @@ public class VideoController : MonoBehaviour
                 onAnim.SetActive(true);
                 offAnim.SetActive(false);
                 Text.SetActive(true);
+                
             }
             
         }

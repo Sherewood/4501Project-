@@ -23,6 +23,7 @@ public class GameStateController : MonoBehaviour
 
     private ResearchModel _researchModel;
 
+
     //main base
 
     private PlanetaryEvacuation _playerMainBase;
