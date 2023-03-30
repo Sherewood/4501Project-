@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -1985163176651472814}
   - component: {fileID: -5942888071925629939}
   - component: {fileID: -7302487151188119718}
-  - component: {fileID: -1582378221168218045}
+  - component: {fileID: -6513677917746051276}
   - component: {fileID: 8357822971235418195}
   - component: {fileID: -5045766340618929395}
   - component: {fileID: 5314708620460958110}
@@ -102,8 +102,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -1582378221168218045}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -6513677917746051276}
+        m_TargetAssemblyTypeName: EdeniteRavagerAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -132,8 +132,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -1582378221168218045}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -6513677917746051276}
+        m_TargetAssemblyTypeName: EdeniteRavagerAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -179,8 +179,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -1582378221168218045}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -6513677917746051276}
+        m_TargetAssemblyTypeName: EdeniteRavagerAIControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -256,12 +256,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AICallback:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6513677917746051276}
+        m_TargetAssemblyTypeName: EdeniteRavagerAIControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   UnitCap: 4
   RetreatThreshold: 1
   PingRange: 12
   CommandedUnitType: enemy-dynamic-edenite_muncher
---- !u!114 &-1582378221168218045
+--- !u!114 &-6513677917746051276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,7 +282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3239236345776070385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 317c922c1f8b0c94c942a4e53769a2b6, type: 3}
+  m_Script: {fileID: 11500000, guid: ac567d4aac055ab439f10ba30e239116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 0

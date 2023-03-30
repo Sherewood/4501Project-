@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 /* Unit Component */
 //Purpose: Handle general combat related prereqs and actions
-public class CombatAIControl : AIControl
+public class EdeniteRavagerAIControl : CombatAIControl
 {
 
-    private Attack _attack;
+    private Commander _commander;
+
+    //boolean to track whether the unit should be gathering units or not
+    private bool _isGatheringUnits = true;
 
     protected override void GetComponents()
     {
-        _attack = GetComponent<Attack>();
+        _commander = GetComponent<Commander>();
 
-        if (_attack == null)
+        if (_commander == null)
         {
-            Debug.LogError("Combat AI Control cannot find Attack component");
+            Debug.LogError("Edenite Ravager AI Control cannot find Commander component");
         }
 
         base.GetComponents();
@@ -39,26 +42,13 @@ public class CombatAIControl : AIControl
             Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
+        //todo: add rest of prereqs
         switch (prereq)
         {
-            case "targetChanged":
-                return (prereq.Equals(aiEvent));
-            case "targetLost":
-                return (prereq.Equals(aiEvent));
-            case "targetNotInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return !_attack.CheckIfEnemyInRange(DetermineTarget());
-            case "targetInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return _attack.CheckIfEnemyInRange(DetermineTarget());
+            case "shouldGatherUnits":
+                return _isGatheringUnits;
+            case "shouldFight":
+                return !_isGatheringUnits;
             default:
                 return base.IsPrereqSatisfied(prereq, aiEvent);
         }
@@ -80,8 +70,28 @@ public class CombatAIControl : AIControl
 
         GameObject target = DetermineTarget();
 
+        //todo: add rest of actions
         switch (action)
         {
+            case "moveToDestination": //overriden from base class
+                //self explanatory
+                _movement.MoveToDestination(_commandTargetPosition, MovementMode.MODE_PATHFINDING);
+                //todo: refactor into separate method for setting moving state
+                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
+                {
+                    _unitState.SetState(UState.STATE_MOVING);
+                }
+
+                //now, have commanded units follow aswell
+                _commander.OrderFollowCommander();
+                break;
+            case "stopMovement": //overriden from base class
+                //stop both this unit's, and its commanded units movement...
+                //if commanded units were not previously following the commander, then the behaviour will be unexpected.
+                _movement.StopMovement();
+
+                _commander.OrderHalt();
+                break;
             case "moveTarget":
                 //move towards the target
                 _movement.StopMovement();
@@ -90,6 +100,9 @@ public class CombatAIControl : AIControl
                     break;
                 }
                 _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_PATHFINDING);
+
+                //order units under command to attack
+                _commander.OrderAttack(target);
                 break;
             case "attackTarget":
                 //rotate towards the target while firing at it
@@ -99,16 +112,16 @@ public class CombatAIControl : AIControl
                     break;
                 }
                 _movement.MoveToDynamicDestination(target.transform, true);
+
+                //order units under command to attack the target
+                //might want better control here....
+                _commander.OrderAttack(target);
                 break;
-            case "setFocusTarget":
-                _targeting.SetTargetFocus(target);
-                _attack.SetTarget(target);
-                break;
-            case "setTarget":
-                _attack.SetTarget(target);
-                break;
-            case "clearTarget":
-                _attack.ClearTarget();
+            case "retreat":
+                //return to spawn point, and have units under command follows
+                _movement.MoveToReturnPoint();
+
+                _commander.OrderFollowCommander();
                 break;
             default:
                 base.PerformAction(action);
