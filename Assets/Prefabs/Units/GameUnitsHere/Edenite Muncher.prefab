@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6706952161272946159}
   - component: {fileID: 2326709973046975689}
   - component: {fileID: 6368790175945561419}
+  - component: {fileID: 868442649925169393}
   - component: {fileID: -4654297696505417498}
   - component: {fileID: -7096437158727397096}
   - component: {fileID: -7845359656102350222}
@@ -98,7 +99,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  _flockLeader: {fileID: 0}
   _moving: 0
   Speed: 2
   TurnRate: 175
@@ -242,6 +242,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &868442649925169393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a3c7b0e0cbecf4d9b106575d515c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-4654297696505417498
 MonoBehaviour:
   m_ObjectHideFlags: 0
