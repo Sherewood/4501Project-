@@ -5,6 +5,8 @@ If init then setReturnPointToCurrentPosition and takeControl
 If notAtCommandThreshold and shouldGatherUnits then wanderNearSpawn
 If reachedDestination and shouldGatherUnits then stopMovement and takeControl
 If reachedCommandThreshold then setFightMode
+#logic for fight mode
+If reachedDestination and shouldFight then stopMovement
 #logic for attacking units
 If targetChanged and targetNotInRange then setTarget and moveTarget
 If targetChanged and targetInRange then setTarget and attackTarget
