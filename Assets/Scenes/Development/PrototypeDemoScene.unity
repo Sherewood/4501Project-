@@ -517,7 +517,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
-<<<<<<< Updated upstream
 --- !u!1001 &235929430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -598,12 +597,10 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4747439045527847606, guid: 6c018695fccf68f49b4b847841382e36, type: 3}
   m_PrefabInstance: {fileID: 235929430}
-=======
 --- !u!1 &237332676 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8846314536903009632, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
   m_PrefabInstance: {fileID: 2808512708838475845}
->>>>>>> Stashed changes
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &280762659
 PrefabInstance:
@@ -2439,8 +2436,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &989166759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2710,7 +2705,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073504084}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!4 &1077371780 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9060410599923791195, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
