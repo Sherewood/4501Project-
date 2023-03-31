@@ -71,10 +71,15 @@ public class Movement : MonoBehaviour
 
     private UnitState _unitState;
 
+    private HyperBoost _hyperBoost;
+
     /* Configuration */
 
     public float Speed;
     public float TurnRate;
+
+    private float _curSpeed;
+    private float _curTurnRate;
 
     [Tooltip("When true, velocity will be forced to 0 when rotating in place. Leave disabled if you want your units to be pushed by other units.")]
     public bool FreezePositionWhenRotatingInPlace;
@@ -107,11 +112,16 @@ public class Movement : MonoBehaviour
         _flock = null;
         _dynamicDestination = null;
 
+        _curSpeed = Speed;
+        _curTurnRate = TurnRate;
+
         ConfigNavMeshAgent();
 
         _rigidBody = GetComponent<Rigidbody>();
 
         _unitState = GetComponent<UnitState>();
+
+        _hyperBoost = GetComponent<HyperBoost>();
     }
 
     void Start()
@@ -171,6 +181,18 @@ public class Movement : MonoBehaviour
          * (not the constant speed param)
          * animation script will then update the corresponding state variable
          */
+
+        //updating speed and turn rate
+        if(_hyperBoost != null && _hyperBoost.IsActive())
+        {
+            _curSpeed = Speed * _hyperBoost.SpeedMultiplier;
+            _curTurnRate = TurnRate * _hyperBoost.TurnRateMultiplier;
+        }
+        else
+        {
+            _curSpeed = Speed;
+            _curTurnRate = TurnRate;
+        }
 
         if (_moving)
         {
@@ -237,6 +259,10 @@ public class Movement : MonoBehaviour
         {
             _navMeshAgent.SetDestination(GetDestination());
         }
+
+        _navMeshAgent.speed = _curSpeed;
+        _navMeshAgent.acceleration = _curSpeed / 2.0f;
+        _navMeshAgent.angularSpeed = _curTurnRate / 1.5f;
 
         /*
         //trying a light separation force
@@ -309,9 +335,9 @@ public class Movement : MonoBehaviour
         Vector3 cohesionVector = Vector3.zero;
         Vector3 alignmentVector = transform.forward;
         Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
-        if(leaderVector.magnitude > Speed * 2)
+        if(leaderVector.magnitude > _curSpeed * 1.5f)
         {
-            leaderVector = leaderVector.normalized * Speed * 2;
+            leaderVector = leaderVector.normalized * _curSpeed * 1.5f;
         }
         //getting all the units in the flock a given unit belongs too (kinda bugged rn)
         UnitController x = GetComponent<UnitController>();
@@ -387,7 +413,7 @@ public class Movement : MonoBehaviour
 
         moveVector.y = 0;
 
-        _rigidBody.AddForce(moveVector * Time.deltaTime * Speed, ForceMode.VelocityChange);
+        _rigidBody.AddForce(moveVector * Time.deltaTime * _curSpeed, ForceMode.VelocityChange);
         
         // Create orientation from the alignment force
         Quaternion orient = new Quaternion();
@@ -413,7 +439,7 @@ public class Movement : MonoBehaviour
 
         //move at constant rate
         //could still add proper acceleration here later, but since this is only a fallback method don't see the point in spending time on it.
-        _rigidBody.MovePosition(transform.position += moveDirection * Speed * Time.deltaTime);
+        _rigidBody.MovePosition(transform.position += moveDirection * _curSpeed * Time.deltaTime);
 
         //only rotate based on x,z direction
         //works a lot better on flat surfaces, tbd on slanted regions
