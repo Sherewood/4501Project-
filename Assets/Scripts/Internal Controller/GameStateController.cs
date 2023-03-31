@@ -39,20 +39,29 @@ public class GameStateController : MonoBehaviour
         //get all units (each unit must have a Unit Info component)
         UnitInfo[] allUnits = FindObjectsOfType<UnitInfo>();
 
+        //find the main base
+        foreach (UnitInfo unit in allUnits)
+        {
+            if (unit.GetUnitType().Equals("player-static-mainbase"))
+            {
+                Debug.Log("Found and tracking player main base, instance id " + unit.gameObject.GetInstanceID());
+                _playerMainBase = unit.gameObject.GetComponent<PlanetaryEvacuation>();
+                break;
+            }
+        }
+
+        if (_playerMainBase == null)
+        {
+            Debug.LogError("no player main base, cannot start the game");
+            return;
+        }
+
+        //then, store all units
         foreach (UnitInfo unit in allUnits)
         {
             //add to entity storage using unit creation controller
-            Debug.Log("Adding unit of type '" + unit.GetUnitType() + "' to entity storage");
+            Debug.Log("Adding unit of type '" + unit.GetUnitType() + "' to entity storage, entity name: " + unit.gameObject.name);
             _unitCreationController.StoreCreatedEntity(unit.gameObject);
-        }
-
-        //get the player main base
-        //could 100% do in the previous for loop but the efficiency doesn't really matter since its during initialization...
-        if (_playerMainBase == null)
-        {
-            GameObject mainBaseRef = _entityStorage.GetPlayerUnitsOfType("player-static-mainbase")[0];
-            Debug.Log("Found and tracking player main base, instance id " + mainBaseRef.GetInstanceID());
-            _playerMainBase = mainBaseRef.GetComponent<PlanetaryEvacuation>();
         }
 
         Debug.Log("Initialized entity storage with " + allUnits.Length + " units.");

@@ -158,6 +158,9 @@ public class UnitCreationController : MonoBehaviour
         {
             AIControl unitAI = unit.gameObject.GetComponent<AIControl>();
             unitAI.ConfigurePositionRequestCallback((UnityAction<string, GameObject>)_eventHandler.HandlePositionRequestEvent);
+
+            //only start the AI after callback is set up
+            unitAI.StartAI();
         }
 
     }

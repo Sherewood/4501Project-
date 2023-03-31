@@ -84,7 +84,7 @@ public class CombatAIControl : AIControl
         {
             case "moveTarget":
                 //move towards the target
-                _movement.StopMovement();
+                //_movement.StopMovement();
                 if (target == null)
                 {
                     break;

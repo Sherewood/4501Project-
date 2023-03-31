@@ -79,11 +79,6 @@ public class AIControl : MonoBehaviour
         GetComponents();
     }
 
-    void Start()
-    {
-        StartAI();
-    }
-
     protected virtual void GetComponents()
     {
         _unitState = GetComponent<UnitState>();
@@ -103,7 +98,7 @@ public class AIControl : MonoBehaviour
     }
 
     //for units that use it, init event will start AI behaviour.
-    private void StartAI()
+    public void StartAI()
     {
         HandleAIEvent("init");
     }
@@ -338,6 +333,11 @@ public class AIControl : MonoBehaviour
     /* for non-command notification to the AI */
     public void SendPositionNotification(Vector3 position)
     {
+        if (DebugMode)
+        {
+            Debug.Log("Received position notification: " + position);
+        }
+
         _notifiedTargetPosition = position;
 
         //handle receiving the position
