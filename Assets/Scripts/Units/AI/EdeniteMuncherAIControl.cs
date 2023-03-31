@@ -27,16 +27,11 @@ public class EdeniteMuncherAIControl : CombatAIControl
     }
 
     //prereqs for target status
-    protected override bool IsPrereqSatisfied(string prereq, string aiEvent)
+    protected override bool IsSingleWordPrereqSatisfied(string prereq, string aiEvent)
     {
-        if(prereq.Contains("==") || prereq.Contains("!="))
-        {
-            return IsEqualityPrereqSatisfied(prereq);
-        }
-
         if (DebugMode)
         {
-            Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
+            Debug.Log("EdeniteMuncherAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         switch (prereq)
@@ -50,22 +45,15 @@ public class EdeniteMuncherAIControl : CombatAIControl
             case "isUnitNotUnderCommand":
                 return !_commandableUnit.IsUnderCommand();
             default:
-                return base.IsPrereqSatisfied(prereq, aiEvent);
+                return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
     }
 
-    protected override void PerformAction(string action)
+    protected override void PerformStandardAction(string action)
     {
-        //handle equality actions separately
-        if (action.Contains("="))
-        {
-            PerformSetAction(action);
-            return;
-        }
-
         if (DebugMode)
         {
-            Debug.Log("Performing action: " + action);
+            Debug.Log("EdeniteMuncherAIControl - Performing action: " + action);
         }
 
         GameObject target = DetermineTarget();
@@ -77,7 +65,7 @@ public class EdeniteMuncherAIControl : CombatAIControl
                 _targeting.Refresh();
                 break;
             default:
-                base.PerformAction(action);
+                base.PerformStandardAction(action);
                 return;
         }
     }

@@ -36,16 +36,11 @@ public class WorkerAIControl : AIControl
     }
 
     //deposit-related prereq
-    protected override bool IsPrereqSatisfied(string prereq, string aiEvent)
+    protected override bool IsSingleWordPrereqSatisfied(string prereq, string aiEvent)
     {
-        if (prereq.Contains("==") || prereq.Contains("!="))
-        {
-            return IsEqualityPrereqSatisfied(prereq);
-        }
-
         if (DebugMode)
         {
-            Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
+            Debug.Log("WorkerAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         switch (prereq)
@@ -54,23 +49,16 @@ public class WorkerAIControl : AIControl
                 return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
             default:
-                return base.IsPrereqSatisfied(prereq, aiEvent);
+                return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
     }
 
     //construction and harvesting related actions
-    protected override void PerformAction(string action)
+    protected override void PerformStandardAction(string action)
     {
-        //handle equality actions separately
-        if (action.Contains("="))
-        {
-            PerformSetAction(action);
-            return;
-        }
-
         if (DebugMode)
         {
-            Debug.Log("Performing action: " + action);
+            Debug.Log("WorkerAIControl - Performing action: " + action);
         }
 
         GameObject target = DetermineTarget();
@@ -105,7 +93,7 @@ public class WorkerAIControl : AIControl
                 _construction.ConstructBuilding();
                 break;
             default:
-                base.PerformAction(action);
+                base.PerformStandardAction(action);
                 return;
         }
     }

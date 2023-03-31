@@ -426,16 +426,24 @@ public class AIControl : MonoBehaviour
 
     //check if prereq satisfied
     //use the indicated AI event aswell as certain prereqs are satisfied immediately if they match it
-    protected virtual bool IsPrereqSatisfied(string prereq, string aiEvent)
+    protected bool IsPrereqSatisfied(string prereq, string aiEvent)
     {
         if(prereq.Contains("==") || prereq.Contains("!="))
         {
             return IsEqualityPrereqSatisfied(prereq);
         }
+        else
+        {
+            return IsSingleWordPrereqSatisfied(prereq, aiEvent);
+        }    
+    }
 
+    //check if prereq defined by a single world is true
+    protected virtual bool IsSingleWordPrereqSatisfied(string prereq, string aiEvent)
+    {
         if (DebugMode)
         {
-            Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
+            Debug.Log("AIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         switch (prereq)
@@ -502,18 +510,24 @@ public class AIControl : MonoBehaviour
         }
     }
 
-    protected virtual void PerformAction(string action)
+    protected void PerformAction(string action)
     {
         //handle equality actions separately
         if (action.Contains("="))
         {
             PerformSetAction(action);
-            return;
         }
+        else
+        {
+            PerformStandardAction(action);
+        }
+    }
 
+    protected virtual void PerformStandardAction(string action)
+    {
         if (DebugMode)
         {
-            Debug.Log("Performing action: " + action);
+            Debug.Log("AI Control - Performing action: " + action);
         }
 
         GameObject target = DetermineTarget();
@@ -553,7 +567,7 @@ public class AIControl : MonoBehaviour
                 break;
             case "moveInFlock":
                 //destination is dummy value so unit does not stop moving unless given external command
-                _movement.MoveToDestination(new Vector3(-1,-1,-1), MovementMode.MODE_PHYSICAL);
+                _movement.MoveToDestination(new Vector3(-1, -1, -1), MovementMode.MODE_PHYSICAL);
                 break;
             case "setReturnPointToCurrentPosition":
                 _movement.SetReturnPoint(transform.position);
@@ -593,20 +607,6 @@ public class AIControl : MonoBehaviour
         return target;
     }
 
-    //determines whether to use the commanded target position, notified target position, or default to the unit's position
-    protected Vector3 DetermineTargetPosition()
-    {
-        //if no command, use the notified target position if it exists
-        if (_command.Equals(""))
-        {
-            return (_notifiedTargetPosition != Vector3.zero) ? _notifiedTargetPosition : transform.position;
-        }
-        else
-        {
-            return (_commandTargetPosition != Vector3.zero) ? _commandTargetPosition : transform.position;
-        }
-    }
-
     //perform action which involves setting a value.
     protected void PerformSetAction(string setAction)
     {
@@ -628,6 +628,20 @@ public class AIControl : MonoBehaviour
             default:
                 Debug.LogError("Unsupported rule-based setting action: " + type);
                 return;
+        }
+    }
+
+    //determines whether to use the commanded target position, notified target position, or default to the unit's position
+    protected Vector3 DetermineTargetPosition()
+    {
+        //if no command, use the notified target position if it exists
+        if (_command.Equals(""))
+        {
+            return (_notifiedTargetPosition != Vector3.zero) ? _notifiedTargetPosition : transform.position;
+        }
+        else
+        {
+            return (_commandTargetPosition != Vector3.zero) ? _commandTargetPosition : transform.position;
         }
     }
 

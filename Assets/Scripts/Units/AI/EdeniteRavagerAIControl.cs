@@ -47,7 +47,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
     }
 
     //prereqs for target status
-    protected override bool IsPrereqSatisfied(string prereq, string aiEvent)
+    protected override bool IsSingleWordPrereqSatisfied(string prereq, string aiEvent)
     {
         if(prereq.Contains("==") || prereq.Contains("!="))
         {
@@ -56,7 +56,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
 
         if (DebugMode)
         {
-            Debug.Log("Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
+            Debug.Log("EdeniteRavagerAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         //todo: add rest of prereqs
@@ -84,22 +84,15 @@ public class EdeniteRavagerAIControl : CombatAIControl
             case "notRetreating":
                 return !_retreating;
             default:
-                return base.IsPrereqSatisfied(prereq, aiEvent);
+                return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
     }
 
-    protected override void PerformAction(string action)
+    protected override void PerformStandardAction(string action)
     {
-        //handle equality actions separately
-        if (action.Contains("="))
-        {
-            PerformSetAction(action);
-            return;
-        }
-
         if (DebugMode)
         {
-            Debug.Log("Performing action: " + action);
+            Debug.Log("EdeniteRavagerAIControl - Performing action: " + action);
         }
 
         GameObject target = DetermineTarget();
@@ -198,7 +191,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 _positionRequestEvent.Invoke("mainBase", this.gameObject);
                 break;
             default:
-                base.PerformAction(action);
+                base.PerformStandardAction(action);
                 return;
         }
     }
