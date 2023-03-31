@@ -190,7 +190,7 @@ MonoBehaviour:
   Damage: 14
   FireRate: 1.5
   MinRange: 0
-  MaxRange: 1
+  MaxRange: 1.75
   FiringOffset: {x: 0, y: 0, z: 0}
   FiringArc: 45
   projectilePrefab: {fileID: 3724394957186235770, guid: 0d8558e78819c104eb6df97db5cb8695, type: 3}
@@ -342,7 +342,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
+  m_ObstacleAvoidanceType: 1
 --- !u!1001 &1256408996188566151
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -227,6 +227,8 @@ public class InternalControllerEventHandler : MonoBehaviour
     //handle position request
     public void HandlePositionRequestEvent(string requestType, GameObject requestingUnit)
     {
+        Debug.Log("Position Request Event received - unit name: " + requestingUnit.name);
+
         _gameStateController.HandlePositionRequest(requestType, requestingUnit);
     }
 

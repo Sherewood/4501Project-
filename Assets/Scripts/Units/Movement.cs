@@ -76,6 +76,9 @@ public class Movement : MonoBehaviour
     public float Speed;
     public float TurnRate;
 
+    [Tooltip("When true, velocity will be forced to 0 when rotating in place. Leave disabled if you want your units to be pushed by other units.")]
+    public bool FreezePositionWhenRotatingInPlace;
+
     // animateor
 
     private animation_Controller _animator;
@@ -209,7 +212,13 @@ public class Movement : MonoBehaviour
         //rotation in place for when unit is not in motion (aiming)
         else
         {
-            
+            //in some cases the unit will move while its supposed to be just rotating in place...
+            //I have no idea why so I'm just going to force it to cooperate
+            if(_rigidBody.velocity != Vector3.zero && FreezePositionWhenRotatingInPlace)
+            {
+                _rigidBody.velocity = Vector3.zero;
+            }
+            //Debug.Log(gameObject.name + " debug - rigidbody velocity while rotating in place: " + _rigidBody.velocity);
             if (_targetRotation != Quaternion.identity)
             {
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
@@ -253,6 +262,11 @@ public class Movement : MonoBehaviour
 
         _rigidBody.AddForce(separationVector * 0.5f * Time.deltaTime * Speed, ForceMode.VelocityChange);
         */
+
+        if (CheckIfShouldSwitchMovementMode(true))
+        {
+            SwitchToDefaultMovement();
+        }
     }
 
     public void SetFlockLeader(GameObject flockLeader)
@@ -407,6 +421,56 @@ public class Movement : MonoBehaviour
         //determine the target rotation
         _targetRotation.SetFromToRotation(new Vector3(0, 0, 1), moveDirection);
         _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
+
+        if (CheckIfShouldSwitchMovementMode(false))
+        {
+            SwitchToPathfindingMovement();
+        }
+    }
+
+    //hack for switching between pathfinding and default movement when necessary (for dealing with moving towards NavMeshObstacles)
+    public bool CheckIfShouldSwitchMovementMode(bool inPathfindingMode)
+    {
+        //if dealing with dynamic destination, use short-range RaycastAll to determine whether to switch into default mode
+        //in order to limit pathfinding issues with navmeshobstacles
+        //meant primarily for melee attackers, so don't use regular raycast because it might hit another melee attacker instead on the way
+        if (_dynamicDestination != null && _dynamicDestination.gameObject.GetComponent<NavMeshObstacle>() != null)
+        {
+            Vector3 dir = Vector3.Normalize(_dynamicDestination.position - transform.position);
+
+            //use larger range once in default movement mode to prevent rubberbanding
+            float range = inPathfindingMode ? 5.0f : 5.5f;
+
+            RaycastHit[] hitTargets = Physics.RaycastAll(transform.position, dir, range);
+
+            //check to see if our target is close enough
+            //may or may not want additional logic to determine if NavMeshObstacles are in the way
+            foreach (RaycastHit hitTarget in hitTargets)
+            {
+                if (hitTarget.transform == _dynamicDestination)
+                {
+                    return inPathfindingMode;
+                }
+            }
+        }
+        return !inPathfindingMode;
+    }
+
+    //methods for switching between default and pathfinding movement
+
+    //assumption: previous movement mode is pathfinding mode
+    public void SwitchToDefaultMovement()
+    {
+        _navMeshAgent.enabled = false;
+        _movementMode = MovementMode.MODE_DEFAULT;
+    }
+
+    //assumption: previous movement mode is default mode
+    public void SwitchToPathfindingMovement()
+    {
+        _navMeshAgent.enabled = true;
+        _navMeshAgent.SetDestination(GetDestination());
+        _movementMode = MovementMode.MODE_PATHFINDING;
     }
 
     //helper for determining destination
@@ -682,12 +746,12 @@ public class Movement : MonoBehaviour
     //cease all movement, or just unordered movement if stopOrderedMovement = false
     public void StopMovement()
     {
-        //temp fix for weird physics issues when switching off kinematics: set rotation on x,z axis to 0
-        //remove after spline movement is gone
+        /*
+        //temp fix for weird physics issues: set rotation on x,z axis to 0
         Quaternion curRotation = transform.rotation;
         curRotation.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
         transform.rotation = curRotation;
-
+        */
         //disable general stuff for movement state
         _destination = Vector3.zero;
         _dynamicDestination = null;
@@ -698,9 +762,12 @@ public class Movement : MonoBehaviour
         _flockLeader = null;
 
         //disable navmeshagent if enabled
+        //trying to deal with weird behaviour by resetting rigidbody velocity. Might lead to other weirdness if
+        //unit was being acted on by an external force.
         if(_navMeshAgent != null && _navMeshAgent.enabled)
         {
             _navMeshAgent.enabled = false;
+            _rigidBody.velocity = new Vector3(0,0,0);
         }
 
         _movementMode = MovementMode.MODE_DEFAULT;
