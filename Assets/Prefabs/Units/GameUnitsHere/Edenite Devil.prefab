@@ -113,7 +113,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  _flockLeader: {fileID: 0}
   _moving: 0
   Speed: 3
   TurnRate: 80
@@ -256,7 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugMode: 0
   RuleFiles:
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
+  - {fileID: 4900000, guid: c514137aea584e4468f66694384fa628, type: 3}
 --- !u!114 &-5753729588458461803
 MonoBehaviour:
   m_ObjectHideFlags: 0

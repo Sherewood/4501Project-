@@ -105,14 +105,14 @@ public class Movement : MonoBehaviour
         _dynamicDestination = null;
 
         ConfigNavMeshAgent();
-    }
-
-    void Start()
-    {
 
         _rigidBody = GetComponent<Rigidbody>();
 
         _unitState = GetComponent<UnitState>();
+    }
+
+    void Start()
+    {
 
         StabilizePosition();
 
@@ -229,6 +229,7 @@ public class Movement : MonoBehaviour
             _navMeshAgent.SetDestination(GetDestination());
         }
 
+        /*
         //trying a light separation force
         Collider[] nearbyUnits = Physics.OverlapSphere(transform.position, 2.0f);
 
@@ -251,6 +252,7 @@ public class Movement : MonoBehaviour
         }
 
         _rigidBody.AddForce(separationVector * 0.5f * Time.deltaTime * Speed, ForceMode.VelocityChange);
+        */
     }
 
     public void SetFlockLeader(GameObject flockLeader)
@@ -293,9 +295,9 @@ public class Movement : MonoBehaviour
         Vector3 cohesionVector = Vector3.zero;
         Vector3 alignmentVector = transform.forward;
         Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
-        if(leaderVector.magnitude > Speed * 3)
+        if(leaderVector.magnitude > Speed * 2)
         {
-            leaderVector = leaderVector.normalized * Speed * 3;
+            leaderVector = leaderVector.normalized * Speed * 2;
         }
         //getting all the units in the flock a given unit belongs too (kinda bugged rn)
         UnitController x = GetComponent<UnitController>();

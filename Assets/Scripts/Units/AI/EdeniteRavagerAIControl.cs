@@ -62,7 +62,7 @@ public class EdeniteRavagerAIControl : CombatAIControl
         //todo: add rest of prereqs
         switch (prereq)
         {
-            case "inSpawnPerimeter":
+            case "insideSpawnPerimeter":
                 return Vector3.Distance(transform.position, _movement.GetReturnPoint()) <= WanderMaxRadius;
             case "outsideSpawnPerimeter":
                 return Vector3.Distance(transform.position, _movement.GetReturnPoint()) > WanderMaxRadius;

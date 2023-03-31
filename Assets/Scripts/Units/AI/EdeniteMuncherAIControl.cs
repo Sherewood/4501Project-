@@ -41,6 +41,10 @@ public class EdeniteMuncherAIControl : CombatAIControl
 
         switch (prereq)
         {
+            case "unitTookControl":
+                return prereq.Equals(aiEvent);
+            case "unitLostControl":
+                return prereq.Equals(aiEvent);
             case "isUnitUnderCommand":
                 return _commandableUnit.IsUnderCommand();
             case "isUnitNotUnderCommand":
@@ -68,6 +72,10 @@ public class EdeniteMuncherAIControl : CombatAIControl
 
         switch (action)
         {
+            //should really just move this to base class but w/e
+            case "refreshTargeting":
+                _targeting.Refresh();
+                break;
             default:
                 base.PerformAction(action);
                 return;

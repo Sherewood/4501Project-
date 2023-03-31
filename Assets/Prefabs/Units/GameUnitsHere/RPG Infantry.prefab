@@ -207,7 +207,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  _flockLeader: {fileID: 0}
   _moving: 0
   Speed: 1.75
   TurnRate: 75
@@ -352,7 +351,7 @@ MonoBehaviour:
   RuleFiles:
   - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
   - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
-  - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
+  - {fileID: 4900000, guid: c514137aea584e4468f66694384fa628, type: 3}
 --- !u!95 &9211298648950123219
 Animator:
   serializedVersion: 5

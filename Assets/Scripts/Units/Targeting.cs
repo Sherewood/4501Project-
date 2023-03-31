@@ -104,7 +104,7 @@ public class Targeting : MonoBehaviour
 
         foreach (Collider target in enemiesInRange)
         {
-            GameObject targetObject = target.GetComponent<Collider>().gameObject;
+            GameObject targetObject = target.gameObject;
 
             //get info on object
             UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
@@ -159,7 +159,7 @@ public class Targeting : MonoBehaviour
 
         foreach (Collider target in enemiesInRange)
         {
-            GameObject targetObject = target.GetComponent<Collider>().gameObject;
+            GameObject targetObject = target.gameObject;
 
             //get info on object
             UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
@@ -189,7 +189,7 @@ public class Targeting : MonoBehaviour
 
         foreach (Collider target in enemiesInRange)
         {
-            GameObject targetObject = target.GetComponent<Collider>().gameObject;
+            GameObject targetObject = target.gameObject;
 
             //get info on object
             UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
@@ -200,7 +200,7 @@ public class Targeting : MonoBehaviour
             }
 
             //determine if target is hostile based on allegiances
-            if (!targetInfo.GetType().Equals(type))
+            if (!targetInfo.GetUnitType().Equals(type))
             {
                 continue;
             }

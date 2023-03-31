@@ -1,0 +1,21 @@
+#Commanded behaviour
+#terminating if commander dies, break any command in progress
+#keep this rule on top in case of tiebreaks, that way the command will always be broken
+CM|If unitLostControl then breakCommand
+#idle
+CM|If command==idle and newCommand then stopMovement
+#flocking (following commander)
+CM|If command==moveFlock and newCommand then setFlockLeader and moveInFlock
+#attacking
+CM|If command==attack and newCommand then setFocusTarget
+CM|If command==attack and targetInRange then attackTarget
+CM|If command==attack and targetNotInRange then moveTarget
+#key difference from player handling: don't break command, sit around and let commander decide what happens next
+CM|If command==attack and targetLost then clearTarget and stopMovement
+#Basic combat behaviour when idle (Todo: add wandering)
+If targetChanged and targetNotInRange then setTarget and moveTarget
+If targetChanged and targetInRange then setTarget and attackTarget
+If targetInRange then attackTarget
+If targetNotInRange then moveTarget
+If targetLost then clearTarget and stopMovement
+If targetLost then clearTarget and initReturn

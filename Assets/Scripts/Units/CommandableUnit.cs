@@ -40,9 +40,6 @@ public class CommandableUnit : MonoBehaviour
     {
         _commander = null;
         AICallback.Invoke("unitLostControl");
-        //need to terminate idle command if it is currently blocking unit
-        //todo: might need more advanced handling for breaking unit out of command if other commands are running
-        _unitAI.StopCommand("idle");
     }
 
     //return true if unit has a commander, false otherwise

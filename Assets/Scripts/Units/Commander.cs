@@ -82,7 +82,7 @@ public class Commander : MonoBehaviour
             //if reached threshold for unit control, inform AI control and stop trying to take control of more units
             if(_controlledUnits.Count >= UnitCap)
             {
-                AICallback.Invoke("commandThresholdReached");
+                AICallback.Invoke("reachedCommandThreshold");
                 return;
             }
         }

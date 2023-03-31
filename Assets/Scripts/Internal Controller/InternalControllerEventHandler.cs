@@ -75,7 +75,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     private DisplayInfoController _displayInfoController;
 
     // Link other controller classes here
-    void Start()
+    void Awake()
     {
         _cameraController = GetComponent<CameraController>();
 
