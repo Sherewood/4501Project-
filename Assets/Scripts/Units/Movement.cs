@@ -43,6 +43,8 @@ public class Movement : MonoBehaviour
 
     //flock leader - used for leader force in flocking
     private GameObject _flockLeader;
+    //the flock that this unit is a member of
+    private List<GameObject> _flock;
     //for wandering
     private System.Random _random;
 
@@ -99,6 +101,7 @@ public class Movement : MonoBehaviour
         _returnPoint = new Vector3();
         _movementMode = MovementMode.MODE_DEFAULT;
         _flockLeader = null;
+        _flock = null;
         _dynamicDestination = null;
 
         ConfigNavMeshAgent();
@@ -255,6 +258,11 @@ public class Movement : MonoBehaviour
         _flockLeader = flockLeader;
     }
 
+    public void SetFlock(List<GameObject> flockMembers)
+    {
+        _flock = flockMembers;
+    }
+
     //todo: add flocking code here
     //forces added based on whether unit is leader or not.
     private void PhysicsBasedMovementUpdate()
@@ -291,13 +299,18 @@ public class Movement : MonoBehaviour
         }
         //getting all the units in the flock a given unit belongs too (kinda bugged rn)
         UnitController x = GetComponent<UnitController>();
-        List<GameObject> flockMembers = GameObject.Find("InternalController").GetComponent<UnitController>().GetFlock(_flockLeader);
-
+        //get flock from unit controller if wasn't manually set...
+        if (_flock == null)
+        {
+            _flock = FindObjectOfType<UnitController>().GetFlock(_flockLeader);
+        }
         //separation
         int numSeparationNeighbours = 0;
         //sum the positions of the other units in the flock
-        foreach (GameObject currentUnit in flockMembers)
+        foreach (GameObject currentUnit in _flock)
         {
+            if (currentUnit == null) continue;
+
             float dist = Vector3.Distance(currentUnit.transform.position, transform.position);
             Vector3 dir = currentUnit.transform.position - transform.position;
             if (currentUnit != this.gameObject && dist <= 3)
@@ -311,8 +324,10 @@ public class Movement : MonoBehaviour
         //cohesion
         //basically the same as separation but in reverse with a different radius
         int numCohesionNeighbours = 0;
-        foreach (GameObject currentUnit in flockMembers)
+        foreach (GameObject currentUnit in _flock)
         {
+            if (currentUnit == null) continue;
+
             if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 4)
             {
                 numCohesionNeighbours++;
@@ -328,8 +343,10 @@ public class Movement : MonoBehaviour
         //alignment
         //same as the other 2 except using transform.forward instead of position
         int numAlignmentNeighbours = 0;
-        foreach (GameObject currentUnit in flockMembers)
+        foreach (GameObject currentUnit in _flock)
         {
+            if (currentUnit == null) continue;
+
             if (currentUnit != this.gameObject && Vector3.Distance(currentUnit.transform.position, transform.position) <= 12)
             {
                 numAlignmentNeighbours++;
@@ -673,6 +690,10 @@ public class Movement : MonoBehaviour
         _destination = Vector3.zero;
         _dynamicDestination = null;
         _moving = false;
+
+        //disable flocking stuff
+        _flock = null;
+        _flockLeader = null;
 
         //disable navmeshagent if enabled
         if(_navMeshAgent != null && _navMeshAgent.enabled)

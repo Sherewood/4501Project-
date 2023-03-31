@@ -119,12 +119,18 @@ public class Commander : MonoBehaviour
     //order units to follow the commander
     public void OrderFollowCommander()
     {
+        //determine flock, to be sent to unit (not registering these flocks with unit controller, might change later if this sucks)
+        List<GameObject> unitFlock = new List<GameObject>(_controlledUnits);
+        unitFlock.Add(gameObject);
+
         //command each unit to follow the commander in a flock
         foreach (GameObject unit in _controlledUnits)
         {
             AIControl unitAI = unit.GetComponent<AIControl>();
+            Movement unitMovement = unit.GetComponent<Movement>();
 
             unitAI.SendCommand("moveFlock", gameObject);
+            unitMovement.SetFlock(unitFlock);
         }
     }
 
