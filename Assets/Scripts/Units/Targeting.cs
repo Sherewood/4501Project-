@@ -72,6 +72,13 @@ public class Targeting : MonoBehaviour
         }
     }
 
+    //refresh the targeting component to clear stale state
+    public void Refresh()
+    {
+        _currentTarget = null;
+        _focusMode = false;
+    }
+
     //determines the current target of the unit, based on the given targetting range
     private void DetermineTarget(float range)
     {

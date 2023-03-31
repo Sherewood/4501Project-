@@ -8,12 +8,19 @@ If reachedDestination and shouldGatherUnits then stopMovement and takeControl
 If reachedCommandThreshold then setFightMode and requestMainBasePos
 If positionReceived and shouldFight then moveToDestination
 If reachedDestination and shouldFight then stopMovement and requestMainBasePos
+#retreating conditions
+If unitLost and shouldFight and atRetreatThreshold and outsideSpawnPerimeter then setGatherMode and retreat
+#if already within a certain radius of the unit's spawn point, no point in retreating
+If unitLost and shouldFight and atRetreatThreshold and insideSpawnPerimeter then setGatherMode
 #logic for attacking units
-If targetChanged and targetNotInRange then setTarget and moveTarget
-If targetChanged and targetInRange then setTarget and attackTarget
-If targetInRange then attackTarget
-If targetNotInRange then moveTarget
+#note: do not want to be attacking units if retreating
+If notRetreating and targetChanged and targetNotInRange then setTarget and moveTarget
+If notRetreating and targetChanged and targetInRange then setTarget and attackTarget
+If notRetreating and targetInRange then attackTarget
+If notRetreating and targetNotInRange then moveTarget
 #in fight mode, go back to moving towards the main base
-If targetLost and shouldFight then clearTarget and stopMovement and requestMainBasePos
+If notRetreating and targetLost and shouldFight then clearTarget and stopMovement and requestMainBasePos
 #if in gathering unit mode, then return to spawn point
-If targetLost and shouldGatherUnits then clearTarget and initReturn
+If notRetreating and targetLost and shouldGatherUnits then clearTarget and initReturn
+#Special case: if retreating, still need to clear target to avoid unexpected behaviour later
+If retreating and targetLost then clearTarget

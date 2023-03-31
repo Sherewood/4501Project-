@@ -159,5 +159,9 @@ public class Commander : MonoBehaviour
     //possible other command if I have time - ordering a diversion?
     //basically, order one of the specific units to attack, and the others to follow the commander
 
-
+    /* queries */
+    public bool UnitCountAtRetreatThreshold()
+    {
+        return _controlledUnits.Count <= RetreatThreshold;
+    }
 }

@@ -24,6 +24,9 @@ public class EdeniteRavagerAIControl : CombatAIControl
     //boolean to track whether the unit should be gathering units or not
     private bool _isGatheringUnits = true;
 
+    //true if retreating, false otherwise
+    private bool _retreating = false;
+
     protected override void GetComponents()
     {
         _commander = GetComponent<Commander>();
@@ -59,14 +62,27 @@ public class EdeniteRavagerAIControl : CombatAIControl
         //todo: add rest of prereqs
         switch (prereq)
         {
+            case "inSpawnPerimeter":
+                return Vector3.Distance(transform.position, _movement.GetReturnPoint()) <= WanderMaxRadius;
+            case "outsideSpawnPerimeter":
+                return Vector3.Distance(transform.position, _movement.GetReturnPoint()) > WanderMaxRadius;
             case "notAtCommandThreshold":
                 return aiEvent.Equals(prereq);
             case "reachedCommandThreshold":
                 return aiEvent.Equals(prereq);
+            case "unitLost":
+                return aiEvent.Equals(prereq);
+            case "atRetreatThreshold":
+                return _commander.UnitCountAtRetreatThreshold();
+            //todo: actually make use of the bloody equality checking system I added so I don't need to define two prereqs for each variable
             case "shouldGatherUnits":
                 return _isGatheringUnits;
             case "shouldFight":
                 return !_isGatheringUnits;
+            case "retreating":
+                return _retreating;
+            case "notRetreating":
+                return !_retreating;
             default:
                 return base.IsPrereqSatisfied(prereq, aiEvent);
         }
@@ -125,6 +141,14 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 //if commanded units were not previously following the commander, then the behaviour will be unexpected.
                 _movement.StopMovement();
 
+                //special case: need to refresh the targeting after ending the retreat, because targeting/attack
+                //updates are ignored during retreating, so the state will be stale
+                if (_retreating)
+                {
+                    _retreating = false;
+                    _targeting.Refresh();
+                }
+
                 _commander.OrderHalt();
                 break;
             case "moveTarget": //overridden from base class
@@ -153,8 +177,10 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 _commander.OrderAttack(target);
                 break;
             case "retreat":
-                //return to spawn point, and have units under command follows
-                _movement.MoveToReturnPoint(0.0f, MovementMode.MODE_PATHFINDING);
+                //return to near spawn point, and have units under command follow
+                //spawn offset added to make it less strict
+                _movement.MoveToReturnPoint(3.0f, MovementMode.MODE_PATHFINDING);
+                _retreating = true;
 
                 _commander.OrderFollowCommander();
                 break;

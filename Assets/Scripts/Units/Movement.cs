@@ -482,6 +482,11 @@ public class Movement : MonoBehaviour
         _returnPoint = returnPoint;
     }
 
+    public Vector3 GetReturnPoint()
+    {
+        return _returnPoint;
+    }
+
     //order return to return point
     public bool MoveToReturnPoint(float offsetFromDestination = 0.0f, MovementMode movementMode = MovementMode.MODE_DEFAULT)
     {
