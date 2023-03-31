@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 /* Unit Component */
 //Purpose: Handle general combat related prereqs and actions
-public class CombatAIControl : AIControl
+public class EdeniteDevilControl : CombatAIControl
 {
 
-    protected Attack _attack;
+    private Attack _attack;
 
     protected override void GetComponents()
     {

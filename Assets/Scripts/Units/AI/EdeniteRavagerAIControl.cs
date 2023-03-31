@@ -186,10 +186,6 @@ public class EdeniteRavagerAIControl : CombatAIControl
                 //use commander component to take control of nearby edenite munchers
                 _commander.SeizeUnitControl();
                 break;
-            case "requestMainBasePos":
-                //trigger position request for main base
-                _positionRequestEvent.Invoke("mainBase", this.gameObject);
-                break;
             default:
                 base.PerformStandardAction(action);
                 return;

@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -5942888071925629939}
   - component: {fileID: 1126958368904962192}
-  - component: {fileID: 6482966910463812740}
   - component: {fileID: -5753729588458461803}
+  - component: {fileID: -4282744725288528172}
   - component: {fileID: -9086340107227583309}
   - component: {fileID: 943548046557049941}
   m_Layer: 0
@@ -101,8 +101,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6482966910463812740}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -4282744725288528172}
+        m_TargetAssemblyTypeName: EdeniteDevilControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -116,6 +116,7 @@ MonoBehaviour:
   _moving: 0
   Speed: 3
   TurnRate: 80
+  FreezePositionWhenRotatingInPlace: 0
 --- !u!114 &-6763880964242767567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,8 +132,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6482966910463812740}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -4282744725288528172}
+        m_TargetAssemblyTypeName: EdeniteDevilControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -178,8 +179,8 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6482966910463812740}
-        m_TargetAssemblyTypeName: CombatAIControl, Assembly-CSharp
+      - m_Target: {fileID: -4282744725288528172}
+        m_TargetAssemblyTypeName: EdeniteDevilControl, Assembly-CSharp
         m_MethodName: HandleAIEvent
         m_Mode: 0
         m_Arguments:
@@ -241,21 +242,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &6482966910463812740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239236345776070385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 317c922c1f8b0c94c942a4e53769a2b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugMode: 0
-  RuleFiles:
-  - {fileID: 4900000, guid: c514137aea584e4468f66694384fa628, type: 3}
 --- !u!114 &-5753729588458461803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +259,21 @@ MonoBehaviour:
   tool: {fileID: 0}
   gun: 0
   drill: 0
+--- !u!114 &-4282744725288528172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3ebe2bb0328fb428123b12485dd227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugMode: 0
+  RuleFiles:
+  - {fileID: 4900000, guid: 21e1e95ffdefdf541a0c8a81d717f65e, type: 3}
 --- !u!95 &-9086340107227583309
 Animator:
   serializedVersion: 5
