@@ -2015,6 +2015,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0496d719a6531ac4a83773df78bdfad2, type: 3}
   - {fileID: 21300000, guid: 11745bd54e350e547a1eb4a5dde69271, type: 3}
   def: {fileID: 21300000, guid: 09b309980813d2642adc1d568108233f, type: 3}
+  _selectedUnits: []
+  _OldselectedUnits: []
   tracker: {fileID: 2100000, guid: 8d1e3158d9338be459cfb809f3c6dd30, type: 2}
   ObstructingUIRegions:
   - {fileID: 2808512709783474483}
@@ -2048,12 +2050,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d5adfc3fb14fe46bb5b091ce1d3d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayMat: {fileID: 8400000, guid: c83fd380776e58e47aa3fff0dc503d4e, type: 2}
+  DisplayMat: {fileID: 8846314536903009632}
   onAnim: {fileID: 4213985422896330268}
   offAnim: {fileID: 8544321641839744231}
-  Homie: {fileID: 8313668482812614411}
-  OnAnimationl: {fileID: 0}
-  OffAnimationl: {fileID: 0}
+  dialogue: []
+  Text: {fileID: 0}
+  typewriter_Effect: {fileID: 0}
 --- !u!1 &4213985422896330268
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2831968345014833767}
   - component: {fileID: 2831968345014833764}
   - component: {fileID: 2831968345014833765}
+  - component: {fileID: -4084098517601228268}
   m_Layer: 0
   m_Name: Internal Controller
   m_TagString: Untagged
@@ -196,3 +197,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb8dea81db3186448173330e3bf2a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4084098517601228268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998447389690101651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateInterval: 0.5
+  intensity: 0
+  Newintensity: 0
+  CurTime: 0
+  light: {fileID: 5481181704769668127, guid: 68ef838f80e3f2446bfd53011877defe, type: 3}
+  SolarObject: {fileID: 4696212658939231449, guid: d98dd05310463fc4589c5cc00a17ceca, type: 3}

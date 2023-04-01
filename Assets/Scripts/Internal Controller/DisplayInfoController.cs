@@ -180,9 +180,12 @@ public class DisplayInfoController : MonoBehaviour
     public List<string> CheckEvents()
     {
         
-        if (sun !=null &&sun.HeatRises())
+        if (sun.HeatRises())
         {
-            events.Add("Heat Rising");
+            if (!events.Contains("Heat Rising"))
+            {
+                events.Add("Heat Rising");
+            }
         }
         else 
         {
@@ -319,8 +322,10 @@ public class DisplayInfoController : MonoBehaviour
     }
     public void AddDialogue(string Dialogue)
     {
-       
-        events.Add(Dialogue);
+        if (events.Contains(Dialogue))
+        {
+            events.Add(Dialogue);
+        }
     }
 
 }
