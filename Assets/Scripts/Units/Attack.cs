@@ -124,12 +124,6 @@ public class Attack : MonoBehaviour
                     }
                 }
 
-                //also check if collided with target (for redundancy)
-                if (_collidedWithTarget)
-                {
-                    targetFound = true;
-                }
-
                 latestTargetStatus = targetFound ? TargetStatus.IN_RANGE : TargetStatus.OUT_RANGE;
             }
             else
@@ -240,25 +234,5 @@ public class Attack : MonoBehaviour
         //use weapon component
         return _weapon.IsWeaponReadyToFire(distance, direction);
     }
-
-    /* collision based code for helping melee attackers tell if they're in range */
-    void OnCollisionEnter(Collision collision)
-    {
-        GameObject possibleTarget = collision.gameObject;
-        if (possibleTarget == _currentTarget)
-        {
-            _collidedWithTarget = true;
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        GameObject possibleTarget = collision.gameObject;
-        if (possibleTarget == _currentTarget)
-        {
-            _collidedWithTarget = false;
-        }
-    }
-
 
 }

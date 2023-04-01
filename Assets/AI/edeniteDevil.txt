@@ -6,6 +6,6 @@ If init then requestMainBasePos
 If positionReceived then moveToDestination
 If targetChanged and targetNotInRange then setFocusTarget and moveTarget
 If targetChanged and targetInRange then setFocusTarget and attackTarget
-If targetLost then clearTarget and requestMainBasePos
+If targetLost then clearTarget and stopMovement and requestMainBasePos
 If targetInRange then attackTarget
 If targetNotInRange then moveTarget
