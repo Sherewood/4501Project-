@@ -7,6 +7,8 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
+    //callbacks
+    public AIEvent AICallback;
 
     //used to report unit death
     private EntityDeadEvent _entityDeathEvent;
@@ -25,9 +27,14 @@ public class Health : MonoBehaviour
     [Tooltip("The bonus this unit gets to its defense from fortifying.")]
     public float FortifyDefenseBonus;
 
+    [Tooltip("The percentage threshold for triggering a low health notification (range 0-1)")]
+    public float LowHealthThreshold;
+    private bool _reportedLowHealth;
+
     private float _actualDefense;
 
     private const float MAX_DEFENSE = 100;
+
 
     //animator
     private animation_Controller _animator;
@@ -39,6 +46,7 @@ public class Health : MonoBehaviour
         _unitState = GetComponent<UnitState>();
         _entityDeathEvent = new EntityDeadEvent();
         _reportedDeath = false;
+        _reportedLowHealth = false;
         _animator=this.GetComponent<animation_Controller>();
 
     }
@@ -85,6 +93,15 @@ public class Health : MonoBehaviour
 
         //check if dead
         HandleDeathIfNeeded();
+
+        //if not dead, report low health if applicable
+        if (_reportedDeath && !_reportedLowHealth)
+        {
+            if(_actualHealth/MaxHealth < LowHealthThreshold)
+            {
+                AICallback.Invoke("unitLowHealth");
+            }
+        }
     }
 
     //check if impact came from projectile

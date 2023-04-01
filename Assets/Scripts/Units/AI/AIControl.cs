@@ -172,7 +172,7 @@ public class AIControl : MonoBehaviour
             if(splitRbsLine.Length != 2)
             {
                 Debug.LogError("Error in RBS parsing -> prereqs/actions not split by ' then '");
-                Debug.LogError("Affected line: " + splitRbsLine);
+                Debug.LogError("Affected line: " + rbsLine);
                 return false;
             }
             string prereqs = splitRbsLine[0];
@@ -455,6 +455,8 @@ public class AIControl : MonoBehaviour
             case "newCommand":
                 return (prereq.Equals(aiEvent));
             case "stopCommand":
+                return (prereq.Equals(aiEvent));
+            case "unitLowHealth":
                 return (prereq.Equals(aiEvent));
             case "init":
                 return (prereq.Equals(aiEvent));

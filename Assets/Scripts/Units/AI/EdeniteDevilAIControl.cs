@@ -6,15 +6,15 @@ using UnityEngine;
 public class EdeniteDevilControl : CombatAIControl
 {
 
-    private Attack _attack;
+    private HyperBoost _hyperBoost;
 
     protected override void GetComponents()
     {
-        _attack = GetComponent<Attack>();
+        _hyperBoost = GetComponent<HyperBoost>();
 
-        if (_attack == null)
+        if (_hyperBoost == null)
         {
-            Debug.LogError("Combat AI Control cannot find Attack component");
+            Debug.LogError("Edenite Devil AI Control cannot find Hyper Boost component");
         }
 
         base.GetComponents();
@@ -31,29 +31,13 @@ public class EdeniteDevilControl : CombatAIControl
     {
         if (DebugMode)
         {
-            Debug.Log("CombatAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
+            Debug.Log("EdeniteDevilAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
         switch (prereq)
         {
-            case "targetChanged":
-                return (prereq.Equals(aiEvent));
-            case "targetLost":
-                return (prereq.Equals(aiEvent));
-            case "targetNotInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return !_attack.CheckIfEnemyInRange(DetermineTarget());
-            case "targetInRange":
-                if (prereq.Equals(aiEvent))
-                {
-                    return true;
-                }
-
-                return _attack.CheckIfEnemyInRange(DetermineTarget());
+            case "hyperBoostReady":
+                return _hyperBoost.CanActivate();
             default:
                 return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
@@ -63,44 +47,13 @@ public class EdeniteDevilControl : CombatAIControl
     {
         if (DebugMode)
         {
-            Debug.Log("CombatAIControl - Performing action: " + action);
+            Debug.Log("EdeniteDevilAIControl - Performing action: " + action);
         }
-
-        GameObject target = DetermineTarget();
 
         switch (action)
         {
-            case "moveTarget":
-                //move towards the target
-                //_movement.StopMovement();
-                if (target == null)
-                {
-                    break;
-                }
-                _movement.MoveToDynamicDestination(target.transform, false, MovementMode.MODE_PATHFINDING);
-                break;
-            case "attackTarget":
-                //rotate towards the target while firing at it
-                _movement.StopMovement();
-                if (target == null)
-                {
-                    break;
-                }
-                _movement.MoveToDynamicDestination(target.transform, true);
-                break;
-            case "setFocusTarget":
-                _targeting.SetTargetFocus(target);
-                _attack.SetTarget(target);
-                break;
-            case "setTarget":
-                _attack.SetTarget(target);
-                break;
-            case "clearTarget":
-                _attack.ClearTarget();
-                break;
-            case "requestMainBasePos":
-                //trigger position request for main base
-                _positionRequestEvent.Invoke("mainBase", this.gameObject);
+            case "activateHyperBoost":
+                _hyperBoost.Activate();
                 break;
             default:
                 base.PerformStandardAction(action);

@@ -1,4 +1,6 @@
 #Use for edeniteDevil
+#special ability
+If unitLowHealth and hyperBoostReady then activateHyperBoost
 #basically - focus on whichever target picked up, and if there is no target, move towards the main base
 If init then requestMainBasePos
 If positionReceived then moveToDestination
