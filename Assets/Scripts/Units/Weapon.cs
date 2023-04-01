@@ -38,7 +38,13 @@ public class Weapon : MonoBehaviour
     private const float BASE_COOLDOWN = 1;
     private float _cooldown;
 
+    //hyper boost (if it exists)
+    private HyperBoost _hyperBoost;
 
+    void Awake()
+    {
+        _hyperBoost = GetComponent<HyperBoost>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +76,8 @@ public class Weapon : MonoBehaviour
     //handles firing the weapon
     public void FireWeapon(GameObject target)
     {
+        //active hyper boost will increase damage
+        float damage = (_hyperBoost != null && _hyperBoost.IsActive()) ? Damage * _hyperBoost.DamageMultiplier : Damage;
 
         //TODO: spawn projectile and direct it towards target
         Vector3 offset = transform.rotation * FiringOffset;
@@ -77,7 +85,7 @@ public class Weapon : MonoBehaviour
         newProjectile.GetComponent<Projectile>()._target = target;
         newProjectile.GetComponent<Projectile>()._weaponType = WeaponType;
         newProjectile.GetComponent<Projectile>()._unitAllegiance = GetComponent<UnitInfo>().UnitType.Split("-")[0];
-        newProjectile.GetComponent<Projectile>()._damage = Damage;
+        newProjectile.GetComponent<Projectile>()._damage = damage;
         //reset cooldown of weapon
         ResetCooldown();
     }
@@ -90,7 +98,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            _cooldown = BASE_COOLDOWN / FireRate;
+            _cooldown = (_hyperBoost != null && _hyperBoost.IsActive()) ? (BASE_COOLDOWN / (FireRate*_hyperBoost.FireRateMultiplier)) : (BASE_COOLDOWN / FireRate);
         }
     }
 
