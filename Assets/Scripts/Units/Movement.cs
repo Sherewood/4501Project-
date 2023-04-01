@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
+using Unity.VisualScripting;
 /* 
-  This enum will be used for switching between spline-based/physically-based movement modes 
- 
-  Will also be used for providing a safe default when the spline's attempt to use unity pathfinding doesn't work properly
- */
+This enum will be used for switching between spline-based/physically-based movement modes 
+
+Will also be used for providing a safe default when the spline's attempt to use unity pathfinding doesn't work properly
+*/
 public enum MovementMode
 {
     //used for pathfinding from point A to B
@@ -850,7 +851,11 @@ public class Movement : MonoBehaviour
         {
             if (_animator.GetComponent<Animator>().GetBool("FIRE") == false || _animator.GetComponent<Animator>().GetBool("ATTACK") == false)
             {
-                _animator.SetAnim("IDLE");
+                if( !_animator.GetComponent<Animator>().GetBool("DEAD"))
+                {
+                    _animator.SetAnim("IDLE");
+                }
+                
             }
         }
     }

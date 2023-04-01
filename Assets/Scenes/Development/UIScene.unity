@@ -128,11 +128,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1375737086618394229, guid: a808526d2cd6f5c4f984639bd48be0b6, type: 3}
   m_PrefabInstance: {fileID: 1212249772}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &47300946 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2449511386219362556, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1149315588}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &51503015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,6 +184,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mineral Deposit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -205,6 +204,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -275,6 +278,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Muncher (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -335,6 +342,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -441,34 +452,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Civilian Building (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
---- !u!1 &217544710 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4140451903554694358, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1149315588}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &217544712 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4140451903554694357, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1149315588}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217544710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f765d85dd4d9041bfe3e85f44e19a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &217544715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217544710}
+  m_GameObject: {fileID: 4140451904687081170}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffe19cc9252fe8747a070f8641377783, type: 3}
@@ -540,6 +539,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Ravager (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1639084443465111453, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
     m_RemovedGameObjects: []
@@ -557,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 311997538237005692, guid: 811b5119ff9bbc54c950ec2d1f55b8c4, type: 3}
       propertyPath: m_Name
       value: Factory
+      objectReference: {fileID: 0}
+    - target: {fileID: 311997538237005692, guid: 811b5119ff9bbc54c950ec2d1f55b8c4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2266443536259287454, guid: 811b5119ff9bbc54c950ec2d1f55b8c4, type: 3}
       propertyPath: MaxHealth
@@ -676,6 +683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Civilian Building (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -761,6 +772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Worker (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -834,6 +849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mineral Deposit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -894,6 +913,10 @@ PrefabInstance:
     - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
       propertyPath: m_Name
       value: Fuel Deposit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -956,6 +979,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mineral Deposit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -972,6 +999,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (07)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -1030,6 +1061,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2448630447175705758, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: MaxHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7973395349043194801, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_RootOrder
       value: 30
@@ -1077,6 +1112,10 @@ PrefabInstance:
     - target: {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
       propertyPath: m_Name
       value: Infantry
+      objectReference: {fileID: 0}
+    - target: {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1168,6 +1207,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Civilian Building
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1184,6 +1227,10 @@ PrefabInstance:
     - target: {fileID: 1834194341294532, guid: 302a4b4491c8b5a47a8fb714f718f9b7, type: 3}
       propertyPath: m_Name
       value: UnitSpawnEffect (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1834194341294532, guid: 302a4b4491c8b5a47a8fb714f718f9b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4765838103219372, guid: 302a4b4491c8b5a47a8fb714f718f9b7, type: 3}
       propertyPath: m_RootOrder
@@ -1294,6 +1341,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mineral Deposit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1310,6 +1361,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -1375,11 +1430,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4747439045527847606, guid: 6c018695fccf68f49b4b847841382e36, type: 3}
   m_PrefabInstance: {fileID: 1020058809}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &595969699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8846314536903009632, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1149315588}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &603641297
 PrefabInstance:
@@ -1609,6 +1659,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Muncher (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -1717,6 +1771,10 @@ PrefabInstance:
     - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
       propertyPath: m_Name
       value: Fuel Deposit (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1851,7 +1909,7 @@ RectTransform:
   m_LocalScale: {x: 5.247089, y: 3.1153183, z: 2.0351117}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 47300946}
+  m_Father: {fileID: 2449511387351749368}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1953,6 +2011,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -2059,6 +2121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Ravager (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2128,6 +2194,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minigun Infantry
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 88ceb0e0a889ab04ea42d7ce5fdd56e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2188,6 +2258,10 @@ PrefabInstance:
     - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
       propertyPath: m_Name
       value: RPG Infantry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2270,6 +2344,10 @@ PrefabInstance:
     - target: {fileID: 311997538237005692, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
       propertyPath: m_Name
       value: Research Lab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 311997538237005692, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4899734700810326700, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
       propertyPath: m_RootOrder
@@ -2375,7 +2453,11 @@ PrefabInstance:
     - target: {fileID: 2727293979495768723, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: DisplayMat
       value: 
-      objectReference: {fileID: 595969699}
+      objectReference: {fileID: 8846314537918091108}
+    - target: {fileID: 2727293979495768723, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: typewriter_Effect
+      value: 
+      objectReference: {fileID: 217544715}
     - target: {fileID: 2808512708912503523, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2496,6 +2578,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 14.365363
       objectReference: {fileID: 0}
+    - target: {fileID: 6265530629235239576, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 6e27c747c34eb0944a2cf387e8e974c0, type: 3}
     - target: {fileID: 7656110550240508727, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_AspectRatio
       value: 0
@@ -2556,7 +2642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Time: {fileID: 217544712}
+  Time: {fileID: 4140451904687081169}
   intensity: 0
   light: {fileID: 1189496273}
 --- !u!135 &1167124323
@@ -2657,6 +2743,10 @@ PrefabInstance:
     - target: {fileID: 311997538237005692, guid: 1e1c0c7bf0daa5a4087d93334f30a2d7, type: 3}
       propertyPath: m_Name
       value: Barracks
+      objectReference: {fileID: 0}
+    - target: {fileID: 311997538237005692, guid: 1e1c0c7bf0daa5a4087d93334f30a2d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3531464063517887513, guid: 1e1c0c7bf0daa5a4087d93334f30a2d7, type: 3}
       propertyPath: SpawnPositionFixedOffset.z
@@ -2861,6 +2951,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Worker (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2921,6 +3015,10 @@ PrefabInstance:
     - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
       propertyPath: m_Name
       value: RPG Infantry (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3064,6 +3162,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fuel Deposit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3125,6 +3227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Devil
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 0a389e58f37cbe34ea7f0e4172e65b43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3185,6 +3291,10 @@ PrefabInstance:
     - target: {fileID: 2970617129514139879, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970617129514139879, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitTypes.Array.size
@@ -3330,6 +3440,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -3508,6 +3622,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Civilian Building (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3528,6 +3646,10 @@ PrefabInstance:
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
       value: Tank (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_UseGravity
@@ -3601,6 +3723,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Muncher (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
       value: 41
@@ -3661,6 +3787,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -3771,6 +3901,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fuel Deposit (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3832,6 +3966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: dea00401ae9df584a9b1918387aa2609, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3848,6 +3986,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -4010,6 +4152,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Infantry (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4045,7 +4191,7 @@ RectTransform:
   m_LocalScale: {x: 14.963135, y: 3.2132678, z: 6.8090544}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 47300946}
+  m_Father: {fileID: 2449511387351749368}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4154,6 +4300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Ravager (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4215,6 +4365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Artillery Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 219cbaf35761a5f44b7dade9e6549ad5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4231,6 +4385,10 @@ PrefabInstance:
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
       value: Tank (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_UseGravity
@@ -4301,6 +4459,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2580705106427885631, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_UseGravity
       value: 1
@@ -4365,6 +4527,10 @@ PrefabInstance:
     - target: {fileID: 311997538237005692, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
       propertyPath: m_Name
       value: Research Lab (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 311997538237005692, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4899734700810326700, guid: be14e591691d4f344b2d003e5926b4ed, type: 3}
       propertyPath: m_RootOrder
@@ -4471,6 +4637,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mineral Deposit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4531,6 +4701,10 @@ PrefabInstance:
     - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
       propertyPath: m_Name
       value: Fuel Deposit (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4613,6 +4787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Base
       objectReference: {fileID: 0}
+    - target: {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4629,6 +4807,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -4752,6 +4934,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Muncher (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -4812,6 +4998,10 @@ PrefabInstance:
     - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_Name
       value: Edenite Muncher (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493922, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
       propertyPath: m_RootOrder
@@ -5147,6 +5337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Edenite Ravager (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5244,3 +5438,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 35, y: 45, z: 0}
+--- !u!224 &2449511387351749368 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2449511386219362556, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+  m_PrefabInstance: {fileID: 1149315588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4140451904687081169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4140451903554694357, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+  m_PrefabInstance: {fileID: 1149315588}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140451904687081170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f765d85dd4d9041bfe3e85f44e19a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4140451904687081170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4140451903554694358, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+  m_PrefabInstance: {fileID: 1149315588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8846314537918091108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8846314536903009632, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+  m_PrefabInstance: {fileID: 1149315588}
+  m_PrefabAsset: {fileID: 0}

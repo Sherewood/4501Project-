@@ -38,6 +38,8 @@ public class DisplayInfoController : MonoBehaviour
     private Dictionary<Technology, UIEvTrigger> _researchMenuInfo;
     private bool _researchMenuActive;
     private bool _researchMenuChanged;
+
+    private Sun sun;
     
 
     // Start is called before the first frame update
@@ -54,6 +56,7 @@ public class DisplayInfoController : MonoBehaviour
 
         _researchMenuInfo = new Dictionary<Technology, UIEvTrigger>();
         _researchMenuActive = false;
+        sun = GetComponent<Sun>();
 
         InitActionEventTypeMappings();
     }
@@ -173,7 +176,19 @@ public class DisplayInfoController : MonoBehaviour
         return _gameStateController.GetEvacuatedCivs();
     }
 
-
+    public List<string> CheckEvents()
+    {
+        List<string> events = new List<string>();
+        if (sun.HeatRises())
+        {
+            events.Add("Heat Rising");
+        }
+        else
+        {
+            events.Add("Nothing to report");
+        }
+        return events;
+    }
     /* event handling */
 
     public void UpdateAdditionalMenuInfo(string command)
@@ -193,9 +208,10 @@ public class DisplayInfoController : MonoBehaviour
 
         if(command == "construct")
         {
+            
             List<GameObject> selectedUnits = _selectionController.GetSelectedUnits();
-
-            if(selectedUnits.Count != 1)
+            Debug.Log("ASD" + selectedUnits.Count);
+            if (selectedUnits.Count != 1)
             {
                 
                 Debug.LogError("Got construction command, but selected unit count != 1. Should not happen.");

@@ -6,8 +6,8 @@ using UnityEngine;
 public class typewriter_effect : MonoBehaviour
 {
     private string final_string;
-    public GameObject text;
-    public float delay=0.2f;
+    public TextMeshProUGUI text;
+    public float delay=0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,15 +22,16 @@ public class typewriter_effect : MonoBehaviour
     public void SendMessage(string message)
     {
         final_string = message;
+        //text.text = final_string;
         StartCoroutine(typeWriter(delay));
     }
     IEnumerator typeWriter(float delay)
     {
         foreach (char c in final_string)
         {
-            text.GetComponent<TextMeshProUGUI>().text += c;
+            text.text += c;
             yield return new WaitForSeconds(delay);
         }
-        
+        text.text = "";
     }
 }

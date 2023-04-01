@@ -16,13 +16,14 @@ public class UiAbilties : MonoBehaviour
 
         Event.Equals(("", UIEvTrigger.TRIGGER_NONE));
         menuEvent = false;
-        testEvent = "test";
+        testEvent = "test"; 
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.GetComponent<Image>().sprite = Icon;
+       // this.GetComponent<Image>().sprite = Icon;
         this.testEvent = Event.Item1;
         
     }
@@ -31,6 +32,11 @@ public class UiAbilties : MonoBehaviour
         Event=odio;
         this.testEvent = Event.Item1;
         
+    }
+    public void setIcon (Sprite newicon)
+    {
+        Icon= newicon;
+        this.GetComponent<Image>().sprite = Icon;
     }
     //send corresponding event depending on the UI trigger type
     public void SendTrigger()

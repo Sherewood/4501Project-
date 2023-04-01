@@ -38,8 +38,9 @@ public class UserInterfaceController : MonoBehaviour
     public Sprite def;
     //copied from the selection controller 
     //selections variables 
-    private List<GameObject> _selectedUnits;
-    private bool HaveNewUnitsBeenSelected=false;
+    public List<GameObject> _selectedUnits;
+    public List<GameObject> _OldselectedUnits;
+   // private bool HaveNewUnitsBeenSelected=false;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
     private Dictionary<Technology, UIEvTrigger> _researchDisplay;
@@ -174,6 +175,7 @@ public class UserInterfaceController : MonoBehaviour
     void Update()
     {
         // Gets a selected unit+ it's actions
+        
         _selectedUnits = _displayInfoController.GetSelectedUnits();
         _selectedUnitCapabilities = _displayInfoController.GetSelectedUnitActions();
         _constructDisplay = _displayInfoController.GetConstructionMenuInfo();
@@ -198,13 +200,15 @@ public class UserInterfaceController : MonoBehaviour
         //Displaying selected units 
         if (_selectedUnits.Count > 0)
         {
-
-            displayUnit(); //loads the unit info+abilities 
-            display_buildOptions(); //Loads all possible building capabilities 
+            if (HaveUnitOptionsChanged())
+            {
+                displayUnit(); //loads the unit info+abilities 
+                display_buildOptions(); //Loads all possible building capabilities 
+            }
         }
         else
         {
-
+            Debug.Log("farts");
             Clear();
         }
         if (_displayInfoController.IsResearchMenuOpen())
@@ -217,10 +221,11 @@ public class UserInterfaceController : MonoBehaviour
     void displayUnit()
     {
         //refresh before repopulating
-        ClearAbilities();
+        //
 
-        if (_selectedUnits.Count ==1 && !HaveNewUnitsBeenSelected)
+        if (_selectedUnits.Count ==1 )//&& !HaveNewUnitsBeenSelected)
         {
+            ClearAbilities();
             UnitInfoPrefab.SetActive(true);
 
             UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
@@ -229,7 +234,7 @@ public class UserInterfaceController : MonoBehaviour
             if (unitInfo == null)
             {
                 ClearUnitInformation();
-                HaveNewUnitsBeenSelected = false;
+              //  HaveNewUnitsBeenSelected = false;
                 return;
             }
 
@@ -269,7 +274,7 @@ public class UserInterfaceController : MonoBehaviour
                     if (sp.name.Equals(ability.Key))
                     {
 
-                        _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
+                        _abilityOptions[i].GetComponent<UiAbilties>().setIcon( sp);
 
 
                         break;
@@ -281,12 +286,12 @@ public class UserInterfaceController : MonoBehaviour
 
 
             }
-            HaveNewUnitsBeenSelected = true;
+          //  HaveNewUnitsBeenSelected = true;
         }
-        else if (_selectedUnits.Count > 1 && !HaveNewUnitsBeenSelected)
+        else if (_selectedUnits.Count > 1 )//&& !HaveNewUnitsBeenSelected)
         {
             //UnitInfoPrefab.SetActive(false);
-          
+            ClearAbilities();
             for (int x = 0;x < _selectedUnits.Count; x++)
             {
                 
@@ -352,7 +357,7 @@ public class UserInterfaceController : MonoBehaviour
 
                 }
             }
-            HaveNewUnitsBeenSelected = true;
+         //   HaveNewUnitsBeenSelected = true;
         }
 
            
@@ -442,7 +447,7 @@ public class UserInterfaceController : MonoBehaviour
                 if (sp.name.Equals(unitName))
                 {
 
-                    _buildOptions[i].GetComponent<UiAbilties>().Icon = sp;
+                    _buildOptions[i].GetComponent<UiAbilties>().setIcon(sp);
 
                     break;
                 }
@@ -503,7 +508,7 @@ public class UserInterfaceController : MonoBehaviour
                 //configure event trigger
                 button.GetComponent<UiAbilties>().setTrigger((science.Key.Id, science.Value));
                 //you get the idea (todo get tech icons)
-                button.GetComponent<UiAbilties>().Icon = def;
+                button.GetComponent<UiAbilties>().setIcon(def);
                 button.SetActive(true);
                 _researchOptions.Add(button);
                 i++;
@@ -516,10 +521,11 @@ public class UserInterfaceController : MonoBehaviour
     }
     private void Clear()
     {
+        _OldselectedUnits = new List<GameObject>(_selectedUnits);
         ClearUnitInformation();
         ClearAbilities();
         Clear_buildOptions();
-        HaveNewUnitsBeenSelected = false;
+      //  HaveNewUnitsBeenSelected = false;
     }
 
     private void ClearUnitInformation()
@@ -547,7 +553,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         for (int i = 0; i < _abilityOptions.Count; i++)
         {
-            _abilityOptions[i].GetComponent<UiAbilties>().Icon = def;
+            _abilityOptions[i].GetComponent<UiAbilties>().setIcon( def);
             _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
@@ -556,7 +562,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         for (int i = 0; i < _buildOptions.Count; i++)
         {
-            _buildOptions[i].GetComponent<UiAbilties>().Icon = def;
+            _buildOptions[i].GetComponent<UiAbilties>().setIcon( def);
             _buildOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
@@ -575,5 +581,16 @@ public class UserInterfaceController : MonoBehaviour
         }
         else SciencePanel.SetActive(true);
 
+    }
+    private bool HaveUnitOptionsChanged()
+    {
+        if (_OldselectedUnits.Equals(_selectedUnits))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

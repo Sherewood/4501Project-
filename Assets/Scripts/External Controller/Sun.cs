@@ -10,20 +10,23 @@ public class Sun : MonoBehaviour
     // Start is called before the first frame update
     public Timetracker Time;
     public float intensity;
+    public float Newintensity;
     private float damage;
     private float modifier = 0.01f;
     private float _rotationSpeed;
     public GameObject light;
+    public GameObject SolarObject;
     void Start()
     {
-        
+        intensity = 0;
+        Newintensity = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
+        SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
         if (Time.CurTime %30 == 0)
         {
             intensify();
@@ -35,9 +38,19 @@ public class Sun : MonoBehaviour
         light.GetComponent<Light>().intensity+= modifier;
        
         damage = intensity;
+        Newintensity = light.GetComponent<Light>().intensity;
     }
     public float GetDamage()
     {
         return damage;
+    }
+    public bool HeatRises()
+    {
+        if (Newintensity-intensity==1)
+        {
+            intensity = Newintensity;
+            return true;
+        }
+        return false;
     }
 }
