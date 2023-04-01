@@ -517,6 +517,9 @@ public class Movement : MonoBehaviour
     //move to
     public bool MoveToDestination(Vector3 destination, MovementMode movementMode = MovementMode.MODE_DEFAULT, float offsetFromDestination = 0.0f)
     {
+        //since we are moving to a static destination, clear prior dynamic destination to prevent overwriting...
+        _dynamicDestination = null;
+
         _destination = destination;
         _offsetFromDestination = offsetFromDestination;
         _moving = true;

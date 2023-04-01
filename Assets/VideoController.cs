@@ -66,7 +66,10 @@ public class VideoController : MonoBehaviour
     {
         
         StartCoroutine(Report());
-        typewriter_Effect.SendMessage(message);
+        if (typewriter_Effect != null)
+        {
+            typewriter_Effect.SendMessage(message);
+        }
         yield return new WaitForSeconds(15f);
 
     }
