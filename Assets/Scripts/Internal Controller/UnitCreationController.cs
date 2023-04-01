@@ -59,7 +59,7 @@ public class UnitCreationController : MonoBehaviour
     {
         if(_entityStorage.RemoveEntity(unit.GetInstanceID()) == null)
         {
-            Debug.LogError("Error: Unit Creation Controller tried to delete unit which was already deleted, or never tracked.");
+            Debug.LogError("Error: Unit Creation Controller tried to delete unit which was already deleted, or never tracked. Unit name: " + unit.name);
             return;
         }
 

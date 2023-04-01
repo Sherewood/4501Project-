@@ -28,9 +28,11 @@ public class Sun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
-        if (Time.CurTime %20 == 0)
+        if (SolarObject != null)
+        {
+            SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
+        }
+        if (Time.CurTime %30 == 0)
         {
             intensify();
         }
@@ -40,7 +42,7 @@ public class Sun : MonoBehaviour
     {
         light.GetComponent<Light>().intensity+= modifier;
        
-        intensity= light.GetComponent<Light>().intensity - modifier;
+        damage = intensity;
         Newintensity = light.GetComponent<Light>().intensity;
     }
     public float GetDamage()
@@ -49,16 +51,12 @@ public class Sun : MonoBehaviour
     }
     public bool HeatRises()
     {
-        Debug.Log("ASD");
-        if (Newintensity > intensity   )
+        if (Newintensity> intensity   )
         {
             
             intensity = Newintensity;
-
-            
             return true;
         }
-        
         return false;
     }
 }
