@@ -98,8 +98,8 @@ public class Commander : MonoBehaviour
         {
             GameObject curUnit = _controlledUnits[i];
 
-            //remove unit if no longer commanded
-            if (curUnit == null || curUnit.GetComponent<UnitInfo>() == null)
+            //remove unit if unit is dead
+            if (curUnit == null || curUnit.GetComponent<UnitState>().IsDead())
             {
                 wasUnitLost = true;
                 _controlledUnits.RemoveAt(i);

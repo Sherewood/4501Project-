@@ -13,6 +13,7 @@ public enum UState
     STATE_GUARDING,
     STATE_FORTIFIED,
     STATE_HARVESTING,
+    STATE_DEAD
 }
 
 /* Unit class */
@@ -29,6 +30,8 @@ public class UnitState : MonoBehaviour
     private Attack _attack;
     private Targeting _targeting;
     private UnitBuilderComponent _unitBuilder;
+    private Rigidbody _rigidBody;
+    private Collider _collider;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +42,8 @@ public class UnitState : MonoBehaviour
         _attack = GetComponent<Attack>();
         _targeting = GetComponent<Targeting>();
         _unitBuilder = GetComponent<UnitBuilderComponent>();
+        _rigidBody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
     }
 
     public void SetState(UState state)
@@ -51,9 +56,15 @@ public class UnitState : MonoBehaviour
         return _state;
     }
 
+    public bool IsDead()
+    {
+        return _state == UState.STATE_DEAD;
+    }
+
     //disable relevant active components of unit
     public void DisableUnit()
     {
+        _state = UState.STATE_DEAD;
         if(_movement != null)
         {
             _movement.StopMovement();
@@ -70,6 +81,14 @@ public class UnitState : MonoBehaviour
         if(_unitBuilder != null)
         {
             _unitBuilder.enabled = false;
+        }
+        if(_rigidBody != null)
+        {
+            Destroy(_rigidBody);
+        }
+        if(_collider != null)
+        {
+            _collider.enabled = false;
         }
     }
 

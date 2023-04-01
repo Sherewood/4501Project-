@@ -65,23 +65,15 @@ public class UnitCreationController : MonoBehaviour
 
         _unitController.DeleteUnitFromFlock(unit);
 
-        /* scuffed delayed death system */
+        /* delayed death system */
         //Needed in order to give the death animation time to play without interfering with the game
-        //1) Destroy the unit's Unit Info component, this way enemies targeting the unit will not recognize it as a unit
-        //   -this part in particular could cause problems in the future,
-        //   would be wise (and probably very easy!) to come up with a better way to stop recognition as a unit
+        //1) Set the unit's state to dead, disable relevant components
         //2) Disable all collision detection on the unit, disable relevant components
         //3) Start coroutine that destroys unit after a certain amount of time
 
-        //step 1
-        Destroy(unit.GetComponent<UnitInfo>());
-        //step 2
+        //steps 1-2
         UnitState state = unit.GetComponent<UnitState>();
         state.DisableUnit();
-
-        //todo: implement a better way of stopping collisions than nuking them, lol
-        Destroy(unit.GetComponent<Rigidbody>());
-        Destroy(unit.GetComponent<Collider>());
 
         //step 3
         StartCoroutine(DestroyUnitAfterSetTime(unit, 1.6f));
