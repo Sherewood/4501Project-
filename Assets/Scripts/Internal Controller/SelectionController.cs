@@ -132,7 +132,6 @@ public class SelectionController : MonoBehaviour
 
     private void CheckIfSelectedUnitsGone()
     {
-        Debug.Log("ASDA" + _selectedUnits.Count);
         bool unitDestroyed = false;
         //remove any selected units that were destroyed
         for(int i = 0; i < _selectedUnits.Count; i++)
@@ -142,7 +141,6 @@ public class SelectionController : MonoBehaviour
                 _selectedUnits.RemoveAt(i);
                 unitDestroyed = true;
                 i--;
-                Debug.Log("VOWX");
             }
         }
 
@@ -155,7 +153,6 @@ public class SelectionController : MonoBehaviour
             {
                 AddNewSelectionIndicator(unit);
             }
-            Debug.Log("VasdasdX");
         }
     }
 

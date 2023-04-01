@@ -208,7 +208,6 @@ public class UserInterfaceController : MonoBehaviour
         }
         else
         {
-            Debug.Log("farts");
             Clear();
         }
         if (_displayInfoController.IsResearchMenuOpen())
