@@ -75,6 +75,7 @@ public class Health : MonoBehaviour
         {
             if (_actualHealth / MaxHealth < LowHealthThreshold)
             {
+                _reportedLowHealth = true;
                 AICallback.Invoke("unitLowHealth");
             }
         }

@@ -466,7 +466,7 @@ public class Movement : MonoBehaviour
             Vector3 dir = Vector3.Normalize(_dynamicDestination.position - transform.position);
 
             //use larger range once in default movement mode to prevent rubberbanding
-            float range = inPathfindingMode ? 5.0f : 5.5f;
+            float range = inPathfindingMode ? 5.0f : 6.5f;
 
             RaycastHit[] hitTargets = Physics.RaycastAll(transform.position, dir, range);
 
@@ -488,6 +488,7 @@ public class Movement : MonoBehaviour
     //assumption: previous movement mode is pathfinding mode
     public void SwitchToDefaultMovement()
     {
+        Debug.Log(gameObject.name + " switched to default movement");
         _navMeshAgent.enabled = false;
         _movementMode = MovementMode.MODE_DEFAULT;
     }
@@ -495,6 +496,7 @@ public class Movement : MonoBehaviour
     //assumption: previous movement mode is default mode
     public void SwitchToPathfindingMovement()
     {
+        Debug.Log(gameObject.name + " switched to pathfinding movement");
         _navMeshAgent.enabled = true;
         _navMeshAgent.SetDestination(GetDestination());
         _movementMode = MovementMode.MODE_PATHFINDING;
