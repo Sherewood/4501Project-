@@ -25,7 +25,7 @@ public class VideoController : MonoBehaviour
         dialogue = new List<string>();
         StartCoroutine(Report());
         _displayInfoController = FindObjectOfType<DisplayInfoController>();
-       StartCoroutine(EventHandle(("Alright Commander. We don't have much time. Build up our defensese so we can get enough fule to evacuate. Sun's going to be up soon...")));
+       StartCoroutine(EventHandle(("Alright Commander. We don't have much time. Build up our defenses so we can get enough fuel to evacuate. Sun's going to be up soon...")));
        // StartCoroutine(SignOff());
         
     }
@@ -33,14 +33,13 @@ public class VideoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // Text.GetComponent<TextMeshProUGUI>().text.Equals("AS");
-        dialogue= _displayInfoController.CheckEvents();
+        
+        // Text.GetComponent<TextMeshProUGUI>().text.Equals("AS");
+        dialogue = _displayInfoController.CheckEvents();
         if (dialogue.Count > 0 && Text.text.Equals("")) 
         {
-            foreach(string s in dialogue)
-            {
-               StartCoroutine(EventHandle(s));
-            }
+            StartCoroutine(StringQueue(dialogue));
+            
         }
     /*    if (Input.GetKeyDown(KeyCode.K))
         {
@@ -60,6 +59,18 @@ public class VideoController : MonoBehaviour
             }
             
         }*/
+        
+    }
+    IEnumerator StringQueue(List<string> lines)
+    {
+
+        foreach (string s in dialogue)
+        {
+            StartCoroutine(EventHandle(s));
+            yield return new WaitForSeconds(5f);
+            dialogue.Remove(s);
+        }
+        
         
     }
     IEnumerator EventHandle(string message)
