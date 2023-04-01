@@ -8,6 +8,16 @@ public class EdeniteMuncherAIControl : CombatAIControl
 
     private CommandableUnit _commandableUnit;
 
+    //properties
+    [Tooltip("The minimum distance the muncher can wander in one go.")]
+    public int WanderMinDist;
+
+    [Tooltip("The maximum distance the muncher can wander in one go.")]
+    public int WanderMaxDist;
+
+    [Tooltip("The arc (in degrees) from the direction to the main base that the muncher can wander towards.")]
+    public int Arc;
+
     protected override void GetComponents()
     {
         _commandableUnit = GetComponent<CommandableUnit>();
@@ -60,6 +70,11 @@ public class EdeniteMuncherAIControl : CombatAIControl
 
         switch (action)
         {
+            //wander towards a given position
+            case "wanderTowardsPosition":
+                Vector3 dir = Vector3.Normalize(DetermineTargetPosition() - transform.position);
+                _movement.WanderTowardsDirection(dir, WanderMinDist, WanderMaxDist, Arc);
+                break;
             //should really just move this to base class but w/e
             case "refreshTargeting":
                 _targeting.Refresh();

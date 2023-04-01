@@ -98,10 +98,6 @@ public class CombatAIControl : AIControl
             case "clearTarget":
                 _attack.ClearTarget();
                 break;
-            case "requestMainBasePos":
-                //trigger position request for main base
-                _positionRequestEvent.Invoke("mainBase", this.gameObject);
-                break;
             default:
                 base.PerformStandardAction(action);
                 return;

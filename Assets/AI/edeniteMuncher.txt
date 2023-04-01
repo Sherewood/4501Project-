@@ -12,10 +12,13 @@ CM|If command==attack and targetInRange then attackTarget
 CM|If command==attack and targetNotInRange then moveTarget
 #key difference from player handling: don't break command, sit around and let commander decide what happens next
 CM|If command==attack and targetLost then clearTarget and stopMovement
-#Basic combat behaviour when idle (Todo: add wandering)
+#Basic combat behaviour when idle
+If init then requestMainBasePos
+#wander in a direction that will put the unit closer to the main base
+If positionReceived then wanderTowardsPosition
+If reachedDestination then stopMovement and requestMainBasePos
 If targetChanged and targetNotInRange then setTarget and moveTarget
 If targetChanged and targetInRange then setTarget and attackTarget
+If targetLost then clearTarget and stopMovement and requestMainBasePos
 If targetInRange then attackTarget
 If targetNotInRange then moveTarget
-If targetLost then clearTarget and stopMovement
-If targetLost then clearTarget and initReturn
