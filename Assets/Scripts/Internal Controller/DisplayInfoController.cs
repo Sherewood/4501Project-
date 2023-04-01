@@ -179,14 +179,14 @@ public class DisplayInfoController : MonoBehaviour
     public List<string> CheckEvents()
     {
         List<string> events = new List<string>();
-        if (sun.HeatRises())
+        /*if (sun.HeatRises())
         {
             events.Add("Heat Rising");
         }
         else
         {
             events.Add("Nothing to report");
-        }
+        }*/
         return events;
     }
     /* event handling */

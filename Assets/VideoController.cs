@@ -15,13 +15,13 @@ public class VideoController : MonoBehaviour
    // public TextMeshProUGUI Text;
     public typewriter_effect typewriter_Effect;
     //displayinfo controlelr
-    public DisplayInfoController _displayInfoController;
+    private DisplayInfoController _displayInfoController;
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(Report());
-        //_displayInfoController = FindObjectOfType<DisplayInfoController>();
+        _displayInfoController = FindObjectOfType<DisplayInfoController>();
        typewriter_Effect.SendMessage("Alright Commander. We don't have much time. Build up our defensese so we can get enough fule to evacuate. Sun's going to be up soon...");
        // StartCoroutine(SignOff());
         
