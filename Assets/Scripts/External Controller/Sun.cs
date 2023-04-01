@@ -28,8 +28,10 @@ public class Sun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
+        if (SolarObject != null)
+        {
+            SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
+        }
         if (Time.CurTime %30 == 0)
         {
             intensify();
