@@ -69,9 +69,18 @@ public class Health : MonoBehaviour
         
         //check if dead
         HandleDeathIfNeeded();
+
+        //if not dead, report low health if applicable
+        if (!_reportedDeath && !_reportedLowHealth)
+        {
+            if (_actualHealth / MaxHealth < LowHealthThreshold)
+            {
+                AICallback.Invoke("unitLowHealth");
+            }
+        }
     }
 
-
+    //this code doesnt actually do anything
     void OnCollisionEnter(Collision collision)
     {
         //avoid crash from colliding with element that has no rigidbody
@@ -93,15 +102,6 @@ public class Health : MonoBehaviour
 
         //check if dead
         HandleDeathIfNeeded();
-
-        //if not dead, report low health if applicable
-        if (_reportedDeath && !_reportedLowHealth)
-        {
-            if(_actualHealth/MaxHealth < LowHealthThreshold)
-            {
-                AICallback.Invoke("unitLowHealth");
-            }
-        }
     }
 
     //check if impact came from projectile

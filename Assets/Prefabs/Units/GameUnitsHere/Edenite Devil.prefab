@@ -208,7 +208,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  DetectRange: 14
+  DetectRange: 15
   TargetAllegiances:
   - player
 --- !u!54 &-5942888071925629939
@@ -288,10 +288,11 @@ MonoBehaviour:
         m_CallState: 1
   Duration: 20
   Cooldown: 10000
+  specialEffect: {fileID: 7281000451521953555}
   DamageMultiplier: 1.5
-  FireRateMultiplier: 2
+  FireRateMultiplier: 1.5
   SpeedMultiplier: 1.75
-  TurnRateMultiplier: 0
+  TurnRateMultiplier: 2
 --- !u!114 &-5753729588458461803
 MonoBehaviour:
   m_ObjectHideFlags: 0
