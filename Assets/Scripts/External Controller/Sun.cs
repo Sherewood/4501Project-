@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,10 +17,12 @@ public class Sun : MonoBehaviour
     private float _rotationSpeed;
     public GameObject light;
     public GameObject SolarObject;
+  
     void Start()
     {
         intensity = 0;
         Newintensity = 0;
+        
     }
 
     // Update is called once per frame
@@ -46,8 +49,9 @@ public class Sun : MonoBehaviour
     }
     public bool HeatRises()
     {
-        if (Newintensity-intensity==1)
+        if (Newintensity> intensity   )
         {
+            
             intensity = Newintensity;
             return true;
         }

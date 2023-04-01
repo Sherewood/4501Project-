@@ -183,10 +183,6 @@ public class DisplayInfoController : MonoBehaviour
         {
             events.Add("Heat Rising");
         }
-        else
-        {
-            events.Add("Nothing to report");
-        }
         return events;
     }
     /* event handling */
