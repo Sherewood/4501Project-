@@ -99,7 +99,7 @@ public class Attack : MonoBehaviour
         TargetStatus latestTargetStatus = TargetStatus.INVALID;
 
         //determine if enemy is close enough to justify distance calculation
-        if (CheckIfEnemyFarOutOfRange())
+        if (CheckIfEnemyFarOutOfRange() && !_weapon.WeaponType.Equals("melee"))
         {
             latestTargetStatus = TargetStatus.OUT_RANGE;
         }
@@ -234,26 +234,5 @@ public class Attack : MonoBehaviour
         //use weapon component
         return _weapon.IsWeaponReadyToFire(distance, direction);
     }
-
-    /* collision based code for helping melee attackers tell if they're in range */
-    //using overlapsphere instead is probably better, but this works for now
-    void OnCollisionEnter(Collision collision)
-    {
-        GameObject possibleTarget = collision.gameObject;
-        if (possibleTarget == _currentTarget)
-        {
-            _collidedWithTarget = true;
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        GameObject possibleTarget = collision.gameObject;
-        if (possibleTarget == _currentTarget)
-        {
-            _collidedWithTarget = false;
-        }
-    }
-
 
 }

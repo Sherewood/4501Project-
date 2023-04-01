@@ -84,9 +84,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
   MaxHealth: 200
   BaseDefense: 15
   FortifyDefenseBonus: 0
+  LowHealthThreshold: 0
 --- !u!114 &8130077436605554117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +121,7 @@ MonoBehaviour:
   _moving: 0
   Speed: 0.75
   TurnRate: 30
+  FreezePositionWhenRotatingInPlace: 0
 --- !u!114 &-6763880964242767567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +165,7 @@ MonoBehaviour:
   Damage: 100
   FireRate: 0.25
   MinRange: 7
-  MaxRange: 15
+  MaxRange: 20
   FiringOffset: {x: 0, y: 0, z: 0}
   FiringArc: 45
   projectilePrefab: {fileID: 3724394957186235770, guid: 0d8558e78819c104eb6df97db5cb8695, type: 3}
@@ -191,7 +196,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  DetectRange: 15
+  DetectRange: 20
   TargetAllegiances:
   - enemy
 --- !u!65 &-1985163176651472814

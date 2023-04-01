@@ -14,6 +14,9 @@ public class TimedSpecialAbility : MonoBehaviour
     public float Duration;
     public float Cooldown;
 
+    // special effect for the ability when it's active
+    public GameObject specialEffect;
+
     //true if ability available to activate
     private bool _canActivate;
     //true if ability activated
@@ -30,6 +33,11 @@ public class TimedSpecialAbility : MonoBehaviour
         _active = false;
         _timeRemaining = 0.0f;
         _cooldownTime = 0.0f;
+
+        if(specialEffect != null)
+        {
+            specialEffect.SetActive(false);
+        }
     }
 
     // Handle cooldowns/activations....
@@ -43,6 +51,12 @@ public class TimedSpecialAbility : MonoBehaviour
             {
                 _active = false;
                 _cooldownTime = Cooldown;
+
+                if (specialEffect != null)
+                {
+                    specialEffect.SetActive(false);
+                }
+
                 AICallback.Invoke("specialAbilityEnded");
             }
         }
@@ -74,6 +88,12 @@ public class TimedSpecialAbility : MonoBehaviour
         if (_canActivate)
         {
             _active = true;
+
+            if (specialEffect != null)
+            {
+                specialEffect.SetActive(true);
+            }
+
             _canActivate = false;
             _timeRemaining = Duration;
             return true;

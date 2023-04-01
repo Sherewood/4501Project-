@@ -84,9 +84,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -4282744725288528172}
+        m_TargetAssemblyTypeName: EdeniteDevilControl, Assembly-CSharp
+        m_MethodName: HandleAIEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   MaxHealth: 500
   BaseDefense: 20
   FortifyDefenseBonus: 0
+  LowHealthThreshold: 0.3
 --- !u!114 &8130077436605554117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +208,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  DetectRange: 14
+  DetectRange: 15
   TargetAllegiances:
   - player
 --- !u!54 &-5942888071925629939
@@ -272,10 +288,11 @@ MonoBehaviour:
         m_CallState: 1
   Duration: 20
   Cooldown: 10000
+  specialEffect: {fileID: 7281000451521953555}
   DamageMultiplier: 1.5
-  FireRateMultiplier: 2
+  FireRateMultiplier: 1.5
   SpeedMultiplier: 1.75
-  TurnRateMultiplier: 0
+  TurnRateMultiplier: 2
 --- !u!114 &-5753729588458461803
 MonoBehaviour:
   m_ObjectHideFlags: 0
