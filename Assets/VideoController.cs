@@ -17,6 +17,7 @@ public class VideoController : MonoBehaviour
     public typewriter_effect typewriter_Effect;
     //displayinfo controller
     private DisplayInfoController _displayInfoController;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class VideoController : MonoBehaviour
         dialogue = new List<string>();
         StartCoroutine(Report());
         _displayInfoController = FindObjectOfType<DisplayInfoController>();
-       //typewriter_Effect.SendMessage("Alright Commander. We don't have much time. Build up our defensese so we can get enough fule to evacuate. Sun's going to be up soon...");
+       StartCoroutine(EventHandle(("Alright Commander. We don't have much time. Build up our defensese so we can get enough fule to evacuate. Sun's going to be up soon...")));
        // StartCoroutine(SignOff());
         
     }
@@ -38,7 +39,7 @@ public class VideoController : MonoBehaviour
         {
             foreach(string s in dialogue)
             {
-               EventHandle(s);
+               StartCoroutine(EventHandle(s));
             }
         }
     /*    if (Input.GetKeyDown(KeyCode.K))
@@ -61,12 +62,13 @@ public class VideoController : MonoBehaviour
         }*/
         
     }
-    public void EventHandle(string message)
+    IEnumerator EventHandle(string message)
     {
         
         StartCoroutine(Report());
         typewriter_Effect.SendMessage(message);
-        
+        yield return new WaitForSeconds(15f);
+
     }
     IEnumerator Report()
     {

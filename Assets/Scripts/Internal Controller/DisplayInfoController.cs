@@ -40,11 +40,12 @@ public class DisplayInfoController : MonoBehaviour
     private bool _researchMenuChanged;
 
     private Sun sun;
-    
+    private List<string> events;
 
     // Start is called before the first frame update
     void Start()
     {
+        events = new List<string>();
         _selectionController = GetComponent<SelectionController>();
         _gameStateController = GetComponent<GameStateController>();
 
@@ -178,11 +179,12 @@ public class DisplayInfoController : MonoBehaviour
 
     public List<string> CheckEvents()
     {
-        List<string> events = new List<string>();
+        
         if (sun != null && sun.HeatRises())
         {
             events.Add("Heat Rising");
         }
+   
         return events;
     }
     /* event handling */
@@ -306,6 +308,10 @@ public class DisplayInfoController : MonoBehaviour
         {
             return UIEvTrigger.TRIGGER_NONE;
         }
+    }
+    public void AddDialogue(string Dialogue)
+    {
+        events.Add(Dialogue);
     }
 
 }

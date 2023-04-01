@@ -185,6 +185,7 @@ public class InternalControllerEventHandler : MonoBehaviour
         if (_gameStateController.ResearchTechnology(techId))
         {
             Debug.Log("Tech research successful.");
+            _displayInfoController.AddDialogue("Research Successful! We now have access to " + techId);
             _displayInfoController.UpdateResearchMenuInfo();
         }
     }
@@ -220,7 +221,7 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleUnitDeadEvent(GameObject newUnit)
     {
         Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
-
+        
         _unitCreationController.DeleteDeadEntity(newUnit);
     }
 
@@ -265,6 +266,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         {
             SceneManager.LoadScene("GameOverScene", LoadSceneMode.Single);
         } 
+        else
+        {
+            _displayInfoController.AddDialogue("Congratulations Commander. Eden 4 May have been lost but at least we were able to save some of it's population.");
+        }
     }
 
     // Helper functions

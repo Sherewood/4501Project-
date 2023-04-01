@@ -40,7 +40,7 @@ public class UserInterfaceController : MonoBehaviour
     //selections variables 
     public List<GameObject> _selectedUnits;
     public List<GameObject> _OldselectedUnits;
-   // private bool HaveNewUnitsBeenSelected=false;
+    private bool HaveNewUnitsBeenSelected=false;
     private Dictionary<string, UIEvTrigger> _selectedUnitCapabilities;
     private Dictionary<string, UIEvTrigger> _constructDisplay;
     private Dictionary<Technology, UIEvTrigger> _researchDisplay;
@@ -222,10 +222,11 @@ public class UserInterfaceController : MonoBehaviour
         //refresh before repopulating
         //
 
-        if (_selectedUnits.Count ==1 )//&& !HaveNewUnitsBeenSelected)
+        if (_selectedUnits.Count ==1 )
         {
             ClearAbilities();
-            UnitInfoPrefab.SetActive(true);
+            ClearUnitInformation();
+            UnitInfo.SetActive(true);
 
             UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
 
@@ -233,7 +234,7 @@ public class UserInterfaceController : MonoBehaviour
             if (unitInfo == null)
             {
                 ClearUnitInformation();
-              //  HaveNewUnitsBeenSelected = false;
+              HaveNewUnitsBeenSelected = false;
                 return;
             }
 
@@ -285,34 +286,36 @@ public class UserInterfaceController : MonoBehaviour
 
 
             }
-          //  HaveNewUnitsBeenSelected = true;
+            HaveNewUnitsBeenSelected = true;
         }
-        else if (_selectedUnits.Count > 1 )//&& !HaveNewUnitsBeenSelected)
+        else if (_selectedUnits.Count > 1 )
         {
-            //UnitInfoPrefab.SetActive(false);
+            UnitInfo.SetActive(false);
             ClearAbilities();
-            for (int x = 0;x < _selectedUnits.Count; x++)
+            ClearUnitInformation();
+            for (int x = 0;x < _selectedUnits.Count; x++)  
             {
                 
                 GameObject unit = Instantiate(UnitInfoPrefab);
                 unit.transform.localScale = new Vector3(.5f, .5f, .5f);
-                if (x < 3)
+                if (x <= 2)
                 {
-                    unit.transform.position = new Vector3(-691f + (700 * x), 268f, 0f);
+                    unit.transform.position = new Vector3(-691f + (500 * x), 268f, 0f);
                 }
-                else if (x <6)
+                else if (x <=5)
                 {
-                    unit.transform.position = new Vector3(-691f + (700 * x), 200f, 0f);
+                    unit.transform.position = new Vector3(-691f + (500 * (x-3)), -61f, 0f);
                 }
-                else
+                else 
                 {
-                    unit.transform.position = new Vector3(-691f + (700 * x), 140f, 0f);
+                    unit.transform.position = new Vector3(-691f + (500 * (x-6)), -378f, 0f);
                 }
                 unit.transform.SetParent(UnitInfoCanvas.transform, false);
                 UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
 
                 //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
-                if (unitInfo == null)
+                
+                if (unit == null)
                 {
                     ClearUnitInformation();
                     return;
@@ -367,7 +370,7 @@ public class UserInterfaceController : MonoBehaviour
 
                 }
             }
-         //   HaveNewUnitsBeenSelected = true;
+            HaveNewUnitsBeenSelected = true;
         }
 
            
@@ -535,7 +538,7 @@ public class UserInterfaceController : MonoBehaviour
         ClearUnitInformation();
         ClearAbilities();
         Clear_buildOptions();
-      //  HaveNewUnitsBeenSelected = false;
+      HaveNewUnitsBeenSelected = false;
     }
 
     private void ClearUnitInformation()
