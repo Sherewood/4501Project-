@@ -296,7 +296,18 @@ public class UserInterfaceController : MonoBehaviour
                 
                 GameObject unit = Instantiate(UnitInfoPrefab);
                 unit.transform.localScale = new Vector3(.5f, .5f, .5f);
-                unit.transform.position = new Vector3(-691f+(700*x), 268f, 0f);
+                if (x < 3)
+                {
+                    unit.transform.position = new Vector3(-691f + (700 * x), 268f, 0f);
+                }
+                else if (x <6)
+                {
+                    unit.transform.position = new Vector3(-691f + (700 * x), 200f, 0f);
+                }
+                else
+                {
+                    unit.transform.position = new Vector3(-691f + (700 * x), 140f, 0f);
+                }
                 unit.transform.SetParent(UnitInfoCanvas.transform, false);
                 UnitInfo unitInfo = _selectedUnits[x].GetComponent<UnitInfo>();
 
