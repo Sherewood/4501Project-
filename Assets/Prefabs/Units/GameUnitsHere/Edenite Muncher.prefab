@@ -102,6 +102,7 @@ MonoBehaviour:
   _moving: 0
   Speed: 2
   TurnRate: 175
+  FreezePositionWhenRotatingInPlace: 0
 --- !u!114 &7323354228365517356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +295,7 @@ Animator:
   m_GameObject: {fileID: 164426}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5779b1a41ccf45b45bfc238034373133, type: 3}
-  m_Controller: {fileID: 9100000, guid: 40308d8b1f3347249b1299c2c8ffe225, type: 2}
+  m_Controller: {fileID: 9100000, guid: 62f12fab7442c5b40bb95b8331dd9001, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

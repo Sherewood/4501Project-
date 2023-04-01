@@ -21,17 +21,21 @@ public class typewriter_effect : MonoBehaviour
     }
     public void SendMessage(string message)
     {
-        final_string = message;
-        //text.text = final_string;
-        StartCoroutine(typeWriter(delay));
+        if (message != text.text)
+        {
+            final_string = message;
+            
+            StartCoroutine(typeWriter(delay));
+        }
     }
-    IEnumerator typeWriter(float delay)
+        IEnumerator typeWriter(float delay)
     {
         foreach (char c in final_string)
         {
             text.text += c;
             yield return new WaitForSeconds(delay);
         }
+        yield return new WaitForSeconds(2f);
         text.text = "";
     }
 }

@@ -12,16 +12,18 @@ public class VideoController : MonoBehaviour
     public GameObject DisplayMat;
     public GameObject onAnim;
     public GameObject offAnim;
-   // public TextMeshProUGUI Text;
+    public List<string> dialogue;
+    public TextMeshProUGUI Text;
     public typewriter_effect typewriter_Effect;
     //displayinfo controlelr
-    private DisplayInfoController _displayInfoController;
+    public DisplayInfoController _displayInfoController;
 
     // Start is called before the first frame update
     void Start()
     {
+        dialogue = new List<string>();
         StartCoroutine(Report());
-        _displayInfoController = FindObjectOfType<DisplayInfoController>();
+        //_displayInfoController = FindObjectOfType<DisplayInfoController>();
        typewriter_Effect.SendMessage("Alright Commander. We don't have much time. Build up our defensese so we can get enough fule to evacuate. Sun's going to be up soon...");
        // StartCoroutine(SignOff());
         
@@ -31,12 +33,12 @@ public class VideoController : MonoBehaviour
     void Update()
     {
        // Text.GetComponent<TextMeshProUGUI>().text.Equals("AS");
-        List<string> dialogue = _displayInfoController.CheckEvents();
-        if (dialogue.Count > 0)
+        dialogue= _displayInfoController.CheckEvents();
+        if (dialogue.Count > 0 && Text.text.Equals("")) 
         {
             foreach(string s in dialogue)
             {
-                EventHandle(s);
+               EventHandle(s);
             }
         }
     /*    if (Input.GetKeyDown(KeyCode.K))
@@ -61,8 +63,10 @@ public class VideoController : MonoBehaviour
     }
     public void EventHandle(string message)
     {
+        
         StartCoroutine(Report());
         typewriter_Effect.SendMessage(message);
+        
     }
     IEnumerator Report()
     {
