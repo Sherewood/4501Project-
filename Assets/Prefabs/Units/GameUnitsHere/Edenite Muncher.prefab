@@ -172,9 +172,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
   MaxHealth: 45
   BaseDefense: 5
   FortifyDefenseBonus: 0
+  LowHealthThreshold: 0
 --- !u!114 &6706952161272946159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +289,9 @@ MonoBehaviour:
   DebugMode: 0
   RuleFiles:
   - {fileID: 4900000, guid: a494810ec9df75f4ea5cdb5a9399f751, type: 3}
+  WanderMinDist: 2
+  WanderMaxDist: 5
+  Arc: 120
 --- !u!95 &-7096437158727397096
 Animator:
   serializedVersion: 5

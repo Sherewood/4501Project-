@@ -540,16 +540,7 @@ public class Movement : MonoBehaviour
 
         while (attempts < attemptLimit)
         {
-            //randomly pick an angle within [-arc/2,arc/2] to represent the angle between the unit's current forward direction, and the desired direction vector
-            int angle = _random.Next(arc) - arc / 2;
-            Quaternion dirQuat = Quaternion.AngleAxis(angle, Vector3.up);
-            Vector3 dir = dirQuat * transform.forward;
-
-            //randomly pick a magnitude to represent the distance travelled between [wanderMin, wanderMax]
-            int dist = _random.Next(wanderMinDist, wanderMaxDist);
-
-            //calculate the destination point, and determine if it is within the given radius of the unit position or return point
-            Vector3 destination = transform.position + dir * dist;
+            Vector3 destination = CalcWanderPoint(transform.forward, wanderMinDist, wanderMaxDist, arc);
 
             //if it is, then move to that destination, otherwise try again, if too many attempts fail in a row drop an error
             if(Vector3.Distance(destination, center) <= radius)
@@ -567,6 +558,29 @@ public class Movement : MonoBehaviour
         Debug.LogError("Failed to find a wandering destination, radius: " + radius + " min distance: " + wanderMinDist + " max distance: " + wanderMaxDist + "arc: " + arc + ", Consider adjusting?");
 
         return false;
+    }
+
+    //wander towards the given direction
+    public bool WanderTowardsDirection(Vector3 direction, int wanderMinDist, int wanderMaxDist, int arc = 360)
+    {
+        Vector3 destination = CalcWanderPoint(direction, wanderMinDist, wanderMaxDist, arc);
+
+        return MoveToDestination(destination, MovementMode.MODE_PATHFINDING);
+    }
+
+    //helper for calculating point to wander to
+    private Vector3 CalcWanderPoint(Vector3 direction, int wanderMinDist, int wanderMaxDist, int arc = 360)
+    {
+        //randomly pick an angle within [-arc/2,arc/2] to represent the angle between the unit's current forward direction, and the desired direction vector
+        int angle = _random.Next(arc) - arc / 2;
+        Quaternion dirQuat = Quaternion.AngleAxis(angle, Vector3.up);
+        Vector3 dir = dirQuat * direction;
+
+        //randomly pick a magnitude to represent the distance travelled between [wanderMin, wanderMax]
+        int dist = _random.Next(wanderMinDist, wanderMaxDist);
+
+        //calculate the destination point, and determine if it is within the given radius of the unit position or return point
+        return transform.position + dir * dist;
     }
 
     /* move to methods for dynamic destinations */

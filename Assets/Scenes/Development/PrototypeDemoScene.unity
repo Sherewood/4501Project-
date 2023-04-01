@@ -3559,11 +3559,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
---- !u!1 &1394913459 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4140451903554694358, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+--- !u!114 &1394913461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4140451903554694357, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
   m_PrefabInstance: {fileID: 2808512708838475845}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f765d85dd4d9041bfe3e85f44e19a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1430585247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4190,6 +4196,10 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3376413392711161977, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
+      propertyPath: DebugMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9060410599923791195, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_RootOrder
       value: 45
@@ -4479,7 +4489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Time: {fileID: 1394913459}
+  Time: {fileID: 1394913461}
   intensity: 0
   Newintensity: 0
   light: {fileID: 705507993}
