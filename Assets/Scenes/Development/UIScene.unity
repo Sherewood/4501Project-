@@ -2609,6 +2609,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2808512709029621482, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.26058412
+      objectReference: {fileID: 0}
+    - target: {fileID: 2808512709029621482, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -102
+      objectReference: {fileID: 0}
     - target: {fileID: 2808512709783474482, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.92935157
@@ -3113,7 +3121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
       propertyPath: m_Name
-      value: RPG Infantry (1)
+      value: Rpg Infantry (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
       propertyPath: m_IsActive
@@ -3748,7 +3756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
-      value: Tank (3)
+      value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_IsActive
@@ -4560,7 +4568,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
-      value: Tank (2)
+      value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_IsActive
@@ -4633,7 +4641,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_Name
-      value: Tank (1)
+      value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
       propertyPath: m_IsActive
