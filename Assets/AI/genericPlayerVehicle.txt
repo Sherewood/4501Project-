@@ -1,0 +1,3 @@
+#For player vehicle units, just for plant
+CM|If command==plant and newCommand and specialAbilityReady then activateSpecialAbility and breakCommand
+CM|If command==plant and newCommand and specialAbilityNotReady then breakCommand

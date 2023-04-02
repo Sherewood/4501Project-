@@ -45,8 +45,8 @@ public class UnitDatabase : MonoBehaviour
         CreateUnitDataRecord("player-dynamic-military-minigun", 20, 20, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
 
         //vehicles
-        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting AIControl");
-        CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting AIControl");
+        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting plant AIControl");
+        CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting plant AIControl");
 
         //enemy units
 

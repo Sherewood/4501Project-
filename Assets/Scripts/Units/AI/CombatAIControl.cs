@@ -7,12 +7,12 @@ public class CombatAIControl : AIControl
 {
 
     protected Attack _attack;
-    protected HyperBoost _hyperBoost;
+    protected TimedSpecialAbility _specialAbility;
 
     protected override void GetComponents()
     {
         _attack = GetComponent<Attack>();
-        _hyperBoost = GetComponent<HyperBoost>();
+        _specialAbility = GetComponent<TimedSpecialAbility>();
 
         if (_attack == null)
         {
@@ -56,10 +56,10 @@ public class CombatAIControl : AIControl
                 }
 
                 return _attack.CheckIfEnemyInRange(DetermineTarget());
-            case "hyperBoostReady":
-                return _hyperBoost.CanActivate();
-            case "hyperBoostNotReady":
-                return !_hyperBoost.CanActivate();
+            case "specialAbilityReady":
+                return _specialAbility.CanActivate();
+            case "specialAbilityNotReady":
+                return !_specialAbility.CanActivate();
             default:
                 return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
@@ -104,8 +104,8 @@ public class CombatAIControl : AIControl
             case "clearTarget":
                 _attack.ClearTarget();
                 break;
-            case "activateHyperBoost":
-                _hyperBoost.Activate();
+            case "activateSpecialAbility":
+                _specialAbility.Activate();
                 break;
             default:
                 base.PerformStandardAction(action);

@@ -189,6 +189,10 @@ public class UnitController : MonoBehaviour
                     //order AI to activate hyper boost
                     unitAI.SendCommand("hyperBoost");
                     break;
+                case "plant":
+                    //order AI to activate plant
+                    unitAI.SendCommand("plant");
+                    break;
                 case "returnToBase":
                     //get main base, and order unit to travel relatively close to it
                     GameObject mainBase = _gameStateController.GetMainBase();

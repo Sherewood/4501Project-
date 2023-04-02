@@ -3559,17 +3559,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
---- !u!114 &1394913461 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4140451903554694357, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 2808512708838475845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f765d85dd4d9041bfe3e85f44e19a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1430585247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4489,9 +4478,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Time: {fileID: 1394913461}
+  updateInterval: 0.5
   intensity: 0
   Newintensity: 0
+  CurTime: 0
   light: {fileID: 705507993}
   SolarObject: {fileID: 0}
 --- !u!135 &2099293009
@@ -4689,7 +4679,7 @@ PrefabInstance:
     - target: {fileID: 2727293979495768723, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: Text
       value: 
-      objectReference: {fileID: 1169609919}
+      objectReference: {fileID: 1169609921}
     - target: {fileID: 2727293979495768723, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: Homie
       value: 
@@ -4794,6 +4784,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: User_Interface
       objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: AbilityIcons.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: AbilityIcons.Array.data[12]
+      value: 
+      objectReference: {fileID: 21300000, guid: 81e35c0ad8609244789ce69b08a63040, type: 3}
     - target: {fileID: 4812998344039789101, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_VideoClip
       value: 

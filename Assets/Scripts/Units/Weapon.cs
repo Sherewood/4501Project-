@@ -38,12 +38,14 @@ public class Weapon : MonoBehaviour
     private const float BASE_COOLDOWN = 1;
     private float _cooldown;
 
-    //hyper boost (if it exists)
+    //special ability components (should only be one available at a time)
     private HyperBoost _hyperBoost;
+    private Plant _plant;
 
     void Awake()
     {
         _hyperBoost = GetComponent<HyperBoost>();
+        _plant = GetComponent<Plant>();
     }
 
     // Start is called before the first frame update
@@ -64,7 +66,7 @@ public class Weapon : MonoBehaviour
     //return true if weapon is in range, false otherwise
     public bool IsWeaponInRange(float distance)
     {
-        return (distance <= MaxRange);
+        return (distance <= CalcRange());
     }
 
     //return true if weapon is able to fire, false otherwise
@@ -76,8 +78,7 @@ public class Weapon : MonoBehaviour
     //handles firing the weapon
     public void FireWeapon(GameObject target)
     {
-        //active hyper boost will increase damage
-        float damage = (_hyperBoost != null && _hyperBoost.IsActive()) ? Damage * _hyperBoost.DamageMultiplier : Damage;
+        float damage = CalcDamage();
 
         //TODO: spawn projectile and direct it towards target
         Vector3 offset = transform.rotation * FiringOffset;
@@ -90,6 +91,53 @@ public class Weapon : MonoBehaviour
         ResetCooldown();
     }
 
+    //calculate damage based on the currently active powerup
+    private float CalcDamage()
+    {
+        if (_hyperBoost != null && _hyperBoost.IsActive())
+        {
+            return Damage * _hyperBoost.DamageMultiplier;
+        }
+        else if (_plant != null && _plant.IsActive())
+        {
+            return Damage * _plant.DamageMultiplier;
+        }
+        else
+        {
+            return Damage;
+        }
+    }
+
+    //calculate cooldown based on the currently active powerup
+    private float CalcCooldown()
+    {
+        if (_hyperBoost != null && _hyperBoost.IsActive())
+        {
+            return BASE_COOLDOWN / (FireRate * _hyperBoost.FireRateMultiplier);
+        }
+        else if (_plant != null && _plant.IsActive())
+        {
+            return BASE_COOLDOWN / (FireRate * _plant.FireRateMultiplier);
+        }
+        else
+        {
+            return BASE_COOLDOWN / FireRate;
+        }
+    }
+
+    //calculate range based on the currently active powerup
+    private float CalcRange()
+    {
+        if(_plant != null && _plant.IsActive())
+        {
+            return MaxRange * _plant.RangeMultiplier;
+        }
+        else
+        {
+            return MaxRange;
+        }
+    }
+
     private void ResetCooldown()
     {
         if (FireRate == 0)
@@ -98,7 +146,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            _cooldown = (_hyperBoost != null && _hyperBoost.IsActive()) ? (BASE_COOLDOWN / (FireRate*_hyperBoost.FireRateMultiplier)) : (BASE_COOLDOWN / FireRate);
+            _cooldown = CalcCooldown();
         }
     }
 

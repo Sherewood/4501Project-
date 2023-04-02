@@ -53,6 +53,8 @@ public class CapabilityModel : MonoBehaviour
         CreateCapabilityMapping("movement-health", "fortify", new List<string>(), "Unit can move!", true, new List<string>());
         //hyper boost component -> hyper boost capability
         CreateCapabilityMapping("hyperBoost", "hyperBoost", new List<string>(), "Unit can activate hyper boost!", true, new List<string>() { "Tech_HyperBoost" });
+        //plant component -> plant capability
+        CreateCapabilityMapping("plant", "plant", new List<string>(), "Unit can activate plant!", true, new List<string>() { "Tech_Plant" });
         //harvester component -> harvest capability
         CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
         //construction component -> construct capability

@@ -72,7 +72,9 @@ public class Movement : MonoBehaviour
 
     private UnitState _unitState;
 
+    //for special abilities
     private HyperBoost _hyperBoost;
+    private Plant _plant;
 
     /* Configuration */
 
@@ -123,6 +125,7 @@ public class Movement : MonoBehaviour
         _unitState = GetComponent<UnitState>();
 
         _hyperBoost = GetComponent<HyperBoost>();
+        _plant = GetComponent<Plant>();
     }
 
     void Start()
@@ -183,17 +186,7 @@ public class Movement : MonoBehaviour
          * animation script will then update the corresponding state variable
          */
 
-        //updating speed and turn rate
-        if(_hyperBoost != null && _hyperBoost.IsActive())
-        {
-            _curSpeed = Speed * _hyperBoost.SpeedMultiplier;
-            _curTurnRate = TurnRate * _hyperBoost.TurnRateMultiplier;
-        }
-        else
-        {
-            _curSpeed = Speed;
-            _curTurnRate = TurnRate;
-        }
+        UpdateSpeedAndTurnRate();
 
         if (_moving)
         {
@@ -250,6 +243,26 @@ public class Movement : MonoBehaviour
 
         //keep unit attached to terrain
         StabilizePosition();
+    }
+
+    //update speed and turn rate based on the active ability
+    public void UpdateSpeedAndTurnRate()
+    {
+        if (_hyperBoost != null && _hyperBoost.IsActive())
+        {
+            _curSpeed = Speed * _hyperBoost.SpeedMultiplier;
+            _curTurnRate = TurnRate * _hyperBoost.TurnRateMultiplier;
+        }
+        else if (_plant != null && _plant.IsActive())
+        {
+            _curSpeed = Speed * _plant.SpeedMultiplier;
+            _curTurnRate = TurnRate * _plant.TurnRateMultiplier;
+        }
+        else
+        {
+            _curSpeed = Speed;
+            _curTurnRate = TurnRate;
+        }
     }
 
     //for pathfinding

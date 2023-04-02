@@ -1,3 +1,3 @@
 #For player infantry units, just for hyper boost
-CM|If command==hyperBoost and newCommand and hyperBoostReady then activateHyperBoost and breakCommand
-CM|If command==hyperBoost and newCommand and hyperBoostNotReady then breakCommand
+CM|If command==hyperBoost and newCommand and specialAbilityReady then activateSpecialAbility and breakCommand
+CM|If command==hyperBoost and newCommand and specialAbilityNotReady then breakCommand
