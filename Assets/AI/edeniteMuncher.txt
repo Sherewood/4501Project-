@@ -1,7 +1,7 @@
 #Commanded behaviour
 #terminating if commander dies, break any command in progress
 #keep this rule on top in case of tiebreaks, that way the command will always be broken
-CM|If unitLostControl then breakCommand
+CM|If unitLostControl then breakCommand and requestMainBasePos
 #idle
 CM|If command==idle and newCommand then stopMovement
 #flocking (following commander)
