@@ -9,10 +9,14 @@ public class CapabilityController : MonoBehaviour
 
     private CapabilityModel _capabilityModel;
 
+    private ResearchModel _researchModel;
+
     // Start is called before the first frame update
     void Start()
     {
         _capabilityModel = FindObjectOfType<CapabilityModel>();
+
+        _researchModel = FindObjectOfType<ResearchModel>();
     }
 
     public List<Capability> GetCapabilitiesOfUnit(GameObject unit)
@@ -21,10 +25,11 @@ public class CapabilityController : MonoBehaviour
 
         List<Capability> actualCapabilities = new List<Capability>();
 
-        //check tech requirements (to be implemented later)
+        //check tech requirements
+        actualCapabilities = CheckTechRequirements(possibleCapabilities);
 
         //check if any capabilities are incompatible due to other capabilities
-        actualCapabilities = ResolveCapabilityConflicts(possibleCapabilities);
+        actualCapabilities = ResolveCapabilityConflicts(actualCapabilities);
 
         return actualCapabilities;
     }
@@ -59,12 +64,41 @@ public class CapabilityController : MonoBehaviour
         }
         List<Capability> actualCapabilities = new List<Capability>();
 
-        //check tech requirements (to be implemented later)
+        //check tech requirements
+        actualCapabilities = CheckTechRequirements(totalCapabilities);
 
         //check if any capabilities are incompatible due to other capabilities
-        actualCapabilities = ResolveCapabilityConflicts(totalCapabilities);
+        actualCapabilities = ResolveCapabilityConflicts(actualCapabilities);
 
         return actualCapabilities;
+    }
+
+    private List<Capability> CheckTechRequirements(List<Capability> possibleCapabilities)
+    {
+        List<Capability> availableCapabilities = new List<Capability>();
+
+        //check if all of the techs required for the capability are researched
+        foreach (Capability capability in possibleCapabilities)
+        {
+            bool hasTechPrereqs = true;
+
+            foreach(string techRequirement in capability.TechRequirements)
+            {
+                if (!_researchModel.IsTechResearched(techRequirement))
+                {
+                    Debug.Log("TEST " + techRequirement);
+                    hasTechPrereqs = false;
+                    break;
+                }
+            }
+
+            if (hasTechPrereqs)
+            {
+                availableCapabilities.Add(capability);
+            }
+        }
+
+        return availableCapabilities;
     }
 
     private List<Capability> ResolveCapabilityConflicts(List<Capability> possibleCapabilities)

@@ -225,6 +225,19 @@ public class ResearchModel : MonoBehaviour
         return true;
     }
 
+    //returns true if technology is researched
+    public bool IsTechResearched(string techId)
+    {
+        TechnologyNode candidateTech = GetTechnology(techId);
+        if (candidateTech == null)
+        {
+            Debug.LogError("Tried to find technology that doesn't exist: '" + techId + "'");
+            return false;
+        }
+
+        return candidateTech.IsCompleted();
+    }
+
     //returns true if technology is researchable given the current research points, false otherwise
     //means COMPLETE the research, not just unlocked
     public bool CanTechBeResearched(string techId, int rp)
