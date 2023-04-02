@@ -36,7 +36,7 @@ public class VideoController : MonoBehaviour
         
         // Text.GetComponent<TextMeshProUGUI>().text.Equals("AS");
         dialogue = _displayInfoController.CheckEvents();
-        if (dialogue.Count > 0 && Text.text.Equals("")) 
+        if (dialogue.Count > 0 && Text != null && Text.text.Equals("")) 
         {
             StartCoroutine(StringQueue(dialogue));
             
