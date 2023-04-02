@@ -6,17 +6,10 @@ using UnityEngine;
 public class EdeniteDevilControl : CombatAIControl
 {
 
-    private HyperBoost _hyperBoost;
+
 
     protected override void GetComponents()
     {
-        _hyperBoost = GetComponent<HyperBoost>();
-
-        if (_hyperBoost == null)
-        {
-            Debug.LogError("Edenite Devil AI Control cannot find Hyper Boost component");
-        }
-
         base.GetComponents();
     }
 
@@ -36,8 +29,6 @@ public class EdeniteDevilControl : CombatAIControl
 
         switch (prereq)
         {
-            case "hyperBoostReady":
-                return _hyperBoost.CanActivate();
             default:
                 return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }
@@ -52,9 +43,6 @@ public class EdeniteDevilControl : CombatAIControl
 
         switch (action)
         {
-            case "activateHyperBoost":
-                _hyperBoost.Activate();
-                break;
             default:
                 base.PerformStandardAction(action);
                 return;

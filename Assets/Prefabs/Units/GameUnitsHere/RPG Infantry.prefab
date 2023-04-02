@@ -1,5 +1,99 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &996769798907070169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348245742259318373}
+  - component: {fileID: 6727100629732992093}
+  m_Layer: 0
+  m_Name: Area Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1348245742259318373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996769798907070169}
+  m_LocalRotation: {x: -0.7071068, y: -0.000000836574, z: 0.0000008230059, w: 0.7071068}
+  m_LocalPosition: {x: 0.001613358, y: 0, z: -0.0101117855}
+  m_LocalScale: {x: 3.7313433, y: 3.7313435, z: 3.7313435}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7518812527850658965}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!108 &6727100629732992093
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996769798907070169}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 3
+  m_Shape: 0
+  m_Color: {r: 0.990566, g: 0.0046724924, b: 0.6979452, a: 1}
+  m_Intensity: 4.48
+  m_Range: 2
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 12100000, guid: fff2597f5313b9047bb2201ca925e35c, type: 2}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 0.5, y: 1.1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &2208301648983398960
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +206,7 @@ GameObject:
   - component: {fileID: 340223194256531876}
   - component: {fileID: -1985163176651472814}
   - component: {fileID: -5942888071925629939}
+  - component: {fileID: 1566833127216164298}
   - component: {fileID: -6618250460415853949}
   - component: {fileID: 9211298648950123219}
   - component: {fileID: 9093023860190728034}
@@ -177,9 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
   MaxHealth: 75
   BaseDefense: 15
   FortifyDefenseBonus: 5
+  LowHealthThreshold: 0
 --- !u!114 &8130077436605554117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +309,7 @@ MonoBehaviour:
   _moving: 0
   Speed: 1.75
   TurnRate: 75
+  FreezePositionWhenRotatingInPlace: 0
 --- !u!114 &-6763880964242767567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +435,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &1566833127216164298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239236345776070385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca31d59edf0edc4aa43802747e96c4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
+  Duration: 8
+  Cooldown: 16
+  specialEffect: {fileID: 996769798907070169}
+  DamageMultiplier: 1.5
+  FireRateMultiplier: 1.5
+  SpeedMultiplier: 1.75
+  TurnRateMultiplier: 2
 --- !u!114 &-6618250460415853949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugMode: 0
   RuleFiles:
+  - {fileID: 4900000, guid: b70f9a61a05a3fc41ad26bfbab5eda65, type: 3}
   - {fileID: 4900000, guid: 9e342d125e5ed814d9b894f3d426c045, type: 3}
   - {fileID: 4900000, guid: dc2400f813e0ae54e9c2c551fa4b920f, type: 3}
   - {fileID: 4900000, guid: c514137aea584e4468f66694384fa628, type: 3}
@@ -5311,6 +5434,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4555215992234773728, guid: 1ecf4648f3f5da14a81aa85d851e5fb0, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1348245742259318373}
     - targetCorrespondingSourceObject: {fileID: 5122444979275216485, guid: 1ecf4648f3f5da14a81aa85d851e5fb0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8629725397219605196}
@@ -5324,5 +5450,10 @@ Transform:
 --- !u!4 &2596433920405142529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8315670228912270452, guid: 1ecf4648f3f5da14a81aa85d851e5fb0, type: 3}
+  m_PrefabInstance: {fileID: 6300343357505704053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7518812527850658965 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4555215992234773728, guid: 1ecf4648f3f5da14a81aa85d851e5fb0, type: 3}
   m_PrefabInstance: {fileID: 6300343357505704053}
   m_PrefabAsset: {fileID: 0}

@@ -12,6 +12,7 @@ public enum Order
     ORDER_ATTACK,
     ORDER_GUARD,
     ORDER_FORTIFY,
+    ORDER_HYPER_BOOST,
     ORDER_HARVEST,
     //ORDER_SELECT_BUILDING and ORDER_CONSTRUCT are both for construction
     ORDER_SELECT_BUILDING,
@@ -70,6 +71,10 @@ public class OrderModel : MonoBehaviour
 
         //fortify order
         CreateOrder(Order.ORDER_FORTIFY, new string[] { "all-player-dynamic" }, new string[] { }, "fortify", "", 1, new string[] { "fortify" });
+
+        //hyper boost order
+        CreateOrder(Order.ORDER_HYPER_BOOST, new string[] { "player-dynamic-military-infantry", "player-dynamic-military-rpg", "player-dynamic-military-minigun" },
+                                            new string[] { }, "hyperBoost", "", 1, new string[] { "hyperBoost" });
 
         //harvesting order
         CreateOrder(Order.ORDER_HARVEST, new string[] { "player-dynamic-worker" }, new string[] { "neutral-static-mineraldep", "neutral-static-fueldep" }, "", "", 1, new string[] { "harvest" });
