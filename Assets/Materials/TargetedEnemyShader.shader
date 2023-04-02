@@ -74,6 +74,7 @@ Shader "Custom/TargetedEnemyShader"
             //soulless void
             else {
                 o.Alpha = 0.0;
+                discard;
             }
         }
         ENDCG

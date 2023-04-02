@@ -66,6 +66,7 @@ Shader "Custom/SelectedUnitShader"
             }
             else {
                 o.Alpha = 0.0;
+                discard;
             }
         }
         ENDCG
