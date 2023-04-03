@@ -129,7 +129,7 @@ public class Health : MonoBehaviour
         if (!_reportedDeath && _actualHealth <= 0)
         {
             if (_animator != null) _animator.SetAnim("DEAD");
-            Debug.Log("Unit with instance ID " + gameObject.GetInstanceID() + " reporting death.");
+            Debug.Log("Unit with instance ID " + gameObject.name + " reporting death.");           
             _entityDeathEvent.Invoke(gameObject);
             _reportedDeath = true;
         }
