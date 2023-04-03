@@ -20,6 +20,9 @@ public class UnitController : MonoBehaviour
     //the amount of active flocks in the game
     Dictionary<GameObject, List<GameObject>> _flocks;
 
+    //temporary: movement indicator prefab goes here
+    public GameObject MoveIndicator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +52,12 @@ public class UnitController : MonoBehaviour
         if (order == Order.ORDER_ATTACK)
         {
             _selectionController.SetTargetIndicator(target.collider.gameObject);
+        }
+
+        //setting movement indicator if move order given
+        if (order == Order.ORDER_MOVE)
+        {
+            Instantiate(MoveIndicator, target.point, Quaternion.identity);
         }
 
         /* some future notes for flocking */
