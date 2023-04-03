@@ -7,10 +7,12 @@ public class typewriter_effect : MonoBehaviour
 {
     private string final_string;
     public TextMeshProUGUI text;
+    public GameObject audio;
     public float delay=0.1f;
     // Start is called before the first frame update
     void Start()
     {
+       // audio.SetActive(false);
         
     }
 
@@ -24,9 +26,11 @@ public class typewriter_effect : MonoBehaviour
         if (message != text.text)
         {
             final_string = message;
-            
+            audio.GetComponent<AudioSource>().Play(0);
             StartCoroutine(typeWriter(delay));
+            
         }
+       // 
     }
         IEnumerator typeWriter(float delay)
     {
@@ -37,5 +41,6 @@ public class typewriter_effect : MonoBehaviour
         }
         yield return new WaitForSeconds(2f);
         text.text = "";
+        audio.GetComponent<AudioSource>().Stop();
     }
 }

@@ -170,6 +170,8 @@ Incestoid Crab Monster (Edenite Muncher):
 https://assetstore.unity.com/packages/3d/characters/insectoid-crab-monster-lurker-of-the-shores-20-animations-107223
 Weird ass spider thing (Edenite Ravager):
 https://assetstore.unity.com/packages/3d/characters/creatures/fantastic-creature-1-103074
+Edenite spawner visual effects:
+https://assetstore.unity.com/packages/vfx/particles/blood-gush-73426
 
 Barracks, factory, both vehicles
 ---------------------
@@ -219,5 +221,5 @@ Soldier controller animations:
 Shooter pack mixamo:https://www.mixamo.com/#/?page=1&query=pack&type=Motion%2CMotionPack
 Machine gunner fire: mixamo Mutant Flexing muscles: https://www.mixamo.com/#/?page=1&query=mutant+flexing+muscles&type=Motion%2CMotionPack
 Creature animations: From the same pack as the creatures (see above)
-
-
+UI director sound:
+https://mixkit.co/free-sound-effects/robot/
