@@ -68,7 +68,11 @@ public class VideoController : MonoBehaviour
         {
             StartCoroutine(EventHandle(s));
             yield return new WaitForSeconds(5f);
-            dialogue.Remove(s);
+            
+        }
+        for (int i = 0; i < lines.Count; i++)
+        {
+            dialogue.Remove(lines[i]);
         }
         
         
