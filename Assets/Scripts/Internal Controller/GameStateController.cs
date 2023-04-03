@@ -23,6 +23,10 @@ public class GameStateController : MonoBehaviour
 
     private ResearchModel _researchModel;
 
+    //holds list of enemy spawners
+
+    private List<EnemySpawner> _enemySpawners;
+
 
     //main base
 
@@ -44,7 +48,7 @@ public class GameStateController : MonoBehaviour
         {
             if (unit.GetUnitType().Equals("player-static-mainbase"))
             {
-                Debug.Log("Found and tracking player main base, instance id " + unit.gameObject.GetInstanceID());
+                Debug.Log("Game State Controller - Found and tracking player main base, instance id " + unit.gameObject.GetInstanceID());
                 _playerMainBase = unit.gameObject.GetComponent<PlanetaryEvacuation>();
                 break;
             }
@@ -60,11 +64,26 @@ public class GameStateController : MonoBehaviour
         foreach (UnitInfo unit in allUnits)
         {
             //add to entity storage using unit creation controller
-            Debug.Log("Adding unit of type '" + unit.GetUnitType() + "' to entity storage, entity name: " + unit.gameObject.name);
+            Debug.Log("Game State Controller - Adding unit of type '" + unit.GetUnitType() + "' to entity storage, entity name: " + unit.gameObject.name);
             _unitCreationController.StoreCreatedEntity(unit.gameObject);
         }
 
-        Debug.Log("Initialized entity storage with " + allUnits.Length + " units.");
+        Debug.Log("Game State Controller - Tracking all enemy spawners");
+        _enemySpawners = new List<EnemySpawner>();
+        //get the list of enemy spawners
+        List<GameObject> enemySpawnerObjects = _entityStorage.GetPlayerUnitsOfType("enemy-static-spawner");
+        foreach(GameObject enemySpawnerObject in enemySpawnerObjects)
+        {
+            EnemySpawner enemySpawner = enemySpawnerObject.GetComponent<EnemySpawner>();
+
+            //try activating spawners with heat level 0
+            enemySpawner.AttemptActivation(0);
+
+            _enemySpawners.Add(enemySpawner);
+        }
+        Debug.Log("Game State Controller - Found " + _enemySpawners.Count + " spawners.");
+
+        Debug.Log("Game State Controller - Initialized entity storage with " + allUnits.Length + " units.");
     }
 
     //update loop functionality goes here

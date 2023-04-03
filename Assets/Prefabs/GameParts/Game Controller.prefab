@@ -127,6 +127,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Internal Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 2831968345014833767, guid: 6c018695fccf68f49b4b847841382e36, type: 3}
+      propertyPath: MoveIndicator
+      value: 
+      objectReference: {fileID: 1099282626131603214, guid: 8daeaa5e82dbcab4ca2748c626e2e380, type: 3}
     - target: {fileID: 4747439045527847606, guid: 6c018695fccf68f49b4b847841382e36, type: 3}
       propertyPath: m_RootOrder
       value: 58
