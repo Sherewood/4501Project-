@@ -27,6 +27,7 @@ public class DisplayInfoController : MonoBehaviour
 
     private ResearchModel _researchModel;
 
+    private EntityStorage _entityStorage;
     //stores mappings between actions that will be displayed in the UI, and the event types triggered when these actions are selected
     //should be in the capability model in some form but whatever...
     private Dictionary<string, UIEvTrigger> _actionEventTypeMappings;
@@ -48,6 +49,8 @@ public class DisplayInfoController : MonoBehaviour
         events = new List<string>();
         _selectionController = GetComponent<SelectionController>();
         _gameStateController = GetComponent<GameStateController>();
+
+        _entityStorage = FindObjectOfType<EntityStorage>();
 
         _unitDatabase = FindObjectOfType<UnitDatabase>();
 
@@ -328,6 +331,14 @@ public class DisplayInfoController : MonoBehaviour
         {
             events.Add(Dialogue);
         }
+    }
+    public List<GameObject> MiniMap()
+    {
+        List<GameObject> unitPos = new List<GameObject>();
+        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("player"));
+        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("enemy"));
+        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("neutral"));
+        return unitPos;
     }
 
 }

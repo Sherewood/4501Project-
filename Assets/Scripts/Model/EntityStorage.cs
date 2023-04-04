@@ -9,7 +9,7 @@ public class EntityStorage : MonoBehaviour
 {
     //the hash table storing all entities, mapped to their instance ids
     private Dictionary<int, GameObject> _entityStorage;
-
+    public int count;
     void Awake()
     {
         _entityStorage = new Dictionary<int, GameObject>();
@@ -22,6 +22,7 @@ public class EntityStorage : MonoBehaviour
         {
             _entityStorage.Add(entity.GetInstanceID(), entity);
         }
+        count++;
     }
 
     //removes and returns entity's GameObject if it exists, or returns null otherwise
@@ -33,7 +34,7 @@ public class EntityStorage : MonoBehaviour
         {
             _entityStorage.Remove(instanceID,out entityToRemove);
         }
-
+        count--;
         return entityToRemove;
     }
 
@@ -114,7 +115,7 @@ public class EntityStorage : MonoBehaviour
                 entitiesWithType.Add(entity);
             }
         }
-
+        
         return entitiesWithType;
     }
 }
