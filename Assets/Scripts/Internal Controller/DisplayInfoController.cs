@@ -334,10 +334,7 @@ public class DisplayInfoController : MonoBehaviour
     }
     public List<GameObject> MiniMap()
     {
-        List<GameObject> unitPos = new List<GameObject>();
-        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("player"));
-        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("enemy"));
-        unitPos.AddRange(_entityStorage.GetPlayerUnitsOfType("neutral"));
+        List<GameObject> unitPos = _entityStorage.getAllUnits();
         return unitPos;
     }
 

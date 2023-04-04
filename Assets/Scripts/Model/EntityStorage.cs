@@ -118,4 +118,19 @@ public class EntityStorage : MonoBehaviour
         
         return entitiesWithType;
     }
+    //returns all entities 
+    public List<GameObject> getAllUnits()
+    {
+        List<GameObject> all = new List<GameObject>();
+
+        foreach (GameObject entity in _entityStorage.Values)
+        {
+            //will cause crash if entity with no unit info component is added to storage
+            UnitInfo entityInfo = entity.GetComponent<UnitInfo>();
+
+            all.Add(entity);
+        }
+
+        return all;
+    }
 }

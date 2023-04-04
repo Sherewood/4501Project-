@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class minimap : MonoBehaviour
@@ -21,12 +22,31 @@ public class minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Mortis");
-        UnitPositions.Equals(controller.GetMiniMap());
+        
+        UnitPositions = controller.GetMiniMap();
+       
         foreach (GameObject whumpus in UnitPositions)
         {
-            Debug.Log("whump"+whumpus.name);
+            if (whumpus.GetComponent<UnitInfo>().GetAllegiance()=="player")
+            {
+               // GameObject tracker = Instantiate(alliedObject);
+             //   tracker.transform.SetParent(minimapPrefab.transform, false);
+                Vector3 position = new Vector3();
+              //  position.x = whumpus.transform.position.x/FindObjectOfType<Terrain>().GetComponent<Terrain>();
+            //    position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().transform.position.y;
+                Debug.Log(position+ "Terrain :"+ FindObjectOfType<Terrain>().transform.position);
+               // tracker.transform.Translate(position);
+            }
         }
-        
+        StartCoroutine(Deletion());
+    }
+    private void clear()
+    {
+        UnitPositions.Clear();
+    }
+    IEnumerator Deletion()
+    {
+        yield return new WaitForSeconds(.001f);
+        clear();
     }
 }
