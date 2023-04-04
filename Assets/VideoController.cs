@@ -38,7 +38,7 @@ public class VideoController : MonoBehaviour
         dialogue = _displayInfoController.CheckEvents();
         if (dialogue.Count > 0 && Text != null && Text.text.Equals("")) 
         {
-            StartCoroutine(StringQueue(dialogue));
+            StartCoroutine(StringQueue());
             
         }
     /*    if (Input.GetKeyDown(KeyCode.K))
@@ -61,18 +61,20 @@ public class VideoController : MonoBehaviour
         }*/
         
     }
-    IEnumerator StringQueue(List<string> lines)
+    IEnumerator StringQueue()
     {
+        if (dialogue.Count > 0)
+        {
+            foreach (string s in dialogue)
+            {
+                StartCoroutine(EventHandle(s));
+                yield return new WaitForSeconds(5f);
 
-        foreach (string s in dialogue)
-        {
-            StartCoroutine(EventHandle(s));
-            yield return new WaitForSeconds(5f);
-            
-        }
-        for (int i = 0; i < lines.Count; i++)
-        {
-            dialogue.Remove(lines[i]);
+            }
+            for (int i = 0; i < dialogue.Count; i++)
+            {
+                dialogue.Remove(dialogue[i]);
+            }
         }
         
         
@@ -92,7 +94,7 @@ public class VideoController : MonoBehaviour
     {
         onAnim.SetActive(true);
         offAnim.SetActive(false);
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(5f);
         StartCoroutine(SignOff());
 
     }
