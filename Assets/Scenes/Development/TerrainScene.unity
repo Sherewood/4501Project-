@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -563,11 +563,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
---- !u!1 &942835751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4140451903554694358, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 942835750}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,9 +1061,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bca4bfd680feb44af34a50cec99adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Time: {fileID: 942835751}
-  DayLength: 24
+  updateInterval: 0.5
+  intensity: 0
+  Newintensity: 0
+  CurTime: 0
   light: {fileID: 705507993}
+  SolarObject: {fileID: 0}
 --- !u!1 &1574712395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,6 +1111,8 @@ MonoBehaviour:
   BuildIcons: []
   UnitIcons: []
   def: {fileID: 0}
+  _selectedUnits: []
+  _OldselectedUnits: []
   tracker: {fileID: 0}
   ObstructingUIRegions: []
 --- !u!4 &1574712397
