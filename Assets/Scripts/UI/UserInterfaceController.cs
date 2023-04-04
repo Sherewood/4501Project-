@@ -526,7 +526,18 @@ public class UserInterfaceController : MonoBehaviour
                 button.SetActive(true);
                 _researchOptions.Add(button);
                 i++;
+                foreach (Sprite sp in ResearchIcons)
+                {
 
+                    //match using unit name
+                    if (sp.name.Equals(button.name))
+                    {
+
+                        button.GetComponent<UiAbilties>().setIcon(sp);
+
+                        break;
+                    }
+                }
 
             }
         }
