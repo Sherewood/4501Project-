@@ -153,7 +153,8 @@ public class Movement : MonoBehaviour
     //lock the unit to the terrain
     private void StabilizePosition()
     {
-        _rigidBody.position = new Vector3(_rigidBody.position.x, _rigidBody.position.y + _terrain.SampleHeight(_rigidBody.position), _rigidBody.position.z);
+        //_rigidBody.position = new Vector3(_rigidBody.position.x, _rigidBody.position.y + _terrain.SampleHeight(_rigidBody.position), _rigidBody.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + _terrain.SampleHeight(transform.position), transform.position.z);
     }
 
     //configure NavMeshAgent using the speed specified for the unit
