@@ -221,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 7910979562441037367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 3, z: 1.5}
+  m_LocalScale: {x: 2.25, y: 4, z: 2.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6336438134750448454}
@@ -287,9 +287,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
   MaxHealth: 500
   BaseDefense: 33
   FortifyDefenseBonus: 0
+  LowHealthThreshold: 0
 --- !u!114 &2814840499170927294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +328,7 @@ MonoBehaviour:
   SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
   SpawnRetryAttemptLimit: 0
   SpawnRetryMode: 0
+  SpawnEffect: {fileID: 0}
 --- !u!208 &-4484209822860825855
 NavMeshObstacle:
   m_ObjectHideFlags: 0

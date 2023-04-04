@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 311997538237005692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 845275659455951919}
@@ -97,9 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643e3b282b1dd146a37ed4df8de4ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AICallback:
+    m_PersistentCalls:
+      m_Calls: []
   MaxHealth: 150
   BaseDefense: 0
   FortifyDefenseBonus: 0
+  LowHealthThreshold: 0
 --- !u!114 &2476561493304798668
 MonoBehaviour:
   m_ObjectHideFlags: 0
