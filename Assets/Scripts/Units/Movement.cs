@@ -163,7 +163,7 @@ public class Movement : MonoBehaviour
         if (_navMeshAgent != null)
         {
             _navMeshAgent.speed = Speed;
-            _navMeshAgent.acceleration = Speed / 2;
+            _navMeshAgent.acceleration = Speed / 4.0f;
             _navMeshAgent.angularSpeed = TurnRate / 1.5f;
             _navMeshAgent.stoppingDistance = 0.0f;
             _navMeshAgent.enabled = false;
@@ -214,15 +214,20 @@ public class Movement : MonoBehaviour
                     break;
             }
 
-            //temporary: include spline timing parameter for reaching destination
-            if (Vector3.Distance(transform.position, target) < 0.26f + _offsetFromDestination)
+            float dist = Vector3.Distance(transform.position, target); 
+
+            if (dist < 0.26f + _offsetFromDestination)
             {
-                Debug.Log("Destination reached..." + transform.position);
+                //Debug.Log("Destination reached..." + transform.position);
                 //terminate movement if destination reached.
                 StopMovement();
                 //report to interested parties that destination has been reached
                 AICallback.Invoke("reachedDestination");
                 _destReachedEvent.Invoke(gameObject);
+            }
+            else if (dist < 0.65f + _offsetFromDestination && _navMeshAgent.enabled && _navMeshAgent.velocity.magnitude < 0.25f)
+            {
+                DefaultMovementUpdate();
             }
         }
         //rotation in place for when unit is not in motion (aiming)
@@ -268,6 +273,12 @@ public class Movement : MonoBehaviour
     //for pathfinding
     public void PathfindingMovementUpdate()
     {
+        //weaken rigidbody velocity over time because NavMeshAgent doesnt seem to control it in any way from what I saw
+        //this will allow physics forces to have some effect on the moving unit while stopping it from "drifting"
+        //in response to a physics force while moving using pathfinding
+        _rigidBody.velocity *= 0.98f;
+        _rigidBody.angularVelocity *= 0.98f;
+
         //need to update path destination if target location changes
         if (_dynamicDestUpdateMade)
         {
@@ -275,7 +286,7 @@ public class Movement : MonoBehaviour
         }
 
         _navMeshAgent.speed = _curSpeed;
-        _navMeshAgent.acceleration = _curSpeed / 2.0f;
+        _navMeshAgent.acceleration = _curSpeed / 4.0f;
         _navMeshAgent.angularSpeed = _curTurnRate / 1.5f;
 
         /*
@@ -348,10 +359,34 @@ public class Movement : MonoBehaviour
         Vector3 separationVector = Vector3.zero;
         Vector3 cohesionVector = Vector3.zero;
         Vector3 alignmentVector = transform.forward;
-        Vector3 leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
-        if(leaderVector.magnitude > _curSpeed * 1.5f)
+
+        //determine leader force
+        Vector3 leaderVector = new Vector3();
+
+        //need to determine whether unit is blocking leader, and if so then apply an avoidance force for the leader force instead of a following one
+        if (InWayOfLeader())
         {
-            leaderVector = leaderVector.normalized * _curSpeed * 1.5f;
+            //need to determine which side force to apply
+            //depending on angle between leader's forward direction and direction from leader to the unit,
+            //either apply a large right force or left force
+
+            Vector3 dirFromLeaderToUnit = Vector3.Normalize(transform.position - _flockLeader.transform.position);
+
+            float angleBetween = Vector3.SignedAngle(_flockLeader.transform.forward, dirFromLeaderToUnit, Vector3.up);
+
+            //if angle is negative, turn left, else, turn right
+            if(angleBetween < 0)
+            {
+                leaderVector = -_flockLeader.transform.right * _curSpeed * 10.0f;
+            }
+            else
+            {
+                leaderVector = _flockLeader.transform.right * _curSpeed * 10.0f;
+            }
+        }
+        else
+        {
+            leaderVector = _flockLeader.transform.position - transform.position - _flockLeader.transform.forward * 0.5f;
         }
         //getting all the units in the flock a given unit belongs too (kinda bugged rn)
         UnitController x = GetComponent<UnitController>();
@@ -418,7 +453,7 @@ public class Movement : MonoBehaviour
 
         //adjusting weights of each vector
         separationVector = separationVector * 1.5f;
-        cohesionVector = cohesionVector * 0.2f;
+        cohesionVector = cohesionVector * 1.5f;
         alignmentVector = alignmentVector * 0.8f;
         leaderVector = leaderVector * 2.0f;
 
@@ -427,17 +462,43 @@ public class Movement : MonoBehaviour
 
         moveVector.y = 0;
 
-        _rigidBody.AddForce(moveVector * Time.deltaTime * _curSpeed, ForceMode.VelocityChange);
+        //cap force strength
+        if(moveVector.magnitude > _curSpeed * 10.0f)
+        {
+            moveVector = Vector3.Normalize(moveVector) * (_curSpeed * 10.0f);
+        }
+
+        _rigidBody.AddForce(moveVector * Time.deltaTime, ForceMode.VelocityChange);
         
         // Create orientation from the alignment force
         Quaternion orient = new Quaternion();
-        orient.SetLookRotation(alignmentVector, Vector3.up);
+        orient.SetLookRotation(moveVector, Vector3.up);
 
-        // Set unit's orientation
+        //Set unit's orientation
         _targetRotation = orient;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime);
         
     }
+
+    //helper for determining if a flock member is obstructing its leader
+    private bool InWayOfLeader()
+    {
+        //this is definitely not how its supposed to be done but whatever
+        //algorithm:
+        //1) Perform a BoxCastAll in the leader's negative forward direction for a certain distance
+        //2) If it hits the leader, then this unit must be in the way of the leader
+        RaycastHit[] hitUnits = Physics.BoxCastAll(transform.position, _flockLeader.transform.localScale, -_flockLeader.transform.forward, _flockLeader.transform.rotation, 2.0f);
+
+        foreach(RaycastHit hitUnit in hitUnits)
+        {
+            if (hitUnit.collider.gameObject == _flockLeader)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //should not be used intentionally, meant as a fallback
     private void DefaultMovementUpdate()
     {
@@ -493,6 +554,7 @@ public class Movement : MonoBehaviour
                 }
             }
         }
+
         return !inPathfindingMode;
     }
 
