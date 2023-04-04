@@ -4932,6 +4932,30 @@ PrefabInstance:
       propertyPath: typewriter_Effect
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: UnitIcons.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: UnitIcons.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 11745bd54e350e547a1eb4a5dde69271, type: 3}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ResearchIcons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ResearchIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 460b463ea246b97479ae41181312c5ef, type: 3}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ResearchIcons.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 63bb35e742c6eda4bbe5d4bcc4deddb2, type: 3}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ResearchIcons.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: eba3ecd129ece8b49b9c589e7549cbcd, type: 3}
     - target: {fileID: 4812998344039789101, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_VideoClip
       value: 
