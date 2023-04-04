@@ -34,6 +34,7 @@ public class UserInterfaceController : MonoBehaviour
     public List<Sprite> AbilityIcons;
     public List<Sprite> BuildIcons;
     public List<Sprite> UnitIcons;
+    public List<Sprite> ResearchIcons;
     //default sprite for tabs
     public Sprite def;
     //copied from the selection controller 
