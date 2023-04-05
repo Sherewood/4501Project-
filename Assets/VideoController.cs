@@ -39,7 +39,6 @@ public class VideoController : MonoBehaviour
         if (dialogue.Count > 0 && Text != null && Text.text.Equals("")) 
         {
             StartCoroutine(StringQueue());
-            
         }
     /*    if (Input.GetKeyDown(KeyCode.K))
         {
@@ -65,15 +64,25 @@ public class VideoController : MonoBehaviour
     {
         if (dialogue.Count > 0)
         {
+            /*
             foreach (string s in dialogue)
             {
-                StartCoroutine(EventHandle(s));
-                yield return new WaitForSeconds(5f);
+
 
             }
+            */
+            //maybe this will work?
             for (int i = 0; i < dialogue.Count; i++)
             {
+                StartCoroutine(EventHandle(dialogue[i]));
+                yield return new WaitForSeconds(5f);
+                //no idea how this happens but this will prevent a crash?
+                if (i >= dialogue.Count)
+                {
+                    break;
+                }
                 dialogue.Remove(dialogue[i]);
+                i--;
             }
         }
         
