@@ -37,8 +37,6 @@ public class minimap : MonoBehaviour
                 position.Scale(-minimapPrefab.transform.localPosition);
                 position.x -= minimapPrefab.transform.localPosition.x;
                 position.y -= minimapPrefab.transform.localPosition.y;
-
-                Debug.Log("POS"+position);
                 tracker.transform.position=position;
             }
             else if (whumpus.GetComponent<UnitInfo>().GetAllegiance()=="enemy")
@@ -52,7 +50,6 @@ public class minimap : MonoBehaviour
                 position.x += minimapPrefab.transform.position.x;
                 position.y += minimapPrefab.transform.position.y;
 
-                Debug.Log("POS2" + position);
                 tracker.transform.position = position;
             }
         }

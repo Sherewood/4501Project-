@@ -77,7 +77,7 @@ public class Construction : MonoBehaviour
 
         //offset the building's spawn position using the z-scale (including the worker's z-scale) as the forward offset
         //extra padding added to lazily avoid failure to spawn, in scenarios where the worker oriented diagonally, while the building spawned is not
-        Vector3 spawnOffset = (transform.rotation * Vector3.forward) * (_forwardOffsetFromConstructionSite);
+        Vector3 spawnOffset = transform.forward * (_forwardOffsetFromConstructionSite);
 
         _unitSpawner.SetSpawnOffset(spawnOffset);
 

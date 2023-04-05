@@ -1091,6 +1091,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
+--- !u!1 &364255898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2808512707997062325, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+  m_PrefabInstance: {fileID: 498222982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &429210115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1628,6 +1633,14 @@ PrefabInstance:
       propertyPath: ResearchIcons.Array.data[2]
       value: 
       objectReference: {fileID: 21300000, guid: eba3ecd129ece8b49b9c589e7549cbcd, type: 3}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ObstructingUIRegions.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: ObstructingUIRegions.Array.data[4]
+      value: 
+      objectReference: {fileID: 364255898}
     - target: {fileID: 4563040145377067714, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_margin.y
       value: 5.5545807
@@ -6165,7 +6178,7 @@ PrefabInstance:
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.data[4]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.data[5]
       value: 
@@ -6201,7 +6214,7 @@ PrefabInstance:
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.data[14]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
