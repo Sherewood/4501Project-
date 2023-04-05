@@ -28,6 +28,8 @@ public class DisplayInfoController : MonoBehaviour
     private ResearchModel _researchModel;
 
     private EntityStorage _entityStorage;
+
+    private Timetracker _timeTracker;
     //stores mappings between actions that will be displayed in the UI, and the event types triggered when these actions are selected
     //should be in the capability model in some form but whatever...
     private Dictionary<string, UIEvTrigger> _actionEventTypeMappings;
@@ -61,6 +63,7 @@ public class DisplayInfoController : MonoBehaviour
         _researchMenuInfo = new Dictionary<Technology, UIEvTrigger>();
         _researchMenuActive = false;
         sun = GetComponent<Sun>();
+        _timeTracker = GetComponent<Timetracker>();
 
         InitActionEventTypeMappings();
     }
@@ -337,5 +340,8 @@ public class DisplayInfoController : MonoBehaviour
         List<GameObject> unitPos = _entityStorage.getAllUnits();
         return unitPos;
     }
-
+    public float getTime()
+    {
+        return _timeTracker.CurTime;
+    }
 }

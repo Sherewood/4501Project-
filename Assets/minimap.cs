@@ -32,10 +32,28 @@ public class minimap : MonoBehaviour
                 GameObject tracker = Instantiate(alliedObject);
                 tracker.transform.SetParent(minimapPrefab.transform, false);
                 Vector3 position = new Vector3();
-                position.x = whumpus.transform.position.x/FindObjectOfType<Terrain>().GetComponent<Terrain>().terrainData.size.x;
+                position.x = whumpus.transform.position.x/FindObjectOfType<Terrain>().terrainData.size.x ;
                 position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().terrainData.size.y;
+                position.Scale(minimapPrefab.transform.localPosition);
+                position.x += minimapPrefab.transform.position.x;
+                position.y += minimapPrefab.transform.position.y;
+
                 Debug.Log("POS"+position);
-                tracker.transform.Translate(position);
+                tracker.transform.position=position;
+            }
+            else if (whumpus.GetComponent<UnitInfo>().GetAllegiance()=="enemy")
+            {
+                GameObject tracker = Instantiate(enemyObject);
+                tracker.transform.SetParent(minimapPrefab.transform, false);
+                Vector3 position = new Vector3();
+                position.x = whumpus.transform.position.x / FindObjectOfType<Terrain>().terrainData.size.z;
+                position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().terrainData.size.x;
+                position.Scale(minimapPrefab.transform.localPosition);
+                position.x += minimapPrefab.transform.position.x;
+                position.y += minimapPrefab.transform.position.y;
+
+              //  Debug.Log("POS" + position);
+                tracker.transform.position = position;
             }
         }
        

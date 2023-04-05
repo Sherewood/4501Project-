@@ -64,6 +64,8 @@ public class UserInterfaceController : MonoBehaviour
     //the boundaries of these obstructing UI regions
     private Dictionary<GameObject, Vector4> _obstructingUIRegionBoundaries;
 
+    //Time text
+    public GameObject time;
 
     
     // Start is called before the first frame update
@@ -215,7 +217,7 @@ public class UserInterfaceController : MonoBehaviour
         {
             display_ResearchOptions();
         }
-
+        time.GetComponent<TMPro.TextMeshProUGUI>().text = _displayInfoController.getTime().ToString();
 
     }
     void displayUnit()

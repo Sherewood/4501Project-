@@ -25,31 +25,20 @@ public class Sun : MonoBehaviour
   
     void Start()
     {
-        Debug.Log("BEHOLD");
+       
         intensity = 0;
         Newintensity = 0;
-        lastInterval = Time.realtimeSinceStartup;
-        frames = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ++frames;
-        float timeNow = Time.realtimeSinceStartup;
-        if (timeNow > lastInterval + updateInterval)
-        {
-            fps = (float)(frames / (timeNow - lastInterval));
-            frames = 0;
-            lastInterval = timeNow;
-        }
-        timeNow = (int)timeNow;
-        CurTime = timeNow;
+
         if (SolarObject != null)
         {
             SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
         }
-        if ( CurTime %30.0f == 0)
+        if ( GetComponent<Timetracker>().CurTime %30.0f == 0)
         {
             intensify();
         }

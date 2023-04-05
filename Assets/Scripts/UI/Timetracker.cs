@@ -13,7 +13,7 @@ public class Timetracker : MonoBehaviour
     private double lastInterval;
     private int frames;
     private float fps;
-    public GameObject m_Text;
+    
     public float CurTime;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +35,6 @@ public class Timetracker : MonoBehaviour
         }
         timeNow = (int)timeNow;
         CurTime = timeNow;
-       m_Text.GetComponent<TMPro.TextMeshProUGUI>().text= timeNow.ToString();
+       
     }
 }
