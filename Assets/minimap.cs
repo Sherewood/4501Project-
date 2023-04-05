@@ -34,9 +34,9 @@ public class minimap : MonoBehaviour
                 Vector3 position = new Vector3();
                 position.x = whumpus.transform.position.x/FindObjectOfType<Terrain>().terrainData.size.x ;
                 position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().terrainData.size.y;
-                position.Scale(minimapPrefab.transform.localPosition);
-                position.x += minimapPrefab.transform.position.x;
-                position.y += minimapPrefab.transform.position.y;
+                position.Scale(-minimapPrefab.transform.localPosition);
+                position.x -= minimapPrefab.transform.localPosition.x;
+                position.y -= minimapPrefab.transform.localPosition.y;
 
                 Debug.Log("POS"+position);
                 tracker.transform.position=position;
@@ -46,13 +46,13 @@ public class minimap : MonoBehaviour
                 GameObject tracker = Instantiate(enemyObject);
                 tracker.transform.SetParent(minimapPrefab.transform, false);
                 Vector3 position = new Vector3();
-                position.x = whumpus.transform.position.x / FindObjectOfType<Terrain>().terrainData.size.z;
-                position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().terrainData.size.x;
+                position.x = whumpus.transform.position.x / FindObjectOfType<Terrain>().terrainData.size.x;
+                position.y = whumpus.transform.position.y / FindObjectOfType<Terrain>().terrainData.size.y;
                 position.Scale(minimapPrefab.transform.localPosition);
                 position.x += minimapPrefab.transform.position.x;
                 position.y += minimapPrefab.transform.position.y;
 
-              //  Debug.Log("POS" + position);
+                Debug.Log("POS2" + position);
                 tracker.transform.position = position;
             }
         }
