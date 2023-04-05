@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Development/Menus/StartScene.unity
     guid: ce3daa77d6608fd4f8c2fccc48c36eda
   - enabled: 1
-    path: Assets/Scenes/Development/PrototypeDemoScene.unity
-    guid: e9ab5bbb045b6974fb2ec9fa2122952b
+    path: Assets/Scenes/Development/PresentationDemo.unity
+    guid: 13a0031f12903c44b88df17039afde1d
   - enabled: 1
     path: Assets/Scenes/Development/Menus/GameOverScene.unity
     guid: b668c2c43269c2f4090c4c06df753dec
