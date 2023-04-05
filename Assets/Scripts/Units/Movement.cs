@@ -452,9 +452,9 @@ public class Movement : MonoBehaviour
         alignmentVector.y = 0;
 
         //adjusting weights of each vector
-        separationVector = separationVector * 1.5f;
-        cohesionVector = cohesionVector * 1.5f;
-        alignmentVector = alignmentVector * 0.8f;
+        separationVector = separationVector * 5.5f;
+        cohesionVector = cohesionVector * 4.5f;
+        alignmentVector = alignmentVector * 1.8f;
         leaderVector = leaderVector * 2.0f;
 
         //add the forces and rotate the unit to where it's going, trying to align with the others as well
