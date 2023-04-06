@@ -153,7 +153,7 @@ public class Targeting : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetTargetsInRange(float range)
+    public List<GameObject> GetTargetsInRange(float range, bool getAllies = false)
     {
         List<GameObject> targets = new List<GameObject>();
 
@@ -172,7 +172,8 @@ public class Targeting : MonoBehaviour
             }
 
             //determine if target is hostile based on allegiances
-            if (!IsTargetHostile(targetInfo.GetAllegiance()))
+            //depending on getAllies boolean, this can actually involve skipping if target is hostile, and only taking nearby allies
+            if ((!IsTargetHostile(targetInfo.GetAllegiance()) == !getAllies))
             {
                 continue;
             }

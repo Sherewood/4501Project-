@@ -1201,6 +1201,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1846003
       objectReference: {fileID: 0}
+    - target: {fileID: 359674880, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1765978883, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_margin.w
       value: -11.56621

@@ -72,6 +72,8 @@ public class Movement : MonoBehaviour
 
     private UnitState _unitState;
 
+    private Targeting _targeting;
+
     //for special abilities
     private HyperBoost _hyperBoost;
     private Plant _plant;
@@ -397,7 +399,16 @@ public class Movement : MonoBehaviour
         }
         //separation
         int numSeparationNeighbours = 0;
-        //sum the positions of the other units in the flock
+        //going to try getting all nearby units
+        List<GameObject> separationNeighbors = new List<GameObject>();
+        if(_targeting != null)
+        {
+            separationNeighbors = _targeting.GetTargetsInRange(4.0f, true);
+        }
+        else
+        {
+            separationNeighbors = _flock;
+        }
         foreach (GameObject currentUnit in _flock)
         {
             if (currentUnit == null) continue;
@@ -413,7 +424,7 @@ public class Movement : MonoBehaviour
         }
 
         //cohesion
-        //basically the same as separation but in reverse with a different radius
+        //sum positions of nearby flock members
         int numCohesionNeighbours = 0;
         foreach (GameObject currentUnit in _flock)
         {
