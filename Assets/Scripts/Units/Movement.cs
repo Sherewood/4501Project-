@@ -786,7 +786,10 @@ public class Movement : MonoBehaviour
         if(_navMeshAgent != null && _navMeshAgent.enabled)
         {
             _navMeshAgent.enabled = false;
-            _rigidBody.velocity = new Vector3(0,0,0);
+            if (_rigidBody != null)
+            {
+                _rigidBody.velocity = new Vector3(0, 0, 0);
+            }
         }
 
         _movementMode = MovementMode.MODE_DEFAULT;

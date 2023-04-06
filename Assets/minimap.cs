@@ -24,7 +24,7 @@ public class minimap : MonoBehaviour
     {
         clear();
         UnitPositions = controller.GetMiniMap();
-       
+        /*
         foreach (GameObject whumpus in UnitPositions)
         {
             if (whumpus.GetComponent<UnitInfo>().GetAllegiance()=="player")
@@ -53,7 +53,7 @@ public class minimap : MonoBehaviour
                 tracker.transform.position = position;
             }
         }
-       
+         */
     }
     private void clear()
     {
