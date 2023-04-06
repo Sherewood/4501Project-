@@ -102,9 +102,23 @@ public class Targeting : MonoBehaviour
         GameObject newClosestTarget = null;
         float newClosestDistance = range + 1.0f;
 
+        //if unit has a target, then set that to the initial closest target to minimize unnecessary computation
+        if(_currentTarget != null)
+        {
+            newClosestTarget = _currentTarget;
+            newClosestDistance = Vector3.Distance(_currentTarget.transform.position, transform.position);
+        }
+
         foreach (Collider target in enemiesInRange)
         {
             GameObject targetObject = target.gameObject;
+
+            //already set the closest target to the current target, so no point in recomputing its distance
+            //if a new closest target was chosen then the current target is clearly further away...
+            if (targetObject == _currentTarget)
+            {
+                continue;
+            }
 
             //get info on object
             UnitInfo targetInfo = targetObject.GetComponent<UnitInfo>();
@@ -129,7 +143,7 @@ public class Targeting : MonoBehaviour
             }
 
             //now, find distance to target
-            //obviously very inefficient, will likely need to find alternative strategy for this component as a whole
+            //obviously very inefficient, should find alternative strategy for this component as a whole, but it doesn't completely ruin performance so we good
             float targetDistance = Vector3.Distance(transform.position, targetObject.transform.position);
 
             if (targetDistance < newClosestDistance)
