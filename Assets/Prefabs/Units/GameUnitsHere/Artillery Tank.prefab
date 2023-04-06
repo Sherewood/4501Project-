@@ -266,7 +266,7 @@ MonoBehaviour:
       m_Calls: []
   Duration: 15
   Cooldown: 20
-  specialEffect: {fileID: 0}
+  specialEffect: {fileID: 8614145743565364690}
   DamageMultiplier: 1.5
   FireRateMultiplier: 0.8
   SpeedMultiplier: 0.2
