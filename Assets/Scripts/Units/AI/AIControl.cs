@@ -583,7 +583,6 @@ public class AIControl : MonoBehaviour
                 _movement.SetReturnPoint(DetermineTargetPosition());
                 _movement.MoveToReturnPoint(_commandValue, MovementMode.MODE_PATHFINDING);
                 break;
-                break;
             case "requestMainBasePos":
                 //trigger position request for main base
                 _positionRequestEvent.Invoke("mainBase", this.gameObject);
