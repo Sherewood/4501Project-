@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 3756031069550570352}
   - component: {fileID: 4515683252807747871}
   m_Layer: 0
-  m_Name: Area Light
+  m_Name: Hyper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
