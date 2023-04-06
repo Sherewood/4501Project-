@@ -37,7 +37,11 @@ public class UnitInfo : MonoBehaviour
     {
         return _unitAllegiance;
     }
-
+    public string GetIconName()
+    {
+        Debug.Log("ASD" + UnitType.Split("-")[0]);
+        return "";
+    }
     public int GetCostForResource(string resourceType)
     {
         if (_unitCosts.ContainsKey(resourceType))
