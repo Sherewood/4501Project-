@@ -400,6 +400,7 @@ public class Movement : MonoBehaviour
         //separation
         int numSeparationNeighbours = 0;
         //going to try getting all nearby units
+        /*
         List<GameObject> separationNeighbors = new List<GameObject>();
         if(_targeting != null)
         {
@@ -409,6 +410,7 @@ public class Movement : MonoBehaviour
         {
             separationNeighbors = _flock;
         }
+        */
         foreach (GameObject currentUnit in _flock)
         {
             if (currentUnit == null) continue;
