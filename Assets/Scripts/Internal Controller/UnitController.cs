@@ -72,14 +72,17 @@ public class UnitController : MonoBehaviour
 
             Movement unitMovement = selectedUnit.GetComponent<Movement>();
 
+            if (bestAction != "")
+            {
+                //check and remove object from previous flock if found
+                //need to call this whenever action is being carried out.... if performance impact need to optimize method
+                DeleteUnitFromFlock(selectedUnit);
+            }
             //handle actions
             switch (bestAction)
             {
                 case "move":
                     //order AI to move to a location
-                    //check and remove object from previous flock if found
-                    //need to call this whenever action is being carried out....
-                    DeleteUnitFromFlock(selectedUnit);
                     if (selectedUnits.Count > 1)
                     {
                         //will activate always on first unit in list, creates a flock and adds this as the leader
@@ -156,6 +159,12 @@ public class UnitController : MonoBehaviour
 
             AIControl unitAI = selectedUnit.GetComponent<AIControl>();
 
+            if (bestAction != "")
+            {
+                //check and remove object from previous flock if found
+                //need to call this whenever action is being carried out.... if performance impact need to optimize method
+                DeleteUnitFromFlock(selectedUnit);
+            }
             switch (bestAction)
             {
                 case "guard":
