@@ -65,18 +65,34 @@ public class EntityStorage : MonoBehaviour
         //thinking: forward vector of camera should work as normal vector for testing x-axis, and so on?
         //kinda lost the thread here
         Vector3 xAxisNormal = testRot * Vector3.forward;
-        Vector3 zAxisNormal = testRot * Vector3.right;
+        Vector3 zAxisNormal = testRot * -Vector3.right;
 
         //project points onto normals
         //probably horrendous to do it this way instead of calculating scalar projection normally
         //blame unity for not including a Vector3 scalar projection function I guess...
         //todo: try manually inserting scalar projection formula before submission because this is vomit inducing
         //update: left this in (for advanced prototype) in case you want a laugh
-        float topLeftProjectionXAxis = Vector3.Project(topLeftPos, xAxisNormal).magnitude;
-        float bottomRightProjectionXAxis = Vector3.Project(bottomRightPos, xAxisNormal).magnitude;
+        float topLeftProjectionXAxis = Vector3.Dot(topLeftPos, xAxisNormal);
+        float bottomRightProjectionXAxis = Vector3.Dot(bottomRightPos, xAxisNormal);
 
-        float topLeftProjectionZAxis = Vector3.Project(topLeftPos, zAxisNormal).magnitude;
-        float bottomRightProjectionZAxis = Vector3.Project(bottomRightPos, zAxisNormal).magnitude;
+        if(topLeftProjectionXAxis < bottomRightProjectionXAxis)
+        {
+            float temp = bottomRightProjectionXAxis;
+            bottomRightProjectionXAxis = topLeftProjectionXAxis;
+            topLeftProjectionXAxis = temp;
+        }
+
+        float topLeftProjectionZAxis = Vector3.Dot(topLeftPos, zAxisNormal);
+        float bottomRightProjectionZAxis = Vector3.Dot(bottomRightPos, zAxisNormal);
+
+        if (topLeftProjectionZAxis < bottomRightProjectionZAxis)
+        {
+            float temp = bottomRightProjectionZAxis;
+            bottomRightProjectionZAxis = topLeftProjectionZAxis;
+            topLeftProjectionZAxis = temp;
+        }
+
+        Debug.Log("Projection range: (" + topLeftProjectionXAxis + "," + topLeftProjectionZAxis + ") - (" + bottomRightProjectionXAxis + "," + bottomRightProjectionZAxis + ")");
 
         foreach (GameObject entity in _entityStorage.Values)
         {
@@ -84,9 +100,9 @@ public class EntityStorage : MonoBehaviour
 
             //only checking if center point lies within the box for now....
             //this worked out so I'm not touching this ever again.
-            float entityProjectionXAxis = Vector3.Project(entityPos, xAxisNormal).magnitude;
+            float entityProjectionXAxis = Vector3.Dot(entityPos, xAxisNormal);
 
-            float entityProjectionZAxis = Vector3.Project(entityPos, zAxisNormal).magnitude;
+            float entityProjectionZAxis = Vector3.Dot(entityPos, zAxisNormal);
 
             //check if within boundaries
             if((bottomRightProjectionXAxis <= entityProjectionXAxis && entityProjectionXAxis <= topLeftProjectionXAxis) &&
@@ -95,6 +111,8 @@ public class EntityStorage : MonoBehaviour
                 entitiesInRange.Add(entity);
             }
         }
+
+        Debug.Log("Found " + entitiesInRange.Count + " entities.");
 
         return entitiesInRange;
     }
