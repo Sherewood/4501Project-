@@ -61,7 +61,7 @@ Shader "Custom/SelectedUnitShader"
             float diff = abs(r-0.45);
 
             if(diff < 0.05){
-                o.Albedo = float3(0,1.0,0);
+                o.Albedo = _Color;
                 o.Alpha = smoothstep(0.05,0.0,diff);
             }
             else {

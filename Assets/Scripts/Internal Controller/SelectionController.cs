@@ -163,6 +163,27 @@ public class SelectionController : MonoBehaviour
 
         newIndicator.SetTarget(target);
 
+        //set color of indicator depending on target's allegiance
+        string targetAllegiance = target.GetComponent<UnitInfo>().GetAllegiance();
+
+        Vector3 color = new Vector3();
+
+        switch (targetAllegiance)
+        {
+            case "player":
+                color = new Vector3(0.0f, 1.0f, 0.0f);
+                break;
+            case "neutral":
+                color = new Vector3(0.8f, 0.8f, 0.8f);
+                break;
+            case "enemy":
+                color = new Vector3(1.0f, 0.0f, 0.0f);
+                break;
+        }
+
+        newIndicator.SetColor(color);
+
+        //keep track of indicator
         _selectionIndicators.Add(newIndicator);
     }
 

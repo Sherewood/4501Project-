@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//represents the game
+//represents the selected unit
 public class SelectionIndicator : MonoBehaviour
 {
     private GameObject _target;
 
+    private MeshRenderer _effectMesh;
+
     void Awake()
     {
         _target = null;
+
+        _effectMesh = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //just terminate if the target vanishes
@@ -28,6 +31,11 @@ public class SelectionIndicator : MonoBehaviour
     public void SetTarget(GameObject target)
     {
         _target = target;
+    }
+
+    public void SetColor(Vector3 color)
+    {
+        _effectMesh.material.SetVector("_Color",new Vector4(color.x,color.y,color.z,1.0f));
     }
 
     public void ClearTarget()
