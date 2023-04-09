@@ -33,9 +33,9 @@ public class HealthBarControl : MonoBehaviour
             //keep health bar above its target unit
             Vector3 targetPos = _target.transform.position;
             float yOffset = _target.transform.localScale.y * 2.0f;
-            if(yOffset > 2.5f)
+            if(yOffset > 3.5f)
             {
-                yOffset = 2.5f;
+                yOffset = 3.5f;
             }
             targetPos.y += yOffset;
             transform.position = targetPos;
