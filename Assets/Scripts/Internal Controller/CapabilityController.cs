@@ -21,6 +21,12 @@ public class CapabilityController : MonoBehaviour
 
     public List<Capability> GetCapabilitiesOfUnit(GameObject unit)
     {
+        //only consider capabilities of player units
+        if (!unit.GetComponent<UnitInfo>().GetAllegiance().Equals("player"))
+        {
+            return new List<Capability>();
+        }
+
         List<Capability> possibleCapabilities = _capabilityModel.GetCapabilitiesOfUnit(unit);
 
         List<Capability> actualCapabilities = new List<Capability>();
@@ -44,6 +50,12 @@ public class CapabilityController : MonoBehaviour
 
         foreach (GameObject unit in units)
         {
+            //if not a player unit, ignore its capabilities
+            if (!unit.GetComponent<UnitInfo>().GetAllegiance().Equals("player"))
+            {
+                continue;
+            }
+
             //todo - add parameter to indicate multi-unit capabilities should not be included if more than 1 unit selected
             List<Capability> possibleCapabilities = _capabilityModel.GetCapabilitiesOfUnit(unit);
         
