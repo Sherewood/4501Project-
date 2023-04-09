@@ -9,13 +9,16 @@ public class Tracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        trackerGameObject.transform.position = new Vector3 (followingObject.transform.position.x, 60, followingObject.transform.position.z+20);
+        trackerGameObject.transform.localScale = new Vector3(15 , 15 , 15);
     }
 
     // Update is called once per frame
     void Update()
     {
-        trackerGameObject.transform.position.Set(followingObject.transform.position.x,0, followingObject.transform.position.z);
+        Vector3 pos= new Vector3(followingObject.transform.position.x, 60, followingObject.transform.position.z+20);
+        trackerGameObject.transform.position = pos;
+        
     }
     void setGameObject(GameObject newObj)
     {

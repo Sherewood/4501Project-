@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2266443536259287454}
   - component: {fileID: 2476561493304798668}
   - component: {fileID: 2391022504089685958}
+  - component: {fileID: 1783368823926090930}
   m_Layer: 0
   m_Name: Research Lab
   m_TagString: Untagged
@@ -134,6 +135,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1783368823926090930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311997538237005692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062d79350057d3479d430b6ab418eee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackerGameObject: {fileID: 6978343887598068501}
+  followingObject: {fileID: 311997538237005692}
 --- !u!1 &6978343887598068501
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &4614900418479865317
