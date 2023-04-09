@@ -263,32 +263,6 @@ public class UserInterfaceController : MonoBehaviour
             //get unit icon
             DisplayUnitIconSingle(0);
 
-            //some really primitive attempt to place buttons from left to right
-            //ability display. 
-            int i = 0;
-
-            foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
-            {
-                _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-
-                foreach (Sprite sp in AbilityIcons)
-                {
-
-                    if (sp.name.Equals(ability.Key))
-                    {
-
-                        _abilityOptions[i].GetComponent<UiAbilties>().setIcon( sp);
-
-
-                        break;
-                    }
-                }
-                _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
-
-                i++;
-
-
-            }
             HaveNewUnitsBeenSelected = true;
         }
         else if (_selectedUnits.Count > 1 )
@@ -345,38 +319,38 @@ public class UserInterfaceController : MonoBehaviour
 
                 //get unit icon
                 DisplayUnitIcon(unit,x);
-
-                //some really primitive attempt to place buttons from left to right
-                //ability display. 
-                int i = 0;
-
-                foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
-                {
-                    _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
-
-                    foreach (Sprite sp in AbilityIcons)
-                    {
-
-                        if (sp.name.Equals(ability.Key))
-                        {
-
-                            _abilityOptions[i].GetComponent<UiAbilties>().Icon = sp;
-
-
-                            break;
-                        }
-                    }
-                    _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
-
-                    i++;
-
-
-                }
             }
             HaveNewUnitsBeenSelected = true;
         }
+        //display abilities if units selected
+        if (_selectedUnits.Count > 0)
+        {
+            //some really primitive attempt to place buttons from left to right
+            //ability display. 
+            int i = 0;
+            foreach (KeyValuePair<string, UIEvTrigger> ability in _selectedUnitCapabilities)
+            {
+                _abilityOptions[i].GetComponent<UiAbilties>().setTrigger((ability.Key, ability.Value));
 
-           
+                foreach (Sprite sp in AbilityIcons)
+                {
+
+                    if (sp.name.Equals(ability.Key))
+                    {
+
+                        _abilityOptions[i].GetComponent<UiAbilties>().setIcon(sp);
+
+
+                        break;
+                    }
+                }
+                _abilityOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ability.Key;
+
+                i++;
+
+
+            }
+        }
     }
 
     private void DisplayUnitIcon(GameObject instance, int place)
