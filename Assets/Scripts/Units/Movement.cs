@@ -216,7 +216,7 @@ public class Movement : MonoBehaviour
                     break;
             }
 
-            float dist = Vector3.Distance(transform.position, target); 
+            float dist = Vector3.Distance(transform.position, target);
 
             if (dist < 0.26f + _offsetFromDestination)
             {
@@ -226,10 +226,6 @@ public class Movement : MonoBehaviour
                 //report to interested parties that destination has been reached
                 AICallback.Invoke("reachedDestination");
                 _destReachedEvent.Invoke(gameObject);
-            }
-            else if (dist < 0.65f + _offsetFromDestination && _navMeshAgent.enabled && _navMeshAgent.velocity.magnitude < 0.25f)
-            {
-                DefaultMovementUpdate();
             }
         }
         //rotation in place for when unit is not in motion (aiming)
@@ -241,7 +237,7 @@ public class Movement : MonoBehaviour
             {
                 _rigidBody.velocity = Vector3.zero;
             }
-            //Debug.Log(gameObject.name + " debug - rigidbody velocity while rotating in place: " + _rigidBody.velocity);
+
             if (_targetRotation != Quaternion.identity)
             {
                 _rigidBody.MoveRotation(Quaternion.RotateTowards(transform.rotation, _targetRotation, TurnRate * Time.deltaTime));
@@ -291,30 +287,7 @@ public class Movement : MonoBehaviour
         _navMeshAgent.acceleration = _curSpeed / 4.0f;
         _navMeshAgent.angularSpeed = _curTurnRate / 1.5f;
 
-        /*
-        //trying a light separation force
-        Collider[] nearbyUnits = Physics.OverlapSphere(transform.position, 2.0f);
-
-        Vector3 separationVector = new Vector3();
-
-        //todo: move this part back into targeting
-        foreach(Collider candidate in nearbyUnits)
-        {
-            GameObject unit = candidate.gameObject;
-
-            if(unit.GetComponent<UnitInfo>() == null)
-            {
-                continue;
-            }
-
-            float dist = Vector3.Distance(unit.transform.position, transform.position);
-            Vector3 dir = unit.transform.position - transform.position;
-
-            separationVector -= dir.normalized * (2.0f - dist);
-        }
-
-        _rigidBody.AddForce(separationVector * 0.5f * Time.deltaTime * Speed, ForceMode.VelocityChange);
-        */
+        //Debug.Log(gameObject.name + ": movement speed while pathfinding -> " + _navMeshAgent.velocity);
 
         if (CheckIfShouldSwitchMovementMode(true))
         {
@@ -634,7 +607,7 @@ public class Movement : MonoBehaviour
             if(Vector3.Distance(destination, center) <= radius)
             {
                 //clamp to terrain first
-                destination.y = _terrain.SampleHeight(destination);
+                destination.y = destination.y + _terrain.SampleHeight(destination);
 
                 return MoveToDestination(destination, MovementMode.MODE_PATHFINDING);
             }
