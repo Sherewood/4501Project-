@@ -706,7 +706,7 @@ public class Movement : MonoBehaviour
                 StartPhysicalMovement(dest);
                 break;
             case MovementMode.MODE_DEFAULT:
-                Debug.LogError("Request to trigger default movement, but that is not ready yet.");
+                Debug.LogError("Request to trigger default movement, but that should not be used as an initial movement mode.");
                 return false;
         }
 
