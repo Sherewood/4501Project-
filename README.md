@@ -193,7 +193,8 @@ All Build Icons/UnitIcons/Ability Icons Except Research Lab:
 Ai generated art made with nightcafe studios.
 https://nightcafe.studio/
 
-UI background:
+UI background
+---------------------------
 https://assetstore.unity.com/packages/2d/gui/sci-fi-gui-skin-15606
 UI Event Director (face in the top right):
 Ai generated in nightcafe:
@@ -225,3 +226,8 @@ UI director sound:
 https://mixkit.co/free-sound-effects/robot/
 BGM:
 https://www.chosic.com/download-audio/45434/
+Code Sources:
+-----------------
+These are sites which helped develop certain scripts of code
+The TimeTracker script was sourced form this online work:https://alexdunn.org/2017/05/31/unity-tip-create-a-rotating-sun/
+The Typewriter effect was created using this site as a source: https://unitycoder.com/blog/2015/12/03/ui-text-typewriter-effect-script/
