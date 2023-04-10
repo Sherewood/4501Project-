@@ -38,7 +38,7 @@ public class Sun : MonoBehaviour
         {
             SolarObject.transform.Translate(0, Mathf.Sin(.5f), -Mathf.Cos(.5f));
         }
-        if ( FindObjectOfType<Timetracker>().CurTime %30.0f == 0)
+        if ( FindObjectOfType<Timetracker>().CurTime %30.0f == 1)
         {
             intensify();
         }
@@ -60,7 +60,7 @@ public class Sun : MonoBehaviour
     }
     public bool HeatRises()
     {
-        if (Newintensity> intensity   )
+        if (Newintensity> intensity)
         {
             
             intensity = Newintensity;
