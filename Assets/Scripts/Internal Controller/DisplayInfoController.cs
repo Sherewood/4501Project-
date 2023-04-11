@@ -330,7 +330,7 @@ public class DisplayInfoController : MonoBehaviour
     }
     public void AddDialogue(string Dialogue)
     {
-        if (events.Contains(Dialogue))
+        if (!events.Contains(Dialogue))
         {
             events.Add(Dialogue);
         }

@@ -13,7 +13,7 @@ public class Sun : MonoBehaviour
     public float updateInterval = 0.5F;
     public float intensity;
     public float Newintensity;
-    private float damage;
+    private float damage_interval;
     private double lastInterval;
     private int frames;
     private float fps;
@@ -50,13 +50,14 @@ public class Sun : MonoBehaviour
     {
         
         light.GetComponent<Light>().intensity+= modifier;
-       
-        damage = intensity;
+
+        damage_interval = intensity;
         Newintensity = light.GetComponent<Light>().intensity;
     }
     public float GetDamage()
     {
-        return damage;
+        
+        return 60f-damage_interval;
     }
     public bool HeatRises()
     {

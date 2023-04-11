@@ -251,7 +251,7 @@ MonoBehaviour:
   MaxRange: 9
   FiringOffset: {x: 0, y: 1.45, z: 0.15}
   FiringArc: 30
-  projectilePrefab: {fileID: 3724394957186235770, guid: 0d8558e78819c104eb6df97db5cb8695, type: 3}
+  projectilePrefab: {fileID: 7900001369740657734, guid: 7f08523e56d357145b2963ef74881032, type: 3}
 --- !u!65 &3166186647628892101
 BoxCollider:
   m_ObjectHideFlags: 0

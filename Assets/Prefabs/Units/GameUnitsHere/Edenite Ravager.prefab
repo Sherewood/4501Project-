@@ -170,7 +170,7 @@ MonoBehaviour:
   MaxRange: 8
   FiringOffset: {x: 0, y: 1.1, z: 0.2}
   FiringArc: 60
-  projectilePrefab: {fileID: 3724394957186235770, guid: 0d8558e78819c104eb6df97db5cb8695, type: 3}
+  projectilePrefab: {fileID: 3078123746640378800, guid: fd5d8beb828232c4e895eef3a384ec65, type: 3}
 --- !u!114 &340223194256531876
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -95,6 +95,11 @@ public class GameStateController : MonoBehaviour
             //inform that the player sucks and should lose
             EndOfGameEvent.Invoke(false);
         }
+        if (FindObjectOfType<Timetracker>().CurTime % GetComponent<Sun>().GetDamage() ==1)
+        {
+            _entityStorage.deal_damage();
+           
+        }
     }
 
     //other helpers go here
@@ -167,7 +172,7 @@ public class GameStateController : MonoBehaviour
 
             if (playerStockpile < unitCost)
             {
-                Debug.Log("Player has insufficient: " + resource + ", they have " + playerStockpile + " and the unit requires " + unitCost);
+                GetComponent<DisplayInfoController>().AddDialogue("Player has insufficient: " + resource + ", they have " + playerStockpile + " and the unit requires " + unitCost);
                 return false;
             }
         }
@@ -177,7 +182,8 @@ public class GameStateController : MonoBehaviour
     //deduct resources for the cost of some unit from the player's storage
     public void PurchaseUnit(string unitType)
     {
-        Debug.Log("mineral cost deducted: " + _unitDb.GetUnitCost(unitType, "minerals") + "fuel deducted: " + _unitDb.GetUnitCost(unitType, "fuel"));
+        /*Debug.Log*/
+        GetComponent<DisplayInfoController>().AddDialogue("mineral cost deducted: " + _unitDb.GetUnitCost(unitType, "minerals") + "fuel deducted: " + _unitDb.GetUnitCost(unitType, "fuel"));
         _gameStateModel.SubtractPlayerMinerals(_unitDb.GetUnitCost(unitType, "minerals"));
         _gameStateModel.SubtractPlayerFuel(_unitDb.GetUnitCost(unitType, "fuel"));
     }
