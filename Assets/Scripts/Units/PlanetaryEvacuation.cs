@@ -21,6 +21,8 @@ public class PlanetaryEvacuation : MonoBehaviour
     [Tooltip("The amount of time it takes for evacuation to launch")]
     public float EvacuationLaunchTime;
 
+    public GameObject PlanetaryEvacEffect;
+
     /* private vars */
 
     //number of civilians present
@@ -44,6 +46,11 @@ public class PlanetaryEvacuation : MonoBehaviour
         _evacCountdown = EvacuationLaunchTime;
 
         _evacStarted = false;
+
+        if(PlanetaryEvacEffect != null)
+        {
+            PlanetaryEvacEffect.SetActive(false);
+        }
     }
 
     public void AddCivies(int numCivies)
@@ -73,6 +80,13 @@ public class PlanetaryEvacuation : MonoBehaviour
         if (!CanEvac(fuelAmount))
         {
             return false;
+        }
+
+        //start effect
+        if (PlanetaryEvacEffect != null)
+        {
+            PlanetaryEvacEffect.SetActive(true);
+            PlanetaryEvacEffect.GetComponent<PlanetaryEvacEffectControl>().StartEffect(EvacuationLaunchTime);
         }
 
         _evacStarted = true;

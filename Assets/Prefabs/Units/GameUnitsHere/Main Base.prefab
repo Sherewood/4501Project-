@@ -156,6 +156,7 @@ Transform:
   m_Children:
   - {fileID: 4457376718041943504}
   - {fileID: 5399521259387303272}
+  - {fileID: 7897740658993863406}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,6 +241,7 @@ MonoBehaviour:
   CivilianThreshold: 200
   FuelThreshold: 1000
   EvacuationLaunchTime: 60
+  PlanetaryEvacEffect: {fileID: 7448437387291422666}
 --- !u!208 &-3434741240587025556
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -270,6 +272,90 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackerGameObject: {fileID: 990515516135085370}
   followingObject: {fileID: 7910979562441037367}
+--- !u!1001 &2251409708574968503
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5799474905048768431}
+    m_Modifications:
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.133
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.047
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674134524759926141, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_Name
+      value: PlanetaryEvacEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674134524759926141, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -805389146886929986, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+--- !u!1 &7448437387291422666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8674134524759926141, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+  m_PrefabInstance: {fileID: 2251409708574968503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7897740658993863406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8260996423878119513, guid: b368d3d73af45fa44abef50519d7fe22, type: 3}
+  m_PrefabInstance: {fileID: 2251409708574968503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5576664183351431811
 PrefabInstance:
   m_ObjectHideFlags: 0

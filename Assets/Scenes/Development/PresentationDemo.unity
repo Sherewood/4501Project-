@@ -796,6 +796,10 @@ PrefabInstance:
       propertyPath: EvacuationLaunchTime
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 322383579961173868, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2694723874917545885, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: MaxHealth
       value: 2000
@@ -884,6 +888,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2c76b1ec21f7b7f4584b9fa54c4460fd, type: 2}
+    - target: {fileID: 7448437387291422666, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: m_Name
       value: Main Base
@@ -3654,6 +3662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateInterval: 0.5
+  RawTime: 0
   CurTime: 0
 --- !u!1001 &1342257573
 PrefabInstance:
