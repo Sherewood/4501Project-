@@ -105,7 +105,7 @@ public class Harvesting : MonoBehaviour
     {
         //find the resource deposit at the unit's current position
         //short radius is more than enough if the unit is on the deposit
-        Collider[] candidateObjects = Physics.OverlapSphere(transform.position, 0.5f);
+        Collider[] candidateObjects = Physics.OverlapSphere(transform.position, 0.75f);
 
         foreach(Collider candidateObject in candidateObjects)
         {

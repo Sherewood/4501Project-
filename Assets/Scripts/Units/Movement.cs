@@ -726,7 +726,7 @@ public class Movement : MonoBehaviour
         _navMeshAgent.enabled = true;
 
         _navMeshAgent.SetDestination(dest);
-        _navMeshAgent.stoppingDistance = _offsetFromDestination;
+        _navMeshAgent.stoppingDistance = _offsetFromDestination > 0.0f ? _offsetFromDestination - 0.5f : 0.0f;
     }
 
     //triggers spline-based movement
