@@ -13,8 +13,10 @@ public class ProgressBarControl : MonoBehaviour
     //extra offset required to align the progress bar
     public float AlignmentAngleOffset;
 
-    // Start is called before the first frame update
-    void Start()
+    [Tooltip("Specify colors here to be set when needed.")]
+    public List<Color> ColorOptions;
+
+    void Awake()
     {
         //get the main camera
         _gameCamera = GameObject.Find("Main Camera");
@@ -47,5 +49,17 @@ public class ProgressBarControl : MonoBehaviour
     public void SetPercentage(float percentage)
     {
         _progressBarMesh.material.SetFloat("_ProgressPct", percentage);
+    }
+
+    //set the primary and secondary colors of the bar
+    public void SetColors(int colorIndex1, int colorIndex2)
+    {
+        Color color1 = ColorOptions[colorIndex1];
+        Color color2 = ColorOptions[colorIndex2];
+        if (_progressBarMesh != null)
+        {
+            _progressBarMesh.material.SetColor("_Color", color1);
+            _progressBarMesh.material.SetColor("_EmptyColor", color2);
+        }
     }
 }

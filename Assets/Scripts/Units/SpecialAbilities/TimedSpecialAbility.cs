@@ -14,6 +14,9 @@ public class TimedSpecialAbility : MonoBehaviour
     public float Duration;
     public float Cooldown;
 
+    [Tooltip("Used to display powerup status (cooldown, active time, etc)")]
+    public ProgressBarControl PowerupStatusBar;
+
     // special effect for the ability when it's active
     public GameObject specialEffect;
 
@@ -38,6 +41,13 @@ public class TimedSpecialAbility : MonoBehaviour
         {
             specialEffect.SetActive(false);
         }
+
+        //if powerup status bar exists, set its colors to the defaults
+        //this is really stupid but whatever deadlines tomorrow
+        if(PowerupStatusBar != null)
+        {
+            PowerupStatusBar.SetColors(0,2);
+        }
     }
 
     // Handle cooldowns/activations....
@@ -46,11 +56,24 @@ public class TimedSpecialAbility : MonoBehaviour
         if (_active)
         {
             _timeRemaining -= Time.deltaTime;
+
+            //if powerup status bar exists, track active time here
+            if(PowerupStatusBar != null)
+            {
+                PowerupStatusBar.SetPercentage(_timeRemaining / Duration);
+            }
+
             //if time on ability runs out, disable and set cooldown
             if(_timeRemaining <= 0.0f)
             {
                 _active = false;
                 _cooldownTime = Cooldown;
+
+                //return to default (on cooldown) color
+                if (PowerupStatusBar != null)
+                {
+                    PowerupStatusBar.SetColors(0, 2);
+                }
 
                 if (specialEffect != null)
                 {
@@ -63,7 +86,14 @@ public class TimedSpecialAbility : MonoBehaviour
         else if(!_canActivate)
         {
             _cooldownTime -= Time.deltaTime;
-            
+
+            //if powerup status bar exists, track cooldown here
+            if (PowerupStatusBar != null)
+            {
+                //invert because we want the bar to move from left to right to indicate the powerup "charging"
+                PowerupStatusBar.SetPercentage(1.0f - _cooldownTime / Cooldown);
+            }
+
             if (_cooldownTime <= 0.0f)
             {
                 _canActivate = true;
@@ -92,6 +122,12 @@ public class TimedSpecialAbility : MonoBehaviour
             if (specialEffect != null)
             {
                 specialEffect.SetActive(true);
+            }
+
+            //use "active" color in progress bar
+            if (PowerupStatusBar != null)
+            {
+                PowerupStatusBar.SetColors(1, 2);
             }
 
             _canActivate = false;
