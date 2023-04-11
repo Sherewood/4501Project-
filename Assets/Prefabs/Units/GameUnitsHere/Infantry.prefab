@@ -1853,7 +1853,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa69f72f41417854cab1c22d84581efd, type: 2}
+  - {fileID: 2100000, guid: 1051261711ee04045abe299f17674544, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2860,6 +2860,7 @@ MonoBehaviour:
       m_Calls: []
   Duration: 8
   Cooldown: 16
+  PowerupStatusBar: {fileID: 0}
   specialEffect: {fileID: 7084549800775366981}
   DamageMultiplier: 1.5
   FireRateMultiplier: 1.5
