@@ -68,6 +68,8 @@ public class UserInterfaceController : MonoBehaviour
     public GameObject time;
 
     
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -219,6 +221,7 @@ public class UserInterfaceController : MonoBehaviour
         }
         time.GetComponent<TMPro.TextMeshProUGUI>().text = _displayInfoController.getTime().ToString();
 
+        
     }
     void displayUnit()
     {
