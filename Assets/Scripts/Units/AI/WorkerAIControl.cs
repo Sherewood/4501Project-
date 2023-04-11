@@ -11,7 +11,11 @@ public class WorkerAIControl : AIControl
     private Construction _construction;
     private Harvesting _harvesting;
 
+    //true if returning to deposit resources
     private bool depositFlag = false;
+
+    //true if deposit is depleted
+    private bool depletedFlag = false;
 
     //get construction and harvesting components
     protected override void GetComponents()
@@ -51,8 +55,14 @@ public class WorkerAIControl : AIControl
                 return (prereq.Equals(aiEvent));
             case "capacityReached":
                 return (prereq.Equals(aiEvent));
+            case "depositFlagTrue":
+                return depositFlag;
             case "depositFlagFalse":
-                return (prereq.Equals(aiEvent));
+                return !depositFlag;
+            case "depletedFlagTrue":
+                return depletedFlag;
+            case "depletedFlagFalse":
+                return !depletedFlag;
             case "returnForGathering":
                 return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
@@ -91,21 +101,25 @@ public class WorkerAIControl : AIControl
                     _unitState.SetState(UState.STATE_MOVING);
                 }
                 break;
+            case "setDepositFlagTrue":
+                depositFlag = true;
+                break;
             case "setDepositFlagFalse":
                 depositFlag = false;
                 break;
+            case "setDepletedFlagTrue":
+                depletedFlag = true;
+                break;
+            case "setDepletedFlagFalse":
+                depletedFlag = false;
+                break;
             case "depositResources":
-                Debug.Log("deposit Resources called");
+                //trigger callback to internal controller to deposit resources
                 _harvesting.depositResources();
                 break;
             case "startHarvesting":
                 //if able to harvest successfully, then enter harvesting state, else go to idle
-                if(depositFlag == true)
-                {
-                    depositFlag = false;
-                    _harvesting.depositResources();
-                }
-                else if (_harvesting.StartHarvesting())
+                if (_harvesting.StartHarvesting())
                 {
                     _unitState.SetState(UState.STATE_HARVESTING);
                 }

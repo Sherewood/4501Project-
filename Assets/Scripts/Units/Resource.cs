@@ -28,6 +28,11 @@ public class Resource : MonoBehaviour
     {
         return ResourceType;
     }
+    
+    public bool IsDepleted()
+    {
+        return ResourceAmount <= 0;
+    }
 
     //handle request to withdraw 'resourceHarvestRate' of the deposit's resource.
     //return value indicates the amount of resources extracted, or -1 if the deposit is depleted.

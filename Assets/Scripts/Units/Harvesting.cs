@@ -52,7 +52,6 @@ public class Harvesting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning("unit state = " + _unitState.GetState());
         if (_unitState.GetState() == UState.STATE_HARVESTING)
         {
             if (!animator.Equals(null)) animator.SetAnim("HARVEST");
@@ -83,19 +82,21 @@ public class Harvesting : MonoBehaviour
 
         _heldResources += harvestAmount;
 
-        
+        //-1 = deposit is depleted, stop harvesting.
+        //prioritize deposit depleted callback over capacity reached for better termination of movement
+        if (harvestAmount == -1 || _targetDeposit.IsDepleted())
+        {
+            AICallback.Invoke("depositDepleted");
+            return;
+        }
+
         if (_heldResources >= HarvestingCapacity)
         {
             AICallback.Invoke("capacityReached");
             return;
         }
 
-        //-1 = deposit is depleted, stop harvesting.
-        if (harvestAmount == -1)
-        {
-            AICallback.Invoke("depositDepleted");
-            return;
-        }
+
 
         //
     }
