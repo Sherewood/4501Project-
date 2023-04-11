@@ -20,8 +20,11 @@ public class Harvesting : MonoBehaviour
     [Tooltip("Rate at which resources are harvested. (per second)")]
     public int HarvestingRate;
 
-    [Tooltip("Rate at which resources are harvested. (per second)")]
+    [Tooltip("Maximum resource capacity before having to deposit")]
     public int HarvestingCapacity;
+
+    [Tooltip("Bar for tracking worker's resource capacity")]
+    public ProgressBarControl ResourceCapacityBar;
 
     private UnitState _unitState;
 
@@ -52,6 +55,13 @@ public class Harvesting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if resource capacity bar attached, update it
+        if (ResourceCapacityBar != null)
+        {
+            ResourceCapacityBar.SetPercentage((float)_heldResources / HarvestingCapacity);
+        }
+
+        //if in harvesting state, harvest
         if (_unitState.GetState() == UState.STATE_HARVESTING)
         {
             if (!animator.Equals(null)) animator.SetAnim("HARVEST");
