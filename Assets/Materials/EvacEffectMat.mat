@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectedUnitMat
+  m_Name: EvacEffectMat
   m_Shader: {fileID: 4800000, guid: 0e891cf7eafc2b74e9bdce31b7c0a5af, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

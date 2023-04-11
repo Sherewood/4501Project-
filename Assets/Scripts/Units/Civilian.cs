@@ -21,6 +21,9 @@ public class Civilian : MonoBehaviour
     [Tooltip("The build rate of workers, per second")]
     public float WorkerBuildRate;
 
+    //for the evacuation effect
+    public MeshRenderer EvacuationEffect;
+
     /* private vars */
     private bool _evacActive;
 
@@ -31,6 +34,8 @@ public class Civilian : MonoBehaviour
     private float _workerBuildCooldown;
 
     private float _evacCooldown;
+
+    private float _evacEffectTimer;
 
     //going to set this rate for now
     private const int CIVIES_PER_WORKER = 40;
@@ -50,6 +55,8 @@ public class Civilian : MonoBehaviour
         _evacCooldown = BASE_COOLDOWN / EvacRate;
         _workerBuildCooldown = BASE_COOLDOWN / WorkerBuildRate;
 
+        _evacEffectTimer = 0.0f;
+
         _spawner = GetComponent<UnitSpawner>();
 
         _civEvacEvent = new CivilianEvacEvent();
@@ -58,7 +65,10 @@ public class Civilian : MonoBehaviour
     //order beginning of evacuation
     public void TriggerEvacuation()
     {
-        _evacActive = true;
+        if (NumCivilians > 0)
+        {
+            _evacActive = true;
+        }
     }
 
     //return true if civilian evacuation is in progress.
@@ -104,7 +114,20 @@ public class Civilian : MonoBehaviour
                 _civEvacEvent.Invoke(1);
 
                 _evacCooldown = BASE_COOLDOWN / EvacRate;
+
+                //if no more civilians, stop the effect and stop evacuation
+                if(NumCivilians <= 0)
+                {
+                    _evacActive = false;
+                    EvacuationEffect.material.SetFloat("_EffectTime", 0.0f);
+                    return;
+                }
             }
+
+            //also handle evacuation effect oscillation
+            _evacEffectTimer += Time.deltaTime;
+
+            EvacuationEffect.material.SetFloat("_EffectTime", _evacEffectTimer);
         }
     }
 
