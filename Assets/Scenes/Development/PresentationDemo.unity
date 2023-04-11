@@ -5152,6 +5152,14 @@ PrefabInstance:
       value: 'User_Interface '
       objectReference: {fileID: 0}
     - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: AbilityIcons.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: AbilityIcons.Array.data[12]
+      value: 
+      objectReference: {fileID: 21300000, guid: 81e35c0ad8609244789ce69b08a63040, type: 3}
+    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: ObstructingUIRegions.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -5632,138 +5640,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Model
       objectReference: {fileID: 0}
-    - target: {fileID: 2970617129514139879, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitTypes.Array.size
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[0]
-      value: player-dynamic-worker
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[1]
-      value: player-dynamic-military-infantry
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[2]
-      value: player-dynamic-military-rpg
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[3]
-      value: player-dynamic-military-minigun
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[4]
-      value: player-dynamic-military-tank
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[5]
-      value: player-dynamic-military-artillery
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[6]
-      value: player-static-mainbase
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[7]
-      value: player-static-civilianbuilding
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[8]
-      value: player-static-barracks
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[9]
-      value: player-static-factory
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[10]
-      value: player-static-researchlab
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[11]
-      value: neutral-static-mineraldep
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[12]
-      value: neutral-static-fueldep
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[13]
-      value: enemy-dynamic-edenite_muncher
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitTypes.Array.data[14]
-      value: enemy-dynamic-edenite_ravager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitTypes.Array.data[15]
-      value: enemy-dynamic-eden_devil
+      value: enemy-dynamic-edenite_devil
       objectReference: {fileID: 0}
     - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
       propertyPath: UnitAssetPrefabs.Array.size
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 7910979562441037367, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 8101192436672986434, guid: 9f948aefaa012944baf6a8ce821b1e6b, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 3239236345776070385, guid: 41d6e39815e8ad24b8fb8406cd2d1942, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 3239236345776070385, guid: 88ceb0e0a889ab04ea42d7ce5fdd56e6, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 2081780510105109408, guid: cd472de6fcad9e445bd4c4761c9f9eda, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[5]
-      value: 
-      objectReference: {fileID: 3239236345776070385, guid: 219cbaf35761a5f44b7dade9e6549ad5, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 7910979562441037367, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[7]
-      value: 
-      objectReference: {fileID: 7910979562441037367, guid: d9aaecd5080811949838c239bc8e1cab, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[8]
-      value: 
-      objectReference: {fileID: 311997538237005692, guid: 1e1c0c7bf0daa5a4087d93334f30a2d7, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[9]
-      value: 
-      objectReference: {fileID: 311997538237005692, guid: 811b5119ff9bbc54c950ec2d1f55b8c4, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[11]
-      value: 
-      objectReference: {fileID: 7910979562441037367, guid: d39058d3dd240f34bb03c78921e3e6d8, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[12]
-      value: 
-      objectReference: {fileID: 7910979562441037367, guid: d09de9f26d05cf14eae7717219167957, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[13]
-      value: 
-      objectReference: {fileID: 164426, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
-    - target: {fileID: 6555852087881390601, guid: f11a7d42a6d94a840b5ad44eb2fd6951, type: 3}
-      propertyPath: UnitAssetPrefabs.Array.data[14]
-      value: 
-      objectReference: {fileID: 3239236345776070385, guid: 95edc33bf49a4324bbcb74b1506afa70, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
