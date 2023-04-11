@@ -46,6 +46,7 @@ public class Resource : MonoBehaviour
     
     public bool IsDepleted()
     {
+        
         return ResourceAmount <= 0;
     }
 
