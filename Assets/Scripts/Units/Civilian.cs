@@ -21,6 +21,9 @@ public class Civilian : MonoBehaviour
     [Tooltip("The build rate of workers, per second")]
     public float WorkerBuildRate;
 
+    [Tooltip("Bar indicating the percentage of civilians remaining")]
+    public ProgressBarControl CivilianCountBar;
+
     //for the evacuation effect
     public MeshRenderer EvacuationEffect;
 
@@ -36,6 +39,9 @@ public class Civilian : MonoBehaviour
     private float _evacCooldown;
 
     private float _evacEffectTimer;
+
+    //used for progress bar
+    private int _initialCivCount;
 
     //going to set this rate for now
     private const int CIVIES_PER_WORKER = 40;
@@ -58,6 +64,8 @@ public class Civilian : MonoBehaviour
         _evacEffectTimer = 0.0f;
 
         _spawner = GetComponent<UnitSpawner>();
+
+        _initialCivCount = NumCivilians;
 
         _civEvacEvent = new CivilianEvacEvent();
     }
@@ -128,6 +136,12 @@ public class Civilian : MonoBehaviour
             _evacEffectTimer += Time.deltaTime;
 
             EvacuationEffect.material.SetFloat("_EffectTime", _evacEffectTimer);
+        }
+
+        //if there is a civ count bar, update it
+        if(CivilianCountBar != null)
+        {
+            CivilianCountBar.SetPercentage((float)NumCivilians/_initialCivCount);
         }
     }
 
