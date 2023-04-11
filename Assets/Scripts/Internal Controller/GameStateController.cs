@@ -32,6 +32,8 @@ public class GameStateController : MonoBehaviour
 
     private PlanetaryEvacuation _playerMainBase;
 
+    //DisplayInfo 
+    private DisplayInfoController _displayinfo;
     void Start()
     {
         Debug.Log("Game State Controller - Begin game initialization");
@@ -84,6 +86,8 @@ public class GameStateController : MonoBehaviour
         Debug.Log("Game State Controller - Found " + _enemySpawners.Count + " spawners.");
 
         Debug.Log("Game State Controller - Initialized entity storage with " + allUnits.Length + " units.");
+
+        _displayinfo = GetComponent<DisplayInfoController>();
     }
 
     //update loop functionality goes here
@@ -172,7 +176,7 @@ public class GameStateController : MonoBehaviour
 
             if (playerStockpile < unitCost)
             {
-                GetComponent<DisplayInfoController>().AddDialogue("Player has insufficient: " + resource + ", they have " + playerStockpile + " and the unit requires " + unitCost);
+                _displayinfo.AddDialogue("You have insufficient " + resource + ". While we have " + playerStockpile + " we must have " + unitCost + "to make it.");
                 return false;
             }
         }
@@ -183,7 +187,7 @@ public class GameStateController : MonoBehaviour
     public void PurchaseUnit(string unitType)
     {
         /*Debug.Log*/
-        GetComponent<DisplayInfoController>().AddDialogue("mineral cost deducted: " + _unitDb.GetUnitCost(unitType, "minerals") + "fuel deducted: " + _unitDb.GetUnitCost(unitType, "fuel"));
+        _displayinfo.AddDialogue(_unitDb.GetUnitName(unitType)+"Loading price:  mineral cost deducted: " + _unitDb.GetUnitCost(unitType, "minerals") + "fuel deducted: " + _unitDb.GetUnitCost(unitType, "fuel"));
         _gameStateModel.SubtractPlayerMinerals(_unitDb.GetUnitCost(unitType, "minerals"));
         _gameStateModel.SubtractPlayerFuel(_unitDb.GetUnitCost(unitType, "fuel"));
     }
