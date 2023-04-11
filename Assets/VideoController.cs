@@ -75,7 +75,7 @@ public class VideoController : MonoBehaviour
             for (int i = 0; i < dialogue.Count; i++)
             {
                 StartCoroutine(EventHandle(dialogue[i]));
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(1f);
                 //no idea how this happens but this will prevent a crash?
                 if (i >= dialogue.Count)
                 {
@@ -96,7 +96,7 @@ public class VideoController : MonoBehaviour
         {
             typewriter_Effect.SendMessage(message);
         }
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(7f);
 
     }
     IEnumerator Report()

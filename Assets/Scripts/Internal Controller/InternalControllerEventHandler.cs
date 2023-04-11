@@ -221,7 +221,10 @@ public class InternalControllerEventHandler : MonoBehaviour
     public void HandleUnitDeadEvent(GameObject newUnit)
     {
         Debug.Log("Unit Dead Event received - unit instance id " + newUnit.GetInstanceID());
-        
+        if (newUnit.name.Contains("Civilian Building"))
+        {
+            _displayInfoController.AddDialogue("Civilian Building Down!! ");
+        }
         _unitCreationController.DeleteDeadEntity(newUnit);
     }
 

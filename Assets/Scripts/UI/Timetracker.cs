@@ -13,6 +13,7 @@ public class Timetracker : MonoBehaviour
     private double lastInterval;
     private int frames;
     private float fps;
+    public float RawTime;
     
     public float CurTime;
     // Start is called before the first frame update
@@ -33,6 +34,7 @@ public class Timetracker : MonoBehaviour
             frames = 0;
             lastInterval = timeNow;
         }
+        RawTime = timeNow;
         timeNow = (int)timeNow;
         CurTime = timeNow;
        

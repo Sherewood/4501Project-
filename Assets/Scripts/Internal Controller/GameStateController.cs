@@ -95,6 +95,11 @@ public class GameStateController : MonoBehaviour
             //inform that the player sucks and should lose
             EndOfGameEvent.Invoke(false);
         }
+        if (FindObjectOfType<Timetracker>().CurTime % GetComponent<Sun>().GetDamage() ==1)
+        {
+            _entityStorage.deal_damage();
+           
+        }
     }
 
     //other helpers go here

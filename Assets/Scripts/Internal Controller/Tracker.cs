@@ -10,7 +10,7 @@ public class Tracker : MonoBehaviour
     void Start()
     {
         trackerGameObject.transform.position = new Vector3 (followingObject.transform.position.x, 700, followingObject.transform.position.z+100);
-        trackerGameObject.transform.localScale = new Vector3(20 , 20 , 20);
+        trackerGameObject.transform.localScale = new Vector3(20 / trackerGameObject.transform.parent.lossyScale.x, 20/trackerGameObject.transform.parent.lossyScale.y, 20/ trackerGameObject.transform.parent.lossyScale.z);
     }
 
     // Update is called once per frame
