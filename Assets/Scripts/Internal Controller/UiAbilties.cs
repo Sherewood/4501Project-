@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UiAbilties : MonoBehaviour
+public class UiAbilties : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public (string,UIEvTrigger) Event; //Trigger for button 
     public Sprite Icon; //button icon
     private string Description; //string for later on which holds details 
     public bool menuEvent;
+    public bool researchEvent;
+    private string describe = "";
     public string testEvent="test";//meant for debugging
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,7 @@ public class UiAbilties : MonoBehaviour
     {
        // this.GetComponent<Image>().sprite = Icon;
         this.testEvent = Event.Item1;
+     
         
     }
     public void setTrigger((string, UIEvTrigger) odio)
@@ -55,5 +62,23 @@ public class UiAbilties : MonoBehaviour
             FindObjectOfType<InternalControllerEventHandler>().GetComponent<InternalControllerEventHandler>().HandleUIOrderEvent(Event.Item1); 
         }
         
+    }
+    public void setDescription(string line)
+    {
+        describe = line;
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (researchEvent)
+        {
+            GameObject.Find("ScienceDescription").GetComponent<TextMeshProUGUI>().text =describe;
+        }
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (researchEvent)
+        {
+            GameObject.Find("ScienceDescription").GetComponent<TextMeshProUGUI>().text = "";
+        }
     }
 }

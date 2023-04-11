@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //represents a technology itself
@@ -52,7 +53,10 @@ public class TechnologyNode
     {
         _completed = true;
     }
-
+    public string GetDescription()
+    {
+        return _technology.Description;
+    }
     //get technology struct stored within node
     public Technology GetTechnology()
     {

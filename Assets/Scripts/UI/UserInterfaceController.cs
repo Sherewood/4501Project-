@@ -481,6 +481,7 @@ public class UserInterfaceController : MonoBehaviour
                 //display the cost
                 button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Cost: " + science.Key.Cost;
                 //adjustments
+                button.GetComponent<UiAbilties>().setDescription(science.Key.Description);
                 button.transform.SetParent(SciencePanel.transform, false);
                 //can clean this up a bit later
                 if (i < 5)
@@ -598,4 +599,5 @@ public class UserInterfaceController : MonoBehaviour
     {
         return _displayInfoController.MiniMap();
     }
+
 }
