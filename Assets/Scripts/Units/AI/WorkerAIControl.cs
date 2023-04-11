@@ -11,6 +11,8 @@ public class WorkerAIControl : AIControl
     private Construction _construction;
     private Harvesting _harvesting;
 
+    private bool depositFlag = false;
+
     //get construction and harvesting components
     protected override void GetComponents()
     {
@@ -47,6 +49,12 @@ public class WorkerAIControl : AIControl
         {
             case "depositDepleted":
                 return (prereq.Equals(aiEvent));
+            case "capacityReached":
+                return (prereq.Equals(aiEvent));
+            case "depositFlagFalse":
+                return (prereq.Equals(aiEvent));
+            case "returnForGathering":
+                return (prereq.Equals(aiEvent));
             //todo: add support for other prereqs
             default:
                 return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
@@ -75,10 +83,29 @@ public class WorkerAIControl : AIControl
                     _unitState.SetState(UState.STATE_MOVING);
                 }
                 break;
+            case "moveToBaseForDeposit":
+                depositFlag = true;
+                _movement.MoveToDestination(_notifiedTargetPosition, MovementMode.MODE_PATHFINDING, 5.5f);
+                if (_unitState.GetState() != UState.STATE_ATTACKING && _unitState.GetState() != UState.STATE_GUARDING)
+                {
+                    _unitState.SetState(UState.STATE_MOVING);
+                }
+                break;
+            case "setDepositFlagFalse":
+                depositFlag = false;
+                break;
+            case "depositResources":
+                Debug.Log("deposit Resources called");
+                _harvesting.depositResources();
+                break;
             case "startHarvesting":
-
                 //if able to harvest successfully, then enter harvesting state, else go to idle
-                if (_harvesting.StartHarvesting())
+                if(depositFlag == true)
+                {
+                    depositFlag = false;
+                    _harvesting.depositResources();
+                }
+                else if (_harvesting.StartHarvesting())
                 {
                     _unitState.SetState(UState.STATE_HARVESTING);
                 }

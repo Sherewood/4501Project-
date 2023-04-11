@@ -3,6 +3,11 @@
 CM|If command==harvest and newCommand then moveToDestination
 CM|If command==harvest and reachedDestination then startHarvesting
 CM|If command==harvest and depositDepleted then setState=idle and breakCommand
+CM|If command==harvest and capacityReached then requestMainBasePos and setReturnPointToCurrentPosition
+CM|If command==harvest and positionReceived then moveToBaseForDeposit
+CM|If command==harvest and depositFlagFalse then setDepositFlagFalse
+CM|If command==harvest and returnForGathering then initReturn
+#CM|If command==harvest and reachedDestination and depositFlag==true then depositResources
 #the part of the handling where the unit moves to construct the building is implemented in AI
 #will leave the rest of the construction handling to internal controller
 CM|If command==construct and newCommand then moveToConstructAtDestination

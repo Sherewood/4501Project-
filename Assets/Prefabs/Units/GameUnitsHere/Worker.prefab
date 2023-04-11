@@ -7153,6 +7153,8 @@ MonoBehaviour:
         m_CallState: 1
   HarvestingAmount: 5
   HarvestingRate: 1
+  HarvestingCapacity: 50
+  _heldResources: 0
 --- !u!114 &-7150664565044291712
 MonoBehaviour:
   m_ObjectHideFlags: 0
