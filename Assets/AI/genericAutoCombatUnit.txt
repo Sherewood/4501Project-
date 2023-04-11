@@ -1,7 +1,10 @@
 #Use for basic unit combat behaviour
 If targetChanged and targetNotInRange and state!=fortify then setTarget and moveTarget
+#if fortified, still want unit to aim towards incoming enemy
+If targetChanged and targetNotInRange and state==fortify then setTarget and attackTarget
 If targetChanged and targetInRange then setTarget and attackTarget
 If targetLost and state!=guard then clearTarget and stopMovement
 If targetLost and state==guard then clearTarget and initReturn
 If targetInRange then attackTarget
-If targetNotInRange then moveTarget
+If targetNotInRange and state!=fortify then moveTarget
+If targetNotInRange and state==fortify then attackTarget

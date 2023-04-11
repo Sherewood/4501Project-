@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectedUnitMat
-  m_Shader: {fileID: 4800000, guid: 0e891cf7eafc2b74e9bdce31b7c0a5af, type: 3}
+  m_Name: ResoureDepositBar
+  m_Shader: {fileID: 4800000, guid: f09168831f9242c4c88bbddc082b1e80, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -61,23 +61,32 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BorderSize: 0.0032
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 1
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _HealthPct: 1
+    - _Height: 0.127
+    - _InnerWidth: 0.759
+    - _LowerBound: 0.458
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ProgressPct: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UpperBound: 0.561
+    - _Width: 0.601
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.088113785, g: 0, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmptyColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
   m_BuildTextureStacks: []

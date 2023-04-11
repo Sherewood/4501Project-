@@ -1,8 +1,15 @@
 #For player worker units. Update harvest behaviour to fulfill semi-automatic actions requirement?
-#todo: add construction handling
-CM|If command==harvest and newCommand then moveToDestination
-CM|If command==harvest and reachedDestination then startHarvesting
-CM|If command==harvest and depositDepleted then setState=idle and breakCommand
+CM|If command==harvest and newCommand then setDepletedFlagFalse and moveToDestination
+#if deposit depleted, go back to main base
+CM|If command==harvest and depositDepleted then setDepletedFlagTrue and requestMainBasePos
+#begin harvesting if arrived at deposit, deposit resources if arrived at main base
+CM|If command==harvest and reachedDestination and depositFlagFalse then startHarvesting
+CM|If command==harvest and reachedDestination and depositFlagTrue then depositResources
+CM|If command==harvest and capacityReached then requestMainBasePos and setReturnPointToCurrentPosition
+CM|If command==harvest and positionReceived then setDepositFlagTrue and moveToBaseForDeposit
+#reached main base, either stop if deposit is depleted or return
+CM|If command==harvest and returnForGathering and depletedFlagTrue then setState=idle and breakCommand
+CM|If command==harvest and returnForGathering and depletedFlagFalse then setDepositFlagFalse and initReturn
 #the part of the handling where the unit moves to construct the building is implemented in AI
 #will leave the rest of the construction handling to internal controller
 CM|If command==construct and newCommand then moveToConstructAtDestination

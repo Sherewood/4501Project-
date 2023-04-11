@@ -14,19 +14,39 @@ public class Resource : MonoBehaviour
     [Tooltip("The amount of said resource held by the unit")]
     public int ResourceAmount;
 
+    [Tooltip("The bar used to display the available resources")]
+    public ProgressBarControl ResourceCapacityBar;
+
+    private int _maxResourceAmount;
+
     private bool _depleted;
 
     void Start()
     {
+        _maxResourceAmount = ResourceAmount;
         if (ResourceAmount > 0)
         {
             _depleted = false;
         }
     }
 
+    void Update()
+    {
+        //if capacity bar is linked, update based on remaining resources
+        if (ResourceCapacityBar != null)
+        {
+            ResourceCapacityBar.SetPercentage((float)ResourceAmount / _maxResourceAmount);
+        }
+    }
+
     public string GetResourceType()
     {
         return ResourceType;
+    }
+    
+    public bool IsDepleted()
+    {
+        return ResourceAmount <= 0;
     }
 
     //handle request to withdraw 'resourceHarvestRate' of the deposit's resource.

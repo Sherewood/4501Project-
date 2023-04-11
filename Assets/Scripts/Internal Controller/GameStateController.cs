@@ -214,6 +214,12 @@ public class GameStateController : MonoBehaviour
     //unlock technology with given technology ID
     public bool ResearchTechnology(string techId)
     {
+        //this check was not here when we did the demo. good lord I'm stupid.
+        if (!IsTechResearchable(techId))
+        {
+            return false;
+        }
+
         //deduct the research point cost
         _gameStateModel.SubtractPlayerRP(_researchModel.GetTechnologyCost(techId));
 

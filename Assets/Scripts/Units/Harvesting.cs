@@ -20,6 +20,8 @@ public class Harvesting : MonoBehaviour
     [Tooltip("Rate at which resources are harvested. (per second)")]
     public int HarvestingRate;
 
+    [Tooltip("Rate at which resources are harvested. (per second)")]
+    public int HarvestingCapacity;
 
     private UnitState _unitState;
 
@@ -30,6 +32,10 @@ public class Harvesting : MonoBehaviour
     //the target resource deposit
     private Resource _targetDeposit;
 
+    //held resources
+    public int _heldResources;
+    private string _heldResourceType;
+    
     void Awake()
     {
         _unitState = GetComponent<UnitState>();
@@ -57,24 +63,42 @@ public class Harvesting : MonoBehaviour
                 _cooldown = BASE_COOLDOWN / HarvestingRate;
             }
         }
-        
     }
 
     //periodic harvesting of resource from resource deposit
     private void HarvestResource()
     {
-        string resourceType = _targetDeposit.GetResourceType();
+        _heldResourceType = _targetDeposit.GetResourceType();
 
-        int harvestAmount = _targetDeposit.WithdrawResources(HarvestingAmount);
-        
+        int harvestAmount;
+        if (_heldResources + HarvestingAmount < HarvestingCapacity)
+        {
+            harvestAmount = _targetDeposit.WithdrawResources(HarvestingAmount);
+        }
+        else
+        {
+            harvestAmount = _targetDeposit.WithdrawResources(HarvestingCapacity - _heldResources);
+        }
+
+        _heldResources += harvestAmount;
+
         //-1 = deposit is depleted, stop harvesting.
-        if(harvestAmount == -1)
+        //prioritize deposit depleted callback over capacity reached for better termination of movement
+        if (harvestAmount == -1 || _targetDeposit.IsDepleted())
         {
             AICallback.Invoke("depositDepleted");
             return;
         }
 
-        _resourceHarvestEvent.Invoke(resourceType, harvestAmount);
+        if (_heldResources >= HarvestingCapacity)
+        {
+            AICallback.Invoke("capacityReached");
+            return;
+        }
+
+
+
+        //
     }
 
     //try and start harvesting if there is a resource deposit at the unit's location
@@ -82,7 +106,7 @@ public class Harvesting : MonoBehaviour
     {
         //find the resource deposit at the unit's current position
         //short radius is more than enough if the unit is on the deposit
-        Collider[] candidateObjects = Physics.OverlapSphere(transform.position, 0.5f);
+        Collider[] candidateObjects = Physics.OverlapSphere(transform.position, 0.75f);
 
         foreach(Collider candidateObject in candidateObjects)
         {
@@ -96,6 +120,14 @@ public class Harvesting : MonoBehaviour
         }
 
         return _targetDeposit != null;
+    }
+
+    //call to deposit the resources
+    public void depositResources()
+    {
+        _resourceHarvestEvent.Invoke(_heldResourceType, _heldResources);
+        AICallback.Invoke("returnForGathering");
+        _heldResources = 0;
     }
 
     public void ConfigureResourceHarvestCallback(UnityAction<string,int> resourceHarvestCallback)
