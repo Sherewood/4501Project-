@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: -1427860165722815463}
   - component: {fileID: -3434741240587025556}
   - component: {fileID: 1754667388898153029}
+  - component: {fileID: 5274614552727743444}
   m_Layer: 0
   m_Name: Main Base
   m_TagString: Untagged
@@ -179,8 +180,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.02, y: 0.7, z: 0.8}
-  m_Center: {x: 0, y: 0.35, z: 0}
+  m_Size: {x: 1.02, y: 0.2, z: 0.8}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &6684196009847440324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +273,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackerGameObject: {fileID: 990515516135085370}
   followingObject: {fileID: 7910979562441037367}
+--- !u!65 &5274614552727743444
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910979562441037367}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2, y: 0.7, z: 0.5}
+  m_Center: {x: 0.3, y: 0.35, z: 0}
 --- !u!1001 &2251409708574968503
 PrefabInstance:
   m_ObjectHideFlags: 0
