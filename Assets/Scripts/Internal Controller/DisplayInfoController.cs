@@ -211,21 +211,12 @@ public class DisplayInfoController : MonoBehaviour
 
     public List<string> CheckEvents()
     {
-        
         if (sun.HeatRises())
         {
             if (!events.Contains("Heat Rising"))
             {
                 events.Add("Heat Rising");
             }
-        }
-        else 
-        {
-            if (!events.Contains("ABBCADABA"))
-            {
-                //events.Add("ABBCADABA");
-            }
-           
         }
    
         return events;
