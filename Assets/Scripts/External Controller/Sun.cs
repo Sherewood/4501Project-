@@ -57,7 +57,7 @@ public class Sun : MonoBehaviour
     public float GetDamage()
     {
         
-        return 60f-damage_interval;
+        return 45f-damage_interval;
     }
     public bool HeatRises()
     {
