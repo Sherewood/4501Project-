@@ -113,21 +113,38 @@ public class DisplayInfoController : MonoBehaviour
     {
         Dictionary<string, string> returnInfo = new Dictionary<string, string>();
         //general unit info
-        returnInfo.Add("name", GetUnitName(selectedUnit.GetComponent<UnitInfo>().GetUnitType()));
+        UnitInfo unitInfo = selectedUnit.GetComponent<UnitInfo>();
+        returnInfo.Add("name", GetUnitName(unitInfo.GetUnitType()));
         Health healthComp = selectedUnit.GetComponent<Health>();
-        returnInfo.Add("health", healthComp.GetUnitHealth().ToString());
-        returnInfo.Add("maxHealth", healthComp.MaxHealth.ToString());
+        if(healthComp != null)
+        {
+            returnInfo.Add("health", healthComp.GetUnitHealth().ToString());
+            returnInfo.Add("maxHealth", healthComp.MaxHealth.ToString());
+        }
 
         //specifics
-        if (returnInfo["name"] == "player-dynamic-worker")
+        if (unitInfo.GetUnitType().Equals("player-dynamic-worker"))
         {
             Harvesting harvestingComp = selectedUnit.GetComponent<Harvesting>();
             returnInfo.Add("heldResources", harvestingComp._heldResources.ToString());
             returnInfo.Add("heldResourcesType", harvestingComp._heldResourceType);
         }
-        else if (returnInfo["name"] == "player-static-civilianbuilding")
+        else if (unitInfo.GetUnitType().Equals("player-static-civilianbuilding"))
         {
-            returnInfo.Add("numCivilians", selectedUnit.GetComponent<Civilian>().NumCivilians.ToString());
+            returnInfo.Add("numCiviliansInBuilding", selectedUnit.GetComponent<Civilian>().NumCivilians.ToString());
+        }
+        else if (unitInfo.GetUnitType().Equals("player-static-mainbase"))
+        {
+            PlanetaryEvacuation planetEvacComp = selectedUnit.GetComponent<PlanetaryEvacuation>();
+
+            returnInfo.Add("numCiviliansReadyToEvac", planetEvacComp.GetNumCivies().ToString());
+            returnInfo.Add("civilianThreshold", planetEvacComp.CivilianThreshold.ToString());
+            returnInfo.Add("currentFuel", _gameStateController.GetPlayerResource("fuel").ToString());
+            returnInfo.Add("fuelThreshold", planetEvacComp.FuelThreshold.ToString());
+            Debug.LogError("test 1: " + returnInfo["numCiviliansReadyToEvac"]);
+            Debug.LogError("test 2: " + returnInfo["civilianThreshold"]);
+            Debug.LogError("test 3: " + returnInfo["currentFuel"]);
+            Debug.LogError("test 4: " + returnInfo["fuelThreshold"]);
         }
 
         return returnInfo;

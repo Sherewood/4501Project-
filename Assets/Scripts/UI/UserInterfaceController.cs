@@ -251,7 +251,14 @@ public class UserInterfaceController : MonoBehaviour
 
             //get unit health
             TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            healthTextComp.text = specificUnitInfo["health"] + "/" + specificUnitInfo["maxHealth"];
+            if (specificUnitInfo.ContainsKey("health"))
+            {
+                healthTextComp.text = specificUnitInfo["health"] + "/" + specificUnitInfo["maxHealth"];
+            }
+            else
+            {
+                healthTextComp.text = "";
+            }
 
             //future: other unit-specific statistics?
 
