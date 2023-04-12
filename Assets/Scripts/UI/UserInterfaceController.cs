@@ -234,6 +234,7 @@ public class UserInterfaceController : MonoBehaviour
             ClearUnitInformation();
             UnitInfo.SetActive(true);
 
+            UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
             Dictionary<string, string> specificUnitInfo = _displayInfoController.GetSpecificUnitInfo(_selectedUnits[0]);
 
             //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
