@@ -150,25 +150,15 @@ public class EntityStorage : MonoBehaviour
 
         return all;
     }
-    /* public IEnumerator deal_damage(float interval)
-     {
-         yield return new WaitForSeconds(interval);
-         foreach (GameObject entity in _entityStorage.Values)
-         {
-            if (entity.GetComponent<UnitInfo>().GetAllegiance().Equals("player"))
-             {
-                 entity.GetComponent<Health>().TakeDamage(1);
-             }
-         }
-         yield return new WaitForSeconds(interval);
-     }*/
-    public void deal_damage()
+
+    //deal some damage to player units
+    public void DamagePlayerUnits(float damage)
     {
         foreach (GameObject entity in _entityStorage.Values)
         {
             if (entity.GetComponent<UnitInfo>().GetAllegiance().Equals("player"))
             {
-                entity.GetComponent<Health>().TakeDamage(.25f);
+                entity.GetComponent<Health>().TakeDamage(damage);
             }
         }
     }
