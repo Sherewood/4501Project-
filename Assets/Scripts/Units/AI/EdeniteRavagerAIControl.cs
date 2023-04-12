@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /* Unit Component */
-//Purpose: Handle general combat related prereqs and actions
+//Purpose: Handle edenite ravager related prereqs and actions
 public class EdeniteRavagerAIControl : CombatAIControl
 {
 
@@ -59,7 +59,6 @@ public class EdeniteRavagerAIControl : CombatAIControl
             Debug.Log("EdeniteRavagerAIControl - Checking if prereq: " + prereq + " is satisfied for aiEvent: " + aiEvent);
         }
 
-        //todo: add rest of prereqs
         switch (prereq)
         {
             case "insideSpawnPerimeter":
@@ -97,7 +96,6 @@ public class EdeniteRavagerAIControl : CombatAIControl
 
         GameObject target = DetermineTarget();
 
-        //todo: add rest of actions
         switch (action)
         {
             case "setFightMode":

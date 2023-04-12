@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /* Unit Component */
-//Purpose: Handle general combat related prereqs and actions
+//Purpose: Handle edenite muncher related prereqs and actions
 public class EdeniteMuncherAIControl : CombatAIControl
 {
 

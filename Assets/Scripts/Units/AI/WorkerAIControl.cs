@@ -65,7 +65,6 @@ public class WorkerAIControl : AIControl
                 return !depletedFlag;
             case "returnForGathering":
                 return (prereq.Equals(aiEvent));
-            //todo: add support for other prereqs
             default:
                 return base.IsSingleWordPrereqSatisfied(prereq, aiEvent);
         }

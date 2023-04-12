@@ -93,7 +93,6 @@ public class AIControl : MonoBehaviour
         }
 
         //no null checking here because worker doesn't have targeting component
-        //todo: consider moving targeting to CombatAIControl?
         _targeting = GetComponent<Targeting>();
     }
 
@@ -534,7 +533,6 @@ public class AIControl : MonoBehaviour
 
         GameObject target = DetermineTarget();
 
-        //pretty much all actions are todo...
         switch (action)
         {
             case "doNothing":
