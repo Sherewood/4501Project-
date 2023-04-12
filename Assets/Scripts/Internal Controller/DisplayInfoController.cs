@@ -109,6 +109,30 @@ public class DisplayInfoController : MonoBehaviour
         return actions;
     }
 
+    public Dictionary<string, string> GetSpecificUnitInfo(GameObject selectedUnit)
+    {
+        Dictionary<string, string> returnInfo = new Dictionary<string, string>();
+        //general unit info
+        returnInfo.Add("name", GetUnitName(selectedUnit.GetComponent<UnitInfo>().GetUnitType()));
+        Health healthComp = selectedUnit.GetComponent<Health>();
+        returnInfo.Add("health", healthComp.GetUnitHealth().ToString());
+        returnInfo.Add("maxHealth", healthComp.MaxHealth.ToString());
+
+        //specifics
+        if (returnInfo["name"] == "player-dynamic-worker")
+        {
+            Harvesting harvestingComp = selectedUnit.GetComponent<Harvesting>();
+            returnInfo.Add("heldResources", harvestingComp._heldResources.ToString());
+            returnInfo.Add("heldResourcesType", harvestingComp._heldResourceType);
+        }
+        else if (returnInfo["name"] == "player-static-civilianbuilding")
+        {
+            returnInfo.Add("numCivilians", selectedUnit.GetComponent<Civilian>().NumCivilians.ToString());
+        }
+
+        return returnInfo;
+    }
+
     public Dictionary<string, UIEvTrigger> GetConstructionMenuInfo()
     {
         return _constructionMenuInfo;

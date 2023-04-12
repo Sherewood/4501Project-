@@ -234,32 +234,23 @@ public class UserInterfaceController : MonoBehaviour
             ClearUnitInformation();
             UnitInfo.SetActive(true);
 
-            UnitInfo unitInfo = _selectedUnits[0].GetComponent<UnitInfo>();
+            Dictionary<string, string> specificUnitInfo = _displayInfoController.GetSpecificUnitInfo(_selectedUnits[0]);
 
             //another byproduct of cursed death handling - needing to check if the UnitInfo component exists on an already selected unit
             if (unitInfo == null)
             {
                 ClearUnitInformation();
-              HaveNewUnitsBeenSelected = false;
+                HaveNewUnitsBeenSelected = false;
                 return;
             }
-
+            
             //get unit name
             TextMeshProUGUI unitNameComp = UnitInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            string unitName = _displayInfoController.GetUnitName(unitInfo.GetUnitType());
-            unitNameComp.text = unitName;
+            unitNameComp.text = specificUnitInfo["name"];
 
             //get unit health
             TextMeshProUGUI healthTextComp = UnitInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            Health unitHealthComp = _selectedUnits[0].GetComponent<Health>();
-            if (unitHealthComp != null)
-            {
-                healthTextComp.text = unitHealthComp.GetUnitHealth().ToString() + "/" + unitHealthComp.MaxHealth.ToString();
-            }
-            else
-            {
-                healthTextComp.text = "";
-            }
+            healthTextComp.text = specificUnitInfo["health"] + "/" + specificUnitInfo["maxHealth"];
 
             //future: other unit-specific statistics?
 
