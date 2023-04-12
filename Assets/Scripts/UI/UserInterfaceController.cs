@@ -50,6 +50,10 @@ public class UserInterfaceController : MonoBehaviour
 
     //internal controller
     private DisplayInfoController _displayInfoController;
+
+    //mouse controller for multi-unit selection box
+    private MouseController _mouseController;
+    public GameObject AreaSelectionBox;
     
     //action panel button lists
     private List<GameObject> _abilityOptions;
@@ -74,6 +78,9 @@ public class UserInterfaceController : MonoBehaviour
     void Start()
     {
         _displayInfoController = FindObjectOfType<DisplayInfoController>();
+
+        _mouseController = FindObjectOfType<MouseController>();
+
         EvacButton.GetComponent<UiAbilties>().setTrigger(("evacuateMainBase", UIEvTrigger.TRIGGER_UIORDER));
 
 
@@ -179,6 +186,9 @@ public class UserInterfaceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //update area selection box
+        UpdateAreaSelectionBox();
+
         // Gets a selected unit+ it's actions
         
         _selectedUnits = _displayInfoController.GetSelectedUnits();
@@ -223,6 +233,50 @@ public class UserInterfaceController : MonoBehaviour
 
         
     }
+
+    private void UpdateAreaSelectionBox()
+    {
+        Vector3 topLeftPos = new Vector3();
+        Vector3 bottomRightPos = new Vector3();
+
+        //if no area selection happening, disable selection box
+        if (!_mouseController.GetAreaSelectionPositionsIfAvailable(out topLeftPos,out bottomRightPos))
+        {
+            AreaSelectionBox.SetActive(false);
+            return;
+        }
+
+        //else, enable selection box and determine its scale
+        AreaSelectionBox.SetActive(true);
+
+        //first, ensure the top left and bottom right coordinates are actually top left and bottom right
+        if (topLeftPos.x > bottomRightPos.x)
+        {
+            float temp = bottomRightPos.x;
+            bottomRightPos.x = topLeftPos.x;
+            topLeftPos.x = temp;
+        }
+
+        if (topLeftPos.y < bottomRightPos.y)
+        {
+            float temp = bottomRightPos.y;
+            bottomRightPos.y = topLeftPos.y;
+            topLeftPos.y = temp;
+        }
+
+        //then, find the center position using midpoint method
+        Vector3 centerPos = (topLeftPos + bottomRightPos) / 2;
+
+        RectTransform boxTransform = AreaSelectionBox.GetComponent<RectTransform>();
+        boxTransform.position = centerPos;
+
+        //finally, determine the scale
+        float xScale = Mathf.Abs(bottomRightPos.x - topLeftPos.x) / Screen.width;
+        float yScale = Mathf.Abs(bottomRightPos.y - topLeftPos.y) / Screen.height;
+
+        boxTransform.localScale = new Vector3(xScale, yScale, 1.0f);
+    }
+
     void displayUnit()
     {
         //refresh before repopulating

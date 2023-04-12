@@ -64,12 +64,7 @@ public class MouseController : MonoBehaviour
         initialMousePosition = _initialMousePosition;
         heldMousePosition = _latestHeldMousePosition;
 
-        if (!_areaSelectionInProgress)
-        {
-            return false;
-        }
-
-        return true;
+        return _areaSelectionInProgress;
     }
 
     // Update is called once per frame
@@ -78,6 +73,9 @@ public class MouseController : MonoBehaviour
         //if mouse button not held down, check to see if any mouse buttons pressed
         if (!_mouseHeld)
         {
+            //throwing this in here because I gave up on finding the right spot to set this to false
+            _areaSelectionInProgress = false;
+
             for (int i = 0; i < NUM_MOUSE_BUTTONS_TRACKED; i++)
             {
                 //if mouse button down, monitor mouse while held down using coroutine, and track held mouse button
@@ -117,8 +115,6 @@ public class MouseController : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(_heldMouseButton))
             {
-                Debug.Log("RELEASE");
-
                 //if released, stop the coroutine, and trigger corresponding callback using raycasted mouse position
                 _mouseHeld = false;
                 StopCoroutine(MonitorPressedMouse(_heldMouseButton));
@@ -207,7 +203,7 @@ public class MouseController : MonoBehaviour
             //compare the distance between the world space positions of the two raycasts to determine if it is sufficient for an area selection
             float mouseDist = Vector3.Distance(_initialMouseSelection.point, _latestHeldMouseSelection.point);
 
-            _areaSelectionInProgress = (mouseDist >= AREA_SELECTION_DISTANCE_THRESHOLD);
+            _areaSelectionInProgress = _mouseHeld && (mouseDist >= AREA_SELECTION_DISTANCE_THRESHOLD);
 
             yield return null;
         }
