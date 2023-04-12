@@ -37,7 +37,7 @@ public class Harvesting : MonoBehaviour
 
     //held resources
     public int _heldResources;
-    private string _heldResourceType;
+    public string _heldResourceType;
     
     void Awake()
     {
