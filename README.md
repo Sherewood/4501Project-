@@ -5,97 +5,108 @@
 
  Student IDs: 101146675, 101121600, 101067032
 
-# Advanced Prototype feature notes
+# Final deliverable requirement notes
 -------------------------------------------
-# Splines
------------------------------------------------------
-- Tried to get splines working by using unity pathfinding to determine the control points,
-then modifying the animation microdemo CR-spline code to work with the Movement component.
-- Ease function was modified to act as an offset on t, rather than replacing the value of t entirely.
-This is to support 'dynamic spline update' functionality, where I developed an algorithm to determine what
-percentage of the path had actually been completed when the spline path had to be recalculated. 
-The purpose of this was to keep the ease function from starting at 0 whenever a new spline path was calculated to replace a portion of another spline's
-path, thus keeping the motion as smooth as possible. However, this didn't work all that well as calculating a new path still led to a brief stall in the motion.
-- Originally wanted to just include this in the prototype demo scene, but due to the bugginess decided to create a separate SplineDemoScene for you to view.
-Simply select the infantry unit and move it to the end of the path created by the civilian buildings.
-- Speed control is there but can be a bit inconsistent in some cases.
-- Due to setting buildings as NavMeshObstacles, ran into issues plotting spline paths that involved returning to a specific building, as the path planning failed
-when a destination point was not on the NavMesh. Came up with methods FindUnobstructedPath and FindUnobstructedPathUnitHasObstacle in the Movement component for dealing with such issues.
-- Speaking of methods, here are the relevant methods in the Movement component
-StartSplineMovement: Gets the path for the spline to follow, and initiates movement along that path
-SplineMovementUpdate: Updates the unit's movement along the spline path.
-HandleDynamicSplineChange: Handles changing the spline when the target destination has moved by a certain threshold
+(More detail provided in report - relevant section numbers provided here)
 
-# Animation 
---------------------------------------------------------
--Animation controllers have been made for for all soldiers, with the infantry and rocket launchers sharing the same controller while heavy machine gun receives a different version (one with a modified fireing animation of a flex). 
+1) Pathfinding
+------------------
+Implemented using Unity pathfinding system as required. Buildings act as obstacles.
+See the following sections in the report for more: 3.6, 4.1.1, 4.1.2, 4.1.3, 4.1.5
 
-(animation_controller script is in Assets/)
+2) Semi-automatic actions
+------------------
+Implemented in two major ways -> combat unit automatic engagement of the enemy, and workers moving between deposits and the main base.
+See the following sections in the report for more: 3.7.1
 
-- Current motions in game: Run/walk (the unit performs a movement of moving there legs, since the root is disabled, they should be moving in conjunction with the spline functionality). Fire/Attack: performs an attacking action which moves in conjunction with the units bullets or attack. Die: if theres no health left on the unit, the unit falls down dead. Harvest: a worker specific motion, basically just the unit crouching and a drill rotating with sparks. Idle: a unit's idle animation, should be returned with every occasion the unit is not moving.
+3) Enemy AI
+------------------
+Implemented with a rule-based system using text files. Unique behaviors for each of the 3 main enemy units.
+See the following sections in the report for more: 3.7, 4.2
+
+4) Full game mechanics
+------------------
+Game has reasonably complex mechanics imo.
+See the following sections in the report for more: section 1 in full, 3.8
+
+5) Visual feedback
+-------------------
+Several forms of visual feedback have been used.
+See the following sections in the report for more: section 3.9
+
+6) Report and Game Demonstration
+------------------
+...see report and game demonstration attached, if they aren't attached then I'm dumb lmao
+
+# Final deliverable Bonus features
+------------------
+
+1) Research Tree - see section 5.1 of report
+
+2) Game Narrator - see section 5.2 of report
+
+3) Minimap - see section 5.3 of report
+
+4) Game menus - see section 5.4 of report
 
 
--Enemy Units models came with an animation controllers but those have now also been remade. They now have less movement options from before but their controllers are now constructed from our own input rather than taking a premade one. 
+# Where to find things
+------------------
 
--Using the any state, the controllers ideally should allow their units to cycle through their used animations: If you make a unit walk, it should walk, if a unit gets in range and should fire, the animation should play of the unit firing, and if the unit takes enough damage to die, they should have a death animation.
--There are a few other animation options a unit can do (some have an option to run and some have the option to crouch) but i believe they are not yet called in function. 
+1) Models
 
--Workers have a unique method for gathering minerals called the Harvest state.
--In the controller, all controllers share the same boolean conditions, more for the sake of running them with one controller.
--Some flourishes have been added to most units for specific animations. For example, if an infantry fires, the animation state will also enable some particle effects to show the soldiers gun firiing.
+    Actual units in the game are in Assets > Prefabs > Units > GameUnitsHere
+        -models are mostly third party assets as before obviously
 
--Vehicles have no animations (well, artillary vehicle has some built in but it's incompatible with controller motion). The vehicle controller has no motions in it but the states are used to determine the state of the vehicle (is it firing? is it dead? etc....) 
+    Assets > Prefabs > Units > UnitUIElements contains the prefabs for visual effects that are attached to units in the scene
+        -unit spawn effect is third party, others aren't
 
-- Units with no weapons have the attack function instead.
-- Things which could be added/improved:
-  -adding more motion to the vehicles 
-  -giving the worker an attack animation (as it has no weapon)
-  -giving the buildings some animation to represent if it's destroyed or functioning. 
-  
+        -see 3.9
 
-# Flocking
----------------------------------------------
-Tried to get working with selection of a group of units (leader will be the first unit in the selection which might be at a location you do not expect)
+    Rest is a bunch of imported third party assets (see citations)
 
-It's not tuned properly at all, alignment force in particular doesn't seem to have any effect. 
+2) Code
+See Assets > Scripts, then look at following subdirectories
 
-Leader will seek and wander, and units in the flock will follow but its very janky. Had to force the x/z portions of the rotations to 0 to prevent the units from falling over.
-Might try a new collider in the final deliverable that avoids this problem? (capsule? :( )
+Note: Worth reading section 2.1 of the report before diving in
 
-Test by going into FlockingDemoScene, and clicking and dragging to select all of the units, then right click to move to a destination.
+    1) External Controller > External Controller classes (see section 2.4 of report)
 
-Code is in Unit Controller, and in Movement component (physicsBasedMovementUpdate)
+    2) Internal Controller > Internal Controller classes (see section 2.5 of report)
 
-# Misc features added in advanced prototype
---------------------------------------------
-Area selection - Click and drag from one point to another to select all of the units in the region.
-Since the camera is angled, had to use oriented bounding box collision, in this case just determined if 
-each unit's position was inside the bounding box or not using a similar approach to the algorithm from the physics slides.
+    3) Model > Model classes (see section 2.3 of report)
 
-Visual indications - Added a health bar for each unit, not currently attached to the unit's hierarchy but should definitely consider doing that... 
+    4) UI > UI-specific classes (see section 2.4 of report, 2.4.2 in particular)
+
+    5) Units > Unit components (see section 2.2 of report)
+
+        -hierarchy defined for AI Control components (see section 4.2.2 of report)
+
+        -hierarchy defined for powerup components (see section 2.2 of report)
+
+3) Materials/Shaders
+
+See Assets > Materials, then look at following subdirectories (section 3.9 in general helps a lot here)
+
+    1) Building Effects > Visual effects applied to buildings
+    2) Indicators > Effects that are attached to units or appear on the terrain to indicate something important
+    3) Misc > idk lol
+    4) Progress Bar > Effects used for health bar/assorted progress bars used to convey info to user
+
+4) AI rule files (4.2 of report helpful here)
+
+See Assets > AI
 
 # Missing from proposal
 -------------------------------------------
-Special abilities - ran short on time unfortunately, should be in final deliverable
-    -took time planned for this, and spent it refactoring the movement/attack/targeting+ components to serve a new AI control component, which will be included in final deliverable
-    (in summary: no more horrible 'ordered movement' spaghetti code, yay!)
-
-Edenite Ravager was supposed to have multiple weapons, unclear if will make it into final delieverable
-
-Visual indications are also limited, but it wasn't fleshed out in the proposal anyways so not sure why I mentioned this here.
+Edenite Ravager was supposed to have multiple weapons, it is mentioned why this wasn't included in section 2.2.3 of the report
 
 # Testing
 -------------------
 
-- Use PrototypeDemoScene, other scenes probably don't even compile at this time lol
+- Start from the StartScene in Scenes > FinalProduct > Menus > StartScene
 
-To the south, there are resource deposits. Use a worker to harvest them (small blueish dude who kinda looks like a mass effect husk)
-
-    -if your worker died somehow, the civilian buildings (skyscrapers) will spawn workers
-
-After the initial battle is settled, there are some enemy units to the west if you want to test out the combat actions.
-
-To the east, all of the buildings in the game have been placed for you to test.
+- Click play to start the game
 
 # Controls
 -------------------
@@ -103,7 +114,7 @@ To the east, all of the buildings in the game have been placed for you to test.
 Camera: Use arrow keys to move
 
 Unit selection: Left click on a unit to select it.
-    Note: Multi-unit selection not available, will not be supported until advanced prototype
+    Multi-unit selection: Click and drag, then release at a point on the game world.
 
 Movement: Right clicking on an empty region of the game world will cause your selected unit to move towards it
 
@@ -121,7 +132,7 @@ Fortify: Clicking on the 'fortify' button in the UI with a unit that supports th
 Return to base: Clicking on the 'return to base' button in the UI with a unit that supports the action selected will cause the unit to return to the main base.
 
 Harvest resource: With a worker selected, right clicking on a resource deposit will cause the worker to head towards the deposit, 
-    then start extracing resources if they are available.
+    then start extracing resources if they are available. See 3.7.1 of the report for more on the behavior
 
 Construct building: Perform the following sequence of actions with a worker selected.
 
@@ -134,16 +145,26 @@ are then transferred to the main base.
 
 Evacuate planet: Clicking on the 'evacuatePlanet' button with the main base selected will cause the game to end after ~30 seconds, if you met the requirements
 
-    -for testing purposes: Set the threshold to 5 civilians evacuated and 0 fuel. Test out the game ending functionality by evacutating some civilians from 1+ civilian buildings,
-        then trying to evacuate the planet (just wait ~10-15 seconds for the civilians to be evacuated, then 30 seconds after trying to evacuate the planet)
+    -for testing purposes, the threshold is set to 5 civilians and 100 fuel.
 
 # Extra
 ----------------------------
 
-1. Apologies for the mess in the Assets > Prefabs > Units folder, to see all the game unit prefabs check the "GameUnitsHere" subfolder within that folder.
-
-2. To confirm the obvious - we haven't done any animation work with these models lol
-
+⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⢀⡾⣁⣀⠀⠴⠂⠙⣗⡀⠀⢻⣿⣿⠭⢤⣴⣦⣤⣹⠀⠀⠀⢀⢴⣶⣆ 
+⠀⠀⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⠸⣼⡿ 
+⠀⢀⡞⠁⠙⠻⠿⠟⠉⠀⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉⠀⠀⠀⠀⠀ 
+⠀⣾⣷⣶⠇⠀⠀⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+⠀⠉⠈⠉⠀⠀⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⠀⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉
 
 # Model Sources:
 ------------------------------
@@ -226,7 +247,8 @@ UI director sound:
 https://mixkit.co/free-sound-effects/robot/
 BGM:
 https://www.chosic.com/download-audio/45434/
-Code Sources:
+
+# Code Sources:
 -----------------
 These are sites which helped develop certain scripts of code
 The TimeTracker script was sourced form this online work:https://alexdunn.org/2017/05/31/unity-tip-create-a-rotating-sun/
