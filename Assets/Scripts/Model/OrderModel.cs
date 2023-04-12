@@ -98,7 +98,9 @@ public class OrderModel : MonoBehaviour
         CreateOrder(Order.ORDER_EVAC_CIVIES, new string[] { "player-static-civilianbuilding" }, new string[] { }, "evacuateCivies", "", 1, new string[] { "evacuateCivies" });
 
         //planetary evac order
-        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "player-static-mainbase" }, new string[] { }, "evacuateMainBase", "", 1, new string[] { "evacuateMainBase" });
+        //any unit type supported to support evac button in UI
+        //also, command requirement will prevent this being chosen otherwise
+        CreateOrder(Order.ORDER_PLANETARY_EVAC, new string[] { "Any" }, new string[] { }, "evacuateMainBase", "", 1, new string[] { "evacuateMainBase" });
 
         //unit creation order 
         CreateOrder(Order.ORDER_BUILD_UNIT, new string[] { "player-static-barracks", "player-static-factory" }, new string[] { }, "all-buildUnit", "", 1, new string[] { "buildUnit" });
@@ -177,6 +179,13 @@ public class OrderModel : MonoBehaviour
             //check if any of the unit types supported by the order match the types of the selected units.
             foreach(string supportedUnitType in orderSupportedUnitTypes)
             {
+                //warning: stupid hack because I realized the evac button isn't working
+                if(supportedUnitType.Equals("Any"))
+                {
+                    foundMatch = true;
+                    supportedOrders.Add(order);
+                }
+
                 //compare supported unit type to all selected unit types
                 foreach(string unitType in unitTypes)
                 {
@@ -188,6 +197,7 @@ public class OrderModel : MonoBehaviour
                         break;
                     }
                 }
+
                 if (foundMatch)
                 {
                     break;

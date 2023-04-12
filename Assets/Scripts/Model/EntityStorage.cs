@@ -156,7 +156,7 @@ public class EntityStorage : MonoBehaviour
     {
         foreach (GameObject entity in _entityStorage.Values)
         {
-            if(entity == null)
+            if(entity.GetComponent<UnitInfo>().GetAllegiance() == null)
             {
                 continue;
             }

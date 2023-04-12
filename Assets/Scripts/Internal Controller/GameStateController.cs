@@ -117,6 +117,12 @@ public class GameStateController : MonoBehaviour
         }
     }
 
+    //start planetary evac (moved here because game state controller already tracks main base)
+    public void InitPlanetaryEvac()
+    {
+        _playerMainBase.InitPlanetaryEvac(GetPlayerResource("fuel"));
+    }
+
     //for handling a request for a location by a specific unit
     public void HandlePositionRequest(string requestType, GameObject requestingUnit)
     {

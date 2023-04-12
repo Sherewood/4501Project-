@@ -149,6 +149,14 @@ public class UnitController : MonoBehaviour
 
         Debug.Log("Handling order: " + order);
 
+        //special case: planetary evacuation must be handled using game state controller to support UI button
+        if(order == Order.ORDER_PLANETARY_EVAC)
+        {
+            //try to trigger planetary evacuation
+            _gameStateController.InitPlanetaryEvac();
+            return;
+        }
+
         foreach (GameObject selectedUnit in selectedUnits)
         {
             List<Capability> unitCapabilities = _capabilityController.GetCapabilitiesOfUnit(selectedUnit);
@@ -212,11 +220,6 @@ public class UnitController : MonoBehaviour
                     //trigger civilian evacuation
                     Civilian civilianComp = selectedUnit.GetComponent<Civilian>();
                     civilianComp.TriggerEvacuation();
-                    break;
-                case "evacuateMainBase":
-                    //try to trigger planetary evacuation
-                    PlanetaryEvacuation planetaryEvac = selectedUnit.GetComponent<PlanetaryEvacuation>();
-                    planetaryEvac.InitPlanetaryEvac(_gameStateController.GetPlayerResource("fuel"));
                     break;
                 case "buildUnit":
                     UnitBuilderComponent unitBuilder = selectedUnit.GetComponent<UnitBuilderComponent>();
