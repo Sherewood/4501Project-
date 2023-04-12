@@ -78,11 +78,10 @@ public class GameStateController : MonoBehaviour
         {
             EnemySpawner enemySpawner = enemySpawnerObject.GetComponent<EnemySpawner>();
 
-            //try activating spawners with heat level 0
-            enemySpawner.AttemptActivation(0);
-
             _enemySpawners.Add(enemySpawner);
         }
+        //activate spawners with no intensity req
+        HandleSunIntensityUpdate(0);
         Debug.Log("Game State Controller - Found " + _enemySpawners.Count + " spawners.");
 
         Debug.Log("Game State Controller - Initialized entity storage with " + allUnits.Length + " units.");
@@ -107,6 +106,16 @@ public class GameStateController : MonoBehaviour
     }
 
     //other helpers go here
+
+    //for sun intensity update
+    //try to activate spawners in range
+    public void HandleSunIntensityUpdate(float intensity)
+    {
+        foreach (EnemySpawner enemySpawner in _enemySpawners)
+        {
+            enemySpawner.AttemptActivation(intensity);
+        }
+    }
 
     //for handling a request for a location by a specific unit
     public void HandlePositionRequest(string requestType, GameObject requestingUnit)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5163663985060468333}
   - component: {fileID: 9001653880844819793}
   m_Layer: 0
-  m_Name: Enemy Spawner
+  m_Name: Ultra Enemy Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,20 +74,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PeriodicUnitSpawnTypes:
-  - enemy-dynamic-edenite_muncher
-  - enemy-dynamic-edenite_ravager
   - enemy-dynamic-edenite_devil
   PeriodicUnitSpawnIntervals:
-  - 5
-  - 30
-  - 300
+  - 15
   RandomSpawnMode: 0
   SpawnPositionFixedOffset: {x: 0, y: 0.1, z: 0}
   SpawnBoundary: {x: -4, y: -4, z: 4, w: 4}
   SpawnRetryAttemptLimit: 10
   SpawnRetryMode: 1
   SpawnEffect: {fileID: 1834194341294532, guid: 302a4b4491c8b5a47a8fb714f718f9b7, type: 3}
-  HeatLevelThreshold: 0
+  HeatLevelThreshold: 4
 --- !u!1 &4357888941161729799
 GameObject:
   m_ObjectHideFlags: 0

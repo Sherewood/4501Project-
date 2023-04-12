@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemySpawner : UnitSpawner
 {
     //threshold for heat level activation
-    public int HeatLevelThreshold;
+    public float HeatLevelThreshold;
 
     private MeshRenderer _editorViewMesh;
 
@@ -18,7 +18,7 @@ public class EnemySpawner : UnitSpawner
     }
 
     //activate the spawner if heat level is high enough
-    public void AttemptActivation(int heatLevel)
+    public void AttemptActivation(float heatLevel)
     {
         if(heatLevel >= HeatLevelThreshold)
         {

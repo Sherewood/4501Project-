@@ -22,12 +22,16 @@ public class Sun : MonoBehaviour
     private float _rotationSpeed;
     public GameObject light;
     public GameObject SolarObject;
+
+    private GameStateController _gameStateController;
   
     void Start()
     {
        
         intensity = 0;
         Newintensity = 0;
+
+        _gameStateController = FindObjectOfType<GameStateController>();
     }
 
     // Update is called once per frame
@@ -41,10 +45,7 @@ public class Sun : MonoBehaviour
         if ( FindObjectOfType<Timetracker>().CurTime %30.0f == 1)
         {
             intensify();
-        }
-
-
-        
+        }   
     }
     public void intensify()
     {
@@ -53,6 +54,9 @@ public class Sun : MonoBehaviour
 
         damage_interval = intensity;
         Newintensity = light.GetComponent<Light>().intensity;
+
+        //notify game state controller of intensity change
+        _gameStateController.HandleSunIntensityUpdate(Newintensity);
     }
     public float GetDamage()
     {
