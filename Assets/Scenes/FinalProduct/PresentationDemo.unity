@@ -520,11 +520,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 746380c7437ce05489afc93eee2a2b4b, type: 3}
---- !u!1 &178439094 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8846314536903009632, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1807824369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &179608674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3750,11 +3745,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc375bc2c5038047ba0c57913c88359, type: 3}
---- !u!1 &1229569439 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2808512707997062325, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1807824369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1256960629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4261,11 +4251,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 86
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1529929713 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8092861927925133865, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-  m_PrefabInstance: {fileID: 1807824369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1546757281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5438,17 +5423,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 13773557, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: m_Volume
-      value: 0.074
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808512707997062324, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 231
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808512707997062324, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+    - target: {fileID: 2449511386219362556, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -228
+      value: -38
       objectReference: {fileID: 0}
     - target: {fileID: 2808512708912503527, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_Pivot.x
@@ -5534,34 +5511,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2808512709596508362, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2808512709783474482, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4130937094842130856, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
       propertyPath: m_Name
       value: 'User_Interface '
       objectReference: {fileID: 0}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: AbilityIcons.Array.size
-      value: 13
+    - target: {fileID: 6289830136326855159, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_Name
+      value: Timer
       objectReference: {fileID: 0}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: AbilityIcons.Array.data[12]
-      value: 
-      objectReference: {fileID: 21300000, guid: 81e35c0ad8609244789ce69b08a63040, type: 3}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: ObstructingUIRegions.Array.size
-      value: 7
+    - target: {fileID: 8239360413410272538, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 218
       objectReference: {fileID: 0}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: ObstructingUIRegions.Array.data[4]
-      value: 
-      objectReference: {fileID: 178439094}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: ObstructingUIRegions.Array.data[5]
-      value: 
-      objectReference: {fileID: 1529929713}
-    - target: {fileID: 4140451903554694356, guid: 3d53ad1cf5b33ea47bc2d69cef0e77c5, type: 3}
-      propertyPath: ObstructingUIRegions.Array.data[6]
-      value: 
-      objectReference: {fileID: 1229569439}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

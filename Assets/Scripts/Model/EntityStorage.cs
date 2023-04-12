@@ -156,6 +156,11 @@ public class EntityStorage : MonoBehaviour
     {
         foreach (GameObject entity in _entityStorage.Values)
         {
+            if(entity == null)
+            {
+                continue;
+            }
+
             if (entity.GetComponent<UnitInfo>().GetAllegiance().Equals("player"))
             {
                 entity.GetComponent<Health>().TakeDamage(damage);
