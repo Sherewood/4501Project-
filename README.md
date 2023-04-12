@@ -53,10 +53,12 @@ See the following sections in the report for more: section 3.9
 # Where to find things
 ------------------
 
-1) Models
+1) Models/Prefabs
 
     Actual units in the game are in Assets > Prefabs > Units > GameUnitsHere
         -models are mostly third party assets as before obviously
+
+    Prefabs for global objects (Controllers, UI, etc.) in Assets > Prefabs > GameParts
 
     Assets > Prefabs > Units > UnitUIElements contains the prefabs for visual effects that are attached to units in the scene
         -unit spawn effect is third party, others aren't
