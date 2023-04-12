@@ -225,6 +225,10 @@ public class InternalControllerEventHandler : MonoBehaviour
         {
             _displayInfoController.AddDialogue("Civilian Building Down!!  ");
         }
+        else if (newUnit.name.Contains("Static"))
+        {
+            _displayInfoController.AddDialogue("Strategic Building Lost ");
+        }
         _unitCreationController.DeleteDeadEntity(newUnit);
     }
 
