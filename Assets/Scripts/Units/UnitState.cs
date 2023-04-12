@@ -25,7 +25,6 @@ public class UnitState : MonoBehaviour
     private UState _state;
 
     //storing some components so they can be disabled upon request
-    //todo: refactor this
     private Movement _movement;
     private Attack _attack;
     private Targeting _targeting;

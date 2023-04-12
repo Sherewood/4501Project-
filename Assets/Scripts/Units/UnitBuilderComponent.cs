@@ -29,7 +29,6 @@ public class UnitBuilderComponent : MonoBehaviour
             {
                 GameObject result = _spawner.SpawnUnit(_buildQueue[0]);
                 //if failed to spawn unit, then just wait and try again
-                //todo: come up with less bad handling :(
                 if(result == null)
                 {
                     Debug.LogWarning("Purchased unit spawn is obstructed, trying again :(");

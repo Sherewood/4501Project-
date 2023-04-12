@@ -21,7 +21,6 @@ public class Targeting : MonoBehaviour
     [Tooltip("Range at which enemies will be automatically detected.")]
     public float DetectRange;
 
-    //todo: move this parameter elsewhere (unit info?)
     [Tooltip("List of allegiances that are opposed to this unit")]
     public List<string> TargetAllegiances;
 

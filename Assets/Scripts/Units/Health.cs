@@ -140,9 +140,4 @@ public class Health : MonoBehaviour
     {
         _entityDeathEvent.AddListener(entityDeathCallback);
     }
-    IEnumerator Death()
-    {
-        
-        yield return new WaitForSeconds(.03f);
-    }
 }

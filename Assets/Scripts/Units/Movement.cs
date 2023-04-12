@@ -305,25 +305,13 @@ public class Movement : MonoBehaviour
         _flock = flockMembers;
     }
 
-    //todo: add flocking code here
     //forces added based on whether unit is leader or not.
     private void PhysicsBasedMovementUpdate()
     {
         //needs to be physics-based
         if (_rigidBody.isKinematic) _rigidBody.isKinematic = false;
-        //get the target destination
-        /*
-        Vector3 target = GetDestination();
-        if (target == Vector3.zero)
-        {
-            return;
-        }
-        */
 
         //if no flock leader, then stop movement immediately (assume the flock leader is no longer flock leader for whatever reason
-        //todo: might instead look at some sort of waypoint system in absence of a flock leader?
-        //would have to be something like - stop within certain distance of the waypoint, or within certain distance of a flock member that has stopped
-        //but logic for that will be very complicated...
         if (_flockLeader == null)
         {
             StopMovement();
