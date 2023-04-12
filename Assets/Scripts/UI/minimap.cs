@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//dead code, from earlier failed attempt at doing minimap
 public class minimap : MonoBehaviour
 {
     public GameObject minimapPrefab;
