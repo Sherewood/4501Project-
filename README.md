@@ -70,11 +70,11 @@ See Assets > Scripts, then look at following subdirectories
 
 Note: Worth reading section 2.1 of the report before diving in
 
-    1) External Controller > External Controller classes (see section 2.4 of report)
+    1) External Controller > External Controller classes (see section 2.4, 4.3 of report)
 
-    2) Internal Controller > Internal Controller classes (see section 2.5 of report)
+    2) Internal Controller > Internal Controller classes (see sections 2.5, 4.3, 4.4 of report)
 
-    3) Model > Model classes (see section 2.3 of report)
+    3) Model > Model classes (see section 2.3, 4.3 of report)
 
     4) UI > UI-specific classes (see section 2.4 of report, 2.4.2 in particular)
 
