@@ -139,7 +139,6 @@ public class DisplayInfoController : MonoBehaviour
 
             returnInfo.Add("numCiviliansReadyToEvac", planetEvacComp.GetNumCivies().ToString());
             returnInfo.Add("civilianThreshold", planetEvacComp.CivilianThreshold.ToString());
-            returnInfo.Add("currentFuel", _gameStateController.GetPlayerResource("fuel").ToString());
             returnInfo.Add("fuelThreshold", planetEvacComp.FuelThreshold.ToString());
         }
 
