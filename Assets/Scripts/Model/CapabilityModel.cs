@@ -8,8 +8,6 @@ public class Capability
 {
     //name of the action
     public string ActionName;
-    //list of actions that make this action unavailable when they are available
-    public List<string> IncompatibleActions;
     //description of the capability (for UI purposes)
     public string Description;
     //whether the capability is available when multiple units are selected
@@ -17,11 +15,10 @@ public class Capability
     //tech requirements for the capability
     public List<string> TechRequirements;
 
-    public Capability(string actionName, List<string> incompatibleActions, string description,
+    public Capability(string actionName, string description,
         bool multiUnit, List<string> techRequirements)
     {
         ActionName = actionName;
-        IncompatibleActions = incompatibleActions;
         Description = description;
         MultiUnit = multiUnit;
         TechRequirements = techRequirements;
@@ -43,33 +40,33 @@ public class CapabilityModel : MonoBehaviour
         //define mappings
 
         //movement component -> move capability
-        CreateCapabilityMapping("movement", "move", new List<string>(), "Unit can move!", true, new List<string>());
+        CreateCapabilityMapping("movement", "move", "Unit can move!", true, new List<string>());
         //movement component -> return to base capability
-        CreateCapabilityMapping("movement", "returnToBase", new List<string>(), "Unit can return to base!", true, new List<string>());
+        CreateCapabilityMapping("movement", "returnToBase", "Unit can return to base!", true, new List<string>());
         //attack component -> attack, guard capabilities
-        CreateCapabilityMapping("attack", "attack", new List<string>(), "Unit can attack!", true, new List<string>());
-        CreateCapabilityMapping("attack", "guard", new List<string>(), "Unit can guard its position!", true, new List<string>());
+        CreateCapabilityMapping("attack", "attack", "Unit can attack!", true, new List<string>());
+        CreateCapabilityMapping("attack", "guard", "Unit can guard its position!", true, new List<string>());
         //movement + health component -> fortify capability
-        CreateCapabilityMapping("movement-health", "fortify", new List<string>(), "Unit can move!", true, new List<string>());
+        CreateCapabilityMapping("movement-health", "fortify", "Unit can move!", true, new List<string>());
         //hyper boost component -> hyper boost capability
-        CreateCapabilityMapping("hyperBoost", "hyperBoost", new List<string>(), "Unit can activate hyper boost!", true, new List<string>() { "Tech_HyperBoost" });
+        CreateCapabilityMapping("hyperBoost", "hyperBoost", "Unit can activate hyper boost!", true, new List<string>() { "Tech_HyperBoost" });
         //plant component -> plant capability
-        CreateCapabilityMapping("plant", "plant", new List<string>(), "Unit can activate plant!", true, new List<string>() { "Tech_Plant" });
+        CreateCapabilityMapping("plant", "plant", "Unit can activate plant!", true, new List<string>() { "Tech_Plant" });
         //harvester component -> harvest capability
-        CreateCapabilityMapping("harvester", "harvest", new List<string>(), "Unit can harvest a resource!", true, new List<string>());
+        CreateCapabilityMapping("harvester", "harvest", "Unit can harvest a resource!", true, new List<string>());
         //construction component -> construct capability
-        CreateCapabilityMapping("construction", "construct", new List<string>(), "Unit can construct a building!", false, new List<string>());
+        CreateCapabilityMapping("construction", "construct", "Unit can construct a building!", false, new List<string>());
         //civilian component -> evacuation capability
-        CreateCapabilityMapping("civilian", "evacuateCivies", new List<string>(), "Unit can evacuate civilians!", false, new List<string>());
+        CreateCapabilityMapping("civilian", "evacuateCivies", "Unit can evacuate civilians!", false, new List<string>());
         //planetary evacuation component -> evacuate main base capability
-        CreateCapabilityMapping("planetaryEvac", "evacuateMainBase", new List<string>(), "Unit can evacuate planet!", false, new List<string>());
+        CreateCapabilityMapping("planetaryEvac", "evacuateMainBase", "Unit can evacuate planet!", false, new List<string>());
         //unit builder component -> build unit capability
-        CreateCapabilityMapping("unitBuilderComponent", "buildUnit", new List<string>(), "Create a new Unit!", false, new List<string>());
+        CreateCapabilityMapping("unitBuilderComponent", "buildUnit", "Create a new Unit!", false, new List<string>());
     }
 
-    void CreateCapabilityMapping(string componentName, string actionName, List<string> incompatibleActions, string description, bool multiUnit, List<string> techRequirements)
+    void CreateCapabilityMapping(string componentName, string actionName, string description, bool multiUnit, List<string> techRequirements)
     {
-        Capability capability = new Capability(actionName, incompatibleActions, description, multiUnit, techRequirements);
+        Capability capability = new Capability(actionName, description, multiUnit, techRequirements);
 
         if (_capabilityMappings.ContainsKey(componentName))
         {

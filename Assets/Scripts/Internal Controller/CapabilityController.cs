@@ -34,9 +34,6 @@ public class CapabilityController : MonoBehaviour
         //check tech requirements
         actualCapabilities = CheckTechRequirements(possibleCapabilities);
 
-        //check if any capabilities are incompatible due to other capabilities
-        actualCapabilities = ResolveCapabilityConflicts(actualCapabilities);
-
         return actualCapabilities;
     }
 
@@ -79,9 +76,6 @@ public class CapabilityController : MonoBehaviour
         //check tech requirements
         actualCapabilities = CheckTechRequirements(totalCapabilities);
 
-        //check if any capabilities are incompatible due to other capabilities
-        actualCapabilities = ResolveCapabilityConflicts(actualCapabilities);
-
         return actualCapabilities;
     }
 
@@ -98,7 +92,6 @@ public class CapabilityController : MonoBehaviour
             {
                 if (!_researchModel.IsTechResearched(techRequirement))
                 {
-                    Debug.Log("TEST " + techRequirement);
                     hasTechPrereqs = false;
                     break;
                 }
@@ -112,36 +105,4 @@ public class CapabilityController : MonoBehaviour
 
         return availableCapabilities;
     }
-
-    private List<Capability> ResolveCapabilityConflicts(List<Capability> possibleCapabilities)
-    {
-        List<Capability> compatibleCapabilities = new List<Capability>();
-
-        //check if any capabilities are incompatible due to other capabilities
-        foreach (Capability capability in possibleCapabilities)
-        {
-            bool validAction = true;
-            foreach (Capability comparedCapability in possibleCapabilities)
-            {
-                if (comparedCapability == capability)
-                {
-                    continue;
-                }
-
-                if (capability.IncompatibleActions.Contains(comparedCapability.ActionName))
-                {
-                    validAction = false;
-                }
-            }
-
-            if (validAction)
-            {
-                compatibleCapabilities.Add(capability);
-            }
-        }
-
-        return compatibleCapabilities;
-    }
-
-
 }
