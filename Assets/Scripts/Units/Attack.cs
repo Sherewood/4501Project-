@@ -28,10 +28,6 @@ public class Attack : MonoBehaviour
     //the last reported status of the target
     private TargetStatus _lastTargetStatus;
 
-    //true if unit is currently colliding with its target
-    //note: if unit is colliding with more than 1 possible target and it switches target, this boolean will not be adjusted properly.
-    private bool _collidedWithTarget;
-
     //animator
     private animation_Controller _animator;
     // Start is called before the first frame update
@@ -208,8 +204,7 @@ public class Attack : MonoBehaviour
             distance = Vector3.Distance(_currentTarget.transform.position, transform.position);
         }
         //use weapon component
-        //alternatively, if collided with the target, then unit is clearly in range...
-        return _weapon.IsWeaponInRange(distance) || _collidedWithTarget;
+        return _weapon.IsWeaponInRange(distance);
     }
 
     //general method for determining if enemy that might not be the target is in range
@@ -224,7 +219,6 @@ public class Attack : MonoBehaviour
         }
         float distance = Vector3.Distance(enemy.transform.position, transform.position);
 
-        //todo: add melee-based check aswell (switch to overlapsphere?)
         return _weapon.IsWeaponInRange(distance);
     }
 

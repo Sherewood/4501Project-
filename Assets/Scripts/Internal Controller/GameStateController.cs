@@ -102,7 +102,6 @@ public class GameStateController : MonoBehaviour
         if (FindObjectOfType<Timetracker>().CurTime % GetComponent<Sun>().GetDamage() == 1)
         {
             _entityStorage.DamagePlayerUnits(0.25f);
-           
         }
     }
 
