@@ -119,7 +119,6 @@ public class UnitController : MonoBehaviour
                     break;
                 case "construct":
                     //order the unit to move to a location to construct a building
-                    unitMovement = selectedUnit.GetComponent<Movement>();
                     Construction construction = selectedUnit.GetComponent<Construction>();
                     string buildingType = construction.GetCurrentBuilding();
                     //purchase actually made here, if the building is obstructed currently nothing in place to refund....
