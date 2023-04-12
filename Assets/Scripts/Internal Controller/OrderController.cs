@@ -41,6 +41,7 @@ public class OrderController : MonoBehaviour
             target = targetInfo.GetUnitType();
         }
 
+        //filter out targeted orders until order is found if it exists
         List<Order> possibleOrders = _orderModel.GetValidOrders(true);
 
         possibleOrders = _orderModel.GetValidOrdersForUnitTypes(possibleOrders, unitTypes);
@@ -58,9 +59,6 @@ public class OrderController : MonoBehaviour
             chosenOrder = _orderModel.GetHighestPriorityOrder(possibleOrders);
         }
 
-
-
-
         return chosenOrder;
     }
 
@@ -70,6 +68,7 @@ public class OrderController : MonoBehaviour
         Order chosenOrder = Order.ORDER_INVALID;
         List<string> unitTypes = DetermineSelectedUnitTypes();
 
+        //filter out untargeted orders until order is found if it exists
         List<Order> possibleOrders = _orderModel.GetValidOrders(false);
 
         possibleOrders = _orderModel.GetValidOrdersForUnitTypes(possibleOrders, unitTypes);
