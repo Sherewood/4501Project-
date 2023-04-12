@@ -86,7 +86,6 @@ public class UnitController : MonoBehaviour
                     if (selectedUnits.Count > 1)
                     {
                         //will activate always on first unit in list, creates a flock and adds this as the leader
-                        //todo: better leader selection algorithm
                         if (curFlockLeader == null)
                         {
                             curFlockLeader = selectedUnit;
