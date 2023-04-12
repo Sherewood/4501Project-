@@ -598,6 +598,7 @@ public class UserInterfaceController : MonoBehaviour
             return true;
         }
     }
+    //dead code
     public List<GameObject> GetMiniMap()
     {
         return _displayInfoController.MiniMap();

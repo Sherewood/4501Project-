@@ -24,7 +24,7 @@ public class minimap : MonoBehaviour
     void Update()
     {
         clear();
-        UnitPositions = controller.GetMiniMap();
+        //UnitPositions = controller.GetMiniMap();
         /*
         foreach (GameObject whumpus in UnitPositions)
         {

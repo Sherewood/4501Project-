@@ -335,11 +335,14 @@ public class DisplayInfoController : MonoBehaviour
             events.Add(Dialogue);
         }
     }
+
+    //dead code  
     public List<GameObject> MiniMap()
     {
         List<GameObject> unitPos = _entityStorage.getAllUnits();
         return unitPos;
     }
+    
     public float getTime()
     {
         return _timeTracker.CurTime;
