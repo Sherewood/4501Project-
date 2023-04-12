@@ -131,15 +131,15 @@ public class DisplayInfoController : MonoBehaviour
         }
         else if (unitInfo.GetUnitType().Equals("player-static-civilianbuilding"))
         {
-            returnInfo.Add("numCiviliansInBuilding", selectedUnit.GetComponent<Civilian>().NumCivilians.ToString());
+            returnInfo.Add("Current Occupents", selectedUnit.GetComponent<Civilian>().NumCivilians.ToString());
         }
         else if (unitInfo.GetUnitType().Equals("player-static-mainbase"))
         {
             PlanetaryEvacuation planetEvacComp = selectedUnit.GetComponent<PlanetaryEvacuation>();
 
-            returnInfo.Add("numCiviliansReadyToEvac", planetEvacComp.GetNumCivies().ToString());
-            returnInfo.Add("civilianThreshold", planetEvacComp.CivilianThreshold.ToString());
-            returnInfo.Add("fuelThreshold", planetEvacComp.FuelThreshold.ToString());
+            returnInfo.Add("Civilians ready to evac", planetEvacComp.GetNumCivies().ToString());
+            returnInfo.Add("Civilians required for evacuation", planetEvacComp.CivilianThreshold.ToString());
+            returnInfo.Add("How much fuel is needed", planetEvacComp.FuelThreshold.ToString());
         }
 
         return returnInfo;

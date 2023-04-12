@@ -70,6 +70,8 @@ public class UserInterfaceController : MonoBehaviour
 
     //Time text
     public GameObject time;
+    //bonus text 
+    public GameObject bonus;
 
     
 
@@ -315,6 +317,7 @@ public class UserInterfaceController : MonoBehaviour
             }
 
             //future: other unit-specific statistics?
+            bonus.GetComponent<TextMeshProUGUI>().text= GetBonusInfo(specificUnitInfo);
 
             //get unit icon
             DisplayUnitIconSingle(0);
@@ -605,6 +608,7 @@ public class UserInterfaceController : MonoBehaviour
                 Destroy(UnitInfoCanvas.transform.GetChild(i).gameObject);
             }
         }
+        bonus.GetComponent<TextMeshProUGUI>().text = "";
     }
 
     private void ClearAbilities()
@@ -656,5 +660,19 @@ public class UserInterfaceController : MonoBehaviour
     {
         return _displayInfoController.MiniMap();
     }
+    public string GetBonusInfo(Dictionary<string, string> unit)
+    {
 
+        string bonus = "";
+
+        foreach(KeyValuePair<string, string> kvp in unit)
+        {
+            if ( !kvp.Key.Equals("name") && !kvp.Key.Equals("health")&& !kvp.Key.Equals("maxHealth"))
+            {
+                bonus+=kvp.Key + ": "+kvp.Value +'\n';
+            }
+        }
+        
+        return bonus;
+    }
 }
