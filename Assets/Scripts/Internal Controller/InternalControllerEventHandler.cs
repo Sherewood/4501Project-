@@ -276,7 +276,15 @@ public class InternalControllerEventHandler : MonoBehaviour
         else
         {
             _displayInfoController.AddDialogue("Congratulations Commander. Eden 4 May have been lost but at least we were able to save some of it's population.");
+            StartCoroutine(GameWonSceneChange());
         }
+    }
+
+    //wait for text to print out, then change scene
+    IEnumerator GameWonSceneChange()
+    {
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene("GameWonScene", LoadSceneMode.Single);
     }
 
     // Helper functions
