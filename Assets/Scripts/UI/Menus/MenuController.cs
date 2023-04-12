@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using TMPro;
 
 //purpose: Handle the functionality of the start menu
-public class StartMenuController : MonoBehaviour
+public class MenuController : MonoBehaviour
 {
     //NOTE:
     //Add the scene you want the Start Menu to load to the build settings (File -> Build Settings) before playing!!!!
@@ -29,5 +30,11 @@ public class StartMenuController : MonoBehaviour
     public void OnExit()
     {
         EditorApplication.isPlaying = false;
+    }
+
+    //lazily made function for setting the score
+    public void SetScore(int score)
+    {
+        GameObject.Find("Score").GetComponent<TextMeshProUGUI>().text = "Score: " + score;
     }
 }

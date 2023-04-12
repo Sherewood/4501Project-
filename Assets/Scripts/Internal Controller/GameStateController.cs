@@ -249,4 +249,10 @@ public class GameStateController : MonoBehaviour
         return _playerMainBase.GetNumCivies();
     }
 
+    //score calculated as follows: civilians evac'd * 20 + minerals * 2 + fuel * 2
+    public int CalculateScore()
+    {
+        return _playerMainBase.GetNumCivies() * 20 + GetPlayerResource("minerals") * 2 + GetPlayerResource("fuel")*2;
+    }
+
 }

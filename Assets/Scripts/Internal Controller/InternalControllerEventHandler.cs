@@ -74,6 +74,8 @@ public class InternalControllerEventHandler : MonoBehaviour
 
     private DisplayInfoController _displayInfoController;
 
+    private bool _gameWon;
+
     // Link other controller classes here
     void Awake()
     {
@@ -92,6 +94,8 @@ public class InternalControllerEventHandler : MonoBehaviour
         _eventChainController = GetComponent<EventChainController>();
 
         _displayInfoController = GetComponent<DisplayInfoController>();
+
+        _gameWon = false;
     }
 
     // Event callback functions
@@ -273,10 +277,11 @@ public class InternalControllerEventHandler : MonoBehaviour
         {
             SceneManager.LoadScene("GameOverScene", LoadSceneMode.Single);
         } 
-        else
+        else if(!_gameWon)
         {
             _displayInfoController.AddDialogue("Congratulations Commander. Eden 4 May have been lost but at least we were able to save some of it's population.");
             StartCoroutine(GameWonSceneChange());
+            _gameWon = true;
         }
     }
 
@@ -284,7 +289,24 @@ public class InternalControllerEventHandler : MonoBehaviour
     IEnumerator GameWonSceneChange()
     {
         yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene("GameWonScene", LoadSceneMode.Single);
+
+        //calculate the score and send to the game won scene somehow
+        int score = _gameStateController.CalculateScore();
+
+        //load game won scene in
+        SceneManager.LoadScene("GameWonScene", LoadSceneMode.Additive);
+
+        //wait a bit because additive loads the scene asynchronously, should avert race conditons
+        yield return new WaitForSeconds(0.05f);
+
+        MenuController _menuControl = FindObjectOfType<MenuController>();
+
+        _menuControl.SetScore(score);
+
+        //get rid of prior scene
+        SceneManager.UnloadSceneAsync("PresentationDemo");
+
+
     }
 
     // Helper functions
