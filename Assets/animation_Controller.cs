@@ -20,7 +20,6 @@ public class animation_Controller : MonoBehaviour
        for (int i = 0; i < parameter.Length; i++)
         {
             parameter[i] = animator.GetParameter(i);
-            Debug.Log(parameter[i].name);
         }    
     }
 
@@ -75,11 +74,16 @@ public class animation_Controller : MonoBehaviour
 
         for (int i = 0; i < parameter.Length; i++)
         {
-            animator.SetBool(parameter[i].name,false);
-           // Debug.Log(parameter[i].name);
-        }
-        animator.SetBool(str, true);
-       
+            // Debug.Log(parameter[i].name);
 
+            if (parameter[i].name.Equals(str))
+            {
+                animator.SetBool(str, true);
+            }
+            else
+            {
+                animator.SetBool(parameter[i].name, false);
+            }
+        }
     }
 }
