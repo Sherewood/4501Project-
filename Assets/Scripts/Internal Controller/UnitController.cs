@@ -249,14 +249,6 @@ public class UnitController : MonoBehaviour
         {
             List<GameObject> flockMembers = _flocks[unit];
 
-            /* todo: will not implement until keeping original flock is handled gracefully
-            //if selected units are identical to the members of the flock, then keep the flock
-            //note: this will not work if enemy units have been selected alongside player units
-            if(flockMembers == selectedUnits && action.Equals("move"))
-            {
-
-            }
-            */
             //order all the flock members to stop moving
             //note: can re-add handling for assigning a new leader to the flock later, but this is easier for now.
             foreach(GameObject flockMember in flockMembers)
@@ -265,10 +257,7 @@ public class UnitController : MonoBehaviour
                 if (flockMember != unit)
                 {
                     //terminate flock movement
-                    //do not bother terminating the leader's movement as it will be overridden by its next command
-
-                    //todo: might want more graceful handling for flock units to end up closer to their destination?
-                    //perhaps replace flock leader with waypoint at the flock leader's destination, and units terminate their movement once they get close enough...
+                    //do not bother terminating the leader's movement as it will be overridden by its next command.
 
                     memberAI.StopCommand("moveFlock");
                 }
