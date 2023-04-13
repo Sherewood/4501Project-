@@ -120,7 +120,11 @@ public class GameStateController : MonoBehaviour
     //start planetary evac (moved here because game state controller already tracks main base)
     public void InitPlanetaryEvac()
     {
-        _playerMainBase.InitPlanetaryEvac(GetPlayerResource("fuel"));
+        if (_playerMainBase.InitPlanetaryEvac(GetPlayerResource("fuel")))
+        {
+            //deduct fuel cost if successful
+            _gameStateModel.SubtractPlayerFuel(_playerMainBase.FuelThreshold);
+        }
     }
 
     //for handling a request for a location by a specific unit
