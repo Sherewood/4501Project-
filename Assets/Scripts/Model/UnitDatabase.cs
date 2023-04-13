@@ -33,19 +33,19 @@ public class UnitDatabase : MonoBehaviour
         //buildings
         CreateUnitDataRecord("player-static-mainbase", 0, 0, "unitInfo unitState health planetaryEvac");
         CreateUnitDataRecord("player-static-civilianbuilding", 0, 0, "unitInfo unitState health civilian unitSpawner");
-        CreateUnitDataRecord("player-static-barracks", 200, 200, "unitInfo unitState health unitBuilderComponent unitSpawner");
-        CreateUnitDataRecord("player-static-factory", 400, 400, "unitInfo unitState health unitBuilderComponent unitSpawner");
-        CreateUnitDataRecord("player-static-researchlab", 150, 150, "unitInfo unitState health researchGenerator");
+        CreateUnitDataRecord("player-static-barracks", 200, 50, "unitInfo unitState health unitBuilderComponent unitSpawner");
+        CreateUnitDataRecord("player-static-factory", 175, 300, "unitInfo unitState health unitBuilderComponent unitSpawner");
+        CreateUnitDataRecord("player-static-researchlab", 70, 70, "unitInfo unitState health researchGenerator");
 
         //military units
 
         //human units
-        CreateUnitDataRecord("player-dynamic-military-infantry", 10, 10, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
-        CreateUnitDataRecord("player-dynamic-military-rpg", 15, 15, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
-        CreateUnitDataRecord("player-dynamic-military-minigun", 20, 20, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
+        CreateUnitDataRecord("player-dynamic-military-infantry", 20, 0, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
+        CreateUnitDataRecord("player-dynamic-military-rpg", 30, 0, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
+        CreateUnitDataRecord("player-dynamic-military-minigun", 50, 0, "unitInfo unitState movement health attack weapon targeting hyperBoost AIControl");
 
         //vehicles
-        CreateUnitDataRecord("player-dynamic-military-tank", 100, 100, "unitInfo unitState movement health attack weapon targeting plant AIControl");
+        CreateUnitDataRecord("player-dynamic-military-tank", 100, 125, "unitInfo unitState movement health attack weapon targeting plant AIControl");
         CreateUnitDataRecord("player-dynamic-military-artillery", 150, 150, "unitInfo unitState movement health attack weapon targeting plant AIControl");
 
         //enemy units
