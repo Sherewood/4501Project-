@@ -4,4 +4,4 @@ CM|If command==attack and targetLost then breakCommand and clearTarget and stopM
 CM|If command==attack and targetInRange then attackTarget
 CM|If command==attack and targetNotInRange then moveTarget
 CM|If command==guard and newCommand then setState=guard and setReturnPointToCurrentPosition and breakCommand
-CM|If command==fortify and newCommand then setState=fortify and breakCommand
+CM|If command==fortify and newCommand then setState=fortify and stopMovement and refreshTarget and breakCommand

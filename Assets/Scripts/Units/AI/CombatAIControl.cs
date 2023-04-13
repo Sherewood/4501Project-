@@ -104,6 +104,10 @@ public class CombatAIControl : AIControl
             case "clearTarget":
                 _attack.ClearTarget();
                 break;
+            case "refreshTarget":
+                //refresh targeting to avoid bad state
+                _targeting.Refresh();
+                break;
             case "activateSpecialAbility":
                 _specialAbility.Activate();
                 break;
