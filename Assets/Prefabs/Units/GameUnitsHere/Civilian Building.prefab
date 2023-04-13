@@ -412,11 +412,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PeriodicUnitSpawnTypes: []
   PeriodicUnitSpawnIntervals: []
-  RandomSpawnMode: 0
   SpawnPositionFixedOffset: {x: 2, y: 0.1, z: 0}
   SpawnBoundary: {x: -2, y: -2, z: 2, w: 2}
   SpawnRetryAttemptLimit: 0
   SpawnRetryMode: 0
+  StopObstructionMode: 0
   SpawnEffect: {fileID: 0}
 --- !u!208 &-4484209822860825855
 NavMeshObstacle:

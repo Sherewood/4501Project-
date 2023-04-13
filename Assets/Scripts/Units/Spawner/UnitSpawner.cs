@@ -24,9 +24,6 @@ public class UnitSpawner : MonoBehaviour
     public List<float> PeriodicUnitSpawnIntervals;
     private List<float> currentUnitSpawnIntervals;
 
-    [Tooltip("toggles spawner's random spawn location mode (currently disabled)")]
-    public bool RandomSpawnMode;
-
     [Tooltip("offset from the spawner's location where the unit will be spawned")]
     public Vector3 SpawnPositionFixedOffset;
 
@@ -40,6 +37,9 @@ public class UnitSpawner : MonoBehaviour
 
     [Tooltip("If enabled, spawner will attempt to relocate unit if spawning region is occupied.")]
     public bool SpawnRetryMode;
+
+    [Tooltip("If enabled, spawner will stop spawning if unit is obstructed")]
+    public bool StopObstructionMode = true;
 
     [Tooltip("The particle effect used when a unit is spawned, if applicable")]
     public GameObject SpawnEffect;
@@ -88,13 +88,20 @@ public class UnitSpawner : MonoBehaviour
         //calculate spawn coordinates
         Vector3 spawnPos = PickSpawnCoordinates();
 
-        //todo: determine if spawn position is blocked, and adjust position if it is
+        //determine if spawn position is blocked, and adjust position if it is
         Vector3 finalSpawnPos = new Vector3();
 
-        if(!AdjustSpawnCoordinates(prefab, spawnPos,out finalSpawnPos))
+        if (StopObstructionMode)
         {
-            Debug.LogWarning("Unable to spawn unit due to obstruction");
-            return null;
+            if (!AdjustSpawnCoordinates(prefab, spawnPos, out finalSpawnPos))
+            {
+                Debug.LogWarning("Unable to spawn unit due to obstruction");
+                return null;
+            }
+        }
+        else
+        {
+            finalSpawnPos = spawnPos;
         }
 
         //instantiate new unit
@@ -122,12 +129,6 @@ public class UnitSpawner : MonoBehaviour
     private Vector3 PickSpawnCoordinates()
     {
         Vector3 spawnPos = transform.position + SpawnPositionFixedOffset;
-
-        //todo: add random spawn mode later....
-        if (RandomSpawnMode)
-        {
-
-        }
 
         return spawnPos;
     }
