@@ -102,8 +102,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  MaxHealth: 500
-  BaseDefense: 20
+  MaxHealth: 1250
+  BaseDefense: 25
   FortifyDefenseBonus: 0
   LowHealthThreshold: 0.3
 --- !u!114 &8130077436605554117

@@ -150,7 +150,7 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls: []
-  MaxHealth: 250
+  MaxHealth: 375
   BaseDefense: 40
   FortifyDefenseBonus: 5
   LowHealthThreshold: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponType: ranged
-  Damage: 50
+  Damage: 100
   FireRate: 0.5
   MinRange: 0
   MaxRange: 9

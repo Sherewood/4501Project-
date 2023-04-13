@@ -89,7 +89,7 @@ MonoBehaviour:
   AICallback:
     m_PersistentCalls:
       m_Calls: []
-  MaxHealth: 125
+  MaxHealth: 175
   BaseDefense: 20
   FortifyDefenseBonus: 10
   LowHealthThreshold: 0
