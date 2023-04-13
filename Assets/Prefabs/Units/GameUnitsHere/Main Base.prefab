@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076448316de999748a8d238fa6c30387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CivilianThreshold: 200
-  FuelThreshold: 1000
+  CivilianThreshold: 150
+  FuelThreshold: 500
   EvacuationLaunchTime: 60
   PlanetaryEvacEffect: {fileID: 7448437387291422666}
 --- !u!208 &-3434741240587025556

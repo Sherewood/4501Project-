@@ -149,7 +149,7 @@ are then transferred to the main base.
 
 Evacuate planet: Clicking on the 'evacuatePlanet' button with the main base selected will cause the game to end after ~30 seconds, if you met the requirements
 
-    -for testing purposes, the threshold is set to 5 civilians and 100 fuel.
+    -for testing purposes, the threshold is set to 150 civilians and 500 fuel.
 
 # Extra
 ----------------------------

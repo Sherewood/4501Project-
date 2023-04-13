@@ -720,11 +720,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1427860165722815463, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: FuelThreshold
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: -1427860165722815463, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: CivilianThreshold
-      value: 5
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: -1427860165722815463, guid: 2f2ef6238e266fe4a839ef79071771f7, type: 3}
       propertyPath: EvacuationLaunchTime
