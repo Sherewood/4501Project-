@@ -110,6 +110,8 @@ Edenite Ravager was supposed to have multiple weapons, it is mentioned why this 
 
 - Click play to start the game
 
+- Also make sure to use 16:9 display otherwise the UI will look weird(er than usual)
+
 # Controls
 -------------------
 
