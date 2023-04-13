@@ -17,7 +17,7 @@ public class MovementIndicator : MonoBehaviour
         _time = 0.0f;
         _terrain = FindObjectOfType<Terrain>();
 
-        transform.position = new Vector3(transform.position.x, _terrain.SampleHeight(transform.position)+0.05f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + _terrain.SampleHeight(transform.position)+0.05f, transform.position.z);
 
         _effectMesh = gameObject.GetComponentInChildren<MeshRenderer>();
     }
