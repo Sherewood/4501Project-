@@ -162,7 +162,6 @@ public class UnitSpawner : MonoBehaviour
         while (possiblyBlocked && attempts < SpawnRetryAttemptLimit)
         {
             //adjust position based on random factor and previously calculated dimensions
-            //todo: come up with better repositioning algorithm
             int repositionTries = 0;
             while (repositionTries < SpawnRetryAttemptLimit) {
                 Vector3 factor = new Vector3(_random.Next(3) - 1, 0, _random.Next(3) - 1);
